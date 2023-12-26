@@ -17,18 +17,13 @@ public static void main(String [] args){
     System.out.println(gender.toString() + " " + gender.ordinal()) //编译器自动生成
 }
 ```
-
 - 每个枚举类型对象都有`toString()`方法，用于打印实例名称（或使用name()）
-
 - 使用`类名.values()`获取该枚举类所有对象的数组
-
 - 枚举类型都隐式地继承自`java.lang.Enum`类，因此枚举类不能再去继承其他类，但是可以去实现接口
   - 可以直接向上转型为Enum
   - Enum向下转型`e.getClass().getEnumContants()`没有枚举的类型调用会返回null
 
 - 枚举类可以添加自定义方法，枚举类也可以持有数据（并且定义构造函数）
-
-
 ``` java
 public enum OzWitch {
   WEST("Miss"),
@@ -42,9 +37,7 @@ public enum OzWitch {
   public String getDescription() { return description; }
 }
 ```
-
 - 要注意的是这个构造函数是private的，仅限于内部初始化预定的枚举实例，不能在外部使用new创建任意对象
-
 
 ```java
 public enum ConstantSpecificMethod {
@@ -75,7 +68,6 @@ public enum ConstantSpecificMethod {
 
 - 分组枚举
   - 使用接口实现，外层接口没有定义任何方法，因此任何一个类都可以实现这个接口，每个枚举类都实现这个接口是为了按照一个类型来使用
-
 ``` java
 public interface Food {
   enum Appetizer implements Food {
@@ -109,8 +101,6 @@ public class TypeOfFood {
 ```
 
 - 嵌套的枚举
-
-
 ``` java
 public enum Course {
     APPETIZER(Food.Appetizer.class),
@@ -130,8 +120,6 @@ public enum Course {
 ### 枚举类型的集合
 - EnumSet
   - 用于使用枚举类型标识状态，需要从枚举类型创建
-
-
 ``` java
 //创建空枚举
 EnumSet <AlarmPoints> points =
@@ -146,7 +134,6 @@ points.removeAll(EnumSet.of(STAIR1, STAIR2, KITCHEN));
 points.removeAll(EnumSet.range(OFFICE1, OFFICE4));
 points = EnumSet.complementOf(points);
 ```
-
 - 通过long存储标志实现，支持多余64个枚举类型（会自动给引入新的long）
 - 存储顺序由在Enum中的声明顺序决定
 
@@ -158,8 +145,6 @@ points = EnumSet.complementOf(points);
 
 - 职责链
   - 把解决问题的方法串成链，当请求到达时会顺着链传递下去知道遇到某个可以处理请求的方法（事件冒泡）
-
-
 ``` java
 //一个邮局，针对不同类型的邮件有一系列处理方式，根据优先级高低一次对邮件进行处理直至成功
 public class PostOffice {
@@ -206,8 +191,6 @@ public class PostOffice {
 
 - 有限状态机
   - 通常使用switch处理输入，选择下一步的状态进行状态转移
-
-
 ``` java
 public class StateMachine {
     private State currentState;
@@ -260,15 +243,11 @@ public class StateMachine {
 ```
 
 - 多路分发
-
   - 方法的调用依赖于**多个对象的动态类型**（动态绑定是单路分发）
-
   - 有几路就进行几次方法调用，每次确定一个类型
-
   - 可以列举所有的组合，如两个参数都从3个固定类型选择，只需有枚举所有情况，即给每个类型都设置全部3种参数的成员函数
 
 - 枚举类型分发
-
 ``` java
 public enum RoShamBo2 implements Competitor <RoShamBo2> {
   PAPER(DRAW, LOSE, WIN),
@@ -296,8 +275,6 @@ public enum RoShamBo2 implements Competitor <RoShamBo2> {
 ```
 
 - 常量特定方法
-
-
 ``` java
 //即枚举所有可能的组合 
 PAPER {
@@ -313,9 +290,7 @@ PAPER {
 ```
 
 - EnumMap
-
 - 嵌套实现
-
 ``` java
 enum RoShamBo5 implements Competitor <RoShamBo5> {
   PAPER, SCISSORS, ROCK;
@@ -347,10 +322,7 @@ enum RoShamBo5 implements Competitor <RoShamBo5> {
 ```
 
 - 二维数组
-
   - 由于枚举类型可以转化为整数值，因此实际上可以直接使用二维数组
-
-
 ``` java
 enum RoShamBo6 implements Competitor <RoShamBo6> {
   PAPER, SCISSORS, ROCK;
@@ -368,121 +340,63 @@ enum RoShamBo6 implements Competitor <RoShamBo6> {
 }
 ```
 
-- 模式匹配的准备
-
-  - switch箭头语法：(JDK14)
-
-    - ``` java
-      //传统方式
-      case 1: xxx;
-          break;
-      //箭头语法
-      case 1-> xxx;
-      ```
-
-    - 不能再一个switch种混用
-
-  - cases null检查（JDK17）
-
-    - 可以在switch内部检查是否为null
-    - default并不会处理null的情况，会抛出Null异常
-    - 这不是强制要求的
-
-  - switch作为表达式（JDK14）
-
-    - 使用`yield`返回结果，不需要（也不能）使用break；
-
-    - 使用箭头表达式并且只有一个语句时可以省略yield
-
-    - 不止有一个语句时用花括号
-
-    - ``` java
-      static int colon(String s) {
-          var result = switch(s) {
-            case "i": yield 1;
-            case "j": yield 2;
-            case "k": yield 3;
-            default:  yield 0;
-          };
-          return result;
-        }
-        static int arrow(String s) {
-          var result = switch(s) {
-            case "i" -> 1;
-            case "j" -> 2;
-            case "k" -> 3;
-            default  -> 0;
-          };
-          return result;
-        }
-      ```
-
-  - 智能转型（JDK16）
-
-    - ``` java
-      static void smart(Object x) {
-          if(x instanceof String s && s.length() > 0) {
-            System.out.format(
-              "%d %s%n", s.length(), s.toUpperCase());
-          }
-        }
-      //特殊例子
-      static void f(Object o) {
-          if(!(o instanceof String s)) {
-            System.out.println("Not a String");
-            throw new RuntimeException();
-          }
-          //能到达这里说明一定是 String 类型，否则就出错了
-          // s is in scope here!
-          System.out.println(s.toUpperCase());  // [1]
-        }
-      ```
-
-    - 使用`instanceof`判断类型后在接下来的作用域内就当作这个类型使用
-
-    - 即已经判断成功了，那么这个作用域内当作这个类型处理显然是安全的
+- [[switch|switch的高级用法]]
+- 智能转型（JDK16）
+``` java
+static void smart(Object x) {
+    if(x instanceof String s && s.length() > 0) {
+      System.out.format(
+        "%d %s%n", s.length(), s.toUpperCase());
+    }
+  }
+//特殊例子
+static void f(Object o) {
+    if(!(o instanceof String s)) {
+      System.out.println("Not a String");
+      throw new RuntimeException();
+    }
+    //能到达这里说明一定是 String 类型，否则就出错了
+    // s is in scope here!
+    System.out.println(s.toUpperCase());  // [1]
+  }
+```
+- 使用`instanceof`判断类型后在接下来的作用域内就当作这个类型使用
+- 即已经判断成功了，那么这个作用域内当作这个类型处理显然是安全的
 
 - 模式匹配（JDK17）
-
   - 允许根据数据的结构和内容来检查和分解数据。
-
   - 对于一组具有相同基类的类型，不止希望使用基类中的公共方法
-
   - 使用switch实现
+``` java
+public class PetPatternMatch {
+    //使用非基类方法
+  static void careFor(Pet p) {
+    switch(p) {
+      case Dog d -> d.walk();//使用了只能转型
+      case Fish f -> f.changeWater();
+      case Pet sp -> sp.feed();
+    };
+  }
+  static void petCare() {
+    List.of(new Dog(), new Fish())
+      .forEach(p -> careFor(p));
+  }
+}
+```
 
-    - ``` java
-      public class PetPatternMatch {
-          //使用非基类方法
-        static void careFor(Pet p) {
-          switch(p) {
-            case Dog d -> d.walk();//使用了只能转型
-            case Fish f -> f.changeWater();
-            case Pet sp -> sp.feed();
-          };
-        }
-        static void petCare() {
-          List.of(new Dog(), new Fish())
-            .forEach(p -> careFor(p));
-        }
-      }
-      ```
-
-  - 守卫：进一步细化匹配条件而不只是简单地匹配类型
-
-    - 可以是任何布尔表达式，如果类型符合并且守卫为true那么就匹配上了
-
-    - ``` java
-      System.out.println(switch(s) {
-          case Circle c && c.area() < 100.0
-              -> "Small Circle: " + c;
-          case Circle c -> "Large Circle: " + c;
-          case Rectangle r && r.side1() == r.side2()
-              -> "Square: " + r;
-          case Rectangle r -> "Rectangle: " + r;
-      });
-      ```
-
-  - 上面的case对下面的具有支配性
+- 守卫：进一步细化匹配条件而不只是简单地匹配类型
+  - 可以是任何布尔表达式，如果类型符合并且守卫为true那么就匹配上了
+``` java
+System.out.println(switch(s) {
+    case Circle c && c.area() < 100.0
+        -> "Small Circle: " + c;
+    case Circle c -> "Large Circle: " + c;
+    case Rectangle r && r.side1() == r.side2()
+        -> "Square: " + r;
+    case Rectangle r -> "Rectangle: " + r;
+});
+```
+- 上面的case对下面的具有支配性
 
 ### 字符串
 
