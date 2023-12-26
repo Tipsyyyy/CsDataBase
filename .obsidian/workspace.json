@@ -6,6 +6,7 @@
       {
         "id": "332bdbf00efd037a",
         "type": "tabs",
+        "dimension": 52.91878172588832,
         "children": [
           {
             "id": "72574e61a5d44eba",
@@ -17,6 +18,21 @@
                 "mode": "source",
                 "source": false
               }
+            }
+          }
+        ]
+      },
+      {
+        "id": "895d02d84a072c83",
+        "type": "tabs",
+        "dimension": 47.08121827411168,
+        "children": [
+          {
+            "id": "834b1740c4538227",
+            "type": "leaf",
+            "state": {
+              "type": "reveal-preview-view",
+              "state": {}
             }
           }
         ]
@@ -167,8 +183,9 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "72574e61a5d44eba",
+  "active": "96e173acdf249e6c",
   "lastOpenFiles": [
+    "Blog",
     "课程/金融大数据/实验/p4.md",
     "Slide/金融大数据p4.md",
     "游戏开发/unity/c#.md",
@@ -202,7 +219,6 @@
     "算法/竞赛/Codeforces Round 900 (Div. 3).md",
     "算法/竞赛/ARC165.md",
     "算法/竞赛/ABC321.md",
-    "算法/链表.md",
     "算法/竞赛",
     "算法",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-3.png",
