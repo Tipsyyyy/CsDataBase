@@ -2,6 +2,8 @@
 
 [[数组类型]]
 
+## 数据类型
+
 ### 枚举类型
 
 - ``` java
@@ -12,12 +14,10 @@
   public static void main(String [] args){
       GENDER gender = GENDER.MALE; // 每个枚举值都是是枚举类型的对象示例
       System.out.println(gender.toString() + " " + gender.ordinal()) //编译器自动生成
-  }enum xxx{
-      xx, xx, xx
   }
   ```
 
-- 每个枚举类型对象都有`toString()`方法，用于打印实例名称
+- 每个枚举类型对象都有`toString()`方法，用于打印实例名称（或使用）
 
 - 使用`ordinal()`获取序号
 
