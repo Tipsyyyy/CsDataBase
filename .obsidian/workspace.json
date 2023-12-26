@@ -48,7 +48,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#tset",
+                "query": "生成器模式",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -73,7 +73,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -166,11 +167,12 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "96e173acdf249e6c",
+  "active": "24063adb5be26e38",
   "lastOpenFiles": [
-    "Home",
     "java/java基础/杂项/final.md",
+    "java/高级",
     "java/java.md",
+    "Home",
     "java/java基础/杂项/泛型.md",
     "java/java基础/杂项/反射.md",
     "java/java基础/面向对象/接口.md",
@@ -198,8 +200,6 @@
     "Slide/java.md",
     "Excalidraw/Drawing 2023-12-26 18.44.27.excalidraw.md",
     "Slide/金融大数据p4.md",
-    "Slide/211275022田昊东.html",
-    "Slide/金融大数据p4.html",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
     "export/金融大数据p4/plugin/chalkboard/img/sponge.png",
     "export/金融大数据p4/plugin/chalkboard/img/chalk-yellow.png",

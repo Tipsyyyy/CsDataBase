@@ -239,161 +239,149 @@ public class SpaceShipDelegation {
 
 ### [[接口]]
 
-### 内部类
-
-[[内部类]]
+### [[内部类]]
 ## 泛型
 
 - 基本类型不能作为泛型参数
 
 - 泛型类
-  
-  - ``` java
-    public class Position <T>{
-        private T sth;
-    }
-    ```
-  
+``` java
+public class Position <T>{
+    private T sth;
+}
+```
+
 - 泛型方法
-
-  - ``` java
-    public class GenericMethods {
-        public <T> void f(T x) {
-            System.out.println(x.getClass().getName());
-        }
+``` java
+public class GenericMethods {
+    public <T> void f(T x) {
+        System.out.println(x.getClass().getName());
     }
-    ```
+}
+```
 
-  - 通常来说使用泛型方法时不需要手动指出参数类型，可以自动推断
-  - `public <A,B> Tuple2<A,B>tuple(A a,B b)`
-    - 第一个<>是方法的参数，在调用时可以自动推断
-    - 第二个<>是返回值的参数，应该指出`Tuple2`表示为参数化的对象，类似一种向上转型
+- 通常来说使用泛型方法时不需要手动指出参数类型，可以自动推断
+- `public <A,B> Tuple2<A,B>tuple(A a,B b)`
+  - 第一个<>是方法的参数，在调用时可以自动推断
+  - 第二个<>是返回值的参数，应该指出`Tuple2`表示为参数化的对象，类似一种向上转型
 
 - 泛型接口
-
   - 生成器模式，`Spplier<T>`，要求重写实现`public T get(){}`
+``` java
+public class Fibonacci implements Supplier <Integer> {
+  private int count = 0;
+  @Override
+  public Integer get() { return fib(count++); }
+  private int fib(int n) {
+    if(n < 2) return 1;
+    return fib(n-2) + fib(n-1);
+  }
+  public static void main(String [] args) {
+    Stream.generate(new Fibonacci())
+      .limit(18)
+      .map(n -> n + " ")
+      .forEach(System.out:: print);
+  }
+}
 
-  - ``` java
-    public class Fibonacci implements Supplier <Integer> {
-      private int count = 0;
+//通过适配器再实现可迭代
+public class IterableFibonacci
+extends Fibonacci implements Iterable <Integer> {
+  private int n;
+  public IterableFibonacci(int count) { n = count; }
+  @Override public Iterator <Integer> iterator() {
+    return new Iterator <Integer>() {
       @Override
-      public Integer get() { return fib(count++); }
-      private int fib(int n) {
-        if(n < 2) return 1;
-        return fib(n-2) + fib(n-1);
+      public boolean hasNext() { return n > 0; }
+      @Override public Integer next() {
+        n--;
+          //内部类访问外部类对象
+        return IterableFibonacci.this.get();
       }
-      public static void main(String [] args) {
-        Stream.generate(new Fibonacci())
-          .limit(18)
-          .map(n -> n + " ")
-          .forEach(System.out:: print);
+      @Override
+      public void remove() { // Not implemented
+        throw new UnsupportedOperationException();
       }
-    }
-    
-    //通过适配器再实现可迭代
-    public class IterableFibonacci
-    extends Fibonacci implements Iterable <Integer> {
-      private int n;
-      public IterableFibonacci(int count) { n = count; }
-      @Override public Iterator <Integer> iterator() {
-        return new Iterator <Integer>() {
-          @Override
-          public boolean hasNext() { return n > 0; }
-          @Override public Integer next() {
-            n--;
-              //内部类访问外部类对象
-            return IterableFibonacci.this.get();
-          }
-          @Override
-          public void remove() { // Not implemented
-            throw new UnsupportedOperationException();
-          }
-        };
-      }
-      public static void main(String [] args) {
-        for(int i : new IterableFibonacci(18))
-          System.out.print(i + " ");
-      }
-    }
-    ```
+    };
+  }
+  public static void main(String [] args) {
+    for(int i : new IterableFibonacci(18))
+      System.out.print(i + " ");
+  }
+}
+```
 
 - 扁平化多级集合
+``` java
+class Shelf extends ArrayList <Product> {
+  Shelf(int nProducts) {
+    Suppliers.fill(this, Product.generator, nProducts);
+  }
+}
 
-  - ``` java
-    class Shelf extends ArrayList <Product> {
-      Shelf(int nProducts) {
-        Suppliers.fill(this, Product.generator, nProducts);
-      }
-    }
-    
-    class Aisle extends ArrayList <Shelf> {
-      Aisle(int nShelves, int nProducts) {
-        for(int i = 0; i < nShelves; i++)
-          add(new Shelf(nProducts));
-      }
-    }
-    ```
+class Aisle extends ArrayList <Shelf> {
+  Aisle(int nShelves, int nProducts) {
+    for(int i = 0; i < nShelves; i++)
+      add(new Shelf(nProducts));
+  }
+}
+```
 
-- 基本类型不能作为泛型参数，需要使用包装类型
-
-- 一个类不能同时实现一个泛型接口的两种变体（不同泛型参数的泛型接口），因为他们在类型擦除后实际上是相同的
+- 一个类不能同时实现一个泛型接口的两种变体（不同泛型参数的泛型接口），因为他们在**类型擦除后实际上是相同的**
 
 ### 类型擦除
 
 - 类型擦除
-
   - `ArrayList<String>.class==ArrayList<Integer>`
-
   - Java泛型内部不存在有关**泛型参数类型**的信息
-
   - java确定T的类型并不是通过T本身，也不是传入的参数（只是会检查一下），而是通过extend等限制的范围确定
 
-    - ``` java
-      class Manipulator <T> {
-        private T obj;
-        Manipulator(T x) { obj = x; }
-        // Error: cannot find symbol: method f():
-        public void manipulate() { obj.f(); }
-      }
-      
-      public class Manipulation {
-        public static void main(String [] args) {
-          HasF hf = new HasF();
-          Manipulator <HasF> manipulator =
-            new Manipulator <>(hf);
-          manipulator.manipulate();
-        }
-      }
-      //java 中只知道是一个未知的 T（会被认为是 Object），并不知道具体是什么，因此不认为有 f
-      class Manipulator2 <T extends HasF> {
-        private T obj;
-        Manipulator2(T x) { obj = x; }
-        public void manipulate() { obj.f(); }
-      }
-      //这样就知道是 HasF 了！
-      ```
+``` java
+class Manipulator <T> {
+  private T obj;
+  Manipulator(T x) { obj = x; }
+  // Error: cannot find symbol: method f():
+  public void manipulate() { obj.f(); }
+}
 
-    - ``` c++
-      template <class T> class Manipulator {
-        T obj;
-      public:
-        Manipulator(T x) { obj = x; }
-        void manipulate() { obj.f(); }
-      };
-      
-      class HasF {
-      public:
-        void f() { cout << " HasF:: f()" << endl; }
-      };
-      
-      int main() {
-        HasF hf;
-        Manipulator <HasF> manipulator(hf);
-        manipulator.manipulate();
-      }
-      ```
+public class Manipulation {
+  public static void main(String [] args) {
+    HasF hf = new HasF();
+    Manipulator <HasF> manipulator =
+      new Manipulator <>(hf);
+    manipulator.manipulate();
+  }
+}
+//java 中只知道是一个未知的 T（会被认为是 Object），并不知道具体是什么，因此不认为有 f
+class Manipulator2 <T extends HasF> {
+  private T obj;
+  Manipulator2(T x) { obj = x; }
+  public void manipulate() { obj.f(); }
+}
+//这样就知道是 HasF 了！
+```
 
-    - 而c++是可以的，c++泛型内部知道自己的类型，会进行编译检查
+``` c++
+template <class T> class Manipulator {
+  T obj;
+public:
+  Manipulator(T x) { obj = x; }
+  void manipulate() { obj.f(); }
+};
+
+class HasF {
+public:
+  void f() { cout << " HasF:: f()" << endl; }
+};
+
+int main() {
+  HasF hf;
+  Manipulator <HasF> manipulator(hf);
+  manipulator.manipulate();
+}
+```
+
+- 而c++是可以的，c++泛型内部知道自己的类型，会进行编译检查
 
 - java的字节码中实际上没有泛型，是将类型参数用**边界类型替换(类型替换)**
 
@@ -403,46 +391,48 @@ public class SpaceShipDelegation {
 
   - 但是**T作为返回值时可以正确处理，会返回传入的类型**
 
-    - ``` c++
-      @SuppressWarnings("unchecked")//不显示强制转化的警告
-        T [] create(int size) {
-          return (T [])Array.newInstance(kind, size);//kind 实际相当于没有参数 Class 即 Object 因此要强制转化类型
-        }
-      ```
 
-  - ``` java
-    public class Holder <T> {
-        private T obj;
-        public void set(T obj){ this.obj = obj; }
-        public T get(){ return obj; }
-        public void testT(Object arg){
-            if (arg instanceof T){ ... } //编译错误
-            T var = new T(); //编译错误
-            T [] array = new T [100]; //编译错误
-            }
+``` c++
+@SuppressWarnings("unchecked")//不显示强制转化的警告
+  T [] create(int size) {
+    return (T [])Array.newInstance(kind, size);//kind 实际相当于没有参数 Class 即 Object 因此要强制转化类型
+  }
+```
+
+``` java
+public class Holder <T> {
+    private T obj;
+    public void set(T obj){ this.obj = obj; }
+    public T get(){ return obj; }
+    public void testT(Object arg){
+        if (arg instanceof T){ ... } //编译错误
+        T var = new T(); //编译错误
+        T [] array = new T [100]; //编译错误
         }
     }
-    ```
+}
+```
 
-  - 编译时检查
+- 编译时检查
 
-    - ``` java
-      public class Holder <T> {
-          private T obj; //在编译时，该类中的所有的 T 都会被替换为边界类型 Object。
-          public void set(T obj){ this.obj = obj; }
-          public T get(){ return obj; }
-          public static void main(String [] args){
-              Holder <Integer> holder = new Holder <>();
-              //编译器会检查实参是不是一个 Integer，
-              //虽然这里的 1 是 int 类型，但是因为自动包装机制的存在，
-              //他会被转化为一个 Integer，因此能够通过类型检查。
-              holder.set(1); 
-              //编译器也会进行类型检查，
-              //并且自动插入一个 Object 类型到 Integer 类型的转型操作。
-              Integer obj = holder.get();
-          }       
-      }
-      ```
+
+``` java
+public class Holder <T> {
+    private T obj; //在编译时，该类中的所有的 T 都会被替换为边界类型 Object。
+    public void set(T obj){ this.obj = obj; }
+    public T get(){ return obj; }
+    public static void main(String [] args){
+        Holder <Integer> holder = new Holder <>();
+        //编译器会检查实参是不是一个 Integer，
+        //虽然这里的 1 是 int 类型，但是因为自动包装机制的存在，
+        //他会被转化为一个 Integer，因此能够通过类型检查。
+        holder.set(1); 
+        //编译器也会进行类型检查，
+        //并且自动插入一个 Object 类型到 Integer 类型的转型操作。
+        Integer obj = holder.get();
+    }       
+}
+```
 
 - 对泛型的处理全部集中在**编译**期，在编译时，编译器会执行如下操作。
 
@@ -456,36 +446,37 @@ public class SpaceShipDelegation {
 
   - 虽然不能使用T进行类型检查，但是可以通过传入`class<T>`实现
 
-  - ``` java
-    class Building {}
-    class House extends Building {}
-    
-    public class ClassTypeCapture <T> {
-        Class <T> kind;
-        public ClassTypeCapture(Class <T> kind) {
-            this.kind = kind;
-        }
-        public boolean f(Object arg) {
-            return kind.isInstance(arg);
-        }
-        public static void main(String [] args) {
-            ClassTypeCapture <Building> ctt1 =
-                new ClassTypeCapture <>(Building.class);
-            System.out.println(ctt1.f(new Building()));
-            System.out.println(ctt1.f(new House()));
-            ClassTypeCapture <House> ctt2 =
-                new ClassTypeCapture <>(House.class);
-            System.out.println(ctt2.f(new Building()));
-            System.out.println(ctt2.f(new House()));
-        }
+
+``` java
+class Building {}
+class House extends Building {}
+
+public class ClassTypeCapture <T> {
+    Class <T> kind;
+    public ClassTypeCapture(Class <T> kind) {
+        this.kind = kind;
     }
-    /* Output:
-    true
-    true
-    false
-    true
-    */
-    ```
+    public boolean f(Object arg) {
+        return kind.isInstance(arg);
+    }
+    public static void main(String [] args) {
+        ClassTypeCapture <Building> ctt1 =
+            new ClassTypeCapture <>(Building.class);
+        System.out.println(ctt1.f(new Building()));
+        System.out.println(ctt1.f(new House()));
+        ClassTypeCapture <House> ctt2 =
+            new ClassTypeCapture <>(House.class);
+        System.out.println(ctt2.f(new Building()));
+        System.out.println(ctt2.f(new House()));
+    }
+}
+/* Output:
+true
+true
+false
+true
+*/
+```
 
 ### 生成泛型对象
 
@@ -493,50 +484,51 @@ public class SpaceShipDelegation {
 
 - 法一，工厂模式
 
-  - ``` java
-    //生成者
-    class ClassAsFactory <T> implements Supplier <T> {
-      Class <T> kind;
-      ClassAsFactory(Class <T> kind) {
-        this.kind = kind;
-      }
-      @Override public T get() {
-        try {
-          return kind.getConstructor().newInstance();
-        } catch(Exception e) {
-          throw new RuntimeException(e);
-        }
-      }
-    }
-    ```
 
-    - 这种方法要求必须存在无参构造器，像Integer就不行
+``` java
+//生成者
+class ClassAsFactory <T> implements Supplier <T> {
+  Class <T> kind;
+  ClassAsFactory(Class <T> kind) {
+    this.kind = kind;
+  }
+  @Override public T get() {
+    try {
+      return kind.getConstructor().newInstance();
+    } catch(Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+}
+```
 
-  - ``` java
-    //显式工厂，更加安全，避免出现缺少无参构造函数等运行时错误
-    class Holder <T>{
-        private T t;
-        public void init(IFactory <T> factory){
-            this.t = factory.create();  // 此处即为 new T()的工厂方法的实现
-        }
-    }
-    interface IFactory <T>{  //接口也可以参数化
-        T create();
-    }
-    class IntegerFactory implements IFactory <Integer>{
-        public Integer create(){
-            return new Integer(10);
-        }
-    }
-    public class newTwithFactory{
-        public static void main(String [] args){
-            Holder <Integer> holder = new Holder <>();
-            holder.init(new IntegerFactory());
-        }
-    }
-    ```
+- 这种方法要求必须存在无参构造器，像Integer就不行
 
-  - 使用一个工厂方法，如 `IntegerFactory`，它**具体指明**了要创建的对象的类型（在这个例子中是 `Integer`）。
+``` java
+//显式工厂，更加安全，避免出现缺少无参构造函数等运行时错误
+class Holder <T>{
+    private T t;
+    public void init(IFactory <T> factory){
+        this.t = factory.create();  // 此处即为 new T()的工厂方法的实现
+    }
+}
+interface IFactory <T>{  //接口也可以参数化
+    T create();
+}
+class IntegerFactory implements IFactory <Integer>{
+    public Integer create(){
+        return new Integer(10);
+    }
+}
+public class newTwithFactory{
+    public static void main(String [] args){
+        Holder <Integer> holder = new Holder <>();
+        holder.init(new IntegerFactory());
+    }
+}
+```
+
+- 使用一个工厂方法，如 `IntegerFactory`，它**具体指明**了要创建的对象的类型（在这个例子中是 `Integer`）。
 
 - 法二Class
 
@@ -544,38 +536,39 @@ public class SpaceShipDelegation {
 
   - 可以实现在运行中查询、使用对象类型。
 
-  - ````java
-    class Holder <T>{
-        private T t;
-        private Class <T> kind;
-        public Holder(Class <T> kind){ this.kind = kind; }
-        public void init(){
-            try{
-                this.t = kind.newInstance();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-        public static void main(String [] args) {
-            Holder <Integer> holder = new Holder <>(Integer.class);
-            holder.init();
+
+````java
+class Holder <T>{
+    private T t;
+    private Class <T> kind;
+    public Holder(Class <T> kind){ this.kind = kind; }
+    public void init(){
+        try{
+            this.t = kind.newInstance();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
-    ````
+    public static void main(String [] args) {
+        Holder <Integer> holder = new Holder <>(Integer.class);
+        holder.init();
+    }
+}
+````
 
-  - 只能使用无参构造
+- 只能使用无参构造
 
-- ``` java
-  class Fruit{}
-  class Apple extends Fruit{}
-  
-  public class NonConvariantGeneric {
-      List <Fruit> flist = new ArrayList <Apple>(); //编译错误
-  }
-  ```
+``` java
+class Fruit{}
+class Apple extends Fruit{}
 
-  - Apple的`List`不是Fruit的`List`。Apple的`List`将持有Apple和Apple的子类型，Fruit的`List`将持有任何类型的`Fruit`。是的，这包括Apple，但是它**不是一个Apple**的`List`，**它仍然是Fruit**的`List`。Apple的`List`在**类型上**不等价于`Fruit`的List，**即使Apple是一种Fruit类型。**
-  - Java泛型中规定，即使泛型类型具有继承关系，但是并不意味着该泛型类型的容器也具有继承关系。
+public class NonConvariantGeneric {
+    List <Fruit> flist = new ArrayList <Apple>(); //编译错误
+}
+```
+
+- Apple的`List`不是Fruit的`List`。Apple的`List`将持有Apple和Apple的子类型，Fruit的`List`将持有任何类型的`Fruit`。是的，这包括Apple，但是它**不是一个Apple**的`List`，**它仍然是Fruit**的`List`。Apple的`List`在**类型上**不等价于`Fruit`的List，**即使Apple是一种Fruit类型。**
+- Java泛型中规定，即使泛型类型具有继承关系，但是并不意味着该泛型类型的容器也具有继承关系。
 
 - 泛型数组
 
@@ -583,24 +576,26 @@ public class SpaceShipDelegation {
 
   - 先创建Object数组再进行转换
 
-    - ``` java
-      public GenericArray(int sz) {
-          array = (T [])new Object [sz];
-        }
-      ```
 
-    - 注意强制转型要使用`@SuppressWarnings("unchecked")`
+``` java
+public GenericArray(int sz) {
+    array = (T [])new Object [sz];
+  }
+```
 
-  - 也可以使用Class创建出具有精确数据类型的数组，这样最终转化为T类型的数组更为安全
+- 注意强制转型要使用`@SuppressWarnings("unchecked")`
 
-    - ``` java
-      private T [] array;
-        @SuppressWarnings("unchecked")
-        public
-        GenericArrayWithTypeToken(Class <T> type, int sz) {
-          array = (T [])Array.newInstance(type, sz);
-        }
-      ```
+- 也可以使用Class创建出具有精确数据类型的数组，这样最终转化为T类型的数组更为安全
+
+
+``` java
+private T [] array;
+  @SuppressWarnings("unchecked")
+  public
+  GenericArrayWithTypeToken(Class <T> type, int sz) {
+    array = (T [])Array.newInstance(type, sz);
+  }
+```
 
 
 ### 协变与逆变
@@ -613,149 +608,156 @@ public class SpaceShipDelegation {
 
 - 允许多参数，但不能重写一个函数
 
-  - ``` java
-    public class UseList <W,T>{
-        void f(List <T> v){}
-        void f(List <W> v){}//错误
-    }
-    ```
+
+``` java
+public class UseList <W,T>{
+    void f(List <T> v){}
+    void f(List <W> v){}//错误
+}
+```
 
 - 基类会劫持接口
   - 对于相同的泛型接口，子类不能实现与基类实现的接口的**泛型参数不同的**
 
-#### 自限定类型
+### 自限定类型
 
 - CRG：奇异地规泛型
 
   - 泛型参数是无法直接继承的，但是可以继承一个在自身定义中用到了该泛型参数的类
 
-  - ``` java
-    class GenericType <T> {}
-    
-    public class CuriouslyRecurringGeneric
-      extends GenericType <CuriouslyRecurringGeneric> {}
-    ```
+
+``` java
+class GenericType <T> {}
+
+public class CuriouslyRecurringGeneric
+  extends GenericType <CuriouslyRecurringGeneric> {}
+```
 
 - 限制一个泛型类的类型参数，使其只能是该泛型类的**子类**。
 
-  - ``` java
-    public class BasicHolder <T> {
-        T element;
-        void set(T arg){this.element = arg;}
-        T get(){return this.element;}
-        void print(){
-            System.out.println(element.getClass().getSimpleName());
-        }
+
+``` java
+public class BasicHolder <T> {
+    T element;
+    void set(T arg){this.element = arg;}
+    T get(){return this.element;}
+    void print(){
+        System.out.println(element.getClass().getSimpleName());
     }
-    public class SubType extends BasicHolder <SubType> {
-        public static void main(String [] args){
-            SubType s1 = new SubType();
-            SubType s3 = s1.get();
-            s1.print();
-            s3.print();
-        }
+}
+public class SubType extends BasicHolder <SubType> {
+    public static void main(String [] args){
+        SubType s1 = new SubType();
+        SubType s3 = s1.get();
+        s1.print();
+        s3.print();
     }
-    ```
+}
+```
 
-  - 即泛型类型**是自身**
+- 即泛型类型**是自身**
 
-  - 与普通继承的关系
+- 与普通继承的关系
 
-    - 与普通继承相比，这里使用了泛型来确保类型安全，并在子类中**特化了基类的行为**。在普通的继承中，子类继承父类的属性和方法并可以重写它们。在这种情况下，子类不仅继承了基类的属性和方法，而且通过泛型参数为这些属性和方法**提供了一个具体的类型**（即其自身）。
-    - 这意味着，对于 `SubType`，它继承了 `BasicHolder` 的所有方法，但这些方法现在具有固定的类型 - 也就是 `SubType`。所以，`SubType` 的一个实例可以保证 `get()` 方法返回的是 `SubType`，并且 `set()` 方法只接受 `SubType` 类型的参数。
-    - 这提供了额外的**类型安全性**，并允许你在子类中为这些方法提供更具体的实现，同时不牺牲代码的复用性。
+  - 与普通继承相比，这里使用了泛型来确保类型安全，并在子类中**特化了基类的行为**。在普通的继承中，子类继承父类的属性和方法并可以重写它们。在这种情况下，子类不仅继承了基类的属性和方法，而且通过泛型参数为这些属性和方法**提供了一个具体的类型**（即其自身）。
+  - 这意味着，对于 `SubType`，它继承了 `BasicHolder` 的所有方法，但这些方法现在具有固定的类型 - 也就是 `SubType`。所以，`SubType` 的一个实例可以保证 `get()` 方法返回的是 `SubType`，并且 `set()` 方法只接受 `SubType` 类型的参数。
+  - 这提供了额外的**类型安全性**，并允许你在子类中为这些方法提供更具体的实现，同时不牺牲代码的复用性。
 
-  - 泛型类强制实例时使用这种模式
+- 泛型类强制实例时使用这种模式
 
-    - ``` java
-      //forcing the generic to be used as its own bound argument
-      class SelfBounded <T extends SelfBounded<T> > {
-          T element;
-          SelfBounded <T> set(T arg){
-              element = arg;
-              return this;
-          }
-          T get(){return element;}
-      }
-      
-      class A extends SelfBounded <A> {}
-      class B extends SelfBounded <A> {} //ok 
-      class E extends SelfBounded <D>{} //error
-      
-      public static void main(String [] args){
-              A a = new A();
-              a.set(new A());
-              a.print();
-              B b = new B(), a2 = new B();
-              //b.set(b2); //Error
-              //b.print();
-          }
-      ```
+
+``` java
+//forcing the generic to be used as its own bound argument
+class SelfBounded <T extends SelfBounded<T> > {
+    T element;
+    SelfBounded <T> set(T arg){
+        element = arg;
+        return this;
+    }
+    T get(){return element;}
+}
+
+class A extends SelfBounded <A> {}
+class B extends SelfBounded <A> {} //ok 
+class E extends SelfBounded <D>{} //error
+
+public static void main(String [] args){
+        A a = new A();
+        a.set(new A());
+        a.print();
+        B b = new B(), a2 = new B();
+        //b.set(b2); //Error
+        //b.print();
+    }
+```
 
 - 参数协变性
   - 方法参数类型会随着子类而变化
   - 允许子类方法比其重写的基类方法更具体的类型
   - 使用子限定类型就实现了将子类类型作为返回值
 
-#### 通配符*
+### 通配符
 
 - 边界
 
   - 也可以对泛型进行一定限制
 
-    - ``` java
-      public class Computer <T extends Disk>{//必须是 Disk 或子类
-      ```
 
-  - 使用类型和接口限制
+``` java
+public class Computer <T extends Disk>{//必须是 Disk 或子类
+```
 
-    - ``` java
-      interface HasColor{ java.awt.Color getColor(); }
-      
-      class Colored <T extends HasColor>{...}
-      
-      class Dimension { public int x, y, z; }
-      
-      class ColoredDimension <T extends HasColor & Dimension>{...} //错误！
-      class ColoredDimension <T extends Dimension & HasColor>{ //why？
-          
-      }
-      ```
+- 使用类型和接口限制
 
-    - 类型在前接口在后，并且同样只能继承一个类
+
+``` java
+interface HasColor{ java.awt.Color getColor(); }
+
+class Colored <T extends HasColor>{...}
+
+class Dimension { public int x, y, z; }
+
+class ColoredDimension <T extends HasColor & Dimension>{...} //错误！
+class ColoredDimension <T extends Dimension & HasColor>{ //why？
+    
+}
+```
+
+- 类型在前接口在后，并且同样只能继承一个类
 
 - 常用用于**方法参数**，**实现泛型类型的多态**，对于数组讨论集合自身的类型而不是所持有的元素类型
 
 - 由于list不存在直接继承关系，可以使用通配符实现通用方法
 
-  - ``` java
-    public void print(List <?> animals) {
-      animals.forEach(a -> System.out.println(((Animal) a).getFood()));
-    }
-    
-    public static void main(String [] args) {
-      Test test = new Test();
-      List <Animal> animals = Arrays.asList(new Animal());
-      List <Cat> cats = Arrays.asList(new Cat());
-      test.print(animals);	// 正确执行
-      test.print(cats);	// 正确执行
-    }
-    ```
 
-  - ``` java
-    class Fruit{}
-    class Apple extends Fruit{}
-    public class GenericsAndCovariance {
-        public static void main(String [] args){
-            //一个能放水果以及一切是水果派生类的盘子, 啥水果都能放的盘子
-            //Plate <？ extends Fruit> 和 Plate <Apple> 最大的区别就是：
-            //Plate <？ extends Fruit> 是 Plate <Fruit> 以及 Plate <Apple> 的基类。
-            Plate <? extends Fruit> p = new Plate <Apple>(new Apple());
-            // a list of any type that's inherited from Fruit
-            List <? extends Fruit> flist = new ArrayList <Apple>();
-        }
+``` java
+public void print(List <?> animals) {
+  animals.forEach(a -> System.out.println(((Animal) a).getFood()));
+}
+
+public static void main(String [] args) {
+  Test test = new Test();
+  List <Animal> animals = Arrays.asList(new Animal());
+  List <Cat> cats = Arrays.asList(new Cat());
+  test.print(animals);	// 正确执行
+  test.print(cats);	// 正确执行
+}
+```
+
+``` java
+class Fruit{}
+class Apple extends Fruit{}
+public class GenericsAndCovariance {
+    public static void main(String [] args){
+        //一个能放水果以及一切是水果派生类的盘子, 啥水果都能放的盘子
+        //Plate <？ extends Fruit> 和 Plate <Apple> 最大的区别就是：
+        //Plate <？ extends Fruit> 是 Plate <Fruit> 以及 Plate <Apple> 的基类。
+        Plate <? extends Fruit> p = new Plate <Apple>(new Apple());
+        // a list of any type that's inherited from Fruit
+        List <? extends Fruit> flist = new ArrayList <Apple>();
     }
-    ```
+}
+```
 
 - **协变**`Plate<？extends Fruit>`可以放**子类型**中任意的
 
@@ -763,31 +765,32 @@ public class SpaceShipDelegation {
 
   - `List<?>`由于无法在编译期间确定泛型的实际类型，所以**没法**向`List<?>`中**添加**除了`null`外的任意类型元素。（即我不知道最高会是谁，因此我要是放入后得向下转型呢？但是读取可以，因为这总会是向上转型）
 
-    - ``` java
-      class Fruit{}
-      class Apple extends Fruit{}
-      
-             Plate <? extends Fruit> p = new Plate <Apple>(new Apple());
-              //不能存入任何元素
-              p.set(new Fruit());    //Error
-              p.set(new Apple());    //Error
-              //读取出来的东西只能存放在 Fruit 或它的基类里。
-              Fruit newFruit1 = p.get();
-              Object newFruit2 = p.get();
-              Apple newFruit3 = p.get();    //Error
-      ```
 
-    - 对于`Plate<? exyends fruit>`编译器并不知道具体会被初始化为什么类型，因此如果允许放入元素则可能造成不匹配（类型错误）
+``` java
+class Fruit{}
+class Apple extends Fruit{}
 
-    - 而取出时会获得上界的类型，构成了多态
+       Plate <? extends Fruit> p = new Plate <Apple>(new Apple());
+        //不能存入任何元素
+        p.set(new Fruit());    //Error
+        p.set(new Apple());    //Error
+        //读取出来的东西只能存放在 Fruit 或它的基类里。
+        Fruit newFruit1 = p.get();
+        Object newFruit2 = p.get();
+        Apple newFruit3 = p.get();    //Error
+```
 
-  - 对于非集合类型也会有限制，如`Tile<? extends Thing> tile;`
+- 对于`Plate<? exyends fruit>`编译器并不知道具体会被初始化为什么类型，因此如果允许放入元素则可能造成不匹配（类型错误）
 
-    - 读取，对于**返回T类型**的方法，可以安全的读取到Thing类型，因为这一定是一个子类
-    - 赋值，对于有T类型参数的方法，通常无法调用，因为不知道确切的T泛型参数类型
-    - 注意，这种参数并不是针对对tile变量的赋值和访问，而是针对对tile内部含有泛型参数/返回值的方法的调用
+- 而取出时会获得上界的类型，构成了多态
 
-  - 有多个上界时使用`&`连接
+- 对于非集合类型也会有限制，如`Tile<? extends Thing> tile;`
+
+  - 读取，对于**返回T类型**的方法，可以安全的读取到Thing类型，因为这一定是一个子类
+  - 赋值，对于有T类型参数的方法，通常无法调用，因为不知道确切的T泛型参数类型
+  - 注意，这种参数并不是针对对tile变量的赋值和访问，而是针对对tile内部含有泛型参数/返回值的方法的调用
+
+- 有多个上界时使用`&`连接
 
 - **逆变**`Plate<？super Fruit>`可以放基类中任意
 
@@ -795,29 +798,30 @@ public class SpaceShipDelegation {
 
   - 我们在编译期只能知道`下界通配符`的下界是什么类型，所以在添加元素时，只能向其中**添加下界类型。**由于编译期无法知晓具体的实际类型，所以只能使用**`Object`来**接收获取的元素
 
-    - ``` java
-      class Fruit{}
-      class Apple extends Fruit{}
-      public class GenericsAndCovariance {
-          public static void main(String [] args){
-             Plate <? super Fruit> p = new Plate <Fruit>(new Fruit());
-              //存入元素正常
-              p.set(new Fruit());
-              p.set(new Apple());
-              //读取出来的东西只能存放在 Object 类里。
-              Apple newFruit3 = p.get();    //Error
-              Fruit newFruit1 = p.get();    //Error
-              Object newFruit2 = p.get();
-          }
-      }
-      ```
+
+``` java
+class Fruit{}
+class Apple extends Fruit{}
+public class GenericsAndCovariance {
+    public static void main(String [] args){
+       Plate <? super Fruit> p = new Plate <Fruit>(new Fruit());
+        //存入元素正常
+        p.set(new Fruit());
+        p.set(new Apple());
+        //读取出来的东西只能存放在 Object 类里。
+        Apple newFruit3 = p.get();    //Error
+        Fruit newFruit1 = p.get();    //Error
+        Object newFruit2 = p.get();
+    }
+}
+```
 
 - **`List<?>`（无界通配符）**:
 
   - 这表示一个未知类型的列表。`?` 是一个通配符，代表任何类型。
   - 你可以从 `List<?>` 读取数据，读取的数据将被视为 `Object` 类型，但你不能向其中写入除 `null` 之外的任何数据，因为你不知道列表的确切类型。
   - 它在你不关心列表的具体类型，或者在使用只读操作时非常有用。
-  
+
 - **`List`（原生类型）**:
 
   - 这是一个原生类型的列表，没有泛型信息。在泛型被引入Java之前就存在。
@@ -830,7 +834,7 @@ public class SpaceShipDelegation {
   - 与 `List<?>` 不同，你可以安全地向 `List<Object>` 添加任何类型的对象（除了基本类型，它们需要被装箱）。
   - 这是一个明确声明你可以存储任何类型对象的列表，提供了类型安全性（即使是 `Object` 级别的）。
 
-#### 混型
+### 混型
 
 - 混合多个类的能力，生成一个可以代表混型中全部类型的类
 
@@ -838,152 +842,156 @@ public class SpaceShipDelegation {
 
   - 因为接口可以多继承，并且在类内保存所有接口的实例
 
-  - ``` java
-    class Mixin extends BasicImp
-    implements TimeStamped, SerialNumbered {
-      private TimeStamped timeStamp = new TimeStampedImp();
-      private SerialNumbered serialNumber =
-        new SerialNumberedImp();
-      @Override public long getStamp() {
-        return timeStamp.getStamp();
-      }
-      @Override public long getSerialNumber() {
-        return serialNumber.getSerialNumber();
-      }
-    }
-    ```
+
+``` java
+class Mixin extends BasicImp
+implements TimeStamped, SerialNumbered {
+  private TimeStamped timeStamp = new TimeStampedImp();
+  private SerialNumbered serialNumber =
+    new SerialNumberedImp();
+  @Override public long getStamp() {
+    return timeStamp.getStamp();
+  }
+  @Override public long getSerialNumber() {
+    return serialNumber.getSerialNumber();
+  }
+}
+```
 
 - 动态代理
 
-  - ``` java
-    import java.lang.reflect.*;
-    // Step 1: Define interfaces
-    interface Interface1 {
-        void doSomething();
-    }
-    interface Interface2 {
-        void doSomethingElse();
-    }
-    // Step 2: Create implementations
-    class Implementation1 implements Interface1 {
-        public void doSomething() {
-            System.out.println("Implementation1 doing something");
-        }
-    }
-    class Implementation2 implements Interface2 {
-        public void doSomethingElse() {
-            System.out.println("Implementation2 doing something else");
-        }
-    }
-    // Step 3: Create dynamic proxy
-    class MixinProxy implements InvocationHandler {
-        private final Object [] delegates;
-    
-        public MixinProxy(Object... delegates) {
-            this.delegates = delegates;
-        }
-    
-        public Object invoke(Object proxy, Method method, Object [] args) throws Throwable {
-            for (Object delegate : delegates) {
-                if (method.isInstance(delegate)) {
-                    return method.invoke(delegate, args);
-                }
-            }
-            throw new UnsupportedOperationException("Method not supported: " + method);
-        }
-        //帮助创建动态代理
-        @SuppressWarnings("unchecked")
-        public static <T> T createMixinProxy(Class <T> interfaceClass, Object... delegates) {
-            //取出传入对象的类型
-            Class <?> [] interfaces = new Class <?> [delegates.length];
-            //存储接口
-            for (int i = 0; i < delegates.length; i++) {
-                interfaces [i] = delegates [i].getClass().getInterfaces()[0];
-            }
-            return (T) Proxy.newProxyInstance(
-                    interfaceClass.getClassLoader(),
-                    interfaces,
-                    new MixinProxy(delegates)
-            );
-        }
-    }
-    // Using the mixin
-    public class MixinDemo {
-        public static void main(String [] args) {
-            Object mixin = MixinProxy.createMixinProxy(Object.class, new Implementation1(), new Implementation2());
-            //还需要手动转换类型
-            Interface1 if1 = (Interface1) mixin;
-            Interface2 if2 = (Interface2) mixin;
-            if1.doSomething();
-            if2.doSomethingElse();
-        }
-    }
-    ```
 
-#### 潜在类型机制
+``` java
+import java.lang.reflect.*;
+// Step 1: Define interfaces
+interface Interface1 {
+    void doSomething();
+}
+interface Interface2 {
+    void doSomethingElse();
+}
+// Step 2: Create implementations
+class Implementation1 implements Interface1 {
+    public void doSomething() {
+        System.out.println("Implementation1 doing something");
+    }
+}
+class Implementation2 implements Interface2 {
+    public void doSomethingElse() {
+        System.out.println("Implementation2 doing something else");
+    }
+}
+// Step 3: Create dynamic proxy
+class MixinProxy implements InvocationHandler {
+    private final Object [] delegates;
+
+    public MixinProxy(Object... delegates) {
+        this.delegates = delegates;
+    }
+
+    public Object invoke(Object proxy, Method method, Object [] args) throws Throwable {
+        for (Object delegate : delegates) {
+            if (method.isInstance(delegate)) {
+                return method.invoke(delegate, args);
+            }
+        }
+        throw new UnsupportedOperationException("Method not supported: " + method);
+    }
+    //帮助创建动态代理
+    @SuppressWarnings("unchecked")
+    public static <T> T createMixinProxy(Class <T> interfaceClass, Object... delegates) {
+        //取出传入对象的类型
+        Class <?> [] interfaces = new Class <?> [delegates.length];
+        //存储接口
+        for (int i = 0; i < delegates.length; i++) {
+            interfaces [i] = delegates [i].getClass().getInterfaces()[0];
+        }
+        return (T) Proxy.newProxyInstance(
+                interfaceClass.getClassLoader(),
+                interfaces,
+                new MixinProxy(delegates)
+        );
+    }
+}
+// Using the mixin
+public class MixinDemo {
+    public static void main(String [] args) {
+        Object mixin = MixinProxy.createMixinProxy(Object.class, new Implementation1(), new Implementation2());
+        //还需要手动转换类型
+        Interface1 if1 = (Interface1) mixin;
+        Interface2 if2 = (Interface2) mixin;
+        if1.doSomething();
+        if2.doSomethingElse();
+    }
+}
+```
+
+### 潜在类型机制
 
 > 一个东西长得像鸭子，行为像鸭子，那他就是鸭子
 
 - 不一定是同一类型，有正确方法就可以用
 
-  - ``` c++
-    class Dog {
-    public:
-      void speak() { cout << " Arf!" << endl; }
-      void sit() { cout << " Sitting " << endl; }
-      void reproduce() {}
-    };
-    
-    class Robot {
-    public:
-      void speak() { cout << " Click!" << endl; }
-      void sit() { cout << " Clank!" << endl; }
-      void oilChange() {}
-    };
-    
-    template <class T> void perform(T anything) {
-      anything.speak();
-      anything.sit();
-    }
-    ```
+
+``` c++
+class Dog {
+public:
+  void speak() { cout << " Arf!" << endl; }
+  void sit() { cout << " Sitting " << endl; }
+  void reproduce() {}
+};
+
+class Robot {
+public:
+  void speak() { cout << " Click!" << endl; }
+  void sit() { cout << " Clank!" << endl; }
+  void oilChange() {}
+};
+
+template <class T> void perform(T anything) {
+  anything.speak();
+  anything.sit();
+}
+```
 
 - 在Java中没法实现，因此叫辅助潜在类型机制
 
 - 使用方法引用：不是传入对象，而是传入方法实现调用
 
-  - ``` java
-    class PerformingDogA extends Dog {
-      public void speak() { System.out.println("Woof!"); }
-      public void sit() { System.out.println("Sitting"); }
-      public void reproduce() {}
-    }
-    
-    class RobotA {
-      public void speak() { System.out.println("Click!"); }
-      public void sit() { System.out.println("Clank!"); }
-      public void oilChange() {}
-    }
-    
-    class CommunicateA {
-      public static <P> void perform(P performer,
-        Consumer <P> action1, Consumer <P> action2) {
-        action1.accept(performer);
-        action2.accept(performer);
-      }
-    }
-    
-    public class DogsAndRobotMethodReferences {
-      public static void main(String [] args) {
-        CommunicateA.perform(new PerformingDogA(),
-          PerformingDogA:: speak, PerformingDogA:: sit);
-        CommunicateA.perform(new RobotA(),
-          RobotA:: speak, RobotA:: sit);
-        CommunicateA.perform(new Mime(),
-          Mime:: walkAgainstTheWind,
-          Mime:: pushInvisibleWalls);
-      }
-    }
-    ```
+
+``` java
+class PerformingDogA extends Dog {
+  public void speak() { System.out.println("Woof!"); }
+  public void sit() { System.out.println("Sitting"); }
+  public void reproduce() {}
+}
+
+class RobotA {
+  public void speak() { System.out.println("Click!"); }
+  public void sit() { System.out.println("Clank!"); }
+  public void oilChange() {}
+}
+
+class CommunicateA {
+  public static <P> void perform(P performer,
+    Consumer <P> action1, Consumer <P> action2) {
+    action1.accept(performer);
+    action2.accept(performer);
+  }
+}
+
+public class DogsAndRobotMethodReferences {
+  public static void main(String [] args) {
+    CommunicateA.perform(new PerformingDogA(),
+      PerformingDogA:: speak, PerformingDogA:: sit);
+    CommunicateA.perform(new RobotA(),
+      RobotA:: speak, RobotA:: sit);
+    CommunicateA.perform(new Mime(),
+      Mime:: walkAgainstTheWind,
+      Mime:: pushInvisibleWalls);
+  }
+}
+```
 
 ## 自省与反射
 
