@@ -4,17 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "d2c59dd0453ad6c3",
+        "id": "86fb810c06784ad5",
         "type": "tabs",
         "children": [
           {
-            "id": "aeeb39d828c5924f",
+            "id": "787fd41bcbbc6873",
             "type": "leaf",
             "state": {
-              "type": "pdf-annotator",
-              "state": {
-                "file": "未命名.md"
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -64,7 +62,7 @@
             }
           },
           {
-            "id": "e9ac2cd663de210b",
+            "id": "0a9cd0319ddd3dbc",
             "type": "leaf",
             "state": {
               "type": "recent-files",
@@ -91,7 +89,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "未命名.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -108,7 +105,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "未命名.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -130,13 +126,11 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "未命名.md"
-              }
+              "state": {}
             }
           },
           {
-            "id": "9d8082ae89a6025f",
+            "id": "541551cc93ddceea",
             "type": "leaf",
             "state": {
               "type": "calendar",
@@ -144,12 +138,11 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 281.5,
-    "collapsed": true
+    "width": 202.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -161,19 +154,14 @@
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
       "workspaces:管理工作区布局": false,
-      "audio-recorder:开始/结束录音": false,
-      "obsidian-excalidraw-plugin:新建绘图文件": false
+      "audio-recorder:开始/结束录音": false
     }
   },
-  "active": "aeeb39d828c5924f",
+  "active": "787fd41bcbbc6873",
   "lastOpenFiles": [
-    "min.pdf",
     "未命名.md",
-    "1某上市公司2006年年度财务报告.pdf",
-    "Excalidraw/2023-12-27.md",
-    "2023-12-28.md",
-    "2023-12-26.md",
-    "2023-W52.md",
+    "min.pdf",
+    "temp",
     "Excalidraw/Drawing 2023-12-26 13.12.59.excalidraw.md",
     "Excalidraw",
     "01 Big Data.pdf",
