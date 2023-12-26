@@ -168,9 +168,12 @@
   },
   "active": "26c2fff38fa78e64",
   "lastOpenFiles": [
+    "java/java基础/数据类型/数组类型.md",
+    "java/java基础/数据类型/基本数据类型与包装类.md",
+    "java/java基础.md",
+    "java/java基础/数据类型",
     "java/java基础",
     "未命名.canvas",
-    "java/java基础.md",
     "Slide/java.md",
     "Excalidraw/Drawing 2023-12-26 18.44.27.excalidraw.md",
     "Slide/金融大数据p4.md",
@@ -193,9 +196,7 @@
     "export/金融大数据p4/plugin/chalkboard/README.md",
     "export/金融大数据p4/plugin/chalkboard/plugin (copy).js",
     "export/金融大数据p4/plugin/chalkboard/img",
-    "export/金融大数据p4/plugin/chalkboard",
     "export/金融大数据p4/plugin/chart/README.md",
-    "export/金融大数据p4/plugin/chart/plugin.js",
     "export/金融大数据p4/plugin/customcontrols/README.md",
     "export/金融大数据p4/plugin/menu/CONTRIBUTING.md",
     "export/金融大数据p4/plugin/menu/README.md",
@@ -213,7 +214,6 @@
     "折腾/jekyll.md",
     "杂项/常见配置文件格式.md",
     "杂项/正则表达式.md",
-    "杂项/latex-template.md",
-    "游戏开发/unity/unity.md"
+    "杂项/latex-template.md"
   ]
 }
