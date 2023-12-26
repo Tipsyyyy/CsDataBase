@@ -79,9 +79,8 @@ String result = formatter.toString(); // 结果为 "Name: Alice, Age: 24"
   - 占有型（Java独有）：在匹配时会尽可能多地捕获字符，并且一旦捕获，**不会放弃匹配的字符**，**即使这可能导致整个模式匹配失败**（不符合后面的条件了）。这与标准的贪婪量词不同，后者在需要时会放弃一部分匹配以使整个模式成功匹配。
     - 末尾加+
 
-- 编译正则表达式
-  - `Pattern.compile(String)`
-    - 将字符串编译为正则表达式对象
+- 编译正则表达式（将字符串编译为正则表达式对象）
+  - `Pattern.compile(String)`·
   - 之后通过matcher方法使用Pattern对象`Matcher m = p.matcher(String)`
 - pattern标记参数，影响匹配的行为（作为款选的第二个参数）
 
