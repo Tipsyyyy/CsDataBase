@@ -168,9 +168,14 @@
   },
   "active": "26c2fff38fa78e64",
   "lastOpenFiles": [
-    "java/java基础/数据类型/数组类型.md",
     "java/java基础/数据类型/基本数据类型与包装类.md",
     "java/java基础.md",
+    "基本数据类型类型与包装类.md",
+    "java/java基础/流程控制/switch.md",
+    "java/java基础/io",
+    "java/java基础/并发",
+    "java/java基础/流程控制",
+    "java/java基础/数据类型/数组类型.md",
     "java/java基础/数据类型",
     "java/java基础",
     "未命名.canvas",
@@ -192,10 +197,7 @@
     "export/金融大数据p4/plugin/chalkboard/img/boardmarker-yellow.png",
     "export/金融大数据p4/plugin/chalkboard/style.css",
     "export/金融大数据p4/plugin/chalkboard/_style.css",
-    "export/金融大数据p4/plugin/chalkboard/plugin.js",
     "export/金融大数据p4/plugin/chalkboard/README.md",
-    "export/金融大数据p4/plugin/chalkboard/plugin (copy).js",
-    "export/金融大数据p4/plugin/chalkboard/img",
     "export/金融大数据p4/plugin/chart/README.md",
     "export/金融大数据p4/plugin/customcontrols/README.md",
     "export/金融大数据p4/plugin/menu/CONTRIBUTING.md",
@@ -212,8 +214,6 @@
     "折腾/reveal.js.md",
     "折腾/jupyter.md",
     "折腾/jekyll.md",
-    "杂项/常见配置文件格式.md",
-    "杂项/正则表达式.md",
-    "杂项/latex-template.md"
+    "杂项/常见配置文件格式.md"
   ]
 }

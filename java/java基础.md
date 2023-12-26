@@ -1,8 +1,9 @@
-[[基本数据类型类型与包装类]]
-
-[[数组类型]]
 
 ## 数据类型
+
+[[基本数据类型与包装类]]]
+
+[[数组类型]]
 
 ### 枚举类型
 
@@ -17,124 +18,83 @@
   }
   ```
 
-- 每个枚举类型对象都有`toString()`方法，用于打印实例名称（或使用）
-
-- 使用`ordinal()`获取序号
-
-- `name()`获取名称（toString同样可以）
+- 每个枚举类型对象都有`toString()`方法，用于打印实例名称（或使用name()）
 
 - 使用`类名.values()`获取该枚举类所有对象的数组
 
-- 有的枚举类型都隐式地继承自`java.lang.Enum`类，因此枚举类不能再去继承其他类，但是可以去实现接口
+- 枚举类型都隐式地继承自`java.lang.Enum`类，因此枚举类不能再去继承其他类，但是可以去实现接口
+	- 可以直接向上转型为Enum
+	- Enum向下转型`e.getClass().getEnumContants()`没有枚举的类型调用会返回null
 
-  - 可以直接向上转型为Enum
-
-  - Enum向下转型`e.getClass().getEnumContants()`没有枚举的类型调用会返回null
-
-- 枚举类可以添加自定义方法
+- 枚举类可以添加自定义方法，枚举类也可以持有数据（并且定义构造函数）
 
   - ``` java
     public enum OzWitch {
-      // Instances must be defined first, before methods:
-      WEST("Miss Gulch, aka the Wicked Witch of the West"),
-      NORTH("Glinda, the Good Witch of the North"),
-      EAST("Wicked Witch of the East, wearer of the Ruby " +
-        "Slippers, crushed by Dorothy's house"),
-      SOUTH("Good by inference, but missing");
+      WEST("Miss"),
+      NORTH("Glinda"),
+      EAST("Wicked"),
+      SOUTH("Good");
       private String description;
-      // Constructor must be package or private access:
       private OzWitch(String description) {
         this.description = description;
       }
       public String getDescription() { return description; }
     }
     ```
-
+    
   - 要注意的是这个构造函数是private的，仅限于内部初始化预定的枚举实例，不能在外部使用new创建任意对象
 
-- 在switch中使用枚举
-
-  - 枚举类型可以直接作为case标签
-
-    - ``` java
-      switch(color) {
-              // Note you don't have to say Signal.RED
-          case RED:    color = Signal.GREEN;
-              break;
-          case GREEN:  color = Signal.YELLOW;
-              break;
-          case YELLOW: color = Signal.RED;
-              break;
-      }
-      ```
-
-- Enum在泛型的应用
-
-  - ``` java
-    private static Random rand = new Random(47);
-      public static
-          //表示 T 必须要是一个枚举类型
-      <T extends Enum<T> > T random(Class <T> ec) {
-        return random(ec.getEnumConstants());
-      }
-      public static <T> T random(T [] values) {
-        return values [rand.nextInt(values.length)];
-      }
-    ```
-
 - 分组枚举
-
   - 使用接口实现
-
-    - ``` java
-      public interface Food {
-        enum Appetizer implements Food {
-          SALAD, SOUP, SPRING_ROLLS;
-        }
-        enum MainCourse implements Food {
-          LASAGNE, BURRITO, PAD_THAI,
-          LENTILS, HUMMUS, VINDALOO;
-        }
-        enum Dessert implements Food {
-          TIRAMISU, GELATO, BLACK_FOREST_CAKE,
-          FRUIT, CREME_CARAMEL;
-        }
-        enum Coffee implements Food {
-          BLACK_COFFEE, DECAF_COFFEE, ESPRESSO,
-          LATTE, CAPPUCCINO, TEA, HERB_TEA;
-        }
+  - ``` java
+    public interface Food {
+      enum Appetizer implements Food {
+        SALAD, SOUP, SPRING_ROLLS;
       }
-      
-      package enums.menu;
-      import static enums.menu.Food.*;
-      
-      public class TypeOfFood {
-        public static void main(String [] args) {
-          Food food = Appetizer.SALAD;
-          food = MainCourse.LASAGNE;
-          food = Dessert.GELATO;
-          food = Coffee.CAPPUCCINO;
-        }
+      enum MainCourse implements Food {
+        LASAGNE, BURRITO, PAD_THAI,
+        LENTILS, HUMMUS, VINDALOO;
       }
-      ```
+      enum Dessert implements Food {
+        TIRAMISU, GELATO, BLACK_FOREST_CAKE,
+        FRUIT, CREME_CARAMEL;
+      }
+      enum Coffee implements Food {
+        BLACK_COFFEE, DECAF_COFFEE, ESPRESSO,
+        LATTE, CAPPUCCINO, TEA, HERB_TEA;
+      }
+    }
+    
+    package enums.menu;
+    import static enums.menu.Food.*;
+    
+    public class TypeOfFood {
+      public static void main(String [] args) {
+        Food food = Appetizer.SALAD;
+        food = MainCourse.LASAGNE;
+        food = Dessert.GELATO;
+        food = Coffee.CAPPUCCINO;
+      }
+    }
+    ```
 
   - 嵌套的枚举
 
-    - ``` java
-      public enum Course {
-        APPETIZER(Food.Appetizer.class),
-        MAINCOURSE(Food.MainCourse.class),
-        DESSERT(Food.Dessert.class),
-        COFFEE(Food.Coffee.class);
-        private Food [] values;
-        private Course(Class <? extends Food> kind) {
-          values = kind.getEnumConstants();
-        }
-        public Food randomSelection() {
-          return Enums.random(values);
-        }
+  - ``` java
+    public enum Course {
+      APPETIZER(Food.Appetizer.class),
+      MAINCOURSE(Food.MainCourse.class),
+      DESSERT(Food.Dessert.class),
+      COFFEE(Food.Coffee.class);
+      private Food [] values;
+      private Course(Class <? extends Food> kind) {
+        values = kind.getEnumConstants();
       }
-      ```
+      public Food randomSelection() {
+        return Enums.random(values);
+      }
+    }
+    ```
 
 - EnumSet
 
