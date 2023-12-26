@@ -4,35 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "332bdbf00efd037a",
+        "id": "891694420cb2c548",
         "type": "tabs",
-        "dimension": 52.91878172588832,
         "children": [
           {
-            "id": "72574e61a5d44eba",
+            "id": "26c2fff38fa78e64",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Slide/金融大数据p4.md",
+                "file": "java/java基础.md",
                 "mode": "source",
                 "source": false
               }
-            }
-          }
-        ]
-      },
-      {
-        "id": "895d02d84a072c83",
-        "type": "tabs",
-        "dimension": 47.08121827411168,
-        "children": [
-          {
-            "id": "834b1740c4538227",
-            "type": "leaf",
-            "state": {
-              "type": "reveal-preview-view",
-              "state": {}
             }
           }
         ]
@@ -109,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Slide/金融大数据p4.md",
+                "file": "java/java基础.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Slide/金融大数据p4.md",
+                "file": "java/java基础.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -149,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Slide/金融大数据p4.md"
+                "file": "java/java基础.md"
               }
             }
           },
@@ -183,8 +167,13 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "834b1740c4538227",
+  "active": "96e173acdf249e6c",
   "lastOpenFiles": [
+    "未命名.canvas",
+    "java/java基础.md",
+    "Slide/java.md",
+    "Excalidraw/Drawing 2023-12-26 18.44.27.excalidraw.md",
+    "Slide/金融大数据p4.md",
     "Slide/211275022田昊东.html",
     "Slide/金融大数据p4.html",
     "Slide/金融大数据p2.html",
@@ -207,12 +196,10 @@
     "export/金融大数据p4/plugin/chalkboard",
     "export/金融大数据p4/plugin/chart/README.md",
     "export/金融大数据p4/plugin/chart/plugin.js",
-    "export/金融大数据p4/plugin/chart/chart.min.js",
     "export/金融大数据p4/plugin/customcontrols/README.md",
     "export/金融大数据p4/plugin/menu/CONTRIBUTING.md",
     "export/金融大数据p4/plugin/menu/README.md",
     "Excalidraw/Drawing 2023-12-26 17.46.55.excalidraw.md",
-    "Slide/金融大数据p4.md",
     "Blog/What does fatal： bad revision mean？.md",
     "Blog/1-Obsidian 自动上传图片到图床——安装 PicGo 插件并配置_obsidian 插入图片 - CSDN 博客@annote.md",
     "Blog/1-Obsidian 自动上传图片到图床——安装 PicGo 插件并配置_obsidian 插入图片 - CSDN 博客.md",
@@ -227,9 +214,6 @@
     "杂项/常见配置文件格式.md",
     "杂项/正则表达式.md",
     "杂项/latex-template.md",
-    "游戏开发/unity/unity.md",
-    "游戏开发/unreal.md",
-    "游戏开发/网络联机.md",
-    "游戏开发/LibGDX .md"
+    "游戏开发/unity/unity.md"
   ]
 }
