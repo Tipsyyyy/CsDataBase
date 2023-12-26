@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "web开发/前端/js.md",
+                "file": "游戏开发/unity/c#.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "web开发/前端/js.md",
+                "file": "游戏开发/unity/c#.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "web开发/前端/js.md",
+                "file": "游戏开发/unity/c#.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "web开发/前端/js.md"
+                "file": "游戏开发/unity/c#.md"
               }
             }
           },
@@ -168,6 +168,7 @@
   },
   "active": "72574e61a5d44eba",
   "lastOpenFiles": [
+    "web开发/前端/js.md",
     "assets/cppFather.png.md",
     "游戏开发/unity/c#.md",
     "assets/图片1.png.md",
@@ -202,7 +203,6 @@
     "算法/递归分治.md",
     "算法/贪心.md",
     "算法/竞赛",
-    "算法/模板.md",
     "算法",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-3.png",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-2.png",
