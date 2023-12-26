@@ -265,6 +265,14 @@ public class GenericMethods {
   - 第一个<>是方法的参数，在调用时可以自动推断
   - 第二个<>是返回值的参数，应该指出`Tuple2`表示为参数化的对象，类似一种向上转型
 
+- 允许多参数，但不能重写一个函数
+``` java
+public class UseList <W,T>{
+    void f(List <T> v){}
+    void f(List <W> v){}//错误
+}
+```
+
 - 泛型接口
   - 生成器模式，`Spplier<T>`，要求重写实现`public T get(){}`
 ``` java
@@ -487,6 +495,16 @@ class Holder <T>{
 }
 ````
 - 只能使用**无参构造**
+### 协变与逆变
+
+- **协变**（covariant），如果它保持了子类型序关系≦。该序关系是：子类型≦基类型。
+- **逆变**（contravariant），如果它逆转了子类型序关系。
+- **不变**（invariant），如果上述两种均不适用。
+
+- 基类会劫持接口
+  - 对于相同的泛型接口，子类不能实现与基类实现的接口的**泛型参数不同的**（类型擦除后都一样了）
+
+#### 泛型数组
 
 ``` java
 class Fruit{}
@@ -496,61 +514,14 @@ public class NonConvariantGeneric {
     List <Fruit> flist = new ArrayList <Apple>(); //编译错误
 }
 ```
-- Apple的`List`不是Fruit的`List`。Apple的`List`将持有Apple和Apple的子类型，Fruit的`List`将持有任何类型的`Fruit`。是的，这包括Apple，但是它**不是一个Apple**的`List`，**它仍然是Fruit**的`List`。Apple的`List`在**类型上**不等价于`Fruit`的List，**即使Apple是一种Fruit类型。**
-- Java泛型中规定，即使泛型类型具有继承关系，但是并不意味着该泛型类型的容器也具有继承关系。
+- Apple的`List`不是Fruit的`List`。Apple的`List`将持有Apple和Apple的子类型，Fruit的`List`将持有任何类型的`Fruit`。这包括Apple，但是它**不是一个Apple**的`List`，**它仍然是Fruit**的`List`。Apple的`List`在**类型上**不等价于`Fruit`的List，**即使Apple是一种Fruit类型。**
+- Java泛型中规定，即使**泛型类型具有继承关系**，但是并**不意味着该泛型类型的容器也具有继承关系**。
 
-- 泛型数组
-  - 可以使用ArrayList直接创建`private class<T> array = new ArrayList<>();`
-  - 先创建Object数组再进行转换
-``` java
-public GenericArray(int sz) {
-    array = (T [])new Object [sz];
-  }
-```
-
-- 注意强制转型要使用`@SuppressWarnings("unchecked")`
-- 也可以使用Class创建出具有精确数据类型的数组，这样最终转化为T类型的数组更为安全
-
-``` java
-private T [] array;
-  @SuppressWarnings("unchecked")
-  public
-  GenericArrayWithTypeToken(Class <T> type, int sz) {
-    array = (T [])Array.newInstance(type, sz);
-  }
-```
-
-### 协变与逆变
-
-- **协变**（covariant），如果它保持了子类型序关系≦。该序关系是：子类型≦基类型。
-- **逆变**（contravariant），如果它逆转了子类型序关系。
-- **不变**（invariant），如果上述两种均不适用。
-- 允许多参数，但不能重写一个函数
-
-``` java
-public class UseList <W,T>{
-    void f(List <T> v){}
-    void f(List <W> v){}//错误
-}
-```
-
-- 基类会劫持接口
-  - 对于相同的泛型接口，子类不能实现与基类实现的接口的**泛型参数不同的**
+- [[数组类型#^1f44a2|泛型数组的初始化]]
 
 ### 自限定类型
 
-- CRG：奇异地规泛型
-  - 泛型参数是无法直接继承的，但是可以继承一个在自身定义中用到了该泛型参数的类
-
-``` java
-class GenericType <T> {}
-
-public class CuriouslyRecurringGeneric
-  extends GenericType <CuriouslyRecurringGeneric> {}
-```
-
 - 限制一个泛型类的类型参数，使其只能是该泛型类的**子类**。
-
 ``` java
 public class BasicHolder <T> {
     T element;
@@ -579,8 +550,6 @@ public class SubType extends BasicHolder <SubType> {
   - 这提供了额外的**类型安全性**，并允许你在子类中为这些方法提供更具体的实现，同时不牺牲代码的复用性。
 
 - 泛型类强制实例时使用这种模式
-
-
 ``` java
 //forcing the generic to be used as its own bound argument
 class SelfBounded <T extends SelfBounded<T> > {
@@ -614,15 +583,12 @@ public static void main(String [] args){
 ### 通配符
 
 - 边界
-
   - 也可以对泛型进行一定限制
-
 ``` java
 public class Computer <T extends Disk>{//必须是 Disk 或子类
 ```
 
 - 使用类型和接口限制
-
 ``` java
 interface HasColor{ java.awt.Color getColor(); }
 
@@ -637,12 +603,8 @@ class ColoredDimension <T extends Dimension & HasColor>{ //why？
 ```
 
 - 类型在前接口在后，并且同样只能继承一个类
-
 - 常用用于**方法参数**，**实现泛型类型的多态**，对于数组讨论集合自身的类型而不是所持有的元素类型
-
 - 由于list不存在直接继承关系，可以使用通配符实现通用方法
-
-
 ``` java
 public void print(List <?> animals) {
   animals.forEach(a -> System.out.println(((Animal) a).getFood()));
