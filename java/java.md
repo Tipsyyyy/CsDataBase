@@ -1,5 +1,5 @@
 
-## 数据类型
+## java基础
 
 ### [[基本数据类型与包装类]]
 
@@ -7,103 +7,9 @@
 
 ### [[枚举类型]]
 
-[[字符串]]
+### [[字符串]]
 
-### 数组
-
-- 不能实例化参数化类型数组
-  - 集合类型支持这个功能List<Peel<Banana>> peels = new ArrayList<Peel<Banana>>(10);
-
-  - 可以先创建无参数list再强制转型
-```java
-Peel<?>[] peels = new Peel<?>[10]; // 创建一个通配符类型的数组
-Peel<Banana>[] bananaPeels = (Peel<Banana>[]) peels; // 转型
-```
-
-#### Arrays工具类
-
-- 数组工具类，用汉语对数组进行各种操作
-
-- `sort`：对数组进行排序。
-
-  - 要求被排序对现象实现Comparable接口（含compareTo）
-
-    - ``` java
-      @Override public int compareTo(CompType rv) {
-          return (i < rv.i ? -1 : (i == rv.i ? 0 : 1));
-        }
-      ```
-
-  - 颠倒排序`Arrays.sort(arr,Collections.reverseOrder())`
-
-  - 也可以传入自定义的Comparator
-
-    - ``` java
-      class CompTypeComparator
-      implements Comparator <CompType> {
-        public int compare(CompType o1, CompType o2) {
-          return (o1.j < o2.j ? -1 : (o1.j == o2.j ? 0 : 1));
-        }
-      }
-      Arrays.sort(a, new CompTypeComparator());
-      ```
-
-- `binarySearch`：在已排序的数组中进行二分搜索。
-
-  - 如果没有找到会返回负数，表示`-(insertion point -1)`即知识应该插入的位置（比目标值大的第一个元素的索引值）
-  - 必要时传入Comparator
-  - `Arrays.binarySearch(arr,n)`
-
-- `toString`：生成数组内容的字符串表示。
-
-  - `deepToString`生成多维数组的表示
-
-- `asList`：将数组转换为`List`。
-
-- `copyOf(arr,len,[target.class])`按新的长度创建已有数组的副本（深拷贝）
-
-- `copyOfRange(arr,from,to,[target.class])`对指定范围创建副本
-
-- `equals(a,b)`用于比较两个对象是否在概念上相等。其默认行为是比较对象引用，但通常被重写以比较对象的内部状态。
-
-- `deepEquals`用于深度(递归)比较两个对象。它特别适用于比较数组或复杂的嵌套对象，可以递归地比较对象的内部元素。（可以用与多维数组）
-
-- `Arrays.deepToString(list)`用于对数组打印输出
-
-- `Arrays.fill(arr,[from,to],content)`对数组进行填充
-
-- `Arrays.setAll(arr,lambda)`可以通过下标填充数组生成元素
-
-  - list有对应的`replaceAll()`方法
-
-  - ``` java
-    Arrays.setAll(ia, n -> n); 
-    Arrays.setAll(ca, SimpleSetAll:: getChar);
-    ```
-
-  - 除了初始化也可以用于对数组的每个元素进行一定的操作和修改
-  - 并行版本`parallelSetAll`在多个线程上并行执行，适用于大型数组或计算密集型的赋值操作。
-
-### 字面量
-
-- 进制表示
-
-  - 十六进制`0x2f`或`0X2F`
-
-  - 八进制`0177`（前置0）
-  - 二进制`0b0101`或`0B0101`
-    - `Integer.toBinaryString()`
-
-- 类型后缀
-  - long：`l L`
-  - float：`f F`
-  - double：`d D`
-- 下划线
-  - 为了便于阅读可以用下划线划分数字`111_111_111`
-  - 开头结尾，前后缀相邻位置不能使用，也不能连续使用
-- 科学计数法
-  - `1e-43`
-  - 默认会生成double类型，可以手动添加f
+### [[数组类型]]
 
 ### 补充
 
@@ -112,20 +18,9 @@ Peel<Banana>[] bananaPeels = (Peel<Banana>[]) peels; // 转型
   - 必须为变量提供初始值才能进行推断
   - 不允许作为返回值
 
-## 作用域
-
 - Java不允许重复定义变量（即使是在内层作用域），也就是不能在内层重新定义并隐藏外层
 
-- ``` java
-  {
-  	String s = new Sring("");
-  }
-  ```
-
-  - 引用s会在作用域结束后消失（像基本类型那样）
-  - 创建的对象由Java垃圾回收机制控制回收
-
-## 运算
+### 运算
 
 - 比较：
   - 对于基本类型直接使用`= !=`
