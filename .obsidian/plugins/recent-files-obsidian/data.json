@@ -5,6 +5,10 @@
       "path": "java/java.md"
     },
     {
+      "basename": "泛型",
+      "path": "java/java基础/杂项/泛型.md"
+    },
+    {
       "basename": "数组类型",
       "path": "java/java基础/数据类型/数组类型.md"
     },
@@ -19,10 +23,6 @@
     {
       "basename": "final",
       "path": "java/java基础/杂项/final.md"
-    },
-    {
-      "basename": "泛型",
-      "path": "java/java基础/杂项/泛型.md"
     },
     {
       "basename": "反射",

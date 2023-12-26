@@ -240,580 +240,8 @@ public class SpaceShipDelegation {
 ### [[接口]]
 
 ### [[内部类]]
-## 泛型
 
-- 基本类型不能作为泛型参数
-
-- 泛型类
-``` java
-public class Position <T>{
-    private T sth;
-}
-```
-
-- 泛型方法
-``` java
-public class GenericMethods {
-    public <T> void f(T x) {
-        System.out.println(x.getClass().getName());
-    }
-}
-```
-
-- 通常来说使用泛型方法时不需要手动指出参数类型，可以自动推断
-- `public <A,B> Tuple2<A,B>tuple(A a,B b)`
-  - 第一个<>是方法的参数，在调用时可以自动推断
-  - 第二个<>是返回值的参数，应该指出`Tuple2`表示为参数化的对象，类似一种向上转型
-
-- 允许多参数，但不能重写一个函数
-``` java
-public class UseList <W,T>{
-    void f(List <T> v){}
-    void f(List <W> v){}//错误
-}
-```
-
-- 泛型接口
-  - 生成器模式，`Spplier<T>`，要求重写实现`public T get(){}`
-``` java
-public class Fibonacci implements Supplier <Integer> {
-  private int count = 0;
-  @Override
-  public Integer get() { return fib(count++); }
-  private int fib(int n) {
-    if(n < 2) return 1;
-    return fib(n-2) + fib(n-1);
-  }
-  public static void main(String [] args) {
-    Stream.generate(new Fibonacci())
-      .limit(18)
-      .map(n -> n + " ")
-      .forEach(System.out:: print);
-  }
-}
-
-//通过适配器再实现可迭代
-public class IterableFibonacci
-extends Fibonacci implements Iterable <Integer> {
-  private int n;
-  public IterableFibonacci(int count) { n = count; }
-  @Override public Iterator <Integer> iterator() {
-    return new Iterator <Integer>() {
-      @Override
-      public boolean hasNext() { return n > 0; }
-      @Override public Integer next() {
-        n--;
-          //内部类访问外部类对象
-        return IterableFibonacci.this.get();
-      }
-      @Override
-      public void remove() { // Not implemented
-        throw new UnsupportedOperationException();
-      }
-    };
-  }
-  public static void main(String [] args) {
-    for(int i : new IterableFibonacci(18))
-      System.out.print(i + " ");
-  }
-}
-```
-
-- 扁平化多级集合
-``` java
-class Shelf extends ArrayList <Product> {
-  Shelf(int nProducts) {
-    Suppliers.fill(this, Product.generator, nProducts);
-  }
-}
-
-class Aisle extends ArrayList <Shelf> {
-  Aisle(int nShelves, int nProducts) {
-    for(int i = 0; i < nShelves; i++)
-      add(new Shelf(nProducts));
-  }
-}
-```
-
-- 一个类不能同时实现一个泛型接口的两种变体（不同泛型参数的泛型接口），因为他们在**类型擦除后实际上是相同的**
-
-### 类型擦除
-
-- 类型擦除
-  - Java泛型内部不存在有关**泛型参数类型**的信息
-
-``` java
-class Manipulator <T> {
-  private T obj;
-  Manipulator(T x) { obj = x; }
-  // Error: cannot find symbol: method f():
-  public void manipulate() { obj.f(); }
-}
-
-public class Manipulation {
-  public static void main(String [] args) {
-    HasF hf = new HasF();
-    Manipulator <HasF> manipulator =
-      new Manipulator <>(hf);
-    manipulator.manipulate();
-  }
-}
-//java 中只知道是一个未知的 T（会被认为是 Object），并不知道具体是什么，因此不认为有 f
-class Manipulator2 <T extends HasF> {
-  private T obj;
-  Manipulator2(T x) { obj = x; }
-  public void manipulate() { obj.f(); }
-}
-//这样就知道是 HasF 了！
-```
-
-- java的字节码中实际上没有泛型，是将类型参数用**边界类型替换(类型替换)**
-  - 如无限制的泛型\<T>**会替换为Object**，而有限制的\<T extends X>会被替换为X
-  - 也就是说T类型并不是真正存在的，**不能直接使用T进行实例**,使用T作为参数`class<T>`也是存在问题的
-  - 但是**T作为返回值时可以正确处理，会返回传入的类型**
-
-``` java
-public class Holder <T> {
-    private T obj;
-    public void set(T obj){ this.obj = obj; }
-    public T get(){ return obj; }
-    public void testT(Object arg){
-        if (arg instanceof T){ ... } //编译错误
-        T var = new T(); //编译错误
-        T [] array = new T [100]; //编译错误
-        }
-    }
-}
-```
-
-
-``` java
-public class Holder <T> {
-    private T obj; //在编译时，该类中的所有的 T 都会被替换为边界类型 Object。
-    public void set(T obj){ this.obj = obj; }
-    public T get(){ return obj; }
-    public static void main(String [] args){
-        Holder <Integer> holder = new Holder <>();
-        //编译器会检查实参是不是一个 Integer，
-        //虽然这里的 1 是 int 类型，但是因为自动包装机制的存在，
-        //他会被转化为一个 Integer，因此能够通过类型检查。
-        holder.set(1); 
-        //编译器也会进行类型检查，
-        //并且自动插入一个 Object 类型到 Integer 类型的转型操作。
-        Integer obj = holder.get();
-    }       
-}
-```
-
-- 对泛型的处理全部集中在**编译**期，在编译时，编译器会执行如下操作。
-  - 会将泛型类的类型参数都用**边界类型**替换。
-  - 对于传入对象给方法形参的指令，编译器会执行一个**类型检查**，看传入的对象是不是类型参数所**指定的类型**。
-  - 对于返回类型参数表示对象的指令，也会执行一个类型检查，还会插入一个自动的向下转型，将对象从**边界类型向下转型**到类型参数所表示的类型。
-- 任何需要在运行时**知道确切类型的操作**都无法运行（因为 `T` 的具体类型信息只存在于编译时期的检查，在运行时期信息已经丢失了）
-  - 如`new T() `、`x instanceof T`
-  - 虽然不能使用T进行类型检查，但是可以通过传入`class<T>`实现
-
-
-``` java
-class Building {}
-class House extends Building {}
-
-public class ClassTypeCapture <T> {
-    Class <T> kind;
-    public ClassTypeCapture(Class <T> kind) {
-        this.kind = kind;
-    }
-    public boolean f(Object arg) {
-        return kind.isInstance(arg);
-    }
-    public static void main(String [] args) {
-        ClassTypeCapture <Building> ctt1 =
-            new ClassTypeCapture <>(Building.class);
-        System.out.println(ctt1.f(new Building()));
-        System.out.println(ctt1.f(new House()));
-        ClassTypeCapture <House> ctt2 =
-            new ClassTypeCapture <>(House.class);
-        System.out.println(ctt2.f(new Building()));
-        System.out.println(ctt2.f(new House()));
-    }
-}
-/* Output:
-true
-true
-false
-true
-*/
-```
-
-### 生成泛型对象
-
-- 法一，工厂模式
-``` java
-class Holder <T>{
-    private T t;
-    public void init(IFactory <T> factory){
-        this.t = factory.create();  // 此处即为 new T()的工厂方法的实现
-    }
-}
-interface IFactory <T>{  //接口也可以参数化
-    T create();
-}
-class IntegerFactory implements IFactory <Integer>{
-    public Integer create(){
-        return new Integer(10);
-    }
-}
-public class newTwithFactory{
-    public static void main(String [] args){
-        Holder <Integer> holder = new Holder <>();
-        //明确支出创建对象使用的工厂方法
-        holder.init(new IntegerFactory());
-    }
-}
-```
-- 使用一个工厂方法，如 `IntegerFactory`，它**具体指明**了要创建的对象的类型（在这个例子中是 `Integer`）。
-
-- 法二Class
-  - 将`Class`对象作为类型标签来存储和使用类型信息。
-  - 可以实现在运行中查询、使用对象类型。
-````java
-class Holder <T>{
-    private T t;
-    private Class <T> kind;
-    public Holder(Class <T> kind){ this.kind = kind; }
-    public void init(){
-        try{
-            this.t = kind.newInstance();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    public static void main(String [] args) {
-        Holder <Integer> holder = new Holder <>(Integer.class);
-        holder.init();
-    }
-}
-````
-- 只能使用**无参构造**
-### 协变与逆变
-
-- **协变**（covariant），如果它保持了子类型序关系≦。该序关系是：子类型≦基类型。
-- **逆变**（contravariant），如果它逆转了子类型序关系。
-- **不变**（invariant），如果上述两种均不适用。
-
-- 基类会劫持接口
-  - 对于相同的泛型接口，子类不能实现与基类实现的接口的**泛型参数不同的**（类型擦除后都一样了）
-
-#### 泛型数组
-
-``` java
-class Fruit{}
-class Apple extends Fruit{}
-
-public class NonConvariantGeneric {
-    List <Fruit> flist = new ArrayList <Apple>(); //编译错误
-}
-```
-- Apple的`List`不是Fruit的`List`。Apple的`List`将持有Apple和Apple的子类型，Fruit的`List`将持有任何类型的`Fruit`。这包括Apple，但是它**不是一个Apple**的`List`，**它仍然是Fruit**的`List`。Apple的`List`在**类型上**不等价于`Fruit`的List，**即使Apple是一种Fruit类型。**
-- Java泛型中规定，即使**泛型类型具有继承关系**，但是并**不意味着该泛型类型的容器也具有继承关系**。
-
-- [[数组类型#^1f44a2|泛型数组的初始化]]
-
-### 自限定类型
-
-- 限制一个泛型类的类型参数，使其只能是该泛型类的**子类**。
-- 与普通继承相比，使用了泛型来确保类型安全，并在子类中**特化了基类的行为**。在普通的继承中，子类继承父类的属性和方法并可以重写它们。在这种情况下，子类不仅继承了基类的属性和方法，而且通过泛型参数为这些属性和方法**提供了一个具体的类型**（即其自身）。
-- 这提供了额外的**类型安全性**，并允许在子类中为这些方法提供更具体的实现，同时不牺牲代码的复用性。
-
-- 泛型类强制实例时使用这种模式
-``` java
-//forcing the generic to be used as its own bound argument
-class SelfBounded <T extends SelfBounded<T> > {
-    T element;
-    SelfBounded <T> set(T arg){
-        element = arg;
-        return this;
-    }
-    T get(){return element;}
-}
-
-class A extends SelfBounded <A> {}
-class B extends SelfBounded <A> {} //ok 
-class E extends SelfBounded <D>{} //error
-
-public static void main(String [] args){
-        A a = new A();
-        a.set(new A());
-        a.print();
-        B b = new B(), a2 = new B();
-        //b.set(b2); //Error
-        //b.print();
-    }
-```
-
-- 参数协变性
-  - 方法参数类型会随着子类而变化
-  - 允许子类方法比其重写的基类方法更具体的类型
-  - 使用子限定类型就实现了将子类类型作为返回值
-
-### 通配符
-
-- 边界
-  - 可以对泛型进行一定限制
-``` java
-public class Computer <T extends Disk>{//必须是 Disk 或子类
-```
-
-- 使用类型和接口限制
-``` java
-interface HasColor{ java.awt.Color getColor(); }
-
-class Colored <T extends HasColor>{...}
-
-class Dimension { public int x, y, z; }
-
-class ColoredDimension <T extends HasColor & Dimension>{...} //错误！
-class ColoredDimension <T extends Dimension & HasColor>{ //why？
-    
-}
-```
-- 类型在前接口在后，并且同样只能继承一个类
-
-- 常用用于**方法参数**，**实现泛型类型的多态**，对于数组讨论集合自身的类型而不是所持有的元素类型
-- 由于list不存在直接继承关系，可以使用通配符实现通用方法
-``` java
-public void print(List <?> animals) {
-  animals.forEach(a -> System.out.println(((Animal) a).getFood()));
-}
-
-public static void main(String [] args) {
-  Test test = new Test();
-  List <Animal> animals = Arrays.asList(new Animal());
-  List <Cat> cats = Arrays.asList(new Cat());
-  test.print(animals);	// 正确执行
-  test.print(cats);	// 正确执行
-}
-```
-
-``` java
-class Fruit{}
-class Apple extends Fruit{}
-public class GenericsAndCovariance {
-    public static void main(String [] args){
-        //一个能放水果以及一切是水果派生类的盘子, 啥水果都能放的盘子
-        //Plate <？ extends Fruit> 和 Plate <Apple> 最大的区别就是：
-        //Plate <？ extends Fruit> 是 Plate <Fruit> 以及 Plate <Apple> 的基类。
-        Plate <? extends Fruit> p = new Plate <Apple>(new Apple());
-        // a list of any type that's inherited from Fruit
-        List <? extends Fruit> flist = new ArrayList <Apple>();
-    }
-}
-```
-
-- **协变**`Plate<？extends Fruit>`可以放**子类型**中任意的
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231012114311701.png" alt="image-20231012114311701" style="zoom:50%;" />
-
-  - `List<?>`由于无法在编译期间确定泛型的实际类型，所以**没法**向`List<?>`中**添加**除了`null`外的任意类型元素。（即我不知道最高会是谁，因此我要是放入后得向下转型呢？但是读取可以，因为这总会是向上转型）
-``` java
-class Fruit{}
-class Apple extends Fruit{}
-
-       Plate <? extends Fruit> p = new Plate <Apple>(new Apple());
-        //不能存入任何元素
-        p.set(new Fruit());    //Error
-        p.set(new Apple());    //Error
-        //读取出来的东西只能存放在 Fruit 或它的基类里。
-        Fruit newFruit1 = p.get();
-        Object newFruit2 = p.get();
-        Apple newFruit3 = p.get();    //Error
-```
-- 对于`Plate<? exyends fruit>`编译器并不知道具体会被初始化为什么类型，因此如果允许放入元素则可能造成不匹配（类型错误）
-- 而取出时会获得上界的类型，构成了多态
-- 对于非集合类型也会有限制，如`Tile<? extends Thing> tile;`
-  - 注意，这种参数并不是针对对tile变量的赋值和访问，而是针对对tile**内部**含有泛型参数/返回值的方法的调用
-
-- **逆变**`Plate<？super Fruit>`可以放基类中任意
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231012114813621.png" alt="image-20231012114813621" style="zoom:50%;" />
-  - 我们在编译期只能知道`下界通配符`的下界是什么类型，所以在添加元素时，**只能向其中添加下界类型**。由于编译期无法知晓具体的实际类型，所以只能使用`Object`来**接收获取的元素
-``` java
-class Fruit{}
-class Apple extends Fruit{}
-public class GenericsAndCovariance {
-    public static void main(String [] args){
-       Plate <? super Fruit> p = new Plate <Fruit>(new Fruit());
-        //存入元素正常
-        p.set(new Fruit());
-        p.set(new Apple());
-        //读取出来的东西只能存放在 Object 类里。
-        Apple newFruit3 = p.get();    //Error
-        Fruit newFruit1 = p.get();    //Error
-        Object newFruit2 = p.get();
-    }
-}
-```
-
-- **`List<?>`（无界通配符）**:
-  - 这表示一个未知类型的列表。`?` 是一个通配符，代表任何类型。
-  - 你可以从 `List<?>` 读取数据，读取的数据将被视为 `Object` 类型，但你不能向其中写入除 `null` 之外的任何数据，因为你不知道列表的确切类型。
-  - 它在你不关心列表的具体类型，或者在使用只读操作时非常有用。
-
-- **`List`（原生类型）**:
-  - 这是一个原生类型的列表，没有泛型信息。在泛型被引入Java之前就存在。
-  - 你可以向其中添加任何类型的对象，也可以从中读取数据，读取的数据被视为 `Object` 类型。
-  - 它不安全，因为它不提供类型检查，可能导致运行时错误（例如，`ClassCastException`）。
-
-- **`List<Object>`**:
-  - 这表示一个可以包含任何类型对象的列表。
-  - 与 `List<?>` 不同，你可以安全地向 `List<Object>` 添加任何类型的对象（除了基本类型，它们需要被装箱）。
-  - 这是一个明确声明你可以存储任何类型对象的列表，提供了类型安全性（即使是 `Object` 级别的）。
-
-### 混型
-
-- 混合多个类的能力，生成一个可以代表混型中全部类型的类
-- 使用接口进行混合
-  - 因为接口可以多继承，并且在类内保存所有接口的实例
-``` java
-class Mixin extends BasicImp
-implements TimeStamped, SerialNumbered {
-  private TimeStamped timeStamp = new TimeStampedImp();
-  private SerialNumbered serialNumber =
-    new SerialNumberedImp();
-  @Override public long getStamp() {
-    return timeStamp.getStamp();
-  }
-  @Override public long getSerialNumber() {
-    return serialNumber.getSerialNumber();
-  }
-}
-```
-
-- 动态代理
-``` java
-import java.lang.reflect.*;
-// Step 1: Define interfaces
-interface Interface1 {
-    void doSomething();
-}
-interface Interface2 {
-    void doSomethingElse();
-}
-// Step 2: Create implementations
-class Implementation1 implements Interface1 {
-    public void doSomething() {
-        System.out.println("Implementation1 doing something");
-    }
-}
-class Implementation2 implements Interface2 {
-    public void doSomethingElse() {
-        System.out.println("Implementation2 doing something else");
-    }
-}
-// Step 3: Create dynamic proxy
-class MixinProxy implements InvocationHandler {
-    private final Object [] delegates;
-
-    public MixinProxy(Object... delegates) {
-        this.delegates = delegates;
-    }
-
-    public Object invoke(Object proxy, Method method, Object [] args) throws Throwable {
-        for (Object delegate : delegates) {
-            if (method.isInstance(delegate)) {
-                return method.invoke(delegate, args);
-            }
-        }
-        throw new UnsupportedOperationException("Method not supported: " + method);
-    }
-    //帮助创建动态代理
-    @SuppressWarnings("unchecked")
-    public static <T> T createMixinProxy(Class <T> interfaceClass, Object... delegates) {
-        //取出传入对象的类型
-        Class <?> [] interfaces = new Class <?> [delegates.length];
-        //存储接口
-        for (int i = 0; i < delegates.length; i++) {
-            interfaces [i] = delegates [i].getClass().getInterfaces()[0];
-        }
-        return (T) Proxy.newProxyInstance(
-                interfaceClass.getClassLoader(),
-                interfaces,
-                new MixinProxy(delegates)
-        );
-    }
-}
-// Using the mixin
-public class MixinDemo {
-    public static void main(String [] args) {
-        Object mixin = MixinProxy.createMixinProxy(Object.class, new Implementation1(), new Implementation2());
-        //还需要手动转换类型
-        Interface1 if1 = (Interface1) mixin;
-        Interface2 if2 = (Interface2) mixin;
-        if1.doSomething();
-        if2.doSomethingElse();
-    }
-}
-```
-
-### 潜在类型机制
-
-> 一个东西长得像鸭子，行为像鸭子，那他就是鸭子
-
-- 不一定是同一类型，有正确方法就可以用
-``` c++
-class Dog {
-public:
-  void speak() { cout << " Arf!" << endl; }
-  void sit() { cout << " Sitting " << endl; }
-  void reproduce() {}
-};
-
-class Robot {
-public:
-  void speak() { cout << " Click!" << endl; }
-  void sit() { cout << " Clank!" << endl; }
-  void oilChange() {}
-};
-
-template <class T> void perform(T anything) {
-  anything.speak();
-  anything.sit();
-}
-```
-
-- 在Java中没法实现，因此叫辅助潜在类型机制
-- 使用方法引用：不是传入对象，而是传入方法实现调用
-``` java
-class PerformingDogA extends Dog {
-  public void speak() { System.out.println("Woof!"); }
-  public void sit() { System.out.println("Sitting"); }
-  public void reproduce() {}
-}
-
-class RobotA {
-  public void speak() { System.out.println("Click!"); }
-  public void sit() { System.out.println("Clank!"); }
-  public void oilChange() {}
-}
-
-class CommunicateA {
-  public static <P> void perform(P performer,
-    Consumer <P> action1, Consumer <P> action2) {
-    action1.accept(performer);
-    action2.accept(performer);
-  }
-}
-
-public class DogsAndRobotMethodReferences {
-  public static void main(String [] args) {
-    CommunicateA.perform(new PerformingDogA(),
-      PerformingDogA:: speak, PerformingDogA:: sit);
-    CommunicateA.perform(new RobotA(),
-      RobotA:: speak, RobotA:: sit);
-    CommunicateA.perform(new Mime(),
-      Mime:: walkAgainstTheWind,
-      Mime:: pushInvisibleWalls);
-  }
-}
-```
+## [[泛型]]
 
 ## 自省与反射
 
@@ -837,13 +265,14 @@ public class DogsAndRobotMethodReferences {
 
   - 通过反射可以获取实际类型并且进行安全的向下转型
 
-  - ``` java
-    Animal animal = getAnimal(); // getAnimal()返回一个 Animal 对象
-    if (animal instanceof Dog) {
-        Dog dog = (Dog) animal;
-        // 在这里，你可以安全地调用 Dog 类的方法
-    }
-    ```
+
+``` java
+Animal animal = getAnimal(); // getAnimal()返回一个 Animal 对象
+if (animal instanceof Dog) {
+    Dog dog = (Dog) animal;
+    // 在这里，你可以安全地调用 Dog 类的方法
+}
+```
 
 ### Class对象
 
@@ -890,18 +319,19 @@ public class DogsAndRobotMethodReferences {
 
     - 新的方法
 
-    - ``` java
-      //无参构造
-      try {
-          return type.getConstructor().newInstance();
-      } catch(Exception e) {
-          throw new RuntimeException(e);
-      }
-      //有参构造
-      Class <?> clazz = MyClass.class;
-      Constructor <?> constructor = clazz.getConstructor(String.class, int.class);
-      MyClass myObject = (MyClass) constructor.newInstance("example", 123);
-      ```
+
+``` java
+//无参构造
+try {
+    return type.getConstructor().newInstance();
+} catch(Exception e) {
+    throw new RuntimeException(e);
+}
+//有参构造
+Class <?> clazz = MyClass.class;
+Constructor <?> constructor = clazz.getConstructor(String.class, int.class);
+MyClass myObject = (MyClass) constructor.newInstance("example", 123);
+```
 
 - 泛型类的引用
 
@@ -911,17 +341,18 @@ public class DogsAndRobotMethodReferences {
 
     - `Class<? extends Number>`可以存储整数/浮点数
 
-  - ``` java
-    Class <FancyToy> ftc = FancyToy.class;
-        // Produces exact type:
-        FancyToy fancyToy =
-          ftc.getConstructor().newInstance();
-        Class <? super FancyToy> up = ftc.getSuperclass();
-        // 虽然知道 Toy 是基类，但编译不通过，只能是 FancyToy 的某个基类
-        // Class <Toy> up2 = ftc.getSuperclass();
-    	//不确定具体类型，使用 Object 引用
-        Object obj = up.getConstructor().newInstance();
-    ```
+
+``` java
+Class <FancyToy> ftc = FancyToy.class;
+    // Produces exact type:
+    FancyToy fancyToy =
+      ftc.getConstructor().newInstance();
+    Class <? super FancyToy> up = ftc.getSuperclass();
+    // 虽然知道 Toy 是基类，但编译不通过，只能是 FancyToy 的某个基类
+    // Class <Toy> up2 = ftc.getSuperclass();
+	//不确定具体类型，使用 Object 引用
+    Object obj = up.getConstructor().newInstance();
+```
 
 - cast方法
 
@@ -931,23 +362,25 @@ public class DogsAndRobotMethodReferences {
 
   - 这个方法在运行时动态地执行类型转换，与强制类型转换类似，但更加灵活，因为它允许在**编译时不知道具体类**的情况下进行转换。
 
-  - ``` java
-    Class <String> clazz = String.class;
-    Object obj = "Hello";
-    String str = clazz.cast(obj);
-    //str = (String)obj
-    ```
+
+``` java
+Class <String> clazz = String.class;
+Object obj = "Hello";
+String str = clazz.cast(obj);
+//str = (String)obj
+```
 
 - 类方法提取器
 
   - 可以查看一个类（包含其基类在内）的全部可用方法
 
-  - ``` java
-    //全部方法
-    Method [] methods = c.getMethods();
-    //全部构造方法
-    Constructor [] ctors = c.getConstructors();
-    ```
+
+``` java
+//全部方法
+Method [] methods = c.getMethods();
+//全部构造方法
+Constructor [] ctors = c.getConstructors();
+```
 
 - 方法Method
   - `getName()`: 返回方法的名称。
@@ -990,112 +423,114 @@ public class DogsAndRobotMethodReferences {
 
 - 动态代理允许在运行时创建一个符合某些给定接口的代理对象，此对象可以在调用实际方法前后执行特定操作。
 
-- ``` java
-  interface Interface {
-    void doSomething();
-    void somethingElse(String arg);
-  }
-  
-  class RealObject implements Interface {
-    @Override public void doSomething() {
-      System.out.println("doSomething");
-    }
-    @Override public void somethingElse(String arg) {
-      System.out.println("somethingElse " + arg);
-    }
-  }
-  
-  class DynamicProxyHandler implements InvocationHandler {
-    private Object proxied;
-    DynamicProxyHandler(Object proxied) {
-      this.proxied = proxied;
-    }
-      //任何通过代理对象发起的方法调用都会被转发到这个接口的 invoke 方法。
-    @Override public Object
-    invoke(Object proxy, Method method, Object [] args)
-    throws Throwable {
-      System.out.println(
-        "**** proxy: " + proxy.getClass() +
-        ", method: " + method + ", args: " + args);
-      if(args != null)
-        for(Object arg : args)
-          System.out.println("  " + arg);
-      return method.invoke(proxied, args);
-    }
-  }
-  
-  class SimpleDynamicProxy {
-    public static void consumer(Interface iface) {
-      iface.doSomething();
-      iface.somethingElse("bonobo");
-    }
-    public static void main(String [] args) {
-      RealObject real = new RealObject();
-      consumer(real);
-      // 创建动态代理（在运行时动态创建一个实现了指定接口的代理对象）
-      Interface proxy = (Interface)Proxy.newProxyInstance(
-        Interface.class.getClassLoader(),
-        new Class []{ Interface.class },//会被代理的接口（方法），可以有多个
-        new DynamicProxyHandler(real));
-        //得到了一个代理对象
-      consumer(proxy);
-    }
-  }
-  ```
 
-  - `Proxy.newProxyInstance` 需要三个参数：类加载器、一组接口以及一个 `InvocationHandler` 实例。          
+``` java
+interface Interface {
+  void doSomething();
+  void somethingElse(String arg);
+}
+
+class RealObject implements Interface {
+  @Override public void doSomething() {
+    System.out.println("doSomething");
+  }
+  @Override public void somethingElse(String arg) {
+    System.out.println("somethingElse " + arg);
+  }
+}
+
+class DynamicProxyHandler implements InvocationHandler {
+  private Object proxied;
+  DynamicProxyHandler(Object proxied) {
+    this.proxied = proxied;
+  }
+    //任何通过代理对象发起的方法调用都会被转发到这个接口的 invoke 方法。
+  @Override public Object
+  invoke(Object proxy, Method method, Object [] args)
+  throws Throwable {
+    System.out.println(
+      "**** proxy: " + proxy.getClass() +
+      ", method: " + method + ", args: " + args);
+    if(args != null)
+      for(Object arg : args)
+        System.out.println("  " + arg);
+    return method.invoke(proxied, args);
+  }
+}
+
+class SimpleDynamicProxy {
+  public static void consumer(Interface iface) {
+    iface.doSomething();
+    iface.somethingElse("bonobo");
+  }
+  public static void main(String [] args) {
+    RealObject real = new RealObject();
+    consumer(real);
+    // 创建动态代理（在运行时动态创建一个实现了指定接口的代理对象）
+    Interface proxy = (Interface)Proxy.newProxyInstance(
+      Interface.class.getClassLoader(),
+      new Class []{ Interface.class },//会被代理的接口（方法），可以有多个
+      new DynamicProxyHandler(real));
+      //得到了一个代理对象
+    consumer(proxy);
+  }
+}
+```
+
+- `Proxy.newProxyInstance` 需要三个参数：类加载器、一组接口以及一个 `InvocationHandler` 实例。          
 
 ### 标签接口
 
 - 标签接口是没有定义任何方法的接口。标签接口的主要作用是**为实现该接口的类提供一个特定的标识**。这个标识允许类在运行时表现出一些特殊的行为。
 
-- ``` java
-  class NullRobotProxyHandler
-  implements InvocationHandler {
-    private String nullName;
-    private Robot proxied = new NRobot();
-    NullRobotProxyHandler(Class <? extends Robot> type) {
-        //区分不同 Robot 子类的 Null 对象
-      nullName = type.getSimpleName() + " NullRobot";
-    }
-      //NULL 就是一个标签接口
-    private class NRobot implements Null, Robot {
-      @Override
-      public String name() { return nullName; }
-      @Override
-      public String model() { return nullName; }
-      @Override public List <Operation> operations() {
-        return Collections.emptyList();
-      }
-    }
-      //传递操作
-    @Override public Object
-    invoke(Object proxy, Method method, Object [] args)
-    throws Throwable {
-      return method.invoke(proxied, args);
-    }
-  }
-  
-  public class NullRobot {
-      //通过代理创建具有空标签的对象
-    public static Robot
-    newNullRobot(Class <? extends Robot> type) {
-      return (Robot)Proxy.newProxyInstance(
-        NullRobot.class.getClassLoader(),
-        new Class []{ Null.class, Robot.class },
-        new NullRobotProxyHandler(type));
-    }
-    public static void main(String [] args) {
-      Stream.of(
-        new SnowRobot("SnowBee"),
-        newNullRobot(SnowRobot.class)
-      ).forEach(Robot:: test);
-    }
-  }
-  ```
 
-  - 使用代理的提供一种**通用的方式**来创建任何类型的`Robot`的空对象，而不需要为每个`Robot`子类都创建一个特定的空对象类。
-  - 通过使用代理，你可以为任何`Robot`子类创建一个空对象，而不需要写任何额外的代码。这是因为代理对象的所有方法调用都会被转发给`NullRobotProxyHandler`对象，然后由这个对象的`invoke`方法处理。这个方法将方法调用转发给`NRobot`对象，这个对象的所有方法都返回一个无操作的结果。
+``` java
+class NullRobotProxyHandler
+implements InvocationHandler {
+  private String nullName;
+  private Robot proxied = new NRobot();
+  NullRobotProxyHandler(Class <? extends Robot> type) {
+      //区分不同 Robot 子类的 Null 对象
+    nullName = type.getSimpleName() + " NullRobot";
+  }
+    //NULL 就是一个标签接口
+  private class NRobot implements Null, Robot {
+    @Override
+    public String name() { return nullName; }
+    @Override
+    public String model() { return nullName; }
+    @Override public List <Operation> operations() {
+      return Collections.emptyList();
+    }
+  }
+    //传递操作
+  @Override public Object
+  invoke(Object proxy, Method method, Object [] args)
+  throws Throwable {
+    return method.invoke(proxied, args);
+  }
+}
+
+public class NullRobot {
+    //通过代理创建具有空标签的对象
+  public static Robot
+  newNullRobot(Class <? extends Robot> type) {
+    return (Robot)Proxy.newProxyInstance(
+      NullRobot.class.getClassLoader(),
+      new Class []{ Null.class, Robot.class },
+      new NullRobotProxyHandler(type));
+  }
+  public static void main(String [] args) {
+    Stream.of(
+      new SnowRobot("SnowBee"),
+      newNullRobot(SnowRobot.class)
+    ).forEach(Robot:: test);
+  }
+}
+```
+
+- 使用代理的提供一种**通用的方式**来创建任何类型的`Robot`的空对象，而不需要为每个`Robot`子类都创建一个特定的空对象类。
+- 通过使用代理，你可以为任何`Robot`子类创建一个空对象，而不需要写任何额外的代码。这是因为代理对象的所有方法调用都会被转发给`NullRobotProxyHandler`对象，然后由这个对象的`invoke`方法处理。这个方法将方法调用转发给`NRobot`对象，这个对象的所有方法都返回一个无操作的结果。
 
 ### 接口和类型信息
 
@@ -1103,18 +538,19 @@ public class DogsAndRobotMethodReferences {
 
   - 将实现接口的类声明为包作用域可以避免，因为包外根本没有这个类。但是虽然不能转型，如果知道方法的名字，仍然可以访问！
 
-  - ``` java
-    callHiddenMethod(Object a, String methodName)
-      throws Exception {
-        //获取方法
-        Method g =      a.getClass().getDeclaredMethod(methodName);
-        //设置为允许访问
-        g.setAccessible(true);
-        g.invoke(a);
-      }
-    ```
 
-  - 无论是使用private方法还是匿名内部类都无法阻止
+``` java
+callHiddenMethod(Object a, String methodName)
+  throws Exception {
+    //获取方法
+    Method g =      a.getClass().getDeclaredMethod(methodName);
+    //设置为允许访问
+    g.setAccessible(true);
+    g.invoke(a);
+  }
+```
+
+- 无论是使用private方法还是匿名内部类都无法阻止
 
 ## 异常
 
@@ -1122,24 +558,25 @@ public class DogsAndRobotMethodReferences {
 
 - 一个方法后跟`throws`关键字，它表示这个方法可能会抛出指定的一个或多个异常。当调用这样的方法时，调用者要么需要使用`try-catch`块来**捕获和处理这些异常**，要么也需要在其方法签名中声明`throws`，从而**传递异常给其上级调用者**。
 
-- ``` java
-  public class Calculator {
-      public int div(int a, int b) throws Exception {
-          if (b == 0) {
-              throw new Exception("divided by zero");
-          }
-          return a / b;
-      }
-      public static void main(String [] args) {
-          try {
-              System.out.println(new Calculator().div(Integer.parseInt(args [0]), 
-                                                      Integer.parseInt(args [1])));
-          } catch (Exception e) {
-              System.out.println("exception!");
-          }
-      }
-  }
-  ```
+
+``` java
+public class Calculator {
+    public int div(int a, int b) throws Exception {
+        if (b == 0) {
+            throw new Exception("divided by zero");
+        }
+        return a / b;
+    }
+    public static void main(String [] args) {
+        try {
+            System.out.println(new Calculator().div(Integer.parseInt(args [0]), 
+                                                    Integer.parseInt(args [1])));
+        } catch (Exception e) {
+            System.out.println("exception!");
+        }
+    }
+}
+```
 
 ### Java异常机制
 
@@ -1151,15 +588,16 @@ public class DogsAndRobotMethodReferences {
 
   - **受检异常**：由`Exception`类及其子类（但不包括`RuntimeException`的子类）表示的。当一个方法或构造函数可能会抛出这类异常时，**必须在方法或构造函数的签名中使用`throws`子句来声明它**。调用该方法或构造函数的代码**必须处理或再次声明该异常。**
 
-    - ``` java
-      //会读取错误时自动抛出异常
-      private static void checkedExceptionWithThrows() throws FileNotFoundException {
-          File file = new File("not_existing_file.txt");
-          FileInputStream stream = new FileInputStream(file);
-      }
-      ```
 
-  - **未检异常**：也称为运行时异常，它们是`RuntimeException`及其子类表示的。这类异常不需要强制声明或捕获，因为它们通常代表**编程错误**，例如空指针或数组越界。
+``` java
+//会读取错误时自动抛出异常
+private static void checkedExceptionWithThrows() throws FileNotFoundException {
+    File file = new File("not_existing_file.txt");
+    FileInputStream stream = new FileInputStream(file);
+}
+```
+
+- **未检异常**：也称为运行时异常，它们是`RuntimeException`及其子类表示的。这类异常不需要强制声明或捕获，因为它们通常代表**编程错误**，例如空指针或数组越界。
 
 - 异常链
 
@@ -1179,64 +617,67 @@ public class DogsAndRobotMethodReferences {
 
   - 并不是在finally中释放就一定可以解决，因为此时可能在创建之前就中断了（如读取文件失败就不能关闭文件）
 
-    - ``` java
-      public InputFile(String fname) throws Exception {
-          try {
-              in = new BufferedReader(new FileReader(fname));
-              // Other code that might throw exceptions
-          } catch(FileNotFoundException e) {//文件根本没打开，不用关
-              System.out.println("Could not open " + fname);
-              // Wasn't open, so don't close it
-              throw e;
-          } catch(Exception e) {
-              // All other exceptions must close it
-              try {
-                  in.close();
-              } catch(IOException e2) {
-                  System.out.println("in.close() unsuccessful");
-              }
-              throw e; // Rethrow
-          } finally {
-          }
-      }
-      ```
 
-  - 更好的嵌套格式
+``` java
+public InputFile(String fname) throws Exception {
+    try {
+        in = new BufferedReader(new FileReader(fname));
+        // Other code that might throw exceptions
+    } catch(FileNotFoundException e) {//文件根本没打开，不用关
+        System.out.println("Could not open " + fname);
+        // Wasn't open, so don't close it
+        throw e;
+    } catch(Exception e) {
+        // All other exceptions must close it
+        try {
+            in.close();
+        } catch(IOException e2) {
+            System.out.println("in.close() unsuccessful");
+        }
+        throw e; // Rethrow
+    } finally {
+    }
+}
+```
 
-    - ``` java
-      public static void main(String [] args) {
-          try {
-              InputFile in = new InputFile("Cleanup.java");
-              try {
-                  String s;
-                  int i = 1;
-                  while((s = in.getLine()) != null)
-                      ; // Perform line-by-line processing here...
-              } catch(Exception e) {
-                  System.out.println("Caught Exception in main");
-                  e.printStackTrace(System.out);
-              } finally {
-                  in.dispose();
-              }
-              //打开文件发生异常，不用关闭
-          } catch(Exception e) {
-              System.out.println(
-                  "InputFile construction failed");
-          }
-      }
-      ```
+- 更好的嵌套格式
 
-  - 一般来说，在创建了一个需要清理的对象之后应该直接跟一个try-finally用于在发生错误时自动进行清理。如果构造也会失败（像文件那样），则需要双层嵌套
 
-    - ``` java
-      .. = new ...
-      try{
-          
-      }
-      finally{
-          ..close
-      }
-      ```
+``` java
+public static void main(String [] args) {
+    try {
+        InputFile in = new InputFile("Cleanup.java");
+        try {
+            String s;
+            int i = 1;
+            while((s = in.getLine()) != null)
+                ; // Perform line-by-line processing here...
+        } catch(Exception e) {
+            System.out.println("Caught Exception in main");
+            e.printStackTrace(System.out);
+        } finally {
+            in.dispose();
+        }
+        //打开文件发生异常，不用关闭
+    } catch(Exception e) {
+        System.out.println(
+            "InputFile construction failed");
+    }
+}
+```
+
+- 一般来说，在创建了一个需要清理的对象之后应该直接跟一个try-finally用于在发生错误时自动进行清理。如果构造也会失败（像文件那样），则需要双层嵌套
+
+
+``` java
+.. = new ...
+try{
+    
+}
+finally{
+    ..close
+}
+```
 
 - try-with-resources
 
@@ -1249,18 +690,19 @@ public class DogsAndRobotMethodReferences {
     - 用于那些实现了 `java.lang.AutoCloseable` 或 `java.io.Closeable` 接口的资源.比如Stream、文件读取等
     - 在代码块结束时**自动释放资源**
 
-  - ``` java
-    try (BufferedReader reader = new BufferedReader(new FileReader("example.txt"))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-        }
-    } catch (IOException e) {//可选的异常捕获
-        e.printStackTrace();
-    }
-    ```
 
-  - 即提供了一种类似文件作用域的机制，在范围内使用文件，之后会被自动关闭
+``` java
+try (BufferedReader reader = new BufferedReader(new FileReader("example.txt"))) {
+    String line;
+    while ((line = reader.readLine()) != null) {
+        System.out.println(line);
+    }
+} catch (IOException e) {//可选的异常捕获
+    e.printStackTrace();
+}
+```
+
+- 即提供了一种类似文件作用域的机制，在范围内使用文件，之后会被自动关闭
 
 - 异常匹配
 
@@ -1287,32 +729,34 @@ public class DogsAndRobotMethodReferences {
 
   - 带有完整构造器的版本
 
-  - ```
-    class SimpleException extends Exception {
-    	MyExtion(){}
-    	MyException(String msg){super(msg);}
-    }
-    ```
+
+```
+class SimpleException extends Exception {
+	MyExtion(){}
+	MyException(String msg){super(msg);}
+}
+```
 
 ### 捕获异常
 
 - 处理异常
 
-  - ``` java
-    try {
-        // The guarded region: Dangerous activities
-    } catch(A a1) {
-        // Handler for situation A
-    } finally {//无论是否抛出异常总是会被执行
-        // Activities that happen every time
-    }
-    ```
+
+``` java
+try {
+    // The guarded region: Dangerous activities
+} catch(A a1) {
+    // Handler for situation A
+} finally {//无论是否抛出异常总是会被执行
+    // Activities that happen every time
+}
+```
 
 - finaly的用途
 
   - 无论是否发生异常，保证最终状态结果的一致性
   - 也可以用于非异常的情况，无论是使用了break、continue、return，finally的内容也总是会被使用
-  
+
 - 捕捉任何异常：使用基类`Exception`
 
   - 应该放在最后
@@ -1329,50 +773,52 @@ public class DogsAndRobotMethodReferences {
 
 - 多重捕获
 
-  - ``` java
-    public class SameHandler {
-        void x() throws Except1, Except2, Except3, Except4 {}
-        void process() {}
-        void f() {
-            try {
-                x();
-            } catch(Except1 e) {
-                process();
-            } catch(Except2 e) {
-                process();
-            } catch(Except3 e) {
-                process();
-            } catch(Except4 e) {
-                process();
-            }
+
+``` java
+public class SameHandler {
+    void x() throws Except1, Except2, Except3, Except4 {}
+    void process() {}
+    void f() {
+        try {
+            x();
+        } catch(Except1 e) {
+            process();
+        } catch(Except2 e) {
+            process();
+        } catch(Except3 e) {
+            process();
+        } catch(Except4 e) {
+            process();
         }
     }
-    ```
+}
+```
 
-  - ``` java
-    try {
-        x();
-    } catch(Except1 | Except2 | Except3 | Except4 e) {
-        process();
-    }
-    ```
+``` java
+try {
+    x();
+} catch(Except1 | Except2 | Except3 | Except4 e) {
+    process();
+}
+```
 
-    - 可以用`|`表示or
+- 可以用`|`表示or
 
 - 重新抛出
 
   - 重抛异常会把异常抛给上一级环境中的异常处理程序，同一个 try 块的后续 catch 子句将被忽略。
 
-  - ``` java
-    catch(Exception e) {
-        System.out.println("An exception was thrown");
-        throw e;
-    }
-    ```
 
-  - 要注意的是重新抛出不会对异常栈进行修改，也就是说每一层得到的栈信息是一致的，缺失传递过程
+``` java
+catch(Exception e) {
+    System.out.println("An exception was thrown");
+    throw e;
+}
+```
 
-    - 使用`throw e.fillInStackTrace();`
+- 要注意的是重新抛出不会对异常栈进行修改，也就是说每一层得到的栈信息是一致的，缺失传递过程
+
+  - 使用`throw e.fillInStackTrace();`
 
 - 异常匹配
 
@@ -1380,20 +826,21 @@ public class DogsAndRobotMethodReferences {
 
   - 同样，对于异常的子类也被会匹配
 
-  - ``` java
-    class SuperException extends Exception { }
-    class SubException extends SuperException { }
-    class BadCatch {
-      public void goodTry() {
-        try { 
-          throw new SubException();
-        } catch (SuperException superRef) { ...
-        } catch (SubException subRef) {
-          ...// never be reached
-        } // an INVALID catch ordering
-      }
-    }
-    ```
+
+``` java
+class SuperException extends Exception { }
+class SubException extends SuperException { }
+class BadCatch {
+  public void goodTry() {
+    try { 
+      throw new SubException();
+    } catch (SuperException superRef) { ...
+    } catch (SubException subRef) {
+      ...// never be reached
+    } // an INVALID catch ordering
+  }
+}
+```
 
 - RuntimeException
   - 不需要声明及手动抛出
@@ -1410,17 +857,18 @@ public class DogsAndRobotMethodReferences {
 
 - 在项目引入
 
-  - ``` java
-    //Maven
-    <dependency>
-        <groupId> junit </groupId>
-        <artifactId> junit </artifactId>
-        <version> 5.7.0 </version>
-        <scope> test </scope>
-    </dependency>
-    ```
 
-  - 使用（Maven Surefire 插件）执行`mvn test`
+``` java
+//Maven
+<dependency>
+    <groupId> junit </groupId>
+    <artifactId> junit </artifactId>
+    <version> 5.7.0 </version>
+    <scope> test </scope>
+</dependency>
+```
+
+- 使用（Maven Surefire 插件）执行`mvn test`
 
 - 测试用例
 
@@ -1428,26 +876,27 @@ public class DogsAndRobotMethodReferences {
 
   - 使用断言（如 `assertEquals`）来验证预期结果与实际结果是否一致。
 
-  - ``` java
-    public class Calculator {
-        public int add(int a, int b) {
-            return a + b;
-        }
+
+``` java
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
     }
-    
-    import static org.junit.Assert.assertEquals;
-    import org.junit.Test;
-    
-    public class CalculatorTest {
-    
-        @Test
-        public void testAdd() {
-            Calculator calculator = new Calculator();
-            int result = calculator.add(5, 3);
-            assertEquals(8, result);
-        }
+}
+
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
+public class CalculatorTest {
+
+    @Test
+    public void testAdd() {
+        Calculator calculator = new Calculator();
+        int result = calculator.add(5, 3);
+        assertEquals(8, result);
     }
-    ```
+}
+```
 
 - 生命周期注解
 
@@ -1466,15 +915,16 @@ public class DogsAndRobotMethodReferences {
 
   - 提供始终启用的断言
 
-  - ``` java
-    import com.google.common.base.*;
-    import static com.google.common.base.Verify.*;
-    verify(1 + 2 == 4);
-    verify(1 + 2 == 4, "Bad math");
-    verify(1 + 2 == 4, "Bad math: %s", "not 4");
-    verifyNotNull(s);
-    s = verifyNotNull(s);
-    ```
+
+``` java
+import com.google.common.base.*;
+import static com.google.common.base.Verify.*;
+verify(1 + 2 == 4);
+verify(1 + 2 == 4, "Bad math");
+verify(1 + 2 == 4, "Bad math: %s", "not 4");
+verifyNotNull(s);
+s = verifyNotNull(s);
+```
 
 #### 契约式设计Dbc
 
@@ -1493,63 +943,66 @@ public class DogsAndRobotMethodReferences {
 
 - maven导入
 
-  - ``` xml
-    <dependencies>
-      <dependency>
-        <groupId> org.openjdk.jmh </groupId>
-        <artifactId> jmh-core </artifactId>
-        <version> 1.33 </version> <!-- Use the latest version -->
-      </dependency>
-      <dependency>
-        <groupId> org.openjdk.jmh </groupId>
-        <artifactId> jmh-generator-annprocess </artifactId>
-        <version> 1.33 </version> <!-- Use the latest version -->
-      </dependency>
-    </dependencies>
-    
-    ```
+
+``` xml
+<dependencies>
+  <dependency>
+    <groupId> org.openjdk.jmh </groupId>
+    <artifactId> jmh-core </artifactId>
+    <version> 1.33 </version> <!-- Use the latest version -->
+  </dependency>
+  <dependency>
+    <groupId> org.openjdk.jmh </groupId>
+    <artifactId> jmh-generator-annprocess </artifactId>
+    <version> 1.33 </version> <!-- Use the latest version -->
+  </dependency>
+</dependencies>
+
+```
 
 - 注解
 
-  - ``` java
-    //测试方法
-    @Benchmark
-    public void myTest() {
-        // benchmarked code here
-    }
-    //测试前的初始化
-    @Setup
-    public void setup(){
-        
-    }
-    //测试之后的清理
-    @TearDown
-    //基准测试的独立运行次数
-    @Fork(1)
-    //测试的线程数
-    @Threads(Threads.MAX)
-    //预热的迭代次数和时间
-    @Warmup
-    //实际测试的迭代次数和时间
-    @Measurement
-    //多组测试（值必须是字符串）
-    @Param({
-        "1",
-        "10"
-    })
-    int size;
-    ```
+
+``` java
+//测试方法
+@Benchmark
+public void myTest() {
+    // benchmarked code here
+}
+//测试前的初始化
+@Setup
+public void setup(){
+    
+}
+//测试之后的清理
+@TearDown
+//基准测试的独立运行次数
+@Fork(1)
+//测试的线程数
+@Threads(Threads.MAX)
+//预热的迭代次数和时间
+@Warmup
+//实际测试的迭代次数和时间
+@Measurement
+//多组测试（值必须是字符串）
+@Param({
+    "1",
+    "10"
+})
+int size;
+```
 
 - 预设
 
-  - ``` java
-    @State(Scope.Thread)
-    @BenchmarkMode(Mode.AverageTime)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-    @Warmup(iterations = 5)
-    @Measurement(iterations = 5)
-    @Fork(1)
-    ```
+
+``` java
+@State(Scope.Thread)
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
+@Warmup(iterations = 5)
+@Measurement(iterations = 5)
+@Fork(1)
+```
 
 ### 补充
 
@@ -1560,23 +1013,24 @@ public class DogsAndRobotMethodReferences {
 
 - 构造器不是线程安全的
 
-- ``` java
-  public class StaticIDField implements HasID {
-    private static int counter = 0;
-    private int id = counter++;
-    @Override public int getID() { return id; }
+
+``` java
+public class StaticIDField implements HasID {
+  private static int counter = 0;
+  private int id = counter++;
+  @Override public int getID() { return id; }
+}
+//线程安全的版本
+public class GuardedIDField implements HasID {
+  private static AtomicInteger counter =
+    new AtomicInteger();
+  private int id = counter.getAndIncrement();
+  @Override public int getID() { return id; }
+  public static void main(String [] args) {
+    IDChecker.test(GuardedIDField:: new);
   }
-  //线程安全的版本
-  public class GuardedIDField implements HasID {
-    private static AtomicInteger counter =
-      new AtomicInteger();
-    private int id = counter.getAndIncrement();
-    @Override public int getID() { return id; }
-    public static void main(String [] args) {
-      IDChecker.test(GuardedIDField:: new);
-    }
-  }
-  ```
+}
+```
 
 - 不能叫构造方法设置为同步（串行）可以通过工厂方法间接实现
 
@@ -1630,14 +1084,15 @@ public class DogsAndRobotMethodReferences {
 
   - ScheduledThreadPool：创建一个大小无限制的线程池。支持定时以及周期性执行任务的需求。
 
-    - ``` java
-      ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(int corePoolSize);
-      scheduler.schedule(Callable <V> callable, long delay, TimeUnit unit);
-      ```
 
-  - WorkStealingPool：基于工作窃取的线程池。适用于大量的短任务，使用多个队列减少竞争。(使用双端队列为每个线程维护任务，如果一个线程没有任务会从别的线程“窃取”任务)
+``` java
+ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(int corePoolSize);
+scheduler.schedule(Callable <V> callable, long delay, TimeUnit unit);
+```
 
-    - `ExecutorService executor = Executors.newWorkStealingPool(int parallelism);`
+- WorkStealingPool：基于工作窃取的线程池。适用于大量的短任务，使用多个队列减少竞争。(使用双端队列为每个线程维护任务，如果一个线程没有任务会从别的线程“窃取”任务)
+
+  - `ExecutorService executor = Executors.newWorkStealingPool(int parallelism);`
 
 - 基本使用方法
 
@@ -1652,33 +1107,34 @@ public class DogsAndRobotMethodReferences {
 
 - 需要创建一个新的TreadFactory类型，为创建的Tread对象添加Thread.UncaughtExceptionHandler用于添加异常处理程序
 
-  - ``` java
-    //自定义异常处理
-    class MyUncaughtExceptionHandler implements
-        Thread.UncaughtExceptionHandler {
-        @Override
-        public void uncaughtException(Thread t, Throwable e) {
-            System.out.println("caught " + e);
-        }
+
+``` java
+//自定义异常处理
+class MyUncaughtExceptionHandler implements
+    Thread.UncaughtExceptionHandler {
+    @Override
+    public void uncaughtException(Thread t, Throwable e) {
+        System.out.println("caught " + e);
     }
-    //绑定异常处理对象的工厂方法
-    class HandlerThreadFactory implements ThreadFactory {
-        @Override public Thread newThread(Runnable r) {
-            System.out.println(this + " creating new Thread");
-            Thread t = new Thread(r);
-            System.out.println("created " + t);
-            t.setUncaughtExceptionHandler(
-                new MyUncaughtExceptionHandler());
-            System.out.println(
-                "eh = " + t.getUncaughtExceptionHandler());
-            return t;
-        }
+}
+//绑定异常处理对象的工厂方法
+class HandlerThreadFactory implements ThreadFactory {
+    @Override public Thread newThread(Runnable r) {
+        System.out.println(this + " creating new Thread");
+        Thread t = new Thread(r);
+        System.out.println("created " + t);
+        t.setUncaughtExceptionHandler(
+            new MyUncaughtExceptionHandler());
+        System.out.println(
+            "eh = " + t.getUncaughtExceptionHandler());
+        return t;
     }
-    //创建线程池时使用自定义的工厂方法
-    ExecutorService exec = Executors.newCachedThreadPool(new HandlerThreadFactory());
-    //设置全局
-    Thread.setDefaultUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
-    ```
+}
+//创建线程池时使用自定义的工厂方法
+ExecutorService exec = Executors.newCachedThreadPool(new HandlerThreadFactory());
+//设置全局
+Thread.setDefaultUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
+```
 
 #### 共享资源
 
@@ -1701,13 +1157,14 @@ public class DogsAndRobotMethodReferences {
 
 - 指向防止多个线程同时访问方法中的部分代码，而不是整个方法，要隔离的代码区域就是**临界区**。
 
-- ``` java
-   synchronized(this) {
-          // 同步代码块
-  }//参数表示要锁定的对象
-  ```
 
-  - 必须先获得被锁定对象的锁才能进入代码块
+``` java
+synchronized(this) {
+       // 同步代码块
+}//参数表示要锁定的对象
+```
+
+- 必须先获得被锁定对象的锁才能进入代码块
 
 - 使用临界区主要是为了提升性能，即不锁定不需要锁定但是耗时的部分
 
@@ -1723,31 +1180,32 @@ public class DogsAndRobotMethodReferences {
     - `lock.unlock();`
   - lock语句应该与try-finally配合确保锁一定会被释放
 
-  - ``` java
-    //尝试获取锁
-    boolean captured = lock.tryLock();
-    try {
-        System.out.println("tryLock(): " + captured);
-    } finally {
-        if(captured)
-            lock.unlock();
-    }
-    //有最大时间限制
-    try {
-        captured = lock.tryLock(2, TimeUnit.SECONDS);
-    } catch(InterruptedException e) {
-        throw new RuntimeException(e);
-    }
-    try {
-        System.out.println(
-            "tryLock(2, TimeUnit.SECONDS): " + captured);
-    } finally {
-        if(captured)
-            lock.unlock();
-    }
-    ```
 
-  - 更加灵活，可以实现不同种类的锁
+``` java
+//尝试获取锁
+boolean captured = lock.tryLock();
+try {
+    System.out.println("tryLock(): " + captured);
+} finally {
+    if(captured)
+        lock.unlock();
+}
+//有最大时间限制
+try {
+    captured = lock.tryLock(2, TimeUnit.SECONDS);
+} catch(InterruptedException e) {
+    throw new RuntimeException(e);
+}
+try {
+    System.out.println(
+        "tryLock(2, TimeUnit.SECONDS): " + captured);
+} finally {
+    if(captured)
+        lock.unlock();
+}
+```
+
+- 更加灵活，可以实现不同种类的锁
 
 ### 直接操作线程（Java高级程序设计课程内容）
 
@@ -1755,76 +1213,79 @@ public class DogsAndRobotMethodReferences {
 
 - 使用线程运行对象的函数式接口
 
-  - ```java
-    class LiftOff implements Runnable {
-        protected int countDown = 10; // Default
-        private static int taskCount = 0;
-        private final int id = taskCount++;
-        public LiftOff(int countDown) { this.countDown = countDown; }
-        public String status() {
-            return "#" + id + "(" + (countDown > 0 ? countDown : "Liftoff!") + "), ";
-        }
-        public void run() {
-            while (countDown-- > 0) {
-                System.out.print(status()); 
-                Thread.yield(); //后面解释
-            }
-        }
-    }
-    
-    public class BasicThreads {
-        public static void main(String[] args) {
-            //把任务装进线程里
-            Thread t = new Thread(new LiftOff(10));
-            t.start();
-            System.out.println("Waiting for LiftOff");
-        }
-    }
-    ```
 
-  - Runnable的内容就是线程的载荷
+```java
+class LiftOff implements Runnable {
+    protected int countDown = 10; // Default
+    private static int taskCount = 0;
+    private final int id = taskCount++;
+    public LiftOff(int countDown) { this.countDown = countDown; }
+    public String status() {
+        return "#" + id + "(" + (countDown > 0 ? countDown : "Liftoff!") + "), ";
+    }
+    public void run() {
+        while (countDown-- > 0) {
+            System.out.print(status()); 
+            Thread.yield(); //后面解释
+        }
+    }
+}
+
+public class BasicThreads {
+    public static void main(String[] args) {
+        //把任务装进线程里
+        Thread t = new Thread(new LiftOff(10));
+        t.start();
+        System.out.println("Waiting for LiftOff");
+    }
+}
+```
+
+- Runnable的内容就是线程的载荷
 
 - 或者直接为线程添加run方法
 
-  - ```java
-    ublic class SimpleThread extends Thread {
-        private int countDown = 5;  private static int threadCount = 0;
-        public SimpleThread() {
-            super(Integer.toString(++threadCount));  start();
-        }
-        public String toString() {
-            return "#" + getName() + "(" + countDown + "), ";
-        }
-        public void run() {
-            while (true) { System.out.print(this);  if (--countDown == 0) return; }
-        }
-        public static void main(String[] args) {
-            for (int i = 0; i < 5; i++) { new SimpleThread(); }
-        }
+
+```java
+ublic class SimpleThread extends Thread {
+    private int countDown = 5;  private static int threadCount = 0;
+    public SimpleThread() {
+        super(Integer.toString(++threadCount));  start();
     }
-    //更简洁的写法
-    public class MoreBasicThreads {
-        public static void main(String[] args) {
-            for (int i = 0; i < 5; i++)
-                new Thread(new LiftOff(10)).start();
-            System.out.println("Waiting for LiftOff");
-        }
-    } 
-    ```
+    public String toString() {
+        return "#" + getName() + "(" + countDown + "), ";
+    }
+    public void run() {
+        while (true) { System.out.print(this);  if (--countDown == 0) return; }
+    }
+    public static void main(String[] args) {
+        for (int i = 0; i < 5; i++) { new SimpleThread(); }
+    }
+}
+//更简洁的写法
+public class MoreBasicThreads {
+    public static void main(String[] args) {
+        for (int i = 0; i < 5; i++)
+            new Thread(new LiftOff(10)).start();
+        System.out.println("Waiting for LiftOff");
+    }
+} 
+```
 
 - 使用线程池
 
-  - ```java
-    //结合线程池
-    public class CachedThreadPool {
-        public static void main(String[] args) {
-            ExecutorService exec = Executors.newCachedThreadPool();
-            for (int i = 0; i < 5; i++)
-                exec.execute(new LiftOff(10));
-            exec.shutdown();
-        }
+
+```java
+//结合线程池
+public class CachedThreadPool {
+    public static void main(String[] args) {
+        ExecutorService exec = Executors.newCachedThreadPool();
+        for (int i = 0; i < 5; i++)
+            exec.execute(new LiftOff(10));
+        exec.shutdown();
     }
-    ```
+}
+```
 
 - 睡眠`TimeUnit.MILLISECONDS.sleep(100);`
 
@@ -1846,55 +1307,43 @@ public class DogsAndRobotMethodReferences {
 
   - 守护程序线程是一种线程，它**不会阻止 JVM 在程序完成**但**线程仍在运行时退出**。
 
-  - ```java
-    Thread daemon = new Thread(new SimpleDaemons());
-    daemon.setDaemon(true); // Must call before start()
-    daemon.start();
-    ```
+
+```java
+Thread daemon = new Thread(new SimpleDaemons());
+daemon.setDaemon(true); // Must call before start()
+daemon.start();
+```
 
 #### 线程控制
 
 - join等待线程（等待另一个线程完成之后在继续）
 
-  - ```java
-    class Joiner extends Thread {
-        private Sleeper sleeper;//一个自定义线程类型
-        public Joiner(String name, Sleeper sleeper) {
-            super(name);
-            this.sleeper = sleeper;
-            start();
-        }
-        public void run() {
-            try {
-                sleeper.join();
-            } catch (InterruptedException e) {
-                System.out.println("Interrupted");
-            }
-            System.out.println(getName() + " join completed");
-        }
-    }
-    ```
+
+```java
+xxxxxxxxxx16 1	class Joiner extends Thread {2    private Sleeper sleeper;//一个自定义线程类型3    public Joiner(String name, Sleeper sleeper) {4        super(name);5        this.sleeper = sleeper;6        start();7    }8    public void run() {9        try {10            sleeper.join();11        } catch (InterruptedException e) {12            System.out.println("Interrupted");13        }14        System.out.println(getName() + " join completed");15    }16}
+```
 
 - 直接使用锁
 
-  - ```java
-    public int next() {
-            //加锁
-            lock.lock();  // block until condition holds
-            try {
-                ++currentEvenValue;
-                Thread.yield();
-                ++currentEvenValue;
-                return currentEvenValue;
-            } finally {
-                lock.unlock();   //一定要用try-catch的finally去释放锁
-            }
+
+```java
+public int next() {
+        //加锁
+        lock.lock();  // block until condition holds
+        try {
+            ++currentEvenValue;
+            Thread.yield();
+            ++currentEvenValue;
+            return currentEvenValue;
+        } finally {
+            lock.unlock();   //一定要用try-catch的finally去释放锁
         }
-    ```
+    }
+```
 
-  - 更高级的锁``ReentrantLock``
+- 更高级的锁``ReentrantLock``
 
-    - 如果一个线程已经持有了锁，**它可以再次请求并获得锁而不会被阻塞**。`ReentrantLock` 会维护一个持有锁的计数器来跟踪锁的重入**次数**，线程每请求一次锁，计数器就增加一，每释放一次锁，计数器就减一。当计数器归零时，锁被释放。
+  - 如果一个线程已经持有了锁，**它可以再次请求并获得锁而不会被阻塞**。`ReentrantLock` 会维护一个持有锁的计数器来跟踪锁的重入**次数**，线程每请求一次锁，计数器就增加一，每释放一次锁，计数器就减一。当计数器归零时，锁被释放。
 
 - **wait()**:
 
@@ -1913,93 +1362,94 @@ public class DogsAndRobotMethodReferences {
 
 - 例子：汽车打蜡
 
-  - ```java
-    class Car {
-        private boolean waxOn = false;
-    
-        public synchronized void wax() {
-            System.out.println("Wax On by " + Thread.currentThread().getName());
-            waxOn = true;
-            notifyAll();
-        }
-        public synchronized void buff() {
-            System.out.println("Wax Off by " + Thread.currentThread().getName());
-            waxOn = false;
-            notifyAll();
-        }
-    
-        public synchronized void waitForWaxing() throws InterruptedException {
-            while (waxOn == false)
-                wait();
-        }
-        public synchronized void waitForBuffing() throws InterruptedException {
-            while (waxOn == true)
-                wait();
-        }
+
+```java
+class Car {
+    private boolean waxOn = false;
+
+    public synchronized void wax() {
+        System.out.println("Wax On by " + Thread.currentThread().getName());
+        waxOn = true;
+        notifyAll();
     }
-    
-    class WaxOn implements Runnable {
-        private Car car;
-        private String name;
-    
-        public WaxOn(Car c, String name) {
-            this.car = c;
-            this.name = name;
-        }
-    
-        public void run() {
-            Thread.currentThread().setName(name);
-            try {
-                while (!Thread.interrupted()) {
-                    car.waitForBuffing();
-                    TimeUnit.MILLISECONDS.sleep(200);
-                    car.wax();
-                }
-            } catch (InterruptedException e) {
-                System.out.println("Exiting via interrupt");
+    public synchronized void buff() {
+        System.out.println("Wax Off by " + Thread.currentThread().getName());
+        waxOn = false;
+        notifyAll();
+    }
+
+    public synchronized void waitForWaxing() throws InterruptedException {
+        while (waxOn == false)
+            wait();
+    }
+    public synchronized void waitForBuffing() throws InterruptedException {
+        while (waxOn == true)
+            wait();
+    }
+}
+
+class WaxOn implements Runnable {
+    private Car car;
+    private String name;
+
+    public WaxOn(Car c, String name) {
+        this.car = c;
+        this.name = name;
+    }
+
+    public void run() {
+        Thread.currentThread().setName(name);
+        try {
+            while (!Thread.interrupted()) {
+                car.waitForBuffing();
+                TimeUnit.MILLISECONDS.sleep(200);
+                car.wax();
             }
-            System.out.println("Ending Wax On task");
+        } catch (InterruptedException e) {
+            System.out.println("Exiting via interrupt");
         }
+        System.out.println("Ending Wax On task");
     }
-    class WaxOff implements Runnable {
-        private Car car;
-        private String name;
-    
-        public WaxOff(Car c, String name) {
-            this.car = c;
-            this.name = name;
-        }
-    
-        public void run() {
-            Thread.currentThread().setName(name);
-            try {
-                while (!Thread.interrupted()) {
-                    car.waitForWaxing();
-                    TimeUnit.MILLISECONDS.sleep(500);
-                    car.buff();
-                }
-            } catch (InterruptedException e) {
-                System.out.println("Exiting via interrupt");
+}
+class WaxOff implements Runnable {
+    private Car car;
+    private String name;
+
+    public WaxOff(Car c, String name) {
+        this.car = c;
+        this.name = name;
+    }
+
+    public void run() {
+        Thread.currentThread().setName(name);
+        try {
+            while (!Thread.interrupted()) {
+                car.waitForWaxing();
+                TimeUnit.MILLISECONDS.sleep(500);
+                car.buff();
             }
-            System.out.println("Ending Wax Off task");
+        } catch (InterruptedException e) {
+            System.out.println("Exiting via interrupt");
         }
+        System.out.println("Ending Wax Off task");
     }
-    public class WaxOMatic {
-        public static void main(String[] args) throws Exception {
-            Car car = new Car();
-            ExecutorService exec = Executors.newCachedThreadPool();
-            exec.execute(new WaxOff(car, "A-OFF"));
-            exec.execute(new WaxOn(car, "B-ON"));
-            exec.execute(new WaxOn(car, "C-ON"));
-    
-            TimeUnit.SECONDS.sleep(5); // Run for a while...
-            exec.shutdownNow(); // Interrupt all tasks
-        }
+}
+public class WaxOMatic {
+    public static void main(String[] args) throws Exception {
+        Car car = new Car();
+        ExecutorService exec = Executors.newCachedThreadPool();
+        exec.execute(new WaxOff(car, "A-OFF"));
+        exec.execute(new WaxOn(car, "B-ON"));
+        exec.execute(new WaxOn(car, "C-ON"));
+
+        TimeUnit.SECONDS.sleep(5); // Run for a while...
+        exec.shutdownNow(); // Interrupt all tasks
     }
-    ```
-    
-  - 出现了问题！因为检查之后放弃了锁，在这个短暂的空闲会出问题！
-  
+}
+```
+
+- 出现了问题！因为检查之后放弃了锁，在这个短暂的空闲会出问题！
+
 - 线程的局部变量
 
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231225004728366.png" alt="image-20231225004728366" style="zoom:33%;" />
@@ -2017,51 +1467,52 @@ public class DogsAndRobotMethodReferences {
 
   - 清理`myThreadLocal.remove();`
 
-  - ```java
-    class Accessor implements Runnable {
-        private final int id;
-    
-        public Accessor(int idn) {
-            id = idn;
-        }
-    
-        public void run() {
-            while (!Thread.currentThread().isInterrupted()) {
-                ThreadLocalVariableHolder.increment();
-                System.out.println(this);
-                Thread.yield();
-            }
-        }
-    
-        public String toString() {
-            return "#" + id + ": " + ThreadLocalVariableHolder.get();
+
+```java
+class Accessor implements Runnable {
+    private final int id;
+
+    public Accessor(int idn) {
+        id = idn;
+    }
+
+    public void run() {
+        while (!Thread.currentThread().isInterrupted()) {
+            ThreadLocalVariableHolder.increment();
+            System.out.println(this);
+            Thread.yield();
         }
     }
-    public class ThreadLocalVariableHolder {
-        private static ThreadLocal<Integer> value = new ThreadLocal<Integer>() {
-            private Random rand = new Random(47);
-            protected synchronized Integer initialValue() {
-                return rand.nextInt(10000);
-            }
-        };
-    
-        public static void increment() {
-            value.set(value.get() + 1);
-        }
-    
-        public static int get() {
-            return value.get();
-        }
-    
-        public static void main(String[] args) throws Exception {
-            ExecutorService exec = Executors.newCachedThreadPool();
-            for (int i = 0; i < 5; i++)
-                exec.execute(new Accessor(i));
-            TimeUnit.SECONDS.sleep(3);  // Run for a while
-            exec.shutdownNow();         // All Accessors will quit
-        }
+
+    public String toString() {
+        return "#" + id + ": " + ThreadLocalVariableHolder.get();
     }
-    ```
+}
+public class ThreadLocalVariableHolder {
+    private static ThreadLocal<Integer> value = new ThreadLocal<Integer>() {
+        private Random rand = new Random(47);
+        protected synchronized Integer initialValue() {
+            return rand.nextInt(10000);
+        }
+    };
+
+    public static void increment() {
+        value.set(value.get() + 1);
+    }
+
+    public static int get() {
+        return value.get();
+    }
+
+    public static void main(String[] args) throws Exception {
+        ExecutorService exec = Executors.newCachedThreadPool();
+        for (int i = 0; i < 5; i++)
+            exec.execute(new Accessor(i));
+        TimeUnit.SECONDS.sleep(3);  // Run for a while
+        exec.shutdownNow();         // All Accessors will quit
+    }
+}
+```
 
 
 - `CountDownLatch`
@@ -2074,68 +1525,69 @@ public class DogsAndRobotMethodReferences {
 
   - **await() 方法**:一个或多个线程调用 `await()` 方法会使这些线程在 `CountDownLatch` 上等待，直到计数达到零。
 
-  - ```java
-    //N个等1个
-    class Driver { // ...
-        void main() throws InterruptedException {
-            CountDownLatch startSignal = new CountDownLatch(1);
-            CountDownLatch doneSignal = new CountDownLatch(N);
-    
+
+```java
+//N个等1个
+class Driver { // ...
+    void main() throws InterruptedException {
+        CountDownLatch startSignal = new CountDownLatch(1);
+        CountDownLatch doneSignal = new CountDownLatch(N);
+
+        for (int i = 0; i < N; ++i) // create and start threads
+            new Thread(new Worker(startSignal, doneSignal)).start();
+
+        doSomethingElse();            // don't let run yet
+        startSignal.countDown();      // let all threads proceed
+        doSomethingElse();
+        doneSignal.await();           // wait for all to finish
+    }
+}
+class Worker implements Runnable {
+    private final CountDownLatch startSignal;
+    private final CountDownLatch doneSignal;
+    Worker(CountDownLatch startSignal, CountDownLatch doneSignal) {
+        this.startSignal = startSignal;
+        this.doneSignal = doneSignal;
+    }
+    public void run() {
+        try {
+            startSignal.await();
+            doWork();
+            doneSignal.countDown();
+        } catch (InterruptedException ex) {} // return;
+    }
+
+    void doWork() { ... }
+}
+//1个等N个
+class Driver2 { // ...
+    void main() throws InterruptedException {
+        CountDownLatch doneSignal = new CountDownLatch(N);
+        Executor e = ...
+
             for (int i = 0; i < N; ++i) // create and start threads
-                new Thread(new Worker(startSignal, doneSignal)).start();
-    
-            doSomethingElse();            // don't let run yet
-            startSignal.countDown();      // let all threads proceed
-            doSomethingElse();
-            doneSignal.await();           // wait for all to finish
-        }
+                e.execute(new WorkerRunnable(doneSignal, i));
+
+        doneSignal.await();           // wait for all to finish
     }
-    class Worker implements Runnable {
-        private final CountDownLatch startSignal;
-        private final CountDownLatch doneSignal;
-        Worker(CountDownLatch startSignal, CountDownLatch doneSignal) {
-            this.startSignal = startSignal;
-            this.doneSignal = doneSignal;
-        }
-        public void run() {
-            try {
-                startSignal.await();
-                doWork();
-                doneSignal.countDown();
-            } catch (InterruptedException ex) {} // return;
-        }
-    
-        void doWork() { ... }
+}
+class WorkerRunnable implements Runnable {
+    private final CountDownLatch doneSignal;
+    private final int i;
+    WorkerRunnable(CountDownLatch doneSignal, int i) {
+        this.doneSignal = doneSignal;
+        this.i = i;
     }
-    //1个等N个
-    class Driver2 { // ...
-        void main() throws InterruptedException {
-            CountDownLatch doneSignal = new CountDownLatch(N);
-            Executor e = ...
-    
-                for (int i = 0; i < N; ++i) // create and start threads
-                    e.execute(new WorkerRunnable(doneSignal, i));
-    
-            doneSignal.await();           // wait for all to finish
-        }
+    public void run() {
+        try {
+            doWork(i);
+            doneSignal.countDown();
+        } catch (InterruptedException ex) {} // return;
     }
-    class WorkerRunnable implements Runnable {
-        private final CountDownLatch doneSignal;
-        private final int i;
-        WorkerRunnable(CountDownLatch doneSignal, int i) {
-            this.doneSignal = doneSignal;
-            this.i = i;
-        }
-        public void run() {
-            try {
-                doWork(i);
-                doneSignal.countDown();
-            } catch (InterruptedException ex) {} // return;
-        }
-    
-        void doWork() { ... }
-    }
-    ```
+
+    void doWork() { ... }
+}
+```
 
 
 
@@ -2155,12 +1607,7 @@ public class DogsAndRobotMethodReferences {
 
 - 一定程度上替代stnchroized，原子对象可以在多线程环境进行无锁的**线程安全操作**，实现了原子性可见性
 
-  - ``` java
-    if(xxx)
-        xxx
-    ```
-
-    - 比如判断原子对象的值和操作之间就可能储问题！这时还是要使用线程锁
+  - 比如判断原子对象的值和操作之间就可能储问题！这时还是要使用线程锁
 
   - 即多对象多操作时不能仅仅依赖源自对象
 
@@ -2184,28 +1631,30 @@ public class DogsAndRobotMethodReferences {
 - `BlockingQueue` 是一个队列，支持**阻塞的插入和移除**操作。常见的实现有 `ArrayBlockingQueue`, `LinkedBlockingQueue`, `PriorityBlockingQueue`, `SynchronousQueue` 等。
 - `DelayQueue`用于放置实现了 `Delayed` 接口的元素，其中的元素只能在其指定的**延迟过期**后才能从队列中取走。
 
-  - ``` java
-    class DelayedElement implements Delayed {
-        private final long delayTime; // 延迟时间
-        private final long expire;  // 到期时间
-        public DelayedElement(long delay, TimeUnit unit) {
-            this.delayTime = TimeUnit.MILLISECONDS.convert(delay, unit);
-            this.expire = System.currentTimeMillis() + delayTime;
-        }
-    	//距离到期的时间
-        @Override
-        public long getDelay(TimeUnit unit) {
-            long diff = expire - System.currentTimeMillis();
-            return unit.convert(diff, TimeUnit.MILLISECONDS);
-        }
-    	//比较延迟
-        @Override
-        public int compareTo(Delayed o) {
-            DelayedElement that = (DelayedElement) o;
-            return Long.compare(this.expire, that.expire);
-        }
+
+``` java
+class DelayedElement implements Delayed {
+    private final long delayTime; // 延迟时间
+    private final long expire;  // 到期时间
+    public DelayedElement(long delay, TimeUnit unit) {
+        this.delayTime = TimeUnit.MILLISECONDS.convert(delay, unit);
+        this.expire = System.currentTimeMillis() + delayTime;
     }
-    ```
+	//距离到期的时间
+    @Override
+    public long getDelay(TimeUnit unit) {
+        long diff = expire - System.currentTimeMillis();
+        return unit.convert(diff, TimeUnit.MILLISECONDS);
+    }
+	//比较延迟
+    @Override
+    public int compareTo(Delayed o) {
+        DelayedElement that = (DelayedElement) o;
+        return Long.compare(this.expire, that.expire);
+    }
+}
+```
+
 - 无锁集合的实现策略
 
   - 复制策略：
@@ -2218,29 +1667,30 @@ public class DogsAndRobotMethodReferences {
 
 - `.parallel()`将流转化为一个并行流，对于大数据集，使用并行流可以显著提高性能。
 
-  - ``` java
-    public class ParallelPrime {
-      static final int COUNT = 100_000;
-      public static boolean isPrime(long n) {
-        return rangeClosed(2, (long)Math.sqrt(n))
-          .noneMatch(i -> n % i == 0);
-      }
-      public static void main(String [] args)
-        throws IOException {
-        Timer timer = new Timer();
-        List <String> primes =
-          iterate(2, i -> i + 1)
-            .parallel()                       // [1]
-            .filter(ParallelPrime:: isPrime)
-            .limit(COUNT)
-            .mapToObj(Long:: toString)
-            .collect(Collectors.toList());
-        System.out.println(timer.duration());
-        Files.write(Paths.get("primes.txt"), primes,
-          StandardOpenOption.CREATE);
-      }
-    }
-    ```
+
+``` java
+public class ParallelPrime {
+  static final int COUNT = 100_000;
+  public static boolean isPrime(long n) {
+    return rangeClosed(2, (long)Math.sqrt(n))
+      .noneMatch(i -> n % i == 0);
+  }
+  public static void main(String [] args)
+    throws IOException {
+    Timer timer = new Timer();
+    List <String> primes =
+      iterate(2, i -> i + 1)
+        .parallel()                       // [1]
+        .filter(ParallelPrime:: isPrime)
+        .limit(COUNT)
+        .mapToObj(Long:: toString)
+        .collect(Collectors.toList());
+    System.out.println(timer.duration());
+    Files.write(Paths.get("primes.txt"), primes,
+      StandardOpenOption.CREATE);
+  }
+}
+```
 
 - 流的并行化会将输入数据拆分为多个片段，针对独立片段可以使用各种算法
 
@@ -2253,13 +1703,14 @@ public class DogsAndRobotMethodReferences {
 
 - 使用并行流生成随即顺序序列（这是由于并行后读取顺序不确定）
 
-  - ``` java
-    List <Integer> x = IntStream.range(0, 30)
-          .limit(10)
-          .parallel()
-          .boxed()
-          .collect(Collectors.toList());
-    ```
+
+``` java
+List <Integer> x = IntStream.range(0, 30)
+      .limit(10)
+      .parallel()
+      .boxed()
+      .collect(Collectors.toList());
+```
 
 ### 创建和运行任务
 
@@ -2288,86 +1739,87 @@ public class DogsAndRobotMethodReferences {
 
 - 挂起线程
 
-  - ``` java
-    public class Nap {
-      public Nap(double t) { // Seconds
-        try {
-          TimeUnit.MILLISECONDS.sleep((int)(1000 * t));
-        } catch(InterruptedException e) {
-          throw new RuntimeException(e);
-        }
-      }
-      public Nap(double t, String msg) {
-        this(t);
-        System.out.println(msg);
-      }
+
+``` java
+public class Nap {
+  public Nap(double t) { // Seconds
+    try {
+      TimeUnit.MILLISECONDS.sleep((int)(1000 * t));
+    } catch(InterruptedException e) {
+      throw new RuntimeException(e);
     }
-    
-    public class NapTask implements Runnable {
-      final int id;
-      public NapTask(int id) { this.id = id; }
-      @Override public void run() {
-        new Nap(0.1); // Seconds
-        System.out.println(this + " " +
-          Thread.currentThread().getName());
-      }
-      @Override public String toString() {
-        return "NapTask [" + id + "]";
-      }
+  }
+  public Nap(double t, String msg) {
+    this(t);
+    System.out.println(msg);
+  }
+}
+
+public class NapTask implements Runnable {
+  final int id;
+  public NapTask(int id) { this.id = id; }
+  @Override public void run() {
+    new Nap(0.1); // Seconds
+    System.out.println(this + " " +
+      Thread.currentThread().getName());
+  }
+  @Override public String toString() {
+    return "NapTask [" + id + "]";
+  }
+}
+```
+
+- ` TimeUnit.MILLISECONDS.sleep((int)(1000 * t));`会挂起线程，操作系用会在时间到达后唤醒线程并继续分配给处理器时间
+
+执行任务
+
+``` java
+public static void main(String [] args) {
+    //工厂方法创建单线程执行持（所有任务顺序执行）
+    ExecutorService exec =
+      Executors.newSingleThreadExecutor();
+    IntStream.range(0, 10)
+        //从数字创建挂起任务
+      .mapToObj(NapTask:: new)
+        //交给执行器
+      .forEach(exec:: execute);
+    System.out.println("All tasks submitted");
+    //不再接受
+    exec.shutdown();
+    //每 0.1s 检查一次
+    while(! exec.isTerminated()) {
+      System.out.println(
+        Thread.currentThread().getName() +
+        " awaiting termination");
+      new Nap(0.1);
     }
-    ```
+  }
 
-  - ` TimeUnit.MILLISECONDS.sleep((int)(1000 * t));`会挂起线程，操作系用会在时间到达后唤醒线程并继续分配给处理器时间
-
-- 执行任务
-
-  - ``` java
-    public static void main(String [] args) {
-        //工厂方法创建单线程执行持（所有任务顺序执行）
-        ExecutorService exec =
-          Executors.newSingleThreadExecutor();
-        IntStream.range(0, 10)
-            //从数字创建挂起任务
-          .mapToObj(NapTask:: new)
-            //交给执行器
-          .forEach(exec:: execute);
-        System.out.println("All tasks submitted");
-        //不再接受
-        exec.shutdown();
-        //每 0.1s 检查一次
-        while(! exec.isTerminated()) {
-          System.out.println(
-            Thread.currentThread().getName() +
-            " awaiting termination");
-          new Nap(0.1);
-        }
-      }
-    
-    /* Output:
-    All tasks submitted
-    main awaiting termination
-    main awaiting termination
-    NapTask [0] pool-1-thread-1
-    main awaiting termination
-    NapTask [1] pool-1-thread-1
-    NapTask [2] pool-1-thread-1
-    main awaiting termination
-    NapTask [3] pool-1-thread-1
-    main awaiting termination
-    main awaiting termination
-    NapTask [4] pool-1-thread-1
-    NapTask [5] pool-1-thread-1
-    main awaiting termination
-    NapTask [6] pool-1-thread-1
-    main awaiting termination
-    main awaiting termination
-    NapTask [7] pool-1-thread-1
-    main awaiting termination
-    NapTask [8] pool-1-thread-1
-    main awaiting termination
-    NapTask [9] pool-1-thread-1
-    */
-    ```
+/* Output:
+All tasks submitted
+main awaiting termination
+main awaiting termination
+NapTask [0] pool-1-thread-1
+main awaiting termination
+NapTask [1] pool-1-thread-1
+NapTask [2] pool-1-thread-1
+main awaiting termination
+NapTask [3] pool-1-thread-1
+main awaiting termination
+main awaiting termination
+NapTask [4] pool-1-thread-1
+NapTask [5] pool-1-thread-1
+main awaiting termination
+NapTask [6] pool-1-thread-1
+main awaiting termination
+main awaiting termination
+NapTask [7] pool-1-thread-1
+main awaiting termination
+NapTask [8] pool-1-thread-1
+main awaiting termination
+NapTask [9] pool-1-thread-1
+*/
+```
 
 - 使用更多线程
   - `ExecutorService exec Executors.newCachedThreadPool();`
@@ -2381,60 +1833,61 @@ public class DogsAndRobotMethodReferences {
 
   - 使用Callable而不是Runable（即尽可能使用返回值作为结果，而不是用副作用即直接在方法中进行修改）
 
-  - ``` java
-    //无副作用的方法
-    public class CountingTask implements Callable <Integer> {
-      final int id;
-      public CountingTask(int id) { this.id = id; }
-      @Override public Integer call() {
-        Integer val = 0;
-        for(int i = 0; i < 100; i++)
-          val++;
-        System.out.println(id + " " +
-          Thread.currentThread().getName() + " " + val);
-        return val;
-      }
+
+``` java
+//无副作用的方法
+public class CountingTask implements Callable <Integer> {
+  final int id;
+  public CountingTask(int id) { this.id = id; }
+  @Override public Integer call() {
+    Integer val = 0;
+    for(int i = 0; i < 100; i++)
+      val++;
+    System.out.println(id + " " +
+      Thread.currentThread().getName() + " " + val);
+    return val;
+  }
+}
+
+public class CachedThreadPool3 {
+  public static Integer
+  extractResult(Future <Integer> f) {
+    try {
+      return f.get();
+    } catch(Exception e) {
+      throw new RuntimeException(e);
     }
-    
-    public class CachedThreadPool3 {
-      public static Integer
-      extractResult(Future <Integer> f) {
-        try {
-          return f.get();
-        } catch(Exception e) {
-          throw new RuntimeException(e);
-        }
-      }
-      public static void main(String [] args)
-        throws InterruptedException {
-        ExecutorService exec =
-          Executors.newCachedThreadPool();
-          //构建任务集合
-        List <CountingTask> tasks =
-          IntStream.range(0, 10)
-            .mapToObj(CountingTask:: new)
-            .collect(Collectors.toList());
-          //执行并存储结果
-        List <Future<Integer> > futures =
-          exec.invokeAll(tasks);
-        Integer sum = futures.stream()
-            //会自动等待执行完成在获取结果并计算
-          .map(CachedThreadPool3:: extractResult)
-          .reduce(0, Integer:: sum);
-        System.out.println("sum = " + sum);
-        exec.shutdown();
-      }
-    }
-    //使用流优雅解决
-    public static void main(String [] args) {
-        System.out.println(
-          IntStream.range(0, 10)
-            .parallel()
-            .mapToObj(CountingTask:: new)
-            .map(ct -> ct.call())
-            .reduce(0, Integer:: sum));
-      }
-    ```
+  }
+  public static void main(String [] args)
+    throws InterruptedException {
+    ExecutorService exec =
+      Executors.newCachedThreadPool();
+      //构建任务集合
+    List <CountingTask> tasks =
+      IntStream.range(0, 10)
+        .mapToObj(CountingTask:: new)
+        .collect(Collectors.toList());
+      //执行并存储结果
+    List <Future<Integer> > futures =
+      exec.invokeAll(tasks);
+    Integer sum = futures.stream()
+        //会自动等待执行完成在获取结果并计算
+      .map(CachedThreadPool3:: extractResult)
+      .reduce(0, Integer:: sum);
+    System.out.println("sum = " + sum);
+    exec.shutdown();
+  }
+}
+//使用流优雅解决
+public static void main(String [] args) {
+    System.out.println(
+      IntStream.range(0, 10)
+        .parallel()
+        .mapToObj(CountingTask:: new)
+        .map(ct -> ct.call())
+        .reduce(0, Integer:: sum));
+  }
+```
 
 - 终止长时间运行的任务
 
@@ -2444,23 +1897,24 @@ public class DogsAndRobotMethodReferences {
 
     - 使用AtomicBoolean作为标志，避免并发问题
 
-    - ``` java
-      public class QuittableTask implements Runnable {
-        final int id;
-        public QuittableTask(int id) { this.id = id; }
-        private AtomicBoolean running =
-          new AtomicBoolean(true);
-        public void quit() { running.set(false); }
-        @Override public void run() {
-            //跳出循环即终止
-          while(running.get())
-            new Nap(0.1);
-          System.out.print(id + " ");
-        }
-      }
-      ```
 
-  - 可以在外面调用定义的quiet实现告知方法进行关闭，这笔强制关闭更加安全
+``` java
+public class QuittableTask implements Runnable {
+  final int id;
+  public QuittableTask(int id) { this.id = id; }
+  private AtomicBoolean running =
+    new AtomicBoolean(true);
+  public void quit() { running.set(false); }
+  @Override public void run() {
+      //跳出循环即终止
+    while(running.get())
+      new Nap(0.1);
+    System.out.print(id + " ");
+  }
+}
+```
+
+- 可以在外面调用定义的quiet实现告知方法进行关闭，这笔强制关闭更加安全
 
 #### CompletableFuture（推荐）
 
@@ -2522,177 +1976,180 @@ public class DogsAndRobotMethodReferences {
 
       - `getUserEmail` 返回一个包含用户电子邮件的 `CompletableFuture`。然后，`thenCompose` 使用这个电子邮件地址来调用 `sendEmail` 方法，后者也返回一个 `CompletableFuture`。
 
-  - ``` java
-      public class CompletableApply {
-        public static void main(String [] args) {
-          CompletableFuture <Machina> cf =
-            CompletableFuture.completedFuture(
-              new Machina(0));
-          CompletableFuture <Machina> cf2 =
-            cf.thenApply(Machina:: work);
-          CompletableFuture <Machina> cf3 =
-            cf2.thenApply(Machina:: work);
-          CompletableFuture <Machina> cf4 =
-            cf3.thenApply(Machina:: work);
-          CompletableFuture <Machina> cf5 =
-            cf4.thenApply(Machina:: work);
-        }
-      }
-      //更简洁的写法
-      CompletableFuture <Machina> cf =
-            CompletableFuture.completedFuture(
-              new Machina(0))
-            .thenApply(Machina:: work)
-            .thenApply(Machina:: work)
-            .thenApply(Machina:: work)
-            .thenApply(Machina:: work);
-      ```
 
-  - 默认情况下需要等所有转化都完成创建过程才会结束
+``` java
+public class CompletableApply {
+  public static void main(String [] args) {
+    CompletableFuture <Machina> cf =
+      CompletableFuture.completedFuture(
+        new Machina(0));
+    CompletableFuture <Machina> cf2 =
+      cf.thenApply(Machina:: work);
+    CompletableFuture <Machina> cf3 =
+      cf2.thenApply(Machina:: work);
+    CompletableFuture <Machina> cf4 =
+      cf3.thenApply(Machina:: work);
+    CompletableFuture <Machina> cf5 =
+      cf4.thenApply(Machina:: work);
+  }
+}
+//更简洁的写法
+CompletableFuture <Machina> cf =
+      CompletableFuture.completedFuture(
+        new Machina(0))
+      .thenApply(Machina:: work)
+      .thenApply(Machina:: work)
+      .thenApply(Machina:: work)
+      .thenApply(Machina:: work);
+```
 
-    - 使用`Async`为异步方法，即**立即返回对象**，在后台继续异步完成创建
+- 默认情况下需要等所有转化都完成创建过程才会结束
+
+  - 使用`Async`为异步方法，即**立即返回对象**，在后台继续异步完成创建
 
 - 合并
 
   - 接受两个CompletableFuture操作并以多种方式合并
 
-  - ``` java
-    public static void main(String [] args) {
-        /*任何一个完成之后就执行方法
-        Workable [BW]
-    	runAfterEither
-    	Workable [AW]*/
-        voidr(cfA.runAfterEitherAsync(cfB, () -> System.out.println("runAfterEither")));
-    	/*Workable [BW]
-    	Workable [AW]
-    	runAfterBoth*/
-        voidr(cfA.runAfterBothAsync(cfB, () -> System.out.println("runAfterBoth")));
-    	/*Workable [BW]
-    	applyToEither: Workable [BW]
-    	Workable [BW]（返回值）
-    	Workable [AW]（A 也完成了）*/
-        showr(cfA.applyToEitherAsync(cfB, w -> {
-            System.out.println("applyToEither: " + w);
-            return w;
-        }));
-    	/*Workable [BW]
-    	acceptEither: Workable [BW]
-    	Workable [AW]*/
-        voidr(cfA.acceptEitherAsync(cfB, w -> {
-            System.out.println("acceptEither: " + w);
-        }));
-    	/*Workable [BW]
-    	Workable [AW]
-    	thenAcceptBoth: Workable [AW], Workable [BW]*/
-        voidr(cfA.thenAcceptBothAsync(cfB, (w1, w2) -> {
-            System.out.println("thenAcceptBoth: "
-                               + w1 + ", " + w2);
-        }));
-    	/*Workable [BW]
-    	Workable [AW]
-    	thenCombine: Workable [AW], Workable [BW]
-    	Workable [AW]*/
-        showr(cfA.thenCombineAsync(cfB, (w1, w2) -> {
-            System.out.println("thenCombine: "+ w1 + ", " + w2);
-            return w1;
-        }));
-    	//任何一个完成
-        CompletableFuture <Workable>
-            cfC = Workable.make("C", 0.08),
-        cfD = Workable.make("D", 0.09);
-        CompletableFuture.anyOf(cfA, cfB, cfC, cfD)
-            .thenRunAsync(() -> System.out.println("anyOf"));
-    	//全部完成
-        cfC = Workable.make("C", 0.08);
-        cfD = Workable.make("D", 0.09);
-        CompletableFuture.allOf(cfA, cfB, cfC, cfD)
-            .thenRunAsync(() ->
-                          System.out.println("allOf"));
-    }
-    ```
 
-  - 以做蛋糕进行模拟
+``` java
+public static void main(String [] args) {
+    /*任何一个完成之后就执行方法
+    Workable [BW]
+	runAfterEither
+	Workable [AW]*/
+    voidr(cfA.runAfterEitherAsync(cfB, () -> System.out.println("runAfterEither")));
+	/*Workable [BW]
+	Workable [AW]
+	runAfterBoth*/
+    voidr(cfA.runAfterBothAsync(cfB, () -> System.out.println("runAfterBoth")));
+	/*Workable [BW]
+	applyToEither: Workable [BW]
+	Workable [BW]（返回值）
+	Workable [AW]（A 也完成了）*/
+    showr(cfA.applyToEitherAsync(cfB, w -> {
+        System.out.println("applyToEither: " + w);
+        return w;
+    }));
+	/*Workable [BW]
+	acceptEither: Workable [BW]
+	Workable [AW]*/
+    voidr(cfA.acceptEitherAsync(cfB, w -> {
+        System.out.println("acceptEither: " + w);
+    }));
+	/*Workable [BW]
+	Workable [AW]
+	thenAcceptBoth: Workable [AW], Workable [BW]*/
+    voidr(cfA.thenAcceptBothAsync(cfB, (w1, w2) -> {
+        System.out.println("thenAcceptBoth: "
+                           + w1 + ", " + w2);
+    }));
+	/*Workable [BW]
+	Workable [AW]
+	thenCombine: Workable [AW], Workable [BW]
+	Workable [AW]*/
+    showr(cfA.thenCombineAsync(cfB, (w1, w2) -> {
+        System.out.println("thenCombine: "+ w1 + ", " + w2);
+        return w1;
+    }));
+	//任何一个完成
+    CompletableFuture <Workable>
+        cfC = Workable.make("C", 0.08),
+    cfD = Workable.make("D", 0.09);
+    CompletableFuture.anyOf(cfA, cfB, cfC, cfD)
+        .thenRunAsync(() -> System.out.println("anyOf"));
+	//全部完成
+    cfC = Workable.make("C", 0.08);
+    cfD = Workable.make("D", 0.09);
+    CompletableFuture.allOf(cfA, cfB, cfC, cfD)
+        .thenRunAsync(() ->
+                      System.out.println("allOf"));
+}
+```
 
-    - ``` java
-      //制作面糊
-      public class Batter {
-        static class Eggs {}
-        static class Milk {}
-        static class Sugar {}
-        static class Flour {}
-        static <T> T prepare(T ingredient) {
-          new Nap(0.1);
-          return ingredient;
-        }
-        static <T> CompletableFuture <T> prep(T ingredient) {
-          return CompletableFuture
-            .completedFuture(ingredient)
-            .thenApplyAsync(Batter:: prepare);
-        }
-        public static CompletableFuture <Batter> mix() {
-          CompletableFuture <Eggs> eggs = prep(new Eggs());
-          CompletableFuture <Milk> milk = prep(new Milk());
-          CompletableFuture <Sugar> sugar = prep(new Sugar());
-          CompletableFuture <Flour> flour = prep(new Flour());
-          CompletableFuture
-            .allOf(eggs, milk, sugar, flour)
-            .join();//等待全部完成
-          new Nap(0.1); // Mixing time
-          return
-            CompletableFuture.completedFuture(new Batter());
-        }
-      }
-      
-      public class Baked {
-        static class Pan {}
-        static Pan pan(Batter b) {
-          new Nap(0.1);
-          return new Pan();
-        }
-        static Baked heat(Pan p) {
-          new Nap(0.1);
-          return new Baked();
-        }
-        static CompletableFuture <Baked>
-        bake(CompletableFuture <Batter> cfb) {
-          return cfb
-            .thenApplyAsync(Baked:: pan)
-            .thenApplyAsync(Baked:: heat);
-        }
-        public static
-        Stream <CompletableFuture<Baked> > batch() {
-          CompletableFuture <Batter> batter = Batter.mix();//获取制作好的面糊
-          return Stream.of(bake(batter), bake(batter),
-                           bake(batter), bake(batter));
-        }
-      }
-      
-      final class Frosting {
-        private Frosting() {}
-        static CompletableFuture <Frosting> make() {
-          new Nap(0.1);
-          return CompletableFuture
-            .completedFuture(new Frosting());
-        }
-      }
-      
-      public class FrostedCake {
-        public FrostedCake(Baked baked, Frosting frosting) {
-          new Nap(0.1);
-        }
-        @Override public String toString() {
-          return "FrostedCake";
-        }
-        public static void main(String [] args) {
-          Baked.batch().forEach(baked -> baked//获取 stream
-            .thenCombineAsync(Frosting.make(),//新制作的糖霜
-              (cake, frosting) ->
-                new FrostedCake(cake, frosting))//创建蛋糕
-            .thenAcceptAsync(System.out:: println)
-            .join());
-        }
-      }
-      ```
+- 以做蛋糕进行模拟
+
+
+``` java
+//制作面糊
+public class Batter {
+  static class Eggs {}
+  static class Milk {}
+  static class Sugar {}
+  static class Flour {}
+  static <T> T prepare(T ingredient) {
+    new Nap(0.1);
+    return ingredient;
+  }
+  static <T> CompletableFuture <T> prep(T ingredient) {
+    return CompletableFuture
+      .completedFuture(ingredient)
+      .thenApplyAsync(Batter:: prepare);
+  }
+  public static CompletableFuture <Batter> mix() {
+    CompletableFuture <Eggs> eggs = prep(new Eggs());
+    CompletableFuture <Milk> milk = prep(new Milk());
+    CompletableFuture <Sugar> sugar = prep(new Sugar());
+    CompletableFuture <Flour> flour = prep(new Flour());
+    CompletableFuture
+      .allOf(eggs, milk, sugar, flour)
+      .join();//等待全部完成
+    new Nap(0.1); // Mixing time
+    return
+      CompletableFuture.completedFuture(new Batter());
+  }
+}
+
+public class Baked {
+  static class Pan {}
+  static Pan pan(Batter b) {
+    new Nap(0.1);
+    return new Pan();
+  }
+  static Baked heat(Pan p) {
+    new Nap(0.1);
+    return new Baked();
+  }
+  static CompletableFuture <Baked>
+  bake(CompletableFuture <Batter> cfb) {
+    return cfb
+      .thenApplyAsync(Baked:: pan)
+      .thenApplyAsync(Baked:: heat);
+  }
+  public static
+  Stream <CompletableFuture<Baked> > batch() {
+    CompletableFuture <Batter> batter = Batter.mix();//获取制作好的面糊
+    return Stream.of(bake(batter), bake(batter),
+                     bake(batter), bake(batter));
+  }
+}
+
+final class Frosting {
+  private Frosting() {}
+  static CompletableFuture <Frosting> make() {
+    new Nap(0.1);
+    return CompletableFuture
+      .completedFuture(new Frosting());
+  }
+}
+
+public class FrostedCake {
+  public FrostedCake(Baked baked, Frosting frosting) {
+    new Nap(0.1);
+  }
+  @Override public String toString() {
+    return "FrostedCake";
+  }
+  public static void main(String [] args) {
+    Baked.batch().forEach(baked -> baked//获取 stream
+      .thenCombineAsync(Frosting.make(),//新制作的糖霜
+        (cake, frosting) ->
+          new FrostedCake(cake, frosting))//创建蛋糕
+      .thenAcceptAsync(System.out:: println)
+      .join());
+  }
+}
+```
 
 - 异常处理
 
@@ -2702,71 +2159,76 @@ public class DogsAndRobotMethodReferences {
 
     - 只有在出现异常时才会被调用
 
-    - ``` java
-      .exceptionally((ex) -> {
-          if(ex == null)
-              System.out.println("I don't get it yet");
-          return new Breakable(ex.getMessage(), 0);
-      })
-      ```
 
-  - `handle` 方法用于处理 `CompletableFuture` 的结果或异常。它接收两个参数：结果和异常。根据这两个参数，你可以决定如何处理成功或失败的情况。
+``` java
+.exceptionally((ex) -> {
+    if(ex == null)
+        System.out.println("I don't get it yet");
+    return new Breakable(ex.getMessage(), 0);
+})
+```
 
-    - ``` java
-      .handle((result, fail) -> {
-          if(fail != null)
-              return "Failure recovery object";
-          else
-              return result + " is good";
-      })
-      ```
+- `handle` 方法用于处理 `CompletableFuture` 的结果或异常。它接收两个参数：结果和异常。根据这两个参数，你可以决定如何处理成功或失败的情况。
 
-  - `whenComplete` 方法用于在 `CompletableFuture` **完成时**执行一些操作，无论是正常完成还是异常结束。它不改变 `CompletableFuture` 的结果。
 
-    - ``` java
-      .whenComplete((result, fail) -> {
-          if(fail != null)
-              System.out.println("It failed");
-          else
-              System.out.println(result + " OK");
-      })
-      ```
+``` java
+.handle((result, fail) -> {
+    if(fail != null)
+        return "Failure recovery object";
+    else
+        return result + " is good";
+})
+```
 
-  - `handle`和`whenCpmlete`方法无论发生异常与否总是会被调用，区别是handle可以进行修改并且有返回值
+- `whenComplete` 方法用于在 `CompletableFuture` **完成时**执行一些操作，无论是正常完成还是异常结束。它不改变 `CompletableFuture` 的结果。
 
-  - 检查型异常：不能直接在 `CompletableFuture` 或 `Stream` 的lambda表达式中抛出检查型异常，除非你捕获并处理它们(即自己抛出自己处理)，或者将它们转换为非检查型异常(RuntimeException)。
 
-    - ``` java
-      CompletableFuture.supplyAsync(() -> {
-          throw new IOException(); // 编译错误
-      });
-      CompletableFuture.supplyAsync(() -> {
-          throw new IOException(); // 编译错误
-      });
-      ```
+``` java
+.whenComplete((result, fail) -> {
+    if(fail != null)
+        System.out.println("It failed");
+    else
+        System.out.println(result + " OK");
+})
+```
+
+- `handle`和`whenCpmlete`方法无论发生异常与否总是会被调用，区别是handle可以进行修改并且有返回值
+
+- 检查型异常：不能直接在 `CompletableFuture` 或 `Stream` 的lambda表达式中抛出检查型异常，除非你捕获并处理它们(即自己抛出自己处理)，或者将它们转换为非检查型异常(RuntimeException)。
+
+
+``` java
+CompletableFuture.supplyAsync(() -> {
+    throw new IOException(); // 编译错误
+});
+CompletableFuture.supplyAsync(() -> {
+    throw new IOException(); // 编译错误
+});
+```
 
 - 预留结合，批量创建
 
-  - ``` java
-    @Override public void run() {
-        while(! generator.isCanceled()) {
-          int val = generator.next();
-          if(val % 2 != 0) {
-            System.out.println(val + " not even!");
-            generator.cancel(); // Cancels all EvenCheckers
-          }
-        }
+
+``` java
+@Override public void run() {
+    while(! generator.isCanceled()) {
+      int val = generator.next();
+      if(val % 2 != 0) {
+        System.out.println(val + " not even!");
+        generator.cancel(); // Cancels all EvenCheckers
       }
-      // Test any IntGenerator:
-      public static void test(IntGenerator gp, int count) {
-        List <CompletableFuture<Void> > checkers =
-          IntStream.range(0, count)
-            .mapToObj(i -> new EvenChecker(gp, i))
-            .map(CompletableFuture:: runAsync)//自动创建 CF 对象
-            .collect(Collectors.toList());
-        checkers.forEach(CompletableFuture:: join);
-      
-    ```
+    }
+  }
+  // Test any IntGenerator:
+  public static void test(IntGenerator gp, int count) {
+    List <CompletableFuture<Void> > checkers =
+      IntStream.range(0, count)
+        .mapToObj(i -> new EvenChecker(gp, i))
+        .map(CompletableFuture:: runAsync)//自动创建 CF 对象
+        .collect(Collectors.toList());
+    checkers.forEach(CompletableFuture:: join);
+  
+```
 
 ## I/O
 
@@ -2782,31 +2244,32 @@ public class DogsAndRobotMethodReferences {
     - long等类型类似
   - 获取字符串`String name = sc.next();`
   - 获取一行`nextLine`
-  
+
 - 输出`System.out.println(...);`
   - 也可以格式化输出`System.out.printf("%d==%d %b%n",x,y,x==y)`
-  
+
 - Console
 
   - 封装好的控制台类，支持更加方便的功能
 
-  - ```java
-    public class Password {
-        
-        public static void main (String args[]) throws IOException {
+
+```java
+public class Password {
     
-            Console c = System.console();
-            if (c == null) {
-                System.err.println("No console.");
-                System.exit(1);
-            }
-    
-            String login = c.readLine("Enter your login: ");
-            char [] oldPassword = c.readPassword("Enter your old password: ");
-            ...
+    public static void main (String args[]) throws IOException {
+
+        Console c = System.console();
+        if (c == null) {
+            System.err.println("No console.");
+            System.exit(1);
         }
+
+        String login = c.readLine("Enter your login: ");
+        char [] oldPassword = c.readPassword("Enter your old password: ");
+        ...
     }
-    ```
+}
+```
 
 
 ### IO流
@@ -2848,10 +2311,11 @@ public class DogsAndRobotMethodReferences {
 
 - `Scanner` 类提供了一系列的方法来读取不同类型的数据，如 `nextInt()`, `nextDouble()`, `nextLine()`,`hasNext()` 等。
 
-  - ```java
-    int number = scanner.nextInt();
-    String str = scanner.nextLine();
-    ```
+
+```java
+int number = scanner.nextInt();
+String str = scanner.nextLine();
+```
 
 - 关闭`scanner.close();`
 
@@ -2865,160 +2329,163 @@ public class DogsAndRobotMethodReferences {
 
 ##### 典型用法
 
-- 从文件输入
+从文件输入
 
-  - ``` java
-    public static String read(String filename) {
-        try(BufferedReader in = new BufferedReader(
-            new FileReader(filename))) {
-            return in.lines()
-                .collect(Collectors.joining("\n"));
-        } catch(IOException e) {
-            throw new RuntimeException(e);
-        }
+``` java
+public static String read(String filename) {
+    try(BufferedReader in = new BufferedReader(
+        new FileReader(filename))) {
+        return in.lines()
+            .collect(Collectors.joining("\n"));
+    } catch(IOException e) {
+        throw new RuntimeException(e);
     }
-    ```
+}
+```
 
-    - try-with-resource
+- try-with-resource
 
-  - ``` java
-    public static void main(String [] args) throws IOException {
-        StringReader in = new StringReader(BufferedInputFile.read("MemoryInput.java"));
-        int c;
-        while((c = in.read()) != -1)
-            System.out.print((char)c);
+``` java
+public static void main(String [] args) throws IOException {
+    StringReader in = new StringReader(BufferedInputFile.read("MemoryInput.java"));
+    int c;
+    while((c = in.read()) != -1)
+        System.out.print((char)c);
+}
+```
+
+- 按照字符读取
+
+``` java
+public static void main(String [] args) {
+    try(
+        //复原为字节流再用 DatInputStream 重新进行读取
+        DataInputStream in = new DataInputStream(
+            new ByteArrayInputStream(
+                BufferedInputFile.read(
+                    "FormattedMemoryInput.java")
+                .getBytes()))
+    ) {
+        while(true)
+            System.out.write((char)in.readByte());
+    } catch(EOFException e) {
+        System.out.println("\nEnd of stream");
+    } catch(IOException e) {
+        throw new RuntimeException(e);
     }
-    ```
+}
+```
 
-    - 按照字符读取
-
-  - ``` java
-    public static void main(String [] args) {
-        try(
-            //复原为字节流再用 DatInputStream 重新进行读取
-            DataInputStream in = new DataInputStream(
-                new ByteArrayInputStream(
-                    BufferedInputFile.read(
-                        "FormattedMemoryInput.java")
-                    .getBytes()))
-        ) {
-            while(true)
-                System.out.write((char)in.readByte());
-        } catch(EOFException e) {
-            System.out.println("\nEnd of stream");
-        } catch(IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    ```
-
-    - 格式化读取
-    - 使用`in.available!=0`判断字符读取是否终止，当然也可以使用异常进行控制
+- 格式化读取
+- 使用`in.available!=0`判断字符读取是否终止，当然也可以使用异常进行控制
 
 - 文件输出
 
-  - ``` java
-    public static void main(String [] args) {
-        try(
-            BufferedReader in = new BufferedReader(
-                new StringReader(
-                    BufferedInputFile.read(
-                        "BasicFileOutput.java")));
-            PrintWriter out = new PrintWriter(
-                new BufferedWriter(new FileWriter(file)))
-        ) {
-            //逐行写入
-            in.lines().forEach(out:: println);
-        } catch(IOException e) {
-            throw new RuntimeException(e);
-        }
-        // Show the stored file:
-        System.out.println(BufferedInputFile.read(file));
+
+``` java
+public static void main(String [] args) {
+    try(
+        BufferedReader in = new BufferedReader(
+            new StringReader(
+                BufferedInputFile.read(
+                    "BasicFileOutput.java")));
+        PrintWriter out = new PrintWriter(
+            new BufferedWriter(new FileWriter(file)))
+    ) {
+        //逐行写入
+        in.lines().forEach(out:: println);
+    } catch(IOException e) {
+        throw new RuntimeException(e);
     }
-    ```
+    // Show the stored file:
+    System.out.println(BufferedInputFile.read(file));
+}
+```
 
 - 存储和回复数据
 
   - 使用DataOutputStream写入数据，一定可以通过DataInputStream精确的恢复数据
 
-  - ``` java
-    public static void main(String [] args) {
-        try(
-            DataOutputStream out = new DataOutputStream(
-                new BufferedOutputStream(
-                    new FileOutputStream("Data.txt")))
-        ) {
-            out.writeDouble(3.14159);
-            out.writeUTF("That was pi");
-            out.writeDouble(1.41413);
-            out.writeUTF("Square root of 2");
-        } catch(IOException e) {
-            throw new RuntimeException(e);
-        }
-        try(
-            DataInputStream in = new DataInputStream(
-                new BufferedInputStream(
-                    new FileInputStream("Data.txt")))
-        ) {
-            System.out.println(in.readDouble());
-            // Only readUTF() will recover the
-            // Java-UTF String properly:
-            System.out.println(in.readUTF());
-            System.out.println(in.readDouble());
-            System.out.println(in.readUTF());
-        } catch(IOException e) {
-            throw new RuntimeException(e);
-        }
+
+``` java
+public static void main(String [] args) {
+    try(
+        DataOutputStream out = new DataOutputStream(
+            new BufferedOutputStream(
+                new FileOutputStream("Data.txt")))
+    ) {
+        out.writeDouble(3.14159);
+        out.writeUTF("That was pi");
+        out.writeDouble(1.41413);
+        out.writeUTF("Square root of 2");
+    } catch(IOException e) {
+        throw new RuntimeException(e);
     }
-    ```
+    try(
+        DataInputStream in = new DataInputStream(
+            new BufferedInputStream(
+                new FileInputStream("Data.txt")))
+    ) {
+        System.out.println(in.readDouble());
+        // Only readUTF() will recover the
+        // Java-UTF String properly:
+        System.out.println(in.readUTF());
+        System.out.println(in.readDouble());
+        System.out.println(in.readUTF());
+    } catch(IOException e) {
+        throw new RuntimeException(e);
+    }
+}
+```
 
 - 随机访问文件
 
   - 可以使用DataInputStream相似的接口进行数据读取写入
 
-  - ``` java
-    public class UsingRandomAccessFile {
-        static String file = "rtest.dat";
-        public static void display() {
-            try(
-                RandomAccessFile rf =
-                new RandomAccessFile(file, "r")//有访问控制方法
-            ) {
-                for(int i = 0; i < 7; i++)
-                    System.out.println(
-                    "Value " + i + ": " + rf.readDouble());
-                System.out.println(rf.readUTF());
-            } catch(IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        public static void main(String [] args) {
-            try(//独立使用，不支持使用装饰器
-                RandomAccessFile rf =
-                new RandomAccessFile(file, "rw")
-            ) {
-                for(int i = 0; i < 7; i++)
-                    rf.writeDouble(i*1.414);
-                rf.writeUTF("The end of the file");
-                rf.close();
-                display();//顺序读取
-            } catch(IOException e) {
-                throw new RuntimeException(e);
-            }
-            try(
-                RandomAccessFile rf =
-                new RandomAccessFile(file, "rw")
-            ) {
-                rf.seek(5*8);
-                rf.writeDouble(47.0001);//一个元素为 8 字节，就是对第 5 个元素进行修改
-                rf.close();
-                display();
-            } catch(IOException e) {
-                throw new RuntimeException(e);
-            }
+
+``` java
+public class UsingRandomAccessFile {
+    static String file = "rtest.dat";
+    public static void display() {
+        try(
+            RandomAccessFile rf =
+            new RandomAccessFile(file, "r")//有访问控制方法
+        ) {
+            for(int i = 0; i < 7; i++)
+                System.out.println(
+                "Value " + i + ": " + rf.readDouble());
+            System.out.println(rf.readUTF());
+        } catch(IOException e) {
+            throw new RuntimeException(e);
         }
     }
-    ```
+    public static void main(String [] args) {
+        try(//独立使用，不支持使用装饰器
+            RandomAccessFile rf =
+            new RandomAccessFile(file, "rw")
+        ) {
+            for(int i = 0; i < 7; i++)
+                rf.writeDouble(i*1.414);
+            rf.writeUTF("The end of the file");
+            rf.close();
+            display();//顺序读取
+        } catch(IOException e) {
+            throw new RuntimeException(e);
+        }
+        try(
+            RandomAccessFile rf =
+            new RandomAccessFile(file, "rw")
+        ) {
+            rf.seek(5*8);
+            rf.writeDouble(47.0001);//一个元素为 8 字节，就是对第 5 个元素进行修改
+            rf.close();
+            display();
+        } catch(IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+```
 
 #### 标准IO
 
@@ -3030,31 +2497,33 @@ public class DogsAndRobotMethodReferences {
 
 - System.in的包装和使用
 
-  - ``` java
-    public static void main(String [] args) {
-        TimedAbort abort = new TimedAbort(2);
-        new BufferedReader(
-            new InputStreamReader(System.in))
-            .lines()
-            .peek(ln -> abort.restart())
-            .forEach(System.out:: println);
-        // Ctrl-Z or two seconds inactivity
-        // terminates the program
-    }
-    ```
 
-    - 流是懒加载的，并且会随着输入自动变化（如lines获取到更多的行）
-    - 如果在2秒内没有新的输入，那么程序就会被终止。
+``` java
+public static void main(String [] args) {
+    TimedAbort abort = new TimedAbort(2);
+    new BufferedReader(
+        new InputStreamReader(System.in))
+        .lines()
+        .peek(ln -> abort.restart())
+        .forEach(System.out:: println);
+    // Ctrl-Z or two seconds inactivity
+    // terminates the program
+}
+```
+
+- 流是懒加载的，并且会随着输入自动变化（如lines获取到更多的行）
+- 如果在2秒内没有新的输入，那么程序就会被终止。
 
 - 将System.out作为PrintWriter
 
-  - ``` java
-    public static void main(String [] args) {
-        PrintWriter out =
-            new PrintWriter(System.out, true);//第二个参数 autoFlush
-        out.println("Hello, world");
-    }//即将输出定向到标准输出
-    ```
+
+``` java
+public static void main(String [] args) {
+    PrintWriter out =
+        new PrintWriter(System.out, true);//第二个参数 autoFlush
+    out.println("Hello, world");
+}//即将输出定向到标准输出
+```
 
 - 清空缓冲区`System.out.flush();`
 
@@ -3062,68 +2531,70 @@ public class DogsAndRobotMethodReferences {
 
   - `SetIn(InputStream)`、`SetOut(PrintStream)`、`SetErr(PrintStream)`
 
-  - ``` java
-    public static void main(String [] args) {
-        PrintStream console = System.out;//缓存默认控制台输出对象用于后面进行恢复
-        try(
-          BufferedInputStream in = new BufferedInputStream(
-            new FileInputStream("Redirecting.java"));
-          PrintStream out = new PrintStream(
-            new BufferedOutputStream(
-              new FileOutputStream("Redirecting.txt")))
-        ) {
-          System.setIn(in);//重定向为文件读取文件输出
-          System.setOut(out);
-          System.setErr(out);
-          new BufferedReader(
-            new InputStreamReader(System.in))
-            .lines()
-            .forEach(System.out:: println);
-        } catch(IOException e) {
-          throw new RuntimeException(e);
-        } finally {
-          System.setOut(console);
-        }
-      }
-    ```
 
-  - 重定向操作字节流
+``` java
+public static void main(String [] args) {
+    PrintStream console = System.out;//缓存默认控制台输出对象用于后面进行恢复
+    try(
+      BufferedInputStream in = new BufferedInputStream(
+        new FileInputStream("Redirecting.java"));
+      PrintStream out = new PrintStream(
+        new BufferedOutputStream(
+          new FileOutputStream("Redirecting.txt")))
+    ) {
+      System.setIn(in);//重定向为文件读取文件输出
+      System.setOut(out);
+      System.setErr(out);
+      new BufferedReader(
+        new InputStreamReader(System.in))
+        .lines()
+        .forEach(System.out:: println);
+    } catch(IOException e) {
+      throw new RuntimeException(e);
+    } finally {
+      System.setOut(console);
+    }
+  }
+```
+
+- 重定向操作字节流
 
 - 进程控制
 
   - 通过标准流实现向控制台发送命令，并监视输出到控制台的信息
 
-  - ``` java
-    public class OSExecute {
-      public static void command(String command) {
-        boolean err = false;
-        try {
-            //启动一个新进程。这个新进程的命令和参数就是输入的命令字符串。
-          Process process = new ProcessBuilder(
-            command.split(" ")).start();//执行命令
-          try(//监控输出
-            BufferedReader results = new BufferedReader(
-              new InputStreamReader(
-                process.getInputStream()));
-            BufferedReader errors = new BufferedReader(
-              new InputStreamReader(
-                process.getErrorStream()))
-          ) {
-            results.lines()
-              .forEach(System.out:: println);
-            err = errors.lines()
-              .peek(System.err:: println)
-              .count() > 0;
-          }
-        } catch(IOException e) {
-          throw new RuntimeException(e);
-        }
-        if(err)
-          throw new OSExecuteException(
-            "Errors executing " + command);
+
+``` java
+public class OSExecute {
+  public static void command(String command) {
+    boolean err = false;
+    try {
+        //启动一个新进程。这个新进程的命令和参数就是输入的命令字符串。
+      Process process = new ProcessBuilder(
+        command.split(" ")).start();//执行命令
+      try(//监控输出
+        BufferedReader results = new BufferedReader(
+          new InputStreamReader(
+            process.getInputStream()));
+        BufferedReader errors = new BufferedReader(
+          new InputStreamReader(
+            process.getErrorStream()))
+      ) {
+        results.lines()
+          .forEach(System.out:: println);
+        err = errors.lines()
+          .peek(System.err:: println)
+          .count() > 0;
       }
+    } catch(IOException e) {
+      throw new RuntimeException(e);
     }
-    ```
+    if(err)
+      throw new OSExecuteException(
+        "Errors executing " + command);
+  }
+}
+```
 
 
 #### 新NIO
@@ -3175,52 +2646,53 @@ public class DogsAndRobotMethodReferences {
 
   - 通过`.getChannel()`**获取通道**
 
-  - ``` java
-    public class GetChannel {
-      private static String name = "data.txt";
-      private static final int BSIZE = 1024;
-      public static void main(String [] args) {
-        // Write a file:
-        try(
-          FileChannel fc = new FileOutputStream(name)
-            .getChannel()
-        ) {//通道只能和 ByteBuffer 对象交互
-          fc.write(ByteBuffer
-            .wrap("Some text ".getBytes()));//通过字节创建 ByteBuffer
-            //通过隧道从缓冲区写入数据到文件
-        } catch(IOException e) {
-          throw new RuntimeException(e);
-        }
-        // Add to the end of the file:
-        try(
-          FileChannel fc = new RandomAccessFile(
-            name, "rw").getChannel()
-        ) {
-          fc.position(fc.size()); // Move to the end
-          fc.write(ByteBuffer
-            .wrap("Some more".getBytes()));
-        } catch(IOException e) {
-          throw new RuntimeException(e);
-        }
-        // Read the file:
-        try(
-          FileChannel fc = new FileInputStream(name)
-            .getChannel()
-        ) {
-          ByteBuffer buff = ByteBuffer.allocate(BSIZE);//创建特定大小
-            //通过隧道将文件内容读取到缓冲区
-          fc.read(buff);
-            //设置为读模式
-          buff.flip();
-          while(buff.hasRemaining())
-            System.out.write(buff.get());
-        } catch(IOException e) {
-          throw new RuntimeException(e);
-        }
-        System.out.flush();
-      }
+
+``` java
+public class GetChannel {
+  private static String name = "data.txt";
+  private static final int BSIZE = 1024;
+  public static void main(String [] args) {
+    // Write a file:
+    try(
+      FileChannel fc = new FileOutputStream(name)
+        .getChannel()
+    ) {//通道只能和 ByteBuffer 对象交互
+      fc.write(ByteBuffer
+        .wrap("Some text ".getBytes()));//通过字节创建 ByteBuffer
+        //通过隧道从缓冲区写入数据到文件
+    } catch(IOException e) {
+      throw new RuntimeException(e);
     }
-    ```
+    // Add to the end of the file:
+    try(
+      FileChannel fc = new RandomAccessFile(
+        name, "rw").getChannel()
+    ) {
+      fc.position(fc.size()); // Move to the end
+      fc.write(ByteBuffer
+        .wrap("Some more".getBytes()));
+    } catch(IOException e) {
+      throw new RuntimeException(e);
+    }
+    // Read the file:
+    try(
+      FileChannel fc = new FileInputStream(name)
+        .getChannel()
+    ) {
+      ByteBuffer buff = ByteBuffer.allocate(BSIZE);//创建特定大小
+        //通过隧道将文件内容读取到缓冲区
+      fc.read(buff);
+        //设置为读模式
+      buff.flip();
+      while(buff.hasRemaining())
+        System.out.write(buff.get());
+    } catch(IOException e) {
+      throw new RuntimeException(e);
+    }
+    System.out.flush();
+  }
+}
+```
 
 - 连接通道的内置方法
 
@@ -3244,96 +2716,101 @@ public class DogsAndRobotMethodReferences {
 
   - 对于字符数据，要么在字节**放入时进行编码**，要么在从缓冲区**取出时进行解码**
 
-  - ``` java
-    String encoding =
-        System.getProperty("file.encoding");
-    //输出时解码
-    System.out.println("Decoded using " +
-                       encoding + ": " + Charset.forName(encoding).decode(buff));
-    // Encode with something that prints:
-    try(
-        FileChannel fc = new FileOutputStream(
-            "data2.txt").getChannel()
-    ) {
-        //陷入到隧道是解码
-        fc.write(ByteBuffer.wrap(
-            "Some text".getBytes("UTF-16BE")));
-    } catch(IOException e) {
-        throw new RuntimeException(e);
-    }
-    // Now try reading again:
-    buff.clear();
-    try(
-        FileChannel fc = new FileInputStream(
-            "data2.txt").getChannel()
-    ) {
-        fc.read(buff);
-    } catch(IOException e) {
-        throw new RuntimeException(e);
-    }
-    buff.flip();
-    System.out.println(buff.asCharBuffer());
-    ```
 
-  - 存储非字符数据的更简单方法
+``` java
+String encoding =
+    System.getProperty("file.encoding");
+//输出时解码
+System.out.println("Decoded using " +
+                   encoding + ": " + Charset.forName(encoding).decode(buff));
+// Encode with something that prints:
+try(
+    FileChannel fc = new FileOutputStream(
+        "data2.txt").getChannel()
+) {
+    //陷入到隧道是解码
+    fc.write(ByteBuffer.wrap(
+        "Some text".getBytes("UTF-16BE")));
+} catch(IOException e) {
+    throw new RuntimeException(e);
+}
+// Now try reading again:
+buff.clear();
+try(
+    FileChannel fc = new FileInputStream(
+        "data2.txt").getChannel()
+) {
+    fc.read(buff);
+} catch(IOException e) {
+    throw new RuntimeException(e);
+}
+buff.flip();
+System.out.println(buff.asCharBuffer());
+```
 
-    - `getX()`X为类型名称
+- 存储非字符数据的更简单方法
 
-    - ```- java
-      // Store and read a char array:
-      bb.asCharBuffer().put("Howdy!");
-      char c;
-      while((c = bb.getChar()) != 0)//读取字符
-          System.out.print(c + " ");
-      System.out.println();
-      bb.rewind();
-      // Store and read a short:
-      bb.asShortBuffer().put((short)471142);
-      System.out.println(bb.getShort());
-      bb.rewind();
-      // Store and read an int:
-      bb.asIntBuffer().put(99471142);
-      System.out.println(bb.getInt());
-      bb.rewind();
-      // Store and read a long:
-      bb.asLongBuffer().put(99471142);
-      System.out.println(bb.getLong());
-      bb.rewind();
-      // Store and read a float:
-      bb.asFloatBuffer().put(99471142);
-      System.out.println(bb.getFloat());
-      bb.rewind();
-      // Store and read a double:
-      bb.asDoubleBuffer().put(99471142);
-      System.out.println(bb.getDouble());
-      bb.rewind();
-      ```
+  - `getX()`X为类型名称
+
+
+```java
+// Store and read a char array:
+bb.asCharBuffer().put("Howdy!");
+char c;
+while((c = bb.getChar()) != 0)//读取字符
+    System.out.print(c + " ");
+System.out.println();
+bb.rewind();
+// Store and read a short:
+bb.asShortBuffer().put((short)471142);
+System.out.println(bb.getShort());
+bb.rewind();
+// Store and read an int:
+bb.asIntBuffer().put(99471142);
+System.out.println(bb.getInt());
+bb.rewind();
+// Store and read a long:
+bb.asLongBuffer().put(99471142);
+System.out.println(bb.getLong());
+bb.rewind();
+// Store and read a float:
+bb.asFloatBuffer().put(99471142);
+System.out.println(bb.getFloat());
+bb.rewind();
+// Store and read a double:
+bb.asDoubleBuffer().put(99471142);
+System.out.println(bb.getDouble());
+bb.rewind();
+```
 
 
 - 视图缓冲区
   - 透过某个特定基本类型的视角来看底层的缓冲区
 
-  - ``` java
-  public static void main(String [] args) {
-      ByteBuffer bb = ByteBuffer.allocate(BSIZE);
-      //看作 Int 缓冲区
-      IntBuffer ib = bb.asIntBuffer();
-      // Store an array of int:
-      ib.put(new int []{ 11, 42, 47, 99, 143, 811, 1016 });
-      // Absolute location read and write:
-      System.out.println(ib.get(3));
-      ib.put(3, 1811);
-      // Setting a new limit before rewinding the buffer.
-      ib.flip();
-      while(ib.hasRemaining()) {
-          int i = ib.get();
-          System.out.println(i);
-      }
+
+``` java
+public static void main(String [] args) {
+  ByteBuffer bb = ByteBuffer.allocate(BSIZE);
+  //看作 Int 缓冲区
+  IntBuffer ib = bb.asIntBuffer();
+  // Store an array of int:
+  ib.put(new int []{ 11, 42, 47, 99, 143, 811, 1016 });
+  // Absolute location read and write:
+  System.out.println(ib.get(3));
+  ib.put(3, 1811);
+  // Setting a new limit before rewinding the buffer.
+  ib.flip();
+  while(ib.hasRemaining()) {
+      int i = ib.get();
+      System.out.println(i);
   }
-  
-  - 其它基本类型也有类似的方法
-  - 可以将同一个字节序类解析为不同类型，同样的缓冲区数据，不一样的解析方式
-  
+}
+```
+
+- 其它基本类型也有类似的方法
+- 可以将同一个字节序类解析为不同类型，同样的缓冲区数据，不一样的解析方式
+
+
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231121131949514.png" alt="image-20231121131949514" style="zoom: 33%;" />
 
 
@@ -3341,54 +2818,56 @@ public class DogsAndRobotMethodReferences {
 
 - 处理因为太大而无法完整加载到内存的文件，可以根据地址把文件当作一个很大的数组来进行访问
 
-- ```java
-  public class LargeMappedFiles {
-    static int length = 0x8000000; // 128 MB
-    public static void
-    main(String [] args) throws Exception {
-      try(
-        RandomAccessFile tdat =
-          new RandomAccessFile("test.dat", "rw")
-      ) {
-        MappedByteBuffer out = tdat.getChannel().map(
-          FileChannel.MapMode.READ_WRITE, 0, length);
-        for(int i = 0; i < length; i++)
-          out.put((byte)'x');
-        System.out.println("Finished writing");
-        for(int i = length/2; i < length/2 + 6; i++)
-          System.out.print((char)out.get(i));
-      }
+
+```java
+public class LargeMappedFiles {
+  static int length = 0x8000000; // 128 MB
+  public static void
+  main(String [] args) throws Exception {
+    try(
+      RandomAccessFile tdat =
+        new RandomAccessFile("test.dat", "rw")
+    ) {
+      MappedByteBuffer out = tdat.getChannel().map(
+        FileChannel.MapMode.READ_WRITE, 0, length);
+      for(int i = 0; i < length; i++)
+        out.put((byte)'x');
+      System.out.println("Finished writing");
+      for(int i = length/2; i < length/2 + 6; i++)
+        System.out.print((char)out.get(i));
     }
   }
-  ```
+}
+```
 
 ##### 文件加锁
 
 - 对文件枷锁会对文件的访问操作加上同步处理，这样文件才能作为共享资源，由于文件并不一定在一个JVM被操作（也可能被系统进程等操作），因此Java的文件加锁直接映射到本地操作系统，对其它进程可见
 
-- ``` java
-  public class FileLocking {
-    public static void main(String [] args) {
-      try(
-        FileOutputStream fos =
-          new FileOutputStream("file.txt");
-          //加锁
-        FileLock fl = fos.getChannel().tryLock()
-      ) {
-          //得到了锁
-        if(fl != null) {
-          System.out.println("Locked File");
-          TimeUnit.MILLISECONDS.sleep(100);
-            //释放锁
-          fl.release();
-          System.out.println("Released Lock");
-        }
-      } catch(IOException | InterruptedException e) {
-        throw new RuntimeException(e);
+
+``` java
+public class FileLocking {
+  public static void main(String [] args) {
+    try(
+      FileOutputStream fos =
+        new FileOutputStream("file.txt");
+        //加锁
+      FileLock fl = fos.getChannel().tryLock()
+    ) {
+        //得到了锁
+      if(fl != null) {
+        System.out.println("Locked File");
+        TimeUnit.MILLISECONDS.sleep(100);
+          //释放锁
+        fl.release();
+        System.out.println("Released Lock");
       }
+    } catch(IOException | InterruptedException e) {
+      throw new RuntimeException(e);
     }
   }
-  ```
+}
+```
 
 - `lock()`是阻塞方法，一直等到获得锁，try指示尝试一下
 
@@ -3397,36 +2876,37 @@ public class DogsAndRobotMethodReferences {
 
 - 部分加锁（用于文件映射及数据库等较大共用文件）
 
-  - ``` java
-    private static class LockAndModify extends Thread {
-        private ByteBuffer buff;
-        private int start, end;
-        LockAndModify(ByteBuffer mbb, int start, int end) {
-          this.start = start;
-          this.end = end;
-          mbb.limit(end);
-          mbb.position(start);
-          buff = mbb.slice();
-          start();
-        }
-        @Override public void run() {
-          try {
-            // Exclusive lock with no overlap:
-            FileLock fl = fc.lock(start, end, false);
-            System.out.println(
-              "Locked: "+ start +" to "+ end);
-            // Perform modification:
-            while(buff.position() < buff.limit() - 1)
-              buff.put((byte)(buff.get() + 1));
-            fl.release();
-            System.out.println(
-              "Released: " + start + " to " + end);
-          } catch(IOException e) {
-            throw new RuntimeException(e);
-          }
-        }
+
+``` java
+private static class LockAndModify extends Thread {
+    private ByteBuffer buff;
+    private int start, end;
+    LockAndModify(ByteBuffer mbb, int start, int end) {
+      this.start = start;
+      this.end = end;
+      mbb.limit(end);
+      mbb.position(start);
+      buff = mbb.slice();
+      start();
+    }
+    @Override public void run() {
+      try {
+        // Exclusive lock with no overlap:
+        FileLock fl = fc.lock(start, end, false);
+        System.out.println(
+          "Locked: "+ start +" to "+ end);
+        // Perform modification:
+        while(buff.position() < buff.limit() - 1)
+          buff.put((byte)(buff.get() + 1));
+        fl.release();
+        System.out.println(
+          "Released: " + start + " to " + end);
+      } catch(IOException e) {
+        throw new RuntimeException(e);
       }
-    ```
+    }
+  }
+```
 
 
 ### 文件(新)
@@ -3446,29 +2926,31 @@ public class DogsAndRobotMethodReferences {
 
 - 方法
 
-  - ``` java
-    p.isAbsolute();//是否为绝对路径
-    p.getFileName();//获取文件名称
-    p.getParent();//获取上级路径
-    p.getRoot();//获取最顶层路径（如 c:/）
-    p.toRealPath();//获取绝对路径（取决于操作系统环境）
-    p.normalize();//规范路径
-    URI u = p.toUri();
-    Path puri = Paths.get(u);
-    ```
+
+``` java
+p.isAbsolute();//是否为绝对路径
+p.getFileName();//获取文件名称
+p.getParent();//获取上级路径
+p.getRoot();//获取最顶层路径（如 c:/）
+p.toRealPath();//获取绝对路径（取决于操作系统环境）
+p.normalize();//规范路径
+URI u = p.toUri();
+Path puri = Paths.get(u);
+```
 
 - 切割
 
-  - ``` java
-    for(int i = 0; i < p.getNameCount(); i++)
-          System.out.println(p.getName(i));
-    ```
 
-    - 也可以直接使用for-in循环遍历
+``` java
+for(int i = 0; i < p.getNameCount(); i++)
+      System.out.println(p.getName(i));
+```
 
-  - 注意对路径使用startsWith、endsWith要求是完整一项，如`xx.java`
+- 也可以直接使用for-in循环遍历
 
-  - 遍历的内容不包含根路径
+- 注意对路径使用startsWith、endsWith要求是完整一项，如`xx.java`
+
+- 遍历的内容不包含根路径
 
 - 添加/删除路径
 
@@ -3477,22 +2959,22 @@ public class DogsAndRobotMethodReferences {
 
 ##### Files工具类
 
-- ``` java
-  say("Exists", Files.exists(p));
-  say("Directory", Files.isDirectory(p));
-  say("Executable", Files.isExecutable(p));
-  say("Readable", Files.isReadable(p));
-  say("RegularFile", Files.isRegularFile(p));
-  say("Writable", Files.isWritable(p));
-  say("notExists", Files.notExists(p));
-  say("Hidden", Files.isHidden(p));
-  say("size", Files.size(p));
-  say("FileStore", Files.getFileStore(p));
-  say("LastModified: ", Files.getLastModifiedTime(p));
-  say("Owner", Files.getOwner(p));
-  say("ContentType", Files.probeContentType(p));
-  say("SymbolicLink", Files.isSymbolicLink(p));
-  ```
+``` java
+say("Exists", Files.exists(p));
+say("Directory", Files.isDirectory(p));
+say("Executable", Files.isExecutable(p));
+say("Readable", Files.isReadable(p));
+say("RegularFile", Files.isRegularFile(p));
+say("Writable", Files.isWritable(p));
+say("notExists", Files.notExists(p));
+say("Hidden", Files.isHidden(p));
+say("size", Files.size(p));
+say("FileStore", Files.getFileStore(p));
+say("LastModified: ", Files.getLastModifiedTime(p));
+say("Owner", Files.getOwner(p));
+say("ContentType", Files.probeContentType(p));
+say("SymbolicLink", Files.isSymbolicLink(p));
+```
 
 - 遍历目录`Files.walkFileTree(Path, SimpleFileVisitor<Path>)`
 
@@ -3504,80 +2986,83 @@ public class DogsAndRobotMethodReferences {
 
   - 示例：删除文件夹
 
-    - ``` java
-      public static void rmdir(Path dir)
-        throws IOException {
-          Files.walkFileTree(dir,
-            new SimpleFileVisitor <Path>() {
-            @Override public FileVisitResult
-            visitFile(Path file, BasicFileAttributes attrs)
-            throws IOException {
-              Files.delete(file);
-              return FileVisitResult.CONTINUE;
-            }
-            //文件夹内的文件都被删除了，可以删除目录了
-            @Override public FileVisitResult
-            postVisitDirectory(Path dir, IOException exc)
-            throws IOException {
-              Files.delete(dir);
-              return FileVisitResult.CONTINUE;
-            }
-          });
-        }
-      ```
+
+``` java
+public static void rmdir(Path dir)
+  throws IOException {
+    Files.walkFileTree(dir,
+      new SimpleFileVisitor <Path>() {
+      @Override public FileVisitResult
+      visitFile(Path file, BasicFileAttributes attrs)
+      throws IOException {
+        Files.delete(file);
+        return FileVisitResult.CONTINUE;
+      }
+      //文件夹内的文件都被删除了，可以删除目录了
+      @Override public FileVisitResult
+      postVisitDirectory(Path dir, IOException exc)
+      throws IOException {
+        Files.delete(dir);
+        return FileVisitResult.CONTINUE;
+      }
+    });
+  }
+```
 
 - 创建
 
-  - ``` java
-    Path newFilePath = Paths.get("newfile.txt");
-    Files.createFile(newFilePath);
-    //如果文件已存在，抛 FileAlreadyExistsException
-    
-    Path newDirPath = Paths.get("newdir");
-    Files.createDirectory(newDirPath);
-    
-    //创建多级目录
-    Path dirsPath = Paths.get("newdir/subdir");
-    Files.createDirectories(dirsPath);
-    
-    //删除文件或目录
-    Path pathToDelete = Paths.get("fileOrDirToDelete");
-    Files.delete(pathToDelete);
-    //删除目录时，目录必须是空的，否则会抛出 DirectoryNotEmptyException
-    ```
+
+``` java
+Path newFilePath = Paths.get("newfile.txt");
+Files.createFile(newFilePath);
+//如果文件已存在，抛 FileAlreadyExistsException
+
+Path newDirPath = Paths.get("newdir");
+Files.createDirectory(newDirPath);
+
+//创建多级目录
+Path dirsPath = Paths.get("newdir/subdir");
+Files.createDirectories(dirsPath);
+
+//删除文件或目录
+Path pathToDelete = Paths.get("fileOrDirToDelete");
+Files.delete(pathToDelete);
+//删除目录时，目录必须是空的，否则会抛出 DirectoryNotEmptyException
+```
 
 - Files.walk提供更简单的遍历方式
 
   - 返回`Stream<Path>`对象
 
-  - ``` java
-    Path start = Paths.get("/some/path");
-    try (Stream <Path> stream = Files.walk(start, 3)) { // 遍历深度为 3
-        stream.forEach(System.out:: println); // 打印每个文件和目录的路径
-    }
-    ```
 
-  - ``` java
-    //删除 txt 文件
-    static Path test = Paths.get("test");
-      static void delTxtFiles() {
-        try {
-          Files.walk(test)
-            .filter(f ->
-              f.toString().endsWith(".txt"))
-            .forEach(f -> {
-              try {
-                System.out.println("deleting " + f);
-                Files.delete(f);
-              } catch(IOException e) {
-                throw new RuntimeException(e);
-              }
-            });
-        } catch(IOException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    ```
+``` java
+Path start = Paths.get("/some/path");
+try (Stream <Path> stream = Files.walk(start, 3)) { // 遍历深度为 3
+    stream.forEach(System.out:: println); // 打印每个文件和目录的路径
+}
+```
+
+``` java
+//删除 txt 文件
+static Path test = Paths.get("test");
+  static void delTxtFiles() {
+    try {
+      Files.walk(test)
+        .filter(f ->
+          f.toString().endsWith(".txt"))
+        .forEach(f -> {
+          try {
+            System.out.println("deleting " + f);
+            Files.delete(f);
+          } catch(IOException e) {
+            throw new RuntimeException(e);
+          }
+        });
+    } catch(IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+```
 
 #### 文件系统
 
@@ -3589,29 +3074,30 @@ public class DogsAndRobotMethodReferences {
 
   - 注意只会检测目标目录下的变化（不含子目录）
 
-  - ``` java
-    try {
-        WatchService watcher =
-            FileSystems.getDefault().newWatchService();
-        dir.register(watcher, ENTRY_DELETE);
-        Executors.newSingleThreadExecutor().submit(() -> {
-            try {
-                WatchKey key = watcher.take();
-                for(WatchEvent evt : key.pollEvents()) {
-                    System.out.println(
-                        "evt.context(): " + evt.context() +
-                        "\nevt.count(): " + evt.count() +
-                        "\nevt.kind(): " + evt.kind());
-                    System.exit(0);
-                }
-            } catch(InterruptedException e) {
-                return;
+
+``` java
+try {
+    WatchService watcher =
+        FileSystems.getDefault().newWatchService();
+    dir.register(watcher, ENTRY_DELETE);
+    Executors.newSingleThreadExecutor().submit(() -> {
+        try {
+            WatchKey key = watcher.take();
+            for(WatchEvent evt : key.pollEvents()) {
+                System.out.println(
+                    "evt.context(): " + evt.context() +
+                    "\nevt.count(): " + evt.count() +
+                    "\nevt.kind(): " + evt.kind());
+                System.exit(0);
             }
-        });
-    } catch(IOException e) {
-        throw new RuntimeException(e);
-    }
-    ```
+        } catch(InterruptedException e) {
+            return;
+        }
+    });
+} catch(IOException e) {
+    throw new RuntimeException(e);
+}
+```
 
 - 查找文件
 
@@ -3657,47 +3143,50 @@ public class DogsAndRobotMethodReferences {
 
 - 一个实现了相应接口的类
 
-  - ```java
-    public class Employee implements Serializable {
-        private static final long serialVersionUID = 1L;
-        private transient Address address;
-        private Person person;
-        // setters and getters
-        private void writeObject(ObjectOutputStream oos)  throws IOException {
-            oos.defaultWriteObject();
-            oos.writeObject(address.getHouseNumber());
-        }
-    
-        private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-            ois.defaultReadObject();
-            Integer houseNumber = (Integer) ois.readObject();
-            Address a = new Address();
-            a.setHouseNumber(houseNumber);
-            this.setAddress(a);
-        }
+
+```java
+public class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private transient Address address;
+    private Person person;
+    // setters and getters
+    private void writeObject(ObjectOutputStream oos)  throws IOException {
+        oos.defaultWriteObject();
+        oos.writeObject(address.getHouseNumber());
     }
-    public class Address { private int houseNumber; }
-    ```
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        ois.defaultReadObject();
+        Integer houseNumber = (Integer) ois.readObject();
+        Address a = new Address();
+        a.setHouseNumber(houseNumber);
+        this.setAddress(a);
+    }
+}
+public class Address { private int houseNumber; }
+```
 
 ### 网络编程
 
 - 直接通过url获取数据
 
-  - ```java
-    URL oracle = new URL("http://www.oracle.com/");
-            BufferedReader in = new BufferedReader(
-            new InputStreamReader(oracle.openStream()));
-    ```
+
+```java
+URL oracle = new URL("http://www.oracle.com/");
+        BufferedReader in = new BufferedReader(
+        new InputStreamReader(oracle.openStream()));
+```
 
 - 建立连接进行读写
 
-  - ```java
-    URL oracle = new URL("http://www.oracle.com/");
-    URLConnection yc = oracle.openConnection();
-    BufferedReader in = new BufferedReader(new InputStreamReader(
-        yc.getInputStream()));
-    OutputStreamWriter out = new OutputStreamWriter( connection.getOutputStream());
-    ```
+
+```java
+URL oracle = new URL("http://www.oracle.com/");
+URLConnection yc = oracle.openConnection();
+BufferedReader in = new BufferedReader(new InputStreamReader(
+    yc.getInputStream()));
+OutputStreamWriter out = new OutputStreamWriter( connection.getOutputStream());
+```
 
 #### nio
 
@@ -3705,29 +3194,30 @@ public class DogsAndRobotMethodReferences {
 
   - 服务器保持等待，监听套接字以等待客户端发出连接请求。
 
-    - ```java
-      ServerSocket serverSocket = new ServerSocket(80));
-      ```
 
-    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231225015934586.png" alt="image-20231225015934586" style="zoom:33%;" />
+```java
+ServerSocket serverSocket = new ServerSocket(80));
+```
 
-  - 客户端通过域名及端口连接到服务器
+- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231225015934586.png" alt="image-20231225015934586" style="zoom:33%;" />
 
-    - `Socket echoSocket = new Socket(hostName, portNumber); `
-    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231225015329591.png" style="zoom:33%;" />
+- 客户端通过域名及端口连接到服务器
 
-  - 服务器接受连接`Socket clientSocket = serverSocket.accept(); `
+  - `Socket echoSocket = new Socket(hostName, portNumber); `
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231225015329591.png" style="zoom:33%;" />
 
-    - 原先的套接字用于与客户端连接，其远端被设置为连接的客户端的信息，服务器还会创建一个新的套接字用于继续监听新的连接
-    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231225015838769.png" alt="image-20231225015838769" style="zoom: 50%;" />
+- 服务器接受连接`Socket clientSocket = serverSocket.accept(); `
 
-  - 连接后服务器和客户端可以使用套接字继续宁数据与交互
+  - 原先的套接字用于与客户端连接，其远端被设置为连接的客户端的信息，服务器还会创建一个新的套接字用于继续监听新的连接
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231225015838769.png" alt="image-20231225015838769" style="zoom: 50%;" />
 
-    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231225020025833.png" alt="image-20231225020025833" style="zoom:33%;" />
+- 连接后服务器和客户端可以使用套接字继续宁数据与交互
 
-  - 但是这样性能开销很大！
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231225020025833.png" alt="image-20231225020025833" style="zoom:33%;" />
 
-    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231225020100938.png" alt="image-20231225020100938" style="zoom:33%;" />
+- 但是这样性能开销很大！
+
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231225020100938.png" alt="image-20231225020100938" style="zoom:33%;" />
 
 - selector
   - 使用一个线程管理多个channel节省资源
@@ -3749,55 +3239,56 @@ public class DogsAndRobotMethodReferences {
 
   - 使用Collection作为参数可以实现一种通用的处理
 
-  - ``` java
-    public class CollectionSequence
-    extends AbstractCollection <Pet> {
-      private Pet [] pets = new PetCreator().array(8);
+
+``` java
+public class CollectionSequence
+extends AbstractCollection <Pet> {
+  private Pet [] pets = new PetCreator().array(8);
+  @Override
+  public int size() { return pets.length; }
+  @Override public Iterator <Pet> iterator() {
+    return new Iterator <Pet>() {              // 还要实现迭代器接口
+      private int index = 0;
+      @Override public boolean hasNext() {
+        return index < pets.length;
+      }
       @Override
-      public int size() { return pets.length; }
-      @Override public Iterator <Pet> iterator() {
-        return new Iterator <Pet>() {              // 还要实现迭代器接口
-          private int index = 0;
-          @Override public boolean hasNext() {
-            return index < pets.length;
-          }
-          @Override
-          public Pet next() { return pets [index++]; }
-          @Override
-          public void remove() { // Not implemented
-            throw new UnsupportedOperationException();
-          }
-        };
+      public Pet next() { return pets [index++]; }
+      @Override
+      public void remove() { // Not implemented
+        throw new UnsupportedOperationException();
       }
-      public static void main(String [] args) {
-        CollectionSequence c = new CollectionSequence();
-        InterfaceVsIterator.display(c);
-        InterfaceVsIterator.display(c.iterator());
+    };
+  }
+  public static void main(String [] args) {
+    CollectionSequence c = new CollectionSequence();
+    InterfaceVsIterator.display(c);
+    InterfaceVsIterator.display(c.iterator());
+  }
+}
+//由于 Collection 包含了 Iterator，因此如果一个类不是 Collection 的外部类时，实现 iterator 并作为通用的访问是更简单的方式
+public class NonCollectionSequence extends PetSequence {
+  public Iterator <Pet> iterator() {
+    return new Iterator <Pet>() {
+      private int index = 0;
+      @Override public boolean hasNext() {
+        return index < pets.length;
       }
-    }
-    //由于 Collection 包含了 Iterator，因此如果一个类不是 Collection 的外部类时，实现 iterator 并作为通用的访问是更简单的方式
-    public class NonCollectionSequence extends PetSequence {
-      public Iterator <Pet> iterator() {
-        return new Iterator <Pet>() {
-          private int index = 0;
-          @Override public boolean hasNext() {
-            return index < pets.length;
-          }
-          @Override
-          public Pet next() { return pets [index++]; }
-          @Override
-          public void remove() { // Not implemented
-            throw new UnsupportedOperationException();
-          }
-        };
+      @Override
+      public Pet next() { return pets [index++]; }
+      @Override
+      public void remove() { // Not implemented
+        throw new UnsupportedOperationException();
       }
-      public static void main(String [] args) {
-        NonCollectionSequence nc =
-          new NonCollectionSequence();
-        InterfaceVsIterator.display(nc.iterator());
-      }
-    }
-    ```
+    };
+  }
+  public static void main(String [] args) {
+    NonCollectionSequence nc =
+      new NonCollectionSequence();
+    InterfaceVsIterator.display(nc.iterator());
+  }
+}
+```
 
 - `Collections`是一个包含**静态方法的工具类**，这些方法用于操作或返回集合。它为整个集合框架提供了一系列的静态方法，如排序、搜索、线程安全转换等。
 
@@ -3831,29 +3322,29 @@ public class DogsAndRobotMethodReferences {
 - 添加一组元素
   - `list2.addAll([Index, ]list1);`
   - 所有Collection都具有的方法,只接受另一个Collection作为参数
-  
+
 - 打印集合
   - 可以直接`println`
   - 默认的打印是通过集合的`toString`方法提供的
-  
+
 - 创建不可修改的Collection或map
 
   - Collrctions接受一个原始集合返回一个只读版本
 
-  - ``` java
-     Collections.unmodifiableCollection(
-            new ArrayList <>(data));
-    List <String> a = Collections.unmodifiableList(
-            new ArrayList <>(data));
-     Set <String> s = Collections.unmodifiableSet(
-          new HashSet <>(data));
-     Set <String> ss = Collections.unmodifiableSortedSet(
-            new TreeSet <>(data));
-    Map <String,String> m = Collections.unmodifiableMap(
-            new HashMap <>(Countries.capitals(6)));
-    Map <String,String> sm = Collections.unmodifiableSortedMap(
-            new TreeMap <>(Countries.capitals(6)));
-    ```
+- ``` java
+  Collections.unmodifiableCollection(
+         new ArrayList <>(data));
+  List <String> a = Collections.unmodifiableList(
+          new ArrayList <>(data));
+   Set <String> s = Collections.unmodifiableSet(
+        new HashSet <>(data));
+   Set <String> ss = Collections.unmodifiableSortedSet(
+          new TreeSet <>(data));
+  Map <String,String> m = Collections.unmodifiableMap(
+          new HashMap <>(Countries.capitals(6)));
+  Map <String,String> sm = Collections.unmodifiableSortedMap(
+          new TreeMap <>(Countries.capitals(6)));
+  ```
 
   - 调用修改集合内容的方法会触发UnsupportedOperationException
 
