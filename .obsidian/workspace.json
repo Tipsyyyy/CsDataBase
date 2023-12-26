@@ -4,18 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "5239b8f73c1c68e8",
+        "id": "d2c59dd0453ad6c3",
         "type": "tabs",
         "children": [
           {
-            "id": "e4ef016721f85215",
+            "id": "aeeb39d828c5924f",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf-annotator",
               "state": {
-                "file": "未命名.md",
-                "mode": "preview",
-                "source": false
+                "file": "未命名.md"
               }
             }
           }
@@ -62,6 +60,14 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
+              "state": {}
+            }
+          },
+          {
+            "id": "e9ac2cd663de210b",
+            "type": "leaf",
+            "state": {
+              "type": "recent-files",
               "state": {}
             }
           }
@@ -128,13 +134,22 @@
                 "file": "未命名.md"
               }
             }
+          },
+          {
+            "id": "9d8082ae89a6025f",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 281.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -146,12 +161,19 @@
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
       "workspaces:管理工作区布局": false,
-      "audio-recorder:开始/结束录音": false
+      "audio-recorder:开始/结束录音": false,
+      "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "e4ef016721f85215",
+  "active": "aeeb39d828c5924f",
   "lastOpenFiles": [
+    "min.pdf",
     "未命名.md",
+    "1某上市公司2006年年度财务报告.pdf",
+    "Excalidraw/2023-12-27.md",
+    "2023-12-28.md",
+    "2023-12-26.md",
+    "2023-W52.md",
     "Excalidraw/Drawing 2023-12-26 13.12.59.excalidraw.md",
     "Excalidraw",
     "01 Big Data.pdf",

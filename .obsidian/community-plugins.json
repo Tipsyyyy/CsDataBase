@@ -3,5 +3,8 @@
   "obsidian-excalidraw-plugin",
   "obsidian-pandoc",
   "media-extended",
-  "mx-bili-plugin"
+  "mx-bili-plugin",
+  "calendar",
+  "obsidian-annotator",
+  "recent-files-obsidian"
 ]
