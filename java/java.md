@@ -74,96 +74,85 @@ static{
   - 可以将传入的多个参数自动**转化为一个数组**
   - 允许传入0个元素
 
-### 创建副本
+### 拷贝对象
 
-- 克隆对象
-
-  - 需要将想要克隆的子类中将`clone()`方法重写为public（默认为protected）
-  - clone的返回值是Object因此还需要进行显式类型转换
-  - 要注意的是有时clone并不总是符合预期，如对ArrayList进行clone并不会对内部的元素进行复制
-    - 直接赋值二进制数据，因此把引用复制了过来
-    - 包装数据类型是例外，包装数据类型不可变，修改后会创建新对象，因此使用clone后不会再同步修改
-
-- 通常除了修改访问控制为public外调用`super.clone()`
+- 需要将想要克隆的子类中将`clone()`方法重写为public（默认为protected）
+- clone的返回值是Object因此还需要进行显式类型转换
+- 要注意的是有时clone并不总是符合预期，如对ArrayList进行clone并不会对内部的元素进行复制
+  - 直接赋值二进制数据，因此把引用复制了过来
+  - 包装数据类型是例外，包装数据类型不可变，修改后会创建新对象，因此使用clone后不会再同步修改
 
 - Cloneable接口，用于验证一个对象是否具有克隆能力，如果一个类没有实现该接口，在使用clone方法时会报错
+  - 由于会引发异常，因此需要trycatch
 
-  - 由于会引发一场，因此需要trycatch
-
-  - ``` java
-    class Duplo implements Cloneable {
-      private int n;
-      Duplo(int n) { this.n = n; }
-      @Override public Duplo clone() {    
-        try {
-            //对于大部分对象的处理
-          return (Duplo)super.clone();
-        } catch(CloneNotSupportedException e) {
-          throw new RuntimeException(e);
-        }
-      }
-      public int getValue() { return n; }
-      public void setValue(int n) { this.n = n; }
-      public void increment() { n++; }
-      @Override public String toString() {
-        return Integer.toString(n);
-      }
+``` java
+class Duplo implements Cloneable {
+  private int n;
+  Duplo(int n) { this.n = n; }
+  @Override public Duplo clone() {    
+    try {
+        //对于大部分对象的处理
+      return (Duplo)super.clone();
+    } catch(CloneNotSupportedException e) {
+      throw new RuntimeException(e);
     }
-    ```
+  }
+  public int getValue() { return n; }
+  public void setValue(int n) { this.n = n; }
+  public void increment() { n++; }
+  @Override public String toString() {
+    return Integer.toString(n);
+  }
+}
+```
 
 - 克隆组合对象
-
   - 除了克隆自身外要对所有引用对象进行克隆和重新绑定
-
-  - ``` java
-    @Override public OceanReading clone() {
-        OceanReading or = null;
-        try {
-            or =(OceanReading)super.clone();
-        } catch(CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
-        // 克隆并重新绑定引用
-        or.depth = (DepthReading)or.depth.clone();
-        or.temperature =(TemperatureReading)or.temperature.clone();
-        return or;
+``` java
+@Override public OceanReading clone() {
+    OceanReading or = null;
+    try {
+        or =(OceanReading)super.clone();
+    } catch(CloneNotSupportedException e) {
+        throw new RuntimeException(e);
     }
-    ```
+    // 克隆并重新绑定引用
+    or.depth = (DepthReading)or.depth.clone();
+    or.temperature =(TemperatureReading)or.temperature.clone();
+    return or;
+}
+```
 
 - 深拷贝ArrayList
-
   - 先cone集合，之后对每一项进行clone和重新绑定到集合
 
 - 通过序列换进行深拷贝
-
   - 序列化再反序列化实现拷贝（但是这很慢）
-
   - 需要实现`Serializable`
+``` java
+import java.io.*;
 
-  - ``` java
-    import java.io.*;
-    
-    public class DeepCopy {
-    
-        @SuppressWarnings("unchecked")
-        public static <T extends Serializable> T deepCopy(T object) {
-            try {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
-                    oos.writeObject(object);
-                }
-    
-                ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-                try (ObjectInputStream ois = new ObjectInputStream(bais)) {
-                    return (T) ois.readObject();
-                }
-            } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+public class DeepCopy {
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Serializable> T deepCopy(T object) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+                oos.writeObject(object);
             }
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            try (ObjectInputStream ois = new ObjectInputStream(bais)) {
+                return (T) ois.readObject();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
-    
-    ```
+}
+
+```
 
 ### 控制可克隆性
 
