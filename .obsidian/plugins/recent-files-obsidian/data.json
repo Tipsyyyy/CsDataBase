@@ -1,5 +1,14 @@
 {
-  "recentFiles": [],
+  "recentFiles": [
+    {
+      "basename": "散列表（哈希表）",
+      "path": "散列表（哈希表）.pdf"
+    },
+    {
+      "basename": "draft",
+      "path": "temp/draft.md"
+    }
+  ],
   "omittedPaths": [],
   "maxLength": null,
   "openType": "tab"

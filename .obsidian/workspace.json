@@ -4,15 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "86fb810c06784ad5",
+        "id": "748eca05ccfd0f1e",
         "type": "tabs",
         "children": [
           {
-            "id": "787fd41bcbbc6873",
+            "id": "7c6cacadfbffe871",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "pdf",
+              "state": {
+                "file": "散列表（哈希表）.pdf"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "8fc0c3701a2a3566",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4b3ed7dc9e88ca91",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "temp/draft.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -89,6 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "散列表（哈希表）.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,6 +126,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "散列表（哈希表）.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +148,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "散列表（哈希表）.pdf"
+              }
             }
           },
           {
@@ -142,7 +166,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 202.5
+    "width": 202.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -154,11 +179,16 @@
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
       "workspaces:管理工作区布局": false,
-      "audio-recorder:开始/结束录音": false
+      "audio-recorder:开始/结束录音": false,
+      "obsidian-extract-pdf-highlights:PDF Highlights": false
     }
   },
-  "active": "787fd41bcbbc6873",
+  "active": "7c6cacadfbffe871",
   "lastOpenFiles": [
+    "temp/draft.md",
+    "散列表（哈希表）.pdf",
+    "概述 1.ppt",
+    "概述.ppt",
     "未命名.md",
     "min.pdf",
     "temp",
