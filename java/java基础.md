@@ -147,7 +147,7 @@
   - 所有的键来源某个枚举类型（实际上就是一个数组）除此之外与普通map一样
   - **所有的枚举类型**会被作为键初始化加入到map，但是对应的val为**null**
 
-#### 枚举类型的应用
+#### 枚举类型的高级应用
 
 - 职责链
   - 把解决问题的方法串成链，当请求到达时会顺着链传递下去知道遇到某个可以处理请求的方法（事件冒泡）
@@ -193,12 +193,9 @@
         System.out.println(m + " is a dead letter");
       }
     }
-    ```
-
+  
 - 有限状态机
-
   - 通常使用switch处理输入，选择下一步的状态进行状态转移
-
   - ``` java
     public class StateMachine {
         private State currentState;
