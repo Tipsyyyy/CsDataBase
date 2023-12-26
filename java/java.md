@@ -522,32 +522,8 @@ public class NonConvariantGeneric {
 ### 自限定类型
 
 - 限制一个泛型类的类型参数，使其只能是该泛型类的**子类**。
-``` java
-public class BasicHolder <T> {
-    T element;
-    void set(T arg){this.element = arg;}
-    T get(){return this.element;}
-    void print(){
-        System.out.println(element.getClass().getSimpleName());
-    }
-}
-public class SubType extends BasicHolder <SubType> {
-    public static void main(String [] args){
-        SubType s1 = new SubType();
-        SubType s3 = s1.get();
-        s1.print();
-        s3.print();
-    }
-}
-```
-
-- 即泛型类型**是自身**
-
-- 与普通继承的关系
-
-  - 与普通继承相比，这里使用了泛型来确保类型安全，并在子类中**特化了基类的行为**。在普通的继承中，子类继承父类的属性和方法并可以重写它们。在这种情况下，子类不仅继承了基类的属性和方法，而且通过泛型参数为这些属性和方法**提供了一个具体的类型**（即其自身）。
-  - 这意味着，对于 `SubType`，它继承了 `BasicHolder` 的所有方法，但这些方法现在具有固定的类型 - 也就是 `SubType`。所以，`SubType` 的一个实例可以保证 `get()` 方法返回的是 `SubType`，并且 `set()` 方法只接受 `SubType` 类型的参数。
-  - 这提供了额外的**类型安全性**，并允许你在子类中为这些方法提供更具体的实现，同时不牺牲代码的复用性。
+- 与普通继承相比，使用了泛型来确保类型安全，并在子类中**特化了基类的行为**。在普通的继承中，子类继承父类的属性和方法并可以重写它们。在这种情况下，子类不仅继承了基类的属性和方法，而且通过泛型参数为这些属性和方法**提供了一个具体的类型**（即其自身）。
+- 这提供了额外的**类型安全性**，并允许在子类中为这些方法提供更具体的实现，同时不牺牲代码的复用性。
 
 - 泛型类强制实例时使用这种模式
 ``` java
@@ -583,7 +559,7 @@ public static void main(String [] args){
 ### 通配符
 
 - 边界
-  - 也可以对泛型进行一定限制
+  - 可以对泛型进行一定限制
 ``` java
 public class Computer <T extends Disk>{//必须是 Disk 或子类
 ```
@@ -601,8 +577,8 @@ class ColoredDimension <T extends Dimension & HasColor>{ //why？
     
 }
 ```
-
 - 类型在前接口在后，并且同样只能继承一个类
+
 - 常用用于**方法参数**，**实现泛型类型的多态**，对于数组讨论集合自身的类型而不是所持有的元素类型
 - 由于list不存在直接继承关系，可以使用通配符实现通用方法
 ``` java
@@ -635,12 +611,9 @@ public class GenericsAndCovariance {
 ```
 
 - **协变**`Plate<？extends Fruit>`可以放**子类型**中任意的
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231012114311701.png" alt="image-20231012114311701" style="zoom:50%;" />
 
   - `List<?>`由于无法在编译期间确定泛型的实际类型，所以**没法**向`List<?>`中**添加**除了`null`外的任意类型元素。（即我不知道最高会是谁，因此我要是放入后得向下转型呢？但是读取可以，因为这总会是向上转型）
-
-
 ``` java
 class Fruit{}
 class Apple extends Fruit{}
@@ -654,26 +627,14 @@ class Apple extends Fruit{}
         Object newFruit2 = p.get();
         Apple newFruit3 = p.get();    //Error
 ```
-
 - 对于`Plate<? exyends fruit>`编译器并不知道具体会被初始化为什么类型，因此如果允许放入元素则可能造成不匹配（类型错误）
-
 - 而取出时会获得上界的类型，构成了多态
-
 - 对于非集合类型也会有限制，如`Tile<? extends Thing> tile;`
-
-  - 读取，对于**返回T类型**的方法，可以安全的读取到Thing类型，因为这一定是一个子类
-  - 赋值，对于有T类型参数的方法，通常无法调用，因为不知道确切的T泛型参数类型
-  - 注意，这种参数并不是针对对tile变量的赋值和访问，而是针对对tile内部含有泛型参数/返回值的方法的调用
-
-- 有多个上界时使用`&`连接
+  - 注意，这种参数并不是针对对tile变量的赋值和访问，而是针对对tile**内部**含有泛型参数/返回值的方法的调用
 
 - **逆变**`Plate<？super Fruit>`可以放基类中任意
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231012114813621.png" alt="image-20231012114813621" style="zoom:50%;" />
-
-  - 我们在编译期只能知道`下界通配符`的下界是什么类型，所以在添加元素时，只能向其中**添加下界类型。**由于编译期无法知晓具体的实际类型，所以只能使用**`Object`来**接收获取的元素
-
-
+  - 我们在编译期只能知道`下界通配符`的下界是什么类型，所以在添加元素时，**只能向其中添加下界类型**。由于编译期无法知晓具体的实际类型，所以只能使用`Object`来**接收获取的元素
 ``` java
 class Fruit{}
 class Apple extends Fruit{}
@@ -692,19 +653,16 @@ public class GenericsAndCovariance {
 ```
 
 - **`List<?>`（无界通配符）**:
-
   - 这表示一个未知类型的列表。`?` 是一个通配符，代表任何类型。
   - 你可以从 `List<?>` 读取数据，读取的数据将被视为 `Object` 类型，但你不能向其中写入除 `null` 之外的任何数据，因为你不知道列表的确切类型。
   - 它在你不关心列表的具体类型，或者在使用只读操作时非常有用。
 
 - **`List`（原生类型）**:
-
   - 这是一个原生类型的列表，没有泛型信息。在泛型被引入Java之前就存在。
   - 你可以向其中添加任何类型的对象，也可以从中读取数据，读取的数据被视为 `Object` 类型。
   - 它不安全，因为它不提供类型检查，可能导致运行时错误（例如，`ClassCastException`）。
 
 - **`List<Object>`**:
-
   - 这表示一个可以包含任何类型对象的列表。
   - 与 `List<?>` 不同，你可以安全地向 `List<Object>` 添加任何类型的对象（除了基本类型，它们需要被装箱）。
   - 这是一个明确声明你可以存储任何类型对象的列表，提供了类型安全性（即使是 `Object` 级别的）。
@@ -712,12 +670,8 @@ public class GenericsAndCovariance {
 ### 混型
 
 - 混合多个类的能力，生成一个可以代表混型中全部类型的类
-
 - 使用接口进行混合
-
   - 因为接口可以多继承，并且在类内保存所有接口的实例
-
-
 ``` java
 class Mixin extends BasicImp
 implements TimeStamped, SerialNumbered {
@@ -734,8 +688,6 @@ implements TimeStamped, SerialNumbered {
 ```
 
 - 动态代理
-
-
 ``` java
 import java.lang.reflect.*;
 // Step 1: Define interfaces
@@ -806,8 +758,6 @@ public class MixinDemo {
 > 一个东西长得像鸭子，行为像鸭子，那他就是鸭子
 
 - 不一定是同一类型，有正确方法就可以用
-
-
 ``` c++
 class Dog {
 public:
@@ -830,10 +780,7 @@ template <class T> void perform(T anything) {
 ```
 
 - 在Java中没法实现，因此叫辅助潜在类型机制
-
 - 使用方法引用：不是传入对象，而是传入方法实现调用
-
-
 ``` java
 class PerformingDogA extends Dog {
   public void speak() { System.out.println("Woof!"); }
