@@ -77,8 +77,17 @@
               "type": "bookmarks",
               "state": {}
             }
+          },
+          {
+            "id": "e9ac2cd663de210b",
+            "type": "leaf",
+            "state": {
+              "type": "recent-files",
+              "state": {}
+            }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -170,7 +179,7 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "aeeb39d828c5924f",
+  "active": "e9ac2cd663de210b",
   "lastOpenFiles": [
     "Excalidraw/2023-12-27.md",
     "未命名.md",
