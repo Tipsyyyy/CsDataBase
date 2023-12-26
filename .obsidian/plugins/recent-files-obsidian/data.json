@@ -1,6 +1,14 @@
 {
   "recentFiles": [
     {
+      "basename": "拷贝与引用",
+      "path": "java/java基础/数据类型/拷贝与引用.md"
+    },
+    {
+      "basename": "基本数据类型与包装类",
+      "path": "java/java基础/数据类型/基本数据类型与包装类.md"
+    },
+    {
       "basename": "java",
       "path": "java/java.md"
     },
@@ -11,10 +19,6 @@
     {
       "basename": "数组类型",
       "path": "java/java基础/数据类型/数组类型.md"
-    },
-    {
-      "basename": "基本数据类型与包装类",
-      "path": "java/java基础/数据类型/基本数据类型与包装类.md"
     },
     {
       "basename": "jupyter",
