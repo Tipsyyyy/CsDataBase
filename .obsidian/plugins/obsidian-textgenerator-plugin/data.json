@@ -4,7 +4,7 @@
   "models": {},
   "api_key": "",
   "encrypt_keys": false,
-  "selectedProvider": "OpenAI Chat (Langchain)",
+  "selectedProvider": "OpenAI Instruct (Langchain)",
   "max_tokens": 500,
   "temperature": 0.7,
   "frequency_penalty": 0.5,
@@ -73,6 +73,10 @@
     "OpenAI Chat (Langchain)": {
       "basePath": "https://api.openai.com/v1",
       "api_key": ""
+    },
+    "OpenAI Instruct (Langchain)": {
+      "basePath": "https://api.openai.com/v1",
+      "model": "gpt-3.5-turbo-instruct"
     }
   },
   "LLMProviderOptionsKeysHashed": {

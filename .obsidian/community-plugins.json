@@ -1,6 +1,5 @@
 [
   "obsidian-git",
   "obsidian-excalidraw-plugin",
-  "obsidian-pandoc",
-  "obsidian-textgenerator-plugin"
+  "obsidian-pandoc"
 ]
