@@ -229,71 +229,9 @@ f3(1)
     - 调用`Cupboard`的构造函数，打印`Cupboard()`。
     - 在构造函数中调用`bowl4.f1(2)`，打印`f1(2)`。
   - 调用`table.f2(1)`，打印`f2(1)`。
-  - 调用`cupboard.f3(1)`，打印`f3(1)`。
-
-- ``` java
-  class Cup {
-    Cup(int marker) {
-      System.out.println("Cup(" + marker + ")");
-    }
-    void f(int marker) {
-      System.out.println("f(" + marker + ")");
-    }
-  }
-  
-  class Cups {
-    static Cup cup1;
-    static Cup cup2;
-    static {
-      cup1 = new Cup(1);
-      cup2 = new Cup(2);
-    }
-    Cups() {
-      System.out.println("Cups()");
-    }
-  }
-  
-  public class ExplicitStatic {
-    public static void main(String [] args) {
-      System.out.println("Inside main()");
-      Cups.cup1.f(99);                  // [1]
-    }
-    static Cups cups1 = new Cups();  // [2]
-    static Cups cups2 = new Cups();  // [2]
-  }
-  /* Output:
-  Cup(1)
-  Cup(2)
-  Cups()
-  Cups()
-  Inside main()
-  f(99)
-  */
-  ```
-
-- 首先对ExplicitStatic的静态成员cups1、cups2进行初始化
-
-- 调用静态初始化对cup1、cup2进行初始化
-
-- 调用构造函数对Cups进行初始化
-
-- 执行main函数
-
-- 自定义了有参构造函数，系统不会提供无参构造函数
-
-  - 使用new一个数组时，如果没有无参构造函数，会被初始化为null，需要再手动使用有参构造函数进行初始化
-
-  - ``` java
-    Person [] people = new Person [10];
-    for (int i = 0; i < people.length; i++) {
-        people [i] = new Person("John Doe", 30);
-    }
-    ```
-
-- 基本类型的自动化转化，传入int类型参数，如果只有long参数的函数，则会自动进行宽化，但是不会自动窄化（必须显式处理）
+  - 调用`cupboard.f3(1)`，打印`f3(1)
 
 - 在构造函数中调用构造函数
-
   - `this(目标构造函数参数)`
   - 只能在构造函数中调用
 
@@ -303,80 +241,79 @@ f3(1)
 
   - 父类->成员（按照声明顺序进行初始化）->自身
 
-  - ``` java
-    public class Test {
-        public static void main(String [] args) {
-            new SubClass();
-        }
-    }
-    class SuperClass {
-        static int staticSuperVar = initStaticSuperVar();
-        int instanceSuperVar = initInstanceSuperVar();
-    
-        static {
-            System.out.println("Static initializer of SuperClass");
-        }
-    
-        {
-            System.out.println("Instance initializer of SuperClass");
-        }
-    
-        SuperClass() {
-            System.out.println("Constructor of SuperClass");
-        }
-    
-        static int initStaticSuperVar() {
-            System.out.println("Static variable of SuperClass");
-            return 0;
-        }
-    
-        int initInstanceSuperVar() {
-            System.out.println("Instance variable of SuperClass");
-            return 0;
-        }
-    }
-    
-    class SubClass extends SuperClass {
-        static int staticSubVar = initStaticSubVar();
-        int instanceSubVar = initInstanceSubVar();
-    
-        static {
-            System.out.println("Static initializer of SubClass");
-        }
-    
-        {
-            System.out.println("Instance initializer of SubClass");
-        }
-    
-        SubClass() {
-            System.out.println("Constructor of SubClass");
-        }
-    
-        static int initStaticSubVar() {
-            System.out.println("Static variable of SubClass");
-            return 0;
-        }
-    
-        int initInstanceSubVar() {
-            System.out.println("Instance variable of SubClass");
-            return 0;
-        }
-    }
-    /*
-    Static variable of SuperClass
-    Static initializer of SuperClass
-    Static variable of SubClass
-    Static initializer of SubClass
-    Instance variable of SuperClass
-    Instance initializer of SuperClass
-    Constructor of SuperClass
-    Instance variable of SubClass
-    Instance initializer of SubClass
-    Constructor of SubClass
-    */
-    ```
 
-  - 
+``` java
+public class Test {
+    public static void main(String [] args) {
+        new SubClass();
+    }
+}
+class SuperClass {
+    static int staticSuperVar = initStaticSuperVar();
+    int instanceSuperVar = initInstanceSuperVar();
+
+    static {
+        System.out.println("Static initializer of SuperClass");
+    }
+
+    {
+        System.out.println("Instance initializer of SuperClass");
+    }
+
+    SuperClass() {
+        System.out.println("Constructor of SuperClass");
+    }
+
+    static int initStaticSuperVar() {
+        System.out.println("Static variable of SuperClass");
+        return 0;
+    }
+
+    int initInstanceSuperVar() {
+        System.out.println("Instance variable of SuperClass");
+        return 0;
+    }
+}
+
+class SubClass extends SuperClass {
+    static int staticSubVar = initStaticSubVar();
+    int instanceSubVar = initInstanceSubVar();
+
+    static {
+        System.out.println("Static initializer of SubClass");
+    }
+
+    {
+        System.out.println("Instance initializer of SubClass");
+    }
+
+    SubClass() {
+        System.out.println("Constructor of SubClass");
+    }
+
+    static int initStaticSubVar() {
+        System.out.println("Static variable of SubClass");
+        return 0;
+    }
+
+    int initInstanceSubVar() {
+        System.out.println("Instance variable of SubClass");
+        return 0;
+    }
+}
+/*
+Static variable of SuperClass
+Static initializer of SuperClass
+Static variable of SubClass
+Static initializer of SubClass
+Instance variable of SuperClass
+Instance initializer of SuperClass
+Constructor of SuperClass
+Instance variable of SubClass
+Instance initializer of SubClass
+Constructor of SubClass
+*/
+```
 
 ### [[jvm#垃圾回收|垃圾回收OC]]
 
