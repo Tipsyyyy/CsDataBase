@@ -1,23 +1,23 @@
 ## 数据类型
 
-- 基本数据类型以及非基本数据类型的引用存储在栈上，非基本数据类型本身存储在堆上
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231222163627747.png" alt="image-20231222163627747" style="zoom:33%;" />
-
 - 基本数据类型
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230920185843264.png" alt="image-20230920185843264" style="zoom: 50%;" />
   - 基本数据类型是在栈上存储的，并且可以直接创建
-  - 基本数据类型的 **包装类** 在堆上存储，需要使用 new 关键字创建：Boolean, Character, Byte, Short, Integer, Long, Float, Double, Void
-    - 由基本类型创建包装类 `Integer v = new Integer(value);` 更简单的 `Integer v = value; `(实际上也是通过 value 完成的)
-    - 对于值范围在-128~127 的 Integer 会共享对象，即多次使用 valueof 生成值相同的对象 **会返回同一个对象**，因此需要使 `a.equals(b)` 判断而不是 `=`
-    - Integer 一旦创建值就不会变化（会直接创建一个新对象），这有一个重要用途就是可以像基础数据类型一样使用，而不需要担心副作用 **（名义上是引用，但是在使用上类似值）**
-    - 自动装项可以隐式进行（比如参数传递）
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231222163627747.png" alt="image-20231222163627747" style="zoom:33%;" />
+
+- 基本数据类型的 **包装类** 在堆上存储，需要使用 new 关键字创建：Boolean, Character, Byte, Short, Integer, Long, Float, Double, Void
+  - 由基本类型创建包装类 `Integer v = new Integer(value);` 更简单的 `Integer v = value; `(自动装/拆箱)
+  - 对于值范围在-128~127 的 Integer 会共享对象，即多次使用 valueof 生成值相同的对象 **会返回同一个对象**，因此需要使 `a.equals(b)` 判断而不是 `=`
+  - Integer 一旦创建值就不会变化（会直接创建一个新对象），这有一个重要用途就是可以像基础数据类型一样使用，而不需要担心副作用 **（名义上是引用，但是在使用上类似值）**
+  - 自动装项可以隐式进行（比如参数传递）
+
   - 基本类型作为类成员时会被自动进行初始化（但是对于 **不是类成员的局部变量的值可能是任意值**）
     - 使用未初始化的变量时 Java 总是会抛出错误
 
 - 高精度数字
-	- 高精度整数 `BigInteger`
-	- 高精度浮点数 `BigDecimal`
+
+  - 高精度整数 `BigInteger`
+  - 高精度浮点数 `BigDecimal`
 
 - 字符串与其他类型数据可以直接使用+拼接（变量也可以）
 

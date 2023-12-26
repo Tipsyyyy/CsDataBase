@@ -150,8 +150,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 202.5,
-    "collapsed": true
+    "width": 202.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -167,8 +166,9 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "96e173acdf249e6c",
+  "active": "26c2fff38fa78e64",
   "lastOpenFiles": [
+    "java/java基础",
     "未命名.canvas",
     "java/java基础.md",
     "Slide/java.md",
