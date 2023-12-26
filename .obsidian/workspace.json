@@ -151,12 +151,11 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 320.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -173,7 +172,9 @@
   },
   "active": "aeeb39d828c5924f",
   "lastOpenFiles": [
+    "2023-12-27.md",
     "未命名.md",
+    "2023-12-28.md",
     "2023-12-26.md",
     "2023-W52.md",
     "Excalidraw/Drawing 2023-12-26 13.12.59.excalidraw.md",
