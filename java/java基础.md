@@ -9,7 +9,7 @@
 
 ### 字符串
 
-- String对象不可修改，每次修改实际上会创建一个新的对象
+- String对象**不可修改**，每次修改实际上会创建一个新的对象
 - StringBuilder
   - 允许在原有对象上修改字符串，避免反复创建新对象，在需要频繁修改的场景下效率更高
   - 常用方法
@@ -19,52 +19,37 @@
     - `deleteCharAt(int index)`：删除指定位置的字符。
     - `replace(int start, int end, String str)`：替换指定范围的字符。
     - `toString()`：返回 `StringBuilder` 内容的字符串表示。
-
   - 最终转化为字符串`toString()`
   - 对于不涉及循环的简单字符串拼接`'a'+'b'+'c'`编译器会自动优化为StringBuilder
 
 
-- 方法
-
+- String方法
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231117130837016.png" alt="image-20231117130836208" style="zoom:50%;" />
 
   - ![image-20231117130901638](https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231117130901638.png)
 
 - 文本块（JDK15）
+``` java
+"" "
+xxx,
+xxx
+"" "
+```
+- 不保留缩进
+- 自动换行
 
-  - ``` java
-    "" "
-    xxx,
-    xxx
-    "" "
-    ```
+#### 格式化字符串
 
-  - 不保留缩进
-
-  - 自动换行
-
-#### 格式化输出
-
-- 使用printf/format（完全等价）
-
+- 使用printf/format
   - `system.out.printf("rOW 1: [%d %f]%n",x,y);`
-
-- 生成新的字符串F
-
-  - ``` java
-    Formatter formatter = new Formatter();
-    /*可以设置输出流
-    StringBuilder sb = new StringBuilder();
-    Formatter formatter = new Formatter(sb);
-    */
-    formatter.format("Name: %s, Age: %d", "Alice", 24);
-    String result = formatter.toString(); // 结果为 "Name: Alice, Age: 24"
-    ```
-
-  - 简单的一次性方式`String result = String.format("Hi, %s. Next year, you'll be %d.", "Alice", 30);`
+``` java
+Formatter formatter = new Formatter();
+formatter.format("Name: %s, Age: %d", "Alice", 24);
+String result = formatter.toString(); // 结果为 "Name: Alice, Age: 24"
+```
+- 简单的一次性方式`String result = String.format("Hi, %s. Next year, you'll be %d.", "Alice", 30);`
 
 - 格式说明符
-
   - 更细致的控制间距及对齐方式
   - `%[argument_index$][flags][width][.precision]conversion`
     - **`%`（必须）**：表示格式说明的开始。
@@ -81,30 +66,23 @@
 
 #### [[正则表达式]]
 
-- 注意需要是哦那个二倍`\`
-
+- 注意需要是哦那个**二倍**`\`
   - 如匹配数字`-?\\d+`、符号或正号`-|\\+`
 
 - 可以将正则传入String的split进行拆分（如非字母`\\W`）
-
   - 也可以作为replace等方法的参数
 
 - 量词
-
   - 贪婪型：匹配尽可能多的匹配项
   - 勉强型：最小匹配
     - 末尾加?
-
   - 占有型（Java独有）：在匹配时会尽可能多地捕获字符，并且一旦捕获，**不会放弃匹配的字符**，**即使这可能导致整个模式匹配失败**（不符合后面的条件了）。这与标准的贪婪量词不同，后者在需要时会放弃一部分匹配以使整个模式成功匹配。
     - 末尾加+
 
 - 编译正则表达式
-
   - `Pattern.compile(String)`
     - 将字符串编译为正则表达式对象
-
   - 之后通过matcher方法使用Pattern对象`Matcher m = p.matcher(String)`
-
 - pattern标记参数，影响匹配的行为（作为款选的第二个参数）
 
   - 也可以直接将（）放在正则string前面
