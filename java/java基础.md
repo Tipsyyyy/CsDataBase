@@ -186,7 +186,7 @@
         abstract boolean handle(Mail m);
       }
       static void handle(Mail m) {
-          //依次尝试处理
+          //按照枚举类型的声明顺序依次尝试处理
         for(MailHandler handler : MailHandler.values())
           if(handler.handle(m))
             return;
