@@ -5,6 +5,10 @@
       "path": "java/java.md"
     },
     {
+      "basename": "构造方法",
+      "path": "java/java基础/面向对象/构造方法.md"
+    },
+    {
       "basename": "p8",
       "path": "课程/数字逻辑与计算机组成/作业/p8.md"
     },

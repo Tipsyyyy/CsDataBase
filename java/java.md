@@ -1,6 +1,15 @@
 
 ## java基础
 
+### 主类&程序入口
+
+- 文件中必须存在与文件名相同的类
+- 入口函数`public static void main(String[] args){}`
+  - 多个类都可以有main，但是只有主类的会被自动调用
+
+- 每个java文件中只能有一个public类，也只有这一个类可以在包外访问
+  - 即其他的类适用于支撑唯一的public类的
+
 ### [[基本数据类型与包装类]]
 
 ### [[数组类型]]
@@ -10,6 +19,8 @@
 ### [[字符串]]
 
 ### [[数组类型]]
+
+### [[拷贝与引用]]
 
 ### 补充
 
@@ -74,106 +85,7 @@ static{
   - 可以将传入的多个参数自动**转化为一个数组**
   - 允许传入0个元素
 
-### 拷贝对象
-
-- 需要将想要克隆的子类中将`clone()`方法重写为public（默认为protected）
-- clone的返回值是Object因此还需要进行显式类型转换
-- 要注意的是有时clone并不总是符合预期，如对ArrayList进行clone并不会对内部的元素进行复制
-  - 直接赋值二进制数据，因此把引用复制了过来
-  - 包装数据类型是例外，包装数据类型不可变，修改后会创建新对象，因此使用clone后不会再同步修改
-
-- Cloneable接口，用于验证一个对象是否具有克隆能力，如果一个类没有实现该接口，在使用clone方法时会报错
-  - 由于会引发异常，因此需要trycatch
-
-``` java
-class Duplo implements Cloneable {
-  private int n;
-  Duplo(int n) { this.n = n; }
-  @Override public Duplo clone() {    
-    try {
-        //对于大部分对象的处理
-      return (Duplo)super.clone();
-    } catch(CloneNotSupportedException e) {
-      throw new RuntimeException(e);
-    }
-  }
-  public int getValue() { return n; }
-  public void setValue(int n) { this.n = n; }
-  public void increment() { n++; }
-  @Override public String toString() {
-    return Integer.toString(n);
-  }
-}
-```
-
-- 克隆组合对象
-  - 除了克隆自身外要对所有引用对象进行克隆和重新绑定
-``` java
-@Override public OceanReading clone() {
-    OceanReading or = null;
-    try {
-        or =(OceanReading)super.clone();
-    } catch(CloneNotSupportedException e) {
-        throw new RuntimeException(e);
-    }
-    // 克隆并重新绑定引用
-    or.depth = (DepthReading)or.depth.clone();
-    or.temperature =(TemperatureReading)or.temperature.clone();
-    return or;
-}
-```
-
-- 深拷贝ArrayList
-  - 先cone集合，之后对每一项进行clone和重新绑定到集合
-
-- 通过序列换进行深拷贝
-  - 序列化再反序列化实现拷贝（但是这很慢）
-  - 需要实现`Serializable`
-``` java
-import java.io.*;
-
-public class DeepCopy {
-
-    @SuppressWarnings("unchecked")
-    public static <T extends Serializable> T deepCopy(T object) {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
-                oos.writeObject(object);
-            }
-
-            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-            try (ObjectInputStream ois = new ObjectInputStream(bais)) {
-                return (T) ois.readObject();
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-}
-
-```
-
-### 控制可克隆性
-
-- 一个类将clone重写为了public，那么所有的子类都可以clone了，因为无法降低基于基类的方法在子类中的可访问性
-- 支持clone：重写clone并实现接口
-- 不实现接口：不允许直接克隆但是可以继承该类并在子类中实现克隆
-  - 或者在clone中重写并抛出异常禁止使用
-  - 但是如果子类没有遵守调用super.clone这种限制会失效
-- 类设置为final，实现完全禁止克隆（可以与构造器设置为private配合，实现限制对象的数目）
-
 ## 面向对象
-
-### 主类&程序入口
-
-- 文件中必须存在与文件名相同的类
-- 入口函数`public static void main(String[] args){}`
-  - 多个类都可以有main，但是只有主类的会被自动调用
-
-- 每个java文件中只能有一个public类，也只有这一个类可以在包外访问
-  - 即其他的类适用于支撑唯一的public类的
-
 
 ### 思想
 
@@ -194,17 +106,13 @@ public class DeepCopy {
 ### 构造
 
 - 字段初始化：字段初始化是在对象创建时，即在**构造函数之前**执行的。
-
   - 从上到下的顺序进行初始化
-
   - 可以直接使用常量对成员变量进行初始化
   - 也可以使用函数进行初始化
     - 注意如果函数有参数则参数必须是已经初始化的
 
 - 实例初始化块：实例初始化块是在对象创建时，**在字段初始化之后**但在**构造函数之前**执行的。
-
   - **静态初始化块会优先执行**，只能初始化静态变量，在类**初次加载**时执行（创建对象/访问静态成员）
-
   - **普通初始化块按顺序执行**，实例化时执行
 
   - 会从父类到子类依次执行
