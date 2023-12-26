@@ -332,9 +332,7 @@ class Aisle extends ArrayList <Shelf> {
 ### 类型擦除
 
 - 类型擦除
-  - `ArrayList<String>.class==ArrayList<Integer>`
   - Java泛型内部不存在有关**泛型参数类型**的信息
-  - java确定T的类型并不是通过T本身，也不是传入的参数（只是会检查一下），而是通过extend等限制的范围确定
 
 ``` java
 class Manipulator <T> {
@@ -361,43 +359,10 @@ class Manipulator2 <T extends HasF> {
 //这样就知道是 HasF 了！
 ```
 
-``` c++
-template <class T> class Manipulator {
-  T obj;
-public:
-  Manipulator(T x) { obj = x; }
-  void manipulate() { obj.f(); }
-};
-
-class HasF {
-public:
-  void f() { cout << " HasF:: f()" << endl; }
-};
-
-int main() {
-  HasF hf;
-  Manipulator <HasF> manipulator(hf);
-  manipulator.manipulate();
-}
-```
-
-- 而c++是可以的，c++泛型内部知道自己的类型，会进行编译检查
-
 - java的字节码中实际上没有泛型，是将类型参数用**边界类型替换(类型替换)**
-
-  - 比如无限制的泛型\<T>**会替换为Object**，而有限制的\<T extends X>会被替换为X
-
+  - 如无限制的泛型\<T>**会替换为Object**，而有限制的\<T extends X>会被替换为X
   - 也就是说T类型并不是真正存在的，**不能直接使用T进行实例**,使用T作为参数`class<T>`也是存在问题的
-
   - 但是**T作为返回值时可以正确处理，会返回传入的类型**
-
-
-``` c++
-@SuppressWarnings("unchecked")//不显示强制转化的警告
-  T [] create(int size) {
-    return (T [])Array.newInstance(kind, size);//kind 实际相当于没有参数 Class 即 Object 因此要强制转化类型
-  }
-```
 
 ``` java
 public class Holder <T> {
@@ -412,8 +377,6 @@ public class Holder <T> {
     }
 }
 ```
-
-- 编译时检查
 
 
 ``` java
