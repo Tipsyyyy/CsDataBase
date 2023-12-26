@@ -41,7 +41,10 @@
   - 数学位移`>>`
   - 逻辑位移`>>>`
 
-## 流程控制
+ - 向上转型会丢失特定**类型的信息**，通过向下转型可以重新获取类型信息
+- java中所有的转型都会被检查，运行时会检查强制转型是否正确（会抛出异常），这也是Java反射的一部分
+
+### 流程控制
 
 - for-in
 ``` java
@@ -148,126 +151,110 @@ public abstract class Fu {
 - **聚合**、关联弱合成：部分可以独立存在
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230921115848748.png" alt="image-20230921115848748" style="zoom:50%;" />
 
-### 向下转型与反射
-
-- 向上转型会丢失特定**类型的信息**，通过向下转型可以重新获取类型信息
-- java中所有的转型都会被检查，运行时会检查强制转型是否正确（会抛出异常），这也是Java反射的一部分
-- 
-
 ### 重写运算
 
 - 比较
+``` java
+@Override
+    public boolean equals(Object obj) {
+        // 检查是否为同一个对象的引用
+        if (this == obj) {
+            return true;
+        }
 
-  - ``` java
+        // 检查是否是正确的类型
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        // 类型转换
+        Person person = (Person) obj;
+
+        // 对比所有相关字段
+        return age == person.age &&
+               (name != null ? name.equals(person.name) : person.name == null);
+    }
+
     @Override
-        public boolean equals(Object obj) {
-            // 检查是否为同一个对象的引用
-            if (this == obj) {
-                return true;
-            }
-    
-            // 检查是否是正确的类型
-            if (obj == null || getClass() != obj.getClass()) {
-                return false;
-            }
-    
-            // 类型转换
-            Person person = (Person) obj;
-    
-            // 对比所有相关字段
-            return age == person.age &&
-                   (name != null ? name.equals(person.name) : person.name == null);
-        }
-    
-        @Override
-        public int hashCode() {
-            // 生成一个合理的 hashCode
-            int result = name != null ? name.hashCode() : 0;
-            result = 31 * result + age;
-            return result;
-        }
-    ```
-
-  - **重写 `hashCode`**：重写 `equals` 方法时，也应该重写 `hashCode` 方法，以保持 `hashCode` 与 `equals` 的一致性。如果两个对象通过 `equals` 方法比较相等，那么这两个对象调用 `hashCode` 方法必须产生相同的整数结果。(对于使用基于**散列**的集合类（如 `HashSet` 和 `HashMap`）尤为重要)
+    public int hashCode() {
+        // 生成一个合理的 hashCode
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + age;
+        return result;
+    }
+```
+- **重写 `hashCode`**：重写 `equals` 方法时，也应该重写 `hashCode` 方法，以保持 `hashCode` 与 `equals` 的一致性。如果两个对象通过 `equals` 方法比较相等，那么这两个对象调用 `hashCode` 方法必须产生相同的整数结果。(对于使用基于**散列**的集合类（如 `HashSet` 和 `HashMap`）尤为重要)
 
 ### 委托
 
 - java没有直接提供，需要手动实现
-
 - 将成员对象放在新类中，并在新类中公开
-
-- 如飞船继承发动机并不合理，因此使用组合并公开方法
-
-- ``` java
-  public class SpaceShipControls {
-    void up(int velocity) {}
-    void down(int velocity) {}
-    void left(int velocity) {}
-    void right(int velocity) {}
-    void forward(int velocity) {}
-    void back(int velocity) {}
-    void turboBoost() {}
+- 如飞船继承发动机并不合理，因此使用组合并公开方法（通过组合的方式间接实现委托）
+``` java
+public class SpaceShipControls {
+  void up(int velocity) {}
+  void down(int velocity) {}
+  void left(int velocity) {}
+  void right(int velocity) {}
+  void forward(int velocity) {}
+  void back(int velocity) {}
+  void turboBoost() {}
+}
+public class SpaceShipDelegation {
+  private String name;
+  private SpaceShipControls controls =
+    new SpaceShipControls();
+  public SpaceShipDelegation(String name) {
+    this.name = name;
   }
-  public class SpaceShipDelegation {
-    private String name;
-    private SpaceShipControls controls =
-      new SpaceShipControls();
-    public SpaceShipDelegation(String name) {
-      this.name = name;
-    }
-    // Delegated methods:
-    public void back(int velocity) {
-      controls.back(velocity);
-    }
-    public void down(int velocity) {
-      controls.down(velocity);
-    }
-    public void forward(int velocity) {
-      controls.forward(velocity);
-    }
-    public void left(int velocity) {
-      controls.left(velocity);
-    }
-    public void right(int velocity) {
-      controls.right(velocity);
-    }
-    public void turboBoost() {
-      controls.turboBoost();
-    }
-    public void up(int velocity) {
-      controls.up(velocity);
-    }
-    public static void main(String [] args) {
-      SpaceShipDelegation protector =
-        new SpaceShipDelegation("NSEA Protector");
-      protector.forward(100);
-    }
+  // Delegated methods:
+  public void back(int velocity) {
+    controls.back(velocity);
   }
-  ```
-
-- 
+  public void down(int velocity) {
+    controls.down(velocity);
+  }
+  public void forward(int velocity) {
+    controls.forward(velocity);
+  }
+  public void left(int velocity) {
+    controls.left(velocity);
+  }
+  public void right(int velocity) {
+    controls.right(velocity);
+  }
+  public void turboBoost() {
+    controls.turboBoost();
+  }
+  public void up(int velocity) {
+    controls.up(velocity);
+  }
+  public static void main(String [] args) {
+    SpaceShipDelegation protector =
+      new SpaceShipDelegation("NSEA Protector");
+    protector.forward(100);
+  }
+}
+```
 
 ### 接口
 
-- 体现的思想是对规则的声明
+- `private Linable linable;`其中Linable是一个接口，作为类的成员变量
+- 接口不能直接实例化，它只能通过实现该接口的类来创建对象
+- 接口是对类的一种形容词，而抽象类是类层次结构的一部分
 
-- 接口不能实例化，接口和类是实现关系，实现接口的类实现接口
-  - `private Linable linable;`其中Linable是一个接口，作为类的成员变量
-  - 接口不能直接实例化，它只能通过实现该接口的类来创建对象，因此上面并没有进行实例化，对于该接口的实例化应该在构造函数或其它方法中进一步完成。
-  - 接口是对类的一种形容词，而抽象类是类层次结构的一部分
-  
 - 语法
   - `interface 接口名 {} `
   - `public class 类名 implements 接口名 {}`
   - **一个类可以继承一个类的同时实现多个接口**
   - 接口之间可以单继承也可以多继承
-    - 有重复方法也无所谓，因为就是都实现了，不存在冲突
-  
+    - 有重复方法也无所谓，因为**就是都实现了，不存在冲突**
+
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230920230013866.png" alt="image-20230920230013866" style="zoom:50%;" />
 
-  - 接口中的成员变量实际上是public final static的静态常量，按照命名规范应该使用全大写字母以及_划分
+  - 接口中的**成员变量**实际上是public final static的**静态常量**，按照命名规范应该使用全大写字母以及_划分
 
-- 默认方法：`public default void show() {}`加上default关键字后就不是抽象方法了，**可以不重写**，如果要重写只需要在重写时去掉default，如果继承的多个接口中有相同的声明则必须重写
+- 默认方法：`public default void show() {}`加上default关键字后就不是抽象方法了，**可以不重写**，如果要重写只需要在重写时去掉default，如果继承的**多个接口中有相同的声明则必须重写**
 
   - 使用具有默认实现的方法在继承多个接口时可能产生一些多继承的问题
   - 如果两个接口有完全相同的成员（参数必须相同），并且没有重写方法，则会报错，要求必须重写
@@ -279,8 +266,7 @@ public abstract class Fu {
 - 实现接口中的方法必须显式声明为public（默认也会是public）
 
 - 函数式接口
-  - 接口内部只有一个抽象方法的形式（类似c++中函数指针，表示一个函数）
-  - 可以使用@FunctionalInterface标记必须满足函数式接口
+  [[接口]]
 
 - public接口像类一样，只能出现在相同名称的文件
 

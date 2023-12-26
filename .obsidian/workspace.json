@@ -168,8 +168,10 @@
   },
   "active": "26c2fff38fa78e64",
   "lastOpenFiles": [
-    "java/java基础/杂项/final.md",
+    "java/java基础/面向对象/接口.md",
     "java/java.md",
+    "java/java基础/杂项/final.md",
+    "java/java基础/面向对象/内部类.md",
     "java/java基础/数据类型/基本数据类型与包装类.md",
     "java/java基础/杂项",
     "java/java基础/面向对象/构造方法.md",
@@ -212,8 +214,6 @@
     "export/金融大数据p4/plugin/menu/README.md",
     "Excalidraw/Drawing 2023-12-26 17.46.55.excalidraw.md",
     "Blog/What does fatal： bad revision mean？.md",
-    "Blog/1-Obsidian 自动上传图片到图床——安装 PicGo 插件并配置_obsidian 插入图片 - CSDN 博客@annote.md",
-    "Blog/1-Obsidian 自动上传图片到图床——安装 PicGo 插件并配置_obsidian 插入图片 - CSDN 博客.md",
-    "课程/金融大数据/实验/p4.md"
+    "Blog/1-Obsidian 自动上传图片到图床——安装 PicGo 插件并配置_obsidian 插入图片 - CSDN 博客@annote.md"
   ]
 }
