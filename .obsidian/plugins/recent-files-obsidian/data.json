@@ -5,12 +5,20 @@
       "path": "java/java.md"
     },
     {
-      "basename": "接口",
-      "path": "java/java基础/面向对象/接口.md"
-    },
-    {
       "basename": "final",
       "path": "java/java基础/杂项/final.md"
+    },
+    {
+      "basename": "泛型",
+      "path": "java/java基础/杂项/泛型.md"
+    },
+    {
+      "basename": "反射",
+      "path": "java/java基础/杂项/反射.md"
+    },
+    {
+      "basename": "接口",
+      "path": "java/java基础/面向对象/接口.md"
     },
     {
       "basename": "内部类",

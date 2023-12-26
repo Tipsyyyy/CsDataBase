@@ -237,174 +237,11 @@ public class SpaceShipDelegation {
 }
 ```
 
-### 接口
-
-- `private Linable linable;`其中Linable是一个接口，作为类的成员变量
-- 接口不能直接实例化，它只能通过实现该接口的类来创建对象
-- 接口是对类的一种形容词，而抽象类是类层次结构的一部分
-
-- 语法
-  - `interface 接口名 {} `
-  - `public class 类名 implements 接口名 {}`
-  - **一个类可以继承一个类的同时实现多个接口**
-  - 接口之间可以单继承也可以多继承
-    - 有重复方法也无所谓，因为**就是都实现了，不存在冲突**
-
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230920230013866.png" alt="image-20230920230013866" style="zoom:50%;" />
-
-  - 接口中的**成员变量**实际上是public final static的**静态常量**，按照命名规范应该使用全大写字母以及_划分
-
-- 默认方法：`public default void show() {}`加上default关键字后就不是抽象方法了，**可以不重写**，如果要重写只需要在重写时去掉default，如果继承的**多个接口中有相同的声明则必须重写**
-
-  - 使用具有默认实现的方法在继承多个接口时可能产生一些多继承的问题
-  - 如果两个接口有完全相同的成员（参数必须相同），并且没有重写方法，则会报错，要求必须重写
-    - 当然也可以使用super直接选一个
-
-  - 对于重名的常量则不会有问题，因为类不会从接口继承常量，常量必须通过接口名进行显式访问
-  - 此时可以作为任意一种接口类型的参数使用（向上转型）
-
-- 实现接口中的方法必须显式声明为public（默认也会是public）
-
-- 函数式接口
-  [[接口]]
-
-- public接口像类一样，只能出现在相同名称的文件
-
-- 接口中的静态方法
-
-  - 在接口包含逻辑上属于它的实用工具
-  - 接口的静态方法必须通过接口本身进行调用（这与常量成员是相同的）
-
-- 接口-完全解耦
-
-  - 当方法与类而不是接口配合使用时，只能使用**该类或子类**，而不能使用不在这个继承层次结构上的类（即使具有同样的方法）
-
-  - 但如果使用接口作为变量类型限制（比如策略模式）
-
-    - ``` java
-      //接口的定义
-      package interfaces.interfaceprocessor;
-      
-      public interface Processor {
-        default String name() {
-          return getClass().getSimpleName();
-        }
-          //需要实现的方法
-        Object process(Object input);
-      }
-      //使用接口进行操作
-      package interfaces.interfaceprocessor;
-      
-      public class Applicator {
-        public static void apply(Processor p, Object s) {
-          System.out.println("Using Processor " + p.name());
-          System.out.println(p.process(s));
-        }
-      }
-      //一些实现了接口的字符串操作
-      package interfaces.interfaceprocessor;
-      import java.util.*;
-      
-      interface StringProcessor extends Processor {
-          //返回值协变
-        @Override
-        String process(Object input);        // [1]
-        String S =                           // [2]
-        "If she weighs the same as a duck, " +
-        "she's made of wood";
-        static void main(String [] args) {    // [3]
-          Applicator.apply(new Upcase(), S);
-          Applicator.apply(new Downcase(), S);
-          Applicator.apply(new Splitter(), S);
-        }
-      }
-      
-      class Upcase implements StringProcessor {
-        @Override // Covariant return:
-        public String process(Object input) {
-          return ((String)input).toUpperCase();
-        }
-      }
-      
-      class Downcase implements StringProcessor {
-        @Override
-        public String process(Object input) {
-          return ((String)input).toLowerCase();
-        }
-      }
-      
-      class Splitter implements StringProcessor {
-        @Override
-        public String process(Object input) {
-          return Arrays.toString(((String)input).split(" "));
-        }
-      }
-      ```
-
-  - 适配器
-
-    - 有时不方便（无法）对类进行修改，使用适配器，将已有的接口转化为需要的接口，也可以为不满足接口的类添加方法，使得满足接口的要求
-
-    - ``` java
-      package interfaces.interfaceprocessor;
-      import interfaces.filters.*;
-      
-      class FilterAdapter implements Processor {
-          //要适配的对象
-        Filter filter;
-        FilterAdapter(Filter filter) {
-          this.filter = filter;
-        }
-        @Override
-        public String name() { return filter.name(); }
-        @Override
-        public Waveform process(Object input) {
-            //转化为接口需要的
-            //由此实现从 Filter 接口转化到需要的 Processor 接口
-          return filter.process((Waveform)input);
-        }
-      }
-      
-      public class FilterProcessor {
-        public static void main(String [] args) {
-          Waveform w = new Waveform();
-          Applicator.apply(
-            new FilterAdapter(new LowPass(1.0)), w);
-          Applicator.apply(
-            new FilterAdapter(new HighPass(2.0)), w);
-          Applicator.apply(
-            new FilterAdapter(new BandPass(3.0, 4.0)), w);
-        }
-      }
-      ```
-
-- 接口可以继承，向接口中添加新的方法生成
-
-  - 接口之间是可以多继承的（即extends后面跟多个）
-  - 注意多继承的接口中不应有重名，参数相同但是返回值不同的方法
-
-- 接口的定义同样可以前台在其他类/接口中
-
-  - private接口允许嵌套在类内
-  - 类内实现private接口的类可以为public，但是禁止向上转型
-  - public方法返回private接口的引用也会被禁止使用
-
-
-- 接口的private方法JDK9
-  - private表示只想自己使用的方法
-  - private方法也是default的
-- 密封类和密封接口JDK17
-  - 基类和接口可以限制自己能派生哪些类型
-  - 在基类/接口中指出允许的子类`sealed class Base permits D1, D2{}`
-  - 如果表示只让同一文件存在子类，只需要使用`sealed`即可
-  - 必须至少有一个子类
-  - 只是限制直接子类，如果直接子类使用`non-sealed`则可以有任意间接子类
-  - 常用于switch，可以免default
+### [[接口]]
 
 ### 内部类
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230920231026654.png" alt="image-20230920231026654" style="zoom: 50%;" />
-
   - 实例`Outer.Inner in = new Outer().new Inner();`
   - 必须有外部类的对象来创建内部类，因为内部类创建时会自动进行绑定
 
@@ -416,157 +253,162 @@ public class SpaceShipDelegation {
 
   - 使用内部类创建迭代器
 
-    - ``` java
-      interface Selector {
-        boolean end();
-        Object current();
-        void next();
-      }
-      
-      public class Sequence {
-        private Object [] items;
-        private int next = 0;
-        public Sequence(int size) {
-          items = new Object [size];
-        }
-        public void add(Object x) {
-          if(next < items.length)
-            items [next++] = x;
-        }
-          //提供序列化迭代器实现对外部类的访问
-        private class SequenceSelector implements Selector {
-          private int i = 0;
-          @Override
-          public boolean end() { return i == items.length; }
-          @Override
-          public Object current() { return items [i]; }
-          @Override
-          public void next() { if(i < items.length) i++; }
-        }
-        public Selector selector() {
-          return new SequenceSelector();
-        }
-        public static void main(String [] args) {
-          Sequence sequence = new Sequence(10);
-          for(int i = 0; i < 10; i++)
-            sequence.add(Integer.toString(i));
-            //获取一个用于访问元素的迭代器
-          Selector selector = sequence.selector();
-          while(! selector.end()) {
-            System.out.print(selector.current() + " ");
-            selector.next();
-          }
-        }
-      }
-      ```
 
-    - 这里的内部类是private的，其实例和类型对外部类之外都是不可见的，外部类不能直接用public方法返回一个preivate内部类的实例，但是可以返回内部类实现的public基类或接口（向上转型Selector）**这种方式隐藏了内部类的具体实现，只暴露了接口或超类的公共方法。**
+``` java
+interface Selector {
+  boolean end();
+  Object current();
+  void next();
+}
 
-    - 将内部类设置为private或protected可以阻止外部直接访问，同时**只提供向上转型的结果**实现更好的封装
+public class Sequence {
+  private Object [] items;
+  private int next = 0;
+  public Sequence(int size) {
+    items = new Object [size];
+  }
+  public void add(Object x) {
+    if(next < items.length)
+      items [next++] = x;
+  }
+    //提供序列化迭代器实现对外部类的访问
+  private class SequenceSelector implements Selector {
+    private int i = 0;
+    @Override
+    public boolean end() { return i == items.length; }
+    @Override
+    public Object current() { return items [i]; }
+    @Override
+    public void next() { if(i < items.length) i++; }
+  }
+  public Selector selector() {
+    return new SequenceSelector();
+  }
+  public static void main(String [] args) {
+    Sequence sequence = new Sequence(10);
+    for(int i = 0; i < 10; i++)
+      sequence.add(Integer.toString(i));
+      //获取一个用于访问元素的迭代器
+    Selector selector = sequence.selector();
+    while(! selector.end()) {
+      System.out.print(selector.current() + " ");
+      selector.next();
+    }
+  }
+}
+```
+
+- 这里的内部类是private的，其实例和类型对外部类之外都是不可见的，外部类不能直接用public方法返回一个preivate内部类的实例，但是可以返回内部类实现的public基类或接口（向上转型Selector）**这种方式隐藏了内部类的具体实现，只暴露了接口或超类的公共方法。**
+
+- 将内部类设置为private或protected可以阻止外部直接访问，同时**只提供向上转型的结果**实现更好的封装
 
 - 局部内部类
 
   - 在方法作用域中创建内部类
 
-  - ``` java
-    public class Parcel5 {
-      public Destination destination(String s) {
-          //在放回方法中定义一个内部类，这个内部类只能在该方法作用域中使用，他的定义不能在外部使用，但是可以向上转型后作为返回值返回
-        final class PDestination implements Destination {
-          private String label;
-          private PDestination(String whereTo) {
-            label = whereTo;
-          }
-          @Override
-          public String readLabel() { return label; }
-        }
-        return new PDestination(s);
+
+``` java
+public class Parcel5 {
+  public Destination destination(String s) {
+      //在放回方法中定义一个内部类，这个内部类只能在该方法作用域中使用，他的定义不能在外部使用，但是可以向上转型后作为返回值返回
+    final class PDestination implements Destination {
+      private String label;
+      private PDestination(String whereTo) {
+        label = whereTo;
       }
-      public static void main(String [] args) {
-        Parcel5 p = new Parcel5();
-        Destination d = p.destination("Tasmania");
-      }
+      @Override
+      public String readLabel() { return label; }
     }
-    ```
+    return new PDestination(s);
+  }
+  public static void main(String [] args) {
+    Parcel5 p = new Parcel5();
+    Destination d = p.destination("Tasmania");
+  }
+}
+```
 
 - 匿名内部类:定义一个类的同时对其**进行实例化**
 
   - 匿名类只能**扩展一个类或实现一个接口**
 
-  - ``` java
-    public class Parcel7 {
-      public Contents contents() {
-        return new Contents() { // Insert class definition
-          private int i = 11;
-          @Override public int value() { return i; }
-        }; // Semicolon required
+
+``` java
+public class Parcel7 {
+  public Contents contents() {
+    return new Contents() { // Insert class definition
+      private int i = 11;
+      @Override public int value() { return i; }
+    }; // Semicolon required
+  }
+  public static void main(String [] args) {
+    Parcel7 p = new Parcel7();
+    Contents c = p.contents();
+  }
+}
+```
+
+- 创建了一个继承自Contents的匿名类对象，返回会自动向上转型
+
+- 也可以通过构造函数传参，可以用于调用超类的构造函数
+
+
+``` java
+public class Parcel8 {
+  public Wrapping wrapping(int x) {
+    // Base constructor call:
+    return new Wrapping(x) {          // [1]
+      @Override public int value() {
+        return super.value() * 47;
       }
-      public static void main(String [] args) {
-        Parcel7 p = new Parcel7();
-        Contents c = p.contents();
+    };                                // [2]
+  }
+  public static void main(String [] args) {
+    Parcel8 p = new Parcel8();
+    Wrapping w = p.wrapping(10);
+  }
+}
+
+public class Wrapping {
+  private int i;
+  public Wrapping(int x) { i = x; }
+  public int value() { return i; }
+}
+```
+
+- 如果要在匿名类使用匿名类外的对象，要求参数用final修饰，或者保证初始化后就不会再变化
+
+- 匿名函数的构造器
+
+  - 可以使用初始化块`{}`
+
+
+``` java
+public class Parcel10 {
+  public Destination
+      //被使用的对象要保证为 final
+  destination(final String dest, final float price) {
+    return new Destination() {
+      private int cost;
+      // 初始化块
+      {
+        cost = Math.round(price);
+        if(cost > 100)
+          System.out.println("Over budget!");
       }
-    }
-    ```
+      private String label = dest;
+      @Override
+      public String readLabel() { return label; }
+    };
+  }
+  public static void main(String [] args) {
+    Parcel10 p = new Parcel10();
+    Destination d = p.destination("Tasmania", 101.395F);
+  }
+}
+```
 
-    - 创建了一个继承自Contents的匿名类对象，返回会自动向上转型
-
-  - 也可以通过构造函数传参，可以用于调用超类的构造函数
-
-    - ``` java
-      public class Parcel8 {
-        public Wrapping wrapping(int x) {
-          // Base constructor call:
-          return new Wrapping(x) {          // [1]
-            @Override public int value() {
-              return super.value() * 47;
-            }
-          };                                // [2]
-        }
-        public static void main(String [] args) {
-          Parcel8 p = new Parcel8();
-          Wrapping w = p.wrapping(10);
-        }
-      }
-      
-      public class Wrapping {
-        private int i;
-        public Wrapping(int x) { i = x; }
-        public int value() { return i; }
-      }
-      ```
-
-  - 如果要在匿名类使用匿名类外的对象，要求参数用final修饰，或者保证初始化后就不会再变化
-
-  - 匿名函数的构造器
-
-    - 可以使用初始化块`{}`
-
-  - ``` java
-    public class Parcel10 {
-      public Destination
-          //被使用的对象要保证为 final
-      destination(final String dest, final float price) {
-        return new Destination() {
-          private int cost;
-          // 初始化块
-          {
-            cost = Math.round(price);
-            if(cost > 100)
-              System.out.println("Over budget!");
-          }
-          private String label = dest;
-          @Override
-          public String readLabel() { return label; }
-        };
-      }
-      public static void main(String [] args) {
-        Parcel10 p = new Parcel10();
-        Destination d = p.destination("Tasmania", 101.395F);
-      }
-    }
-    ```
-
-  - 
+- 
 
 - 静态内部类（嵌套类），内部类使用static修饰，
 
@@ -589,97 +431,99 @@ public class SpaceShipDelegation {
 
   - 可以使用每个内部类去继承一个类，间接实现多继承
 
-    - ``` java
-      class D {}
-      abstract class E {}
-      
-      class Z extends D {
-        E makeE() { return new E() {}; }
-      }
-      
-      public class MultiImplementation {
-        static void takesD(D d) {}
-        static void takesE(E e) {}
-        public static void main(String [] args) {
-          Z z = new Z();
-          takesD(z);
-          takesE(z.makeE());
-        }
-      }
-      ```
+
+``` java
+class D {}
+abstract class E {}
+
+class Z extends D {
+  E makeE() { return new E() {}; }
+}
+
+public class MultiImplementation {
+  static void takesD(D d) {}
+  static void takesE(E e) {}
+  public static void main(String [] args) {
+    Z z = new Z();
+    takesD(z);
+    takesE(z.makeE());
+  }
+}
+```
 
 - 闭包与回调
 
-  - ``` java
-    interface Incrementable {
-      void increment();
-    }
-    
-    //直接实现接口
-    class Callee1 implements Incrementable {
-      private int i = 0;
-      @Override public void increment() {
-        i++;
-        System.out.println(i);
-      }
-    }
-    //实现方法，但没有实现接口
-    class MyIncrement {
-      public void increment() {
-        System.out.println("Other operation");
-      }
-      static void f(MyIncrement mi) { mi.increment(); }
-    }
-    
-    //使用内部类实现接口，并给出方法用于获取内部接口（这里的内部接口会对外部进行访问，是一个闭包）
-    class Callee2 extends MyIncrement {
-      private int i = 0;
-      @Override public void increment() {
-        super.increment();
-        i++;
-        System.out.println(i);
-      }
-      private class Closure implements Incrementable {
-        @Override public void increment() {
-          // Specify outer-class method, otherwise
-          // you'll get an infinite recursion:
-          Callee2.this.increment();
-        }
-      }
-      Incrementable getCallbackReference() {
-        return new Closure();
-      }
-    }
-    //初始化时传入接口的实现，用于回调
-    class Caller {
-      private Incrementable callbackReference;
-      Caller(Incrementable cbh) {
-        callbackReference = cbh;
-      }
-      void go() { callbackReference.increment(); }
-    }
-    
-    public class Callbacks {
-      public static void main(String [] args) {
-        Callee1 c1 = new Callee1();
-        Callee2 c2 = new Callee2();
-        MyIncrement.f(c2);
-        Caller caller1 = new Caller(c1);
-        Caller caller2 =
-          new Caller(c2.getCallbackReference());
-        caller1.go();
-        caller1.go();
-        caller2.go();
-        caller2.go();
-      }
-    }
-    ```
 
-  - 闭包：允许方法**保留和使用定义在其外部作用域的变量**，即使外部方法已经完成执行。`Callee2`的内部类`Closure`类似于一个闭包，因为它封装了`Callee2`的环境并提供了对其`increment`方法的访问。
+``` java
+interface Incrementable {
+  void increment();
+}
 
-    - **闭包让你可以在一个内层函数中访问到其外层函数的作用域。**
+//直接实现接口
+class Callee1 implements Incrementable {
+  private int i = 0;
+  @Override public void increment() {
+    i++;
+    System.out.println(i);
+  }
+}
+//实现方法，但没有实现接口
+class MyIncrement {
+  public void increment() {
+    System.out.println("Other operation");
+  }
+  static void f(MyIncrement mi) { mi.increment(); }
+}
 
-  - 回调：一个方法**接受另一个方法作为参数**，然后在适当的时候执行传递。`Caller`类接受一个实现了`Incrementable`接口的对象作为回调，并在`go`方法中调用该回调对象的`increment`方法。
+//使用内部类实现接口，并给出方法用于获取内部接口（这里的内部接口会对外部进行访问，是一个闭包）
+class Callee2 extends MyIncrement {
+  private int i = 0;
+  @Override public void increment() {
+    super.increment();
+    i++;
+    System.out.println(i);
+  }
+  private class Closure implements Incrementable {
+    @Override public void increment() {
+      // Specify outer-class method, otherwise
+      // you'll get an infinite recursion:
+      Callee2.this.increment();
+    }
+  }
+  Incrementable getCallbackReference() {
+    return new Closure();
+  }
+}
+//初始化时传入接口的实现，用于回调
+class Caller {
+  private Incrementable callbackReference;
+  Caller(Incrementable cbh) {
+    callbackReference = cbh;
+  }
+  void go() { callbackReference.increment(); }
+}
+
+public class Callbacks {
+  public static void main(String [] args) {
+    Callee1 c1 = new Callee1();
+    Callee2 c2 = new Callee2();
+    MyIncrement.f(c2);
+    Caller caller1 = new Caller(c1);
+    Caller caller2 =
+      new Caller(c2.getCallbackReference());
+    caller1.go();
+    caller1.go();
+    caller2.go();
+    caller2.go();
+  }
+}
+```
+
+- 闭包：允许方法**保留和使用定义在其外部作用域的变量**，即使外部方法已经完成执行。`Callee2`的内部类`Closure`类似于一个闭包，因为它封装了`Callee2`的环境并提供了对其`increment`方法的访问。
+
+  - **闭包让你可以在一个内层函数中访问到其外层函数的作用域。**
+
+- 回调：一个方法**接受另一个方法作为参数**，然后在适当的时候执行传递。`Caller`类接受一个实现了`Incrementable`接口的对象作为回调，并在`go`方法中调用该回调对象的`increment`方法。
 
 - 内部类编译后会产生单独的class文件，如`外部类$内部类.class`
 
