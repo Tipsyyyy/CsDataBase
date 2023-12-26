@@ -11,22 +11,14 @@
 
 ### 数组
 
-- 对于基本类型数组保存值，对象数组保存引用，都必须在创建时进行初始化
-
-  - ``` java
-    Object [] a;//未初始化的本地变量
-    Object [] b = new Object [5];//引用全部初始化为 null(基本数据类型为 0)，如果需要还需要对数组的每一项及逆行初始化
-    Object [] c = {new Object(), new Object()};
-    ```
-
-  - 多维数组也可以直接创建`int[][][] a = new int[2][2][4]`
-
-    - 对每一位都单独new可以实现更加自由的数组（长度）生成
-
 - 不能实例化参数化类型数组
+  - 集合类型支持这个功能List<Peel<Banana>> peels = new ArrayList<Peel<Banana>>(10);
 
-  - `Peel<Banana>[] peels = new Peel<Banana>[10];`
   - 可以先创建无参数list再强制转型
+```java
+Peel<?>[] peels = new Peel<?>[10]; // 创建一个通配符类型的数组
+Peel<Banana>[] bananaPeels = (Peel<Banana>[]) peels; // 转型
+```
 
 #### Arrays工具类
 
