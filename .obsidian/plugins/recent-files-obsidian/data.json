@@ -5,6 +5,10 @@
       "path": "java/java基础.md"
     },
     {
+      "basename": "jupyter",
+      "path": "python/工具/jupyter.md"
+    },
+    {
       "basename": "枚举类型",
       "path": "java/java基础/数据类型/枚举类型.md"
     },

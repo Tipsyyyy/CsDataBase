@@ -168,8 +168,9 @@
   },
   "active": "26c2fff38fa78e64",
   "lastOpenFiles": [
-    "java/java基础/数据类型/枚举类型.md",
+    "python/工具/jupyter.md",
     "java/java基础.md",
+    "java/java基础/数据类型/枚举类型.md",
     "java/java基础/流程控制/switch.md",
     "java/java基础/数据类型/基本数据类型与包装类.md",
     "基本数据类型类型与包装类.md",
@@ -213,7 +214,6 @@
     "assets/cppFather.png.md",
     "assets/图片1.png.md",
     "折腾/reveal.js.md",
-    "折腾/jupyter.md",
-    "折腾/jekyll.md"
+    "折腾/jupyter.md"
   ]
 }

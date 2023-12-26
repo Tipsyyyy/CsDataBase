@@ -79,7 +79,7 @@
     - `"%+.2f"`：带正负号，保留两位小数的浮点数。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231117133249357.png" alt="image-20231117133249357" style="zoom: 50%;" />
 
-#### [正则*](..\杂项\正则表达式.md)
+#### [[正则表达式]]
 
 - 注意需要是哦那个二倍`\`
 
