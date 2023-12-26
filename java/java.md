@@ -97,7 +97,7 @@ static{
 - private：仅类内访问
 - default：包内可见（即不添加任何修饰符）
 - protected：子类可访问，即使不在一个包，同时也提供了包访问权限
-- 在只有包访问权限的类中使用publicc构造方法是没有意义的
+- 在只有包访问权限的类中使用public构造方法是没有意义的
 - 类的访问权限
   - 类中可以不存在public类，此时文件可以随意命名
   - 只有默认（包），和public两种作用域
@@ -114,179 +114,170 @@ static{
 - 实例初始化块：实例初始化块是在对象创建时，**在字段初始化之后**但在**构造函数之前**执行的。
   - **静态初始化块会优先执行**，只能初始化静态变量，在类**初次加载**时执行（创建对象/访问静态成员）
   - **普通初始化块按顺序执行**，实例化时执行
-
-  - 会从父类到子类依次执行
-
-    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230921115026923.png" alt="image-20230921115026923" style="zoom:50%;" />
-
-  - ``` java
-    class A{
-        // 静态初始化块
-        static {
-            System.out.println("static init block A");
-        }
-        // 普通初始化块
-        {
-            System.out.println("common init block A");
-        }
-        // 构造方法
-        public A() {
-            System.out.println("Constructor without params A");
-        }
+``` java
+class A{
+    // 静态初始化块
+    static {
+        System.out.println("static init block A");
     }
-    ```
+    // 普通初始化块
+    {
+        System.out.println("common init block A");
+    }
+    // 构造方法
+    public A() {
+        System.out.println("Constructor without params A");
+    }
+}
+```
 
 - 初始化顺序
+``` java
+class Bowl {
+  Bowl(int marker) {
+    System.out.println("Bowl(" + marker + ")");
+  }
+  void f1(int marker) {
+    System.out.println("f1(" + marker + ")");
+  }
+}
 
-  - ``` java
-    class Bowl {
-      Bowl(int marker) {
-        System.out.println("Bowl(" + marker + ")");
-      }
-      void f1(int marker) {
-        System.out.println("f1(" + marker + ")");
-      }
+class Table {
+  static Bowl bowl1 = new Bowl(1);
+  Table() {
+    System.out.println("Table()");
+    bowl2.f1(1);
+  }
+  void f2(int marker) {
+    System.out.println("f2(" + marker + ")");
+  }
+  static Bowl bowl2 = new Bowl(2);
+}
+
+class Cupboard {
+  Bowl bowl3 = new Bowl(3);
+  static Bowl bowl4 = new Bowl(4);
+  Cupboard() {
+    System.out.println("Cupboard()");
+    bowl4.f1(2);
+  }
+  void f3(int marker) {
+    System.out.println("f3(" + marker + ")");
+  }
+  static Bowl bowl5 = new Bowl(5);
+}
+
+public class StaticInitialization {
+  public static void main(String [] args) {
+    System.out.println("main creating new Cupboard()");
+    new Cupboard();
+    System.out.println("main creating new Cupboard()");
+    new Cupboard();
+    table.f2(1);
+    cupboard.f3(1);
+  }
+  static Table table = new Table();
+  static Cupboard cupboard = new Cupboard();
+}
+/* Output:
+Bowl(1)
+Bowl(2)
+Table()
+f1(1)
+Bowl(4)
+Bowl(5)
+Bowl(3)
+Cupboard()
+f1(2)
+main creating new Cupboard()
+Bowl(3)
+Cupboard()
+f1(2)
+main creating new Cupboard()
+Bowl(3)
+Cupboard()
+f1(2)
+f2(1)
+f3(1)
+*/
+```
+
+- **静态字段的初始化**：首先，类`Table`和`Cupboard`的静态字段在首次被访问时初始化。在`StaticInitialization`的`main`方法执行之前，会初始化**这两个类的静态字段**，因为它们在`main`方法中被用作静态字段。(初始类之前要先对其的静态成员进行初始化)
+  - `Table.bowl1`初始化，打印`Bowl(1)`。
+  - `Table.bowl2`初始化，打印`Bowl(2)`。
+  - `Cupboard.bowl4`初始化，打印`Bowl(4)`。
+  - `Cupboard.bowl5`初始化，打印`Bowl(5)`。
+
+- **`Table`和`Cupboard`的实例初始化**：之后，`StaticInitialization`中的静态字段`table`和`cupboard`被初始化。
+  - 当初始化table时：
+    - 调用`Table`的构造函数，打印`Table()`。
+    - 在构造函数中调用`bowl2.f1(1)`，打印`f1(1)`。
+  - 当初始化cupboard时：
+    - `Cupboard.bowl3`初始化，打印`Bowl(3)`（这是一个实例字段，所以在每次创建`Cupboard`实例时都会初始化）。
+    - 调用`Cupboard`的构造函数，打印`Cupboard()`。
+    - 在构造函数中调用`bowl4.f1(2)`，打印`f1(2)`。
+
+- **执行`main`方法**：
+  - 打印`main creating new Cupboard()`。
+  - 创建新的Cupboard实例：
+    - `Cupboard.bowl3`初始化，打印`Bowl(3)`。
+    - 调用`Cupboard`的构造函数，打印`Cupboard()`。
+    - 在构造函数中调用`bowl4.f1(2)`，打印`f1(2)`。
+  - 打印`main creating new Cupboard()`。
+  - 再次创建新的Cupboard实例：
+    - `Cupboard.bowl3`初始化，打印`Bowl(3)`。
+    - 调用`Cupboard`的构造函数，打印`Cupboard()`。
+    - 在构造函数中调用`bowl4.f1(2)`，打印`f1(2)`。
+  - 调用`table.f2(1)`，打印`f2(1)`。
+  - 调用`cupboard.f3(1)`，打印`f3(1)`。
+
+- ``` java
+  class Cup {
+    Cup(int marker) {
+      System.out.println("Cup(" + marker + ")");
     }
-    
-    class Table {
-      static Bowl bowl1 = new Bowl(1);
-      Table() {
-        System.out.println("Table()");
-        bowl2.f1(1);
-      }
-      void f2(int marker) {
-        System.out.println("f2(" + marker + ")");
-      }
-      static Bowl bowl2 = new Bowl(2);
+    void f(int marker) {
+      System.out.println("f(" + marker + ")");
     }
-    
-    class Cupboard {
-      Bowl bowl3 = new Bowl(3);
-      static Bowl bowl4 = new Bowl(4);
-      Cupboard() {
-        System.out.println("Cupboard()");
-        bowl4.f1(2);
-      }
-      void f3(int marker) {
-        System.out.println("f3(" + marker + ")");
-      }
-      static Bowl bowl5 = new Bowl(5);
+  }
+  
+  class Cups {
+    static Cup cup1;
+    static Cup cup2;
+    static {
+      cup1 = new Cup(1);
+      cup2 = new Cup(2);
     }
-    
-    public class StaticInitialization {
-      public static void main(String [] args) {
-        System.out.println("main creating new Cupboard()");
-        new Cupboard();
-        System.out.println("main creating new Cupboard()");
-        new Cupboard();
-        table.f2(1);
-        cupboard.f3(1);
-      }
-      static Table table = new Table();
-      static Cupboard cupboard = new Cupboard();
+    Cups() {
+      System.out.println("Cups()");
     }
-    /* Output:
-    Bowl(1)
-    Bowl(2)
-    Table()
-    f1(1)
-    Bowl(4)
-    Bowl(5)
-    Bowl(3)
-    Cupboard()
-    f1(2)
-    main creating new Cupboard()
-    Bowl(3)
-    Cupboard()
-    f1(2)
-    main creating new Cupboard()
-    Bowl(3)
-    Cupboard()
-    f1(2)
-    f2(1)
-    f3(1)
-    */
-    ```
-
-  - **静态字段的初始化**：首先，类`Table`和`Cupboard`的静态字段在首次被访问时初始化。在`StaticInitialization`的`main`方法执行之前，会初始化**这两个类的静态字段**，因为它们在`main`方法中被用作静态字段。(初始类之前要先对其的静态成员进行初始化)
-
-    - `Table.bowl1`初始化，打印`Bowl(1)`。
-    - `Table.bowl2`初始化，打印`Bowl(2)`。
-    - `Cupboard.bowl4`初始化，打印`Bowl(4)`。
-    - `Cupboard.bowl5`初始化，打印`Bowl(5)`。
-
-  - **`Table`和`Cupboard`的实例初始化**：之后，`StaticInitialization`中的静态字段`table`和`cupboard`被初始化。
-
-    - 当初始化table时：
-      - 调用`Table`的构造函数，打印`Table()`。
-      - 在构造函数中调用`bowl2.f1(1)`，打印`f1(1)`。
-    - 当初始化cupboard时：
-      - `Cupboard.bowl3`初始化，打印`Bowl(3)`（这是一个实例字段，所以在每次创建`Cupboard`实例时都会初始化）。
-      - 调用`Cupboard`的构造函数，打印`Cupboard()`。
-      - 在构造函数中调用`bowl4.f1(2)`，打印`f1(2)`。
-
-  - **执行`main`方法**：
-
-    - 打印`main creating new Cupboard()`。
-    - 创建新的Cupboard实例：
-      - `Cupboard.bowl3`初始化，打印`Bowl(3)`。
-      - 调用`Cupboard`的构造函数，打印`Cupboard()`。
-      - 在构造函数中调用`bowl4.f1(2)`，打印`f1(2)`。
-    - 打印`main creating new Cupboard()`。
-    - 再次创建新的Cupboard实例：
-      - `Cupboard.bowl3`初始化，打印`Bowl(3)`。
-      - 调用`Cupboard`的构造函数，打印`Cupboard()`。
-      - 在构造函数中调用`bowl4.f1(2)`，打印`f1(2)`。
-    - 调用`table.f2(1)`，打印`f2(1)`。
-    - 调用`cupboard.f3(1)`，打印`f3(1)`。
-
-  - ``` java
-    class Cup {
-      Cup(int marker) {
-        System.out.println("Cup(" + marker + ")");
-      }
-      void f(int marker) {
-        System.out.println("f(" + marker + ")");
-      }
+  }
+  
+  public class ExplicitStatic {
+    public static void main(String [] args) {
+      System.out.println("Inside main()");
+      Cups.cup1.f(99);                  // [1]
     }
-    
-    class Cups {
-      static Cup cup1;
-      static Cup cup2;
-      static {
-        cup1 = new Cup(1);
-        cup2 = new Cup(2);
-      }
-      Cups() {
-        System.out.println("Cups()");
-      }
-    }
-    
-    public class ExplicitStatic {
-      public static void main(String [] args) {
-        System.out.println("Inside main()");
-        Cups.cup1.f(99);                  // [1]
-      }
-      static Cups cups1 = new Cups();  // [2]
-      static Cups cups2 = new Cups();  // [2]
-    }
-    /* Output:
-    Cup(1)
-    Cup(2)
-    Cups()
-    Cups()
-    Inside main()
-    f(99)
-    */
-    ```
+    static Cups cups1 = new Cups();  // [2]
+    static Cups cups2 = new Cups();  // [2]
+  }
+  /* Output:
+  Cup(1)
+  Cup(2)
+  Cups()
+  Cups()
+  Inside main()
+  f(99)
+  */
+  ```
 
-  - 首先对ExplicitStatic的静态成员cups1、cups2进行初始化
+- 首先对ExplicitStatic的静态成员cups1、cups2进行初始化
 
-  - 调用静态初始化对cup1、cup2进行初始化
+- 调用静态初始化对cup1、cup2进行初始化
 
-  - 调用构造函数对Cups进行初始化
+- 调用构造函数对Cups进行初始化
 
-  - 执行main函数
+- 执行main函数
 
 - 自定义了有参构造函数，系统不会提供无参构造函数
 
@@ -387,36 +378,16 @@ static{
 
   - 
 
-### 垃圾收集
+### [[jvm#垃圾回收|垃圾回收OC]]
 
-- 垃圾处理器会自动释放new分配的内存
-
-- finalize
-
-  - 在对象被垃圾收集器析构(回收)之前调用，并且会在下一次垃圾收集时再回收这个对象占用的内存（但也有可能不会被垃圾收集，比如内存没有被耗尽）
-
-
-  - ```
-    protected void finalize()
-    {
-       // 在这里终结代码
-    }
-    ```
-
-  - finalize的操作应该只与内存及释放相关
-    - 比如使用非Java方法分配的内存就需要手动进行释放
-
-
-  - Java 的内存回收可以由 JVM 来自动完成。如果你手动使用，则可以使用上面的方法。
-
-
-  - **已经弃用**
-
-- 如果需要对类进行清理，应该自己创建清理方法并显式调用
-
-- 清理顺序
-
-  - 先子类后父类
+- finalize(**已经弃用**)
+  - 在对象被垃圾收集器析构(回收)之前调用，并且会在下一次垃圾收集时再回收这个对象占用的内存（**但也有可能不会被垃圾收集，比如内存没有被耗尽**,也就是说可能根本不会被调用）
+```
+protected void finalize()
+{
+   // 在这里终结代码
+}
+```
 
 ### 继承
 
