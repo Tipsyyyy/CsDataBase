@@ -1,6 +1,6 @@
 - 枚举类型可以直接作为case标签
 
-- switch箭头语法：(JDK14)
+- switch箭头语法：(JDK14) ^7ad22e
 ``` java
 //传统方式
 case 1: xxx;
