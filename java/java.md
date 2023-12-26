@@ -241,18 +241,15 @@ public class SpaceShipDelegation {
 
 ### 内部类
 
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230920231026654.png" alt="image-20230920231026654" style="zoom: 50%;" />
-  - 实例`Outer.Inner in = new Outer().new Inner();`
-  - 必须有外部类的对象来创建内部类，因为内部类创建时会自动进行绑定
+- 实例`Outer.Inner in = new Outer().new Inner();`
+- 必须有**外部类的对象来创建内部类**，因为内部类创建时会自动进行绑定
+
+- 内部类编译后会产生单独的class文件，如`外部类$内部类.class`
 
 - 内部类可以声明为public、private、protected、default
 
 - 内部类中, 访问外部类成员 : 直接访问, **包括私有**（无论嵌套多少层都可以透明的访问，创建时也需要逐级`.`）
-
   - 通常直接访问就可以，如果需要显示访问：格式`Outer.this.`
-
-  - 使用内部类创建迭代器
-
 
 ``` java
 interface Selector {
@@ -297,16 +294,13 @@ public class Sequence {
   }
 }
 ```
-
-- 这里的内部类是private的，其实例和类型对外部类之外都是不可见的，外部类不能直接用public方法返回一个preivate内部类的实例，但是可以返回内部类实现的public基类或接口（向上转型Selector）**这种方式隐藏了内部类的具体实现，只暴露了接口或超类的公共方法。**
-
+- 这里的内部类是private的，其实例和类型对外部类之外都是不可见的，外部类不能直接用public方法返回一个private内部类的实例，但是可以返回内部类实现的public基类或接口（向上转型Selector）**这种方式隐藏了内部类的具体实现，只暴露了接口或超类的公共方法。**
 - 将内部类设置为private或protected可以阻止外部直接访问，同时**只提供向上转型的结果**实现更好的封装
 
+#### 内部类分类
+
 - 局部内部类
-
   - 在方法作用域中创建内部类
-
-
 ``` java
 public class Parcel5 {
   public Destination destination(String s) {
@@ -329,10 +323,7 @@ public class Parcel5 {
 ```
 
 - 匿名内部类:定义一个类的同时对其**进行实例化**
-
   - 匿名类只能**扩展一个类或实现一个接口**
-
-
 ``` java
 public class Parcel7 {
   public Contents contents() {
@@ -347,12 +338,9 @@ public class Parcel7 {
   }
 }
 ```
-
 - 创建了一个继承自Contents的匿名类对象，返回会自动向上转型
 
 - 也可以通过构造函数传参，可以用于调用超类的构造函数
-
-
 ``` java
 public class Parcel8 {
   public Wrapping wrapping(int x) {
@@ -375,14 +363,10 @@ public class Wrapping {
   public int value() { return i; }
 }
 ```
-
 - 如果要在匿名类使用匿名类外的对象，要求参数用final修饰，或者保证初始化后就不会再变化
 
 - 匿名函数的构造器
-
   - 可以使用初始化块`{}`
-
-
 ``` java
 public class Parcel10 {
   public Destination
@@ -408,10 +392,8 @@ public class Parcel10 {
 }
 ```
 
-- 
 
 - 静态内部类（嵌套类），内部类使用static修饰，
-
   - 不需要内部类对象和外部类对象之间的连接
   - 不需要通过外部类对象创建
   - 无法从内部访问**非static**的外部对象
@@ -426,12 +408,8 @@ public class Parcel10 {
 #### 应用
 
 - 间接实现多继承
-
   - 每个内部类都有可以独立地继承自一个实现
-
   - 可以使用每个内部类去继承一个类，间接实现多继承
-
-
 ``` java
 class D {}
 abstract class E {}
@@ -452,8 +430,6 @@ public class MultiImplementation {
 ```
 
 - 闭包与回调
-
-
 ``` java
 interface Incrementable {
   void increment();
@@ -520,12 +496,9 @@ public class Callbacks {
 ```
 
 - 闭包：允许方法**保留和使用定义在其外部作用域的变量**，即使外部方法已经完成执行。`Callee2`的内部类`Closure`类似于一个闭包，因为它封装了`Callee2`的环境并提供了对其`increment`方法的访问。
-
   - **闭包让你可以在一个内层函数中访问到其外层函数的作用域。**
 
 - 回调：一个方法**接受另一个方法作为参数**，然后在适当的时候执行传递。`Caller`类接受一个实现了`Incrementable`接口的对象作为回调，并在`go`方法中调用该回调对象的`increment`方法。
-
-- 内部类编译后会产生单独的class文件，如`外部类$内部类.class`
 
 ## 泛型
 
