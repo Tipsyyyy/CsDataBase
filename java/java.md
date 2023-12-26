@@ -337,7 +337,7 @@ MyClass myObject = (MyClass) constructor.newInstance("example", 123);
 
   - `Class<Integer>`只接受特定类型的Class
 
-  - 通配`Class<?>`（实际上<?>可以省略）
+  - 通配`Class<?>`（实际上\<?>可以省略）
 
     - `Class<? extends Number>`可以存储整数/浮点数
 
@@ -3331,22 +3331,23 @@ public class NonCollectionSequence extends PetSequence {
 
   - Collrctions接受一个原始集合返回一个只读版本
 
-- ``` java
-  Collections.unmodifiableCollection(
-         new ArrayList <>(data));
-  List <String> a = Collections.unmodifiableList(
-          new ArrayList <>(data));
-   Set <String> s = Collections.unmodifiableSet(
-        new HashSet <>(data));
-   Set <String> ss = Collections.unmodifiableSortedSet(
-          new TreeSet <>(data));
-  Map <String,String> m = Collections.unmodifiableMap(
-          new HashMap <>(Countries.capitals(6)));
-  Map <String,String> sm = Collections.unmodifiableSortedMap(
-          new TreeMap <>(Countries.capitals(6)));
-  ```
 
-  - 调用修改集合内容的方法会触发UnsupportedOperationException
+``` java
+Collections.unmodifiableCollection(
+       new ArrayList <>(data));
+List <String> a = Collections.unmodifiableList(
+        new ArrayList <>(data));
+ Set <String> s = Collections.unmodifiableSet(
+      new HashSet <>(data));
+ Set <String> ss = Collections.unmodifiableSortedSet(
+        new TreeSet <>(data));
+Map <String,String> m = Collections.unmodifiableMap(
+        new HashMap <>(Countries.capitals(6)));
+Map <String,String> sm = Collections.unmodifiableSortedMap(
+        new TreeMap <>(Countries.capitals(6)));
+```
+
+- 调用修改集合内容的方法会触发UnsupportedOperationException
 
 - synchronized创建同步版本的集合
 
@@ -3379,73 +3380,75 @@ public class NonCollectionSequence extends PetSequence {
   - 使用`hasNext()`检查是否还有更多对象
   - 使用`remove()`删除迭代器最近返回的元素
 
-  - ``` java
-    List <Pet> pets = new PetCreator().list(12);
-    Iterator <Pet> it = pets.iterator();
-    while(it.hasNext()) {
-        Pet p = it.next();
-        System.out.print(p.id() + ":" + p + " ");
+
+``` java
+List <Pet> pets = new PetCreator().list(12);
+Iterator <Pet> it = pets.iterator();
+while(it.hasNext()) {
+    Pet p = it.next();
+    System.out.print(p.id() + ":" + p + " ");
+}
+//删除元素
+for(int i = 0; i < 6; i++) {
+      it.next();
+      it.remove();
     }
-    //删除元素
-    for(int i = 0; i < 6; i++) {
-          it.next();
-          it.remove();
-        }
-    //更简单的遍历方式
-    for(Pet p : pets)
-          System.out.print(p.id() + ":" + p + " ");
-    ```
+//更简单的遍历方式
+for(Pet p : pets)
+      System.out.print(p.id() + ":" + p + " ");
+```
 
 - 自定义迭代器并实现多种顺序的for-in访问
 
-  - ``` java
-    public class MultiIterableClass extends IterableClass {
-      public Iterable <String> reversed() {
-        return new Iterable <String>() {
-            //自定义逆向迭代器
-          public Iterator <String> iterator() {
-            return new Iterator <String>() {
-              int current = words.length - 1;
-              @Override public boolean hasNext() {
-                return current > -1;
-              }
-              @Override public String next() {
-                return words [current--];
-              }
-              @Override
-              public void remove() { // Not implemented
-                throw new UnsupportedOperationException();
-              }
-            };
-          }
-        };
-      }
-      public Iterable <String> randomized() {
-        return new Iterable <String>() {
-          public Iterator <String> iterator() {
-            List <String> shuffled =
-              new ArrayList <>(Arrays.asList(words));
-            Collections.shuffle(shuffled, new Random(47));
-              //不会影响原始数组，只是影响引用的顺序
-            return shuffled.iterator();
-          }
-        };
-      }
-      public static void main(String [] args) {
-        MultiIterableClass mic = new MultiIterableClass();
-        for(String s : mic.reversed())
-          System.out.print(s + " ");
-        System.out.println();
-        for(String s : mic.randomized())
-          System.out.print(s + " ");
-        System.out.println();
-        for(String s : mic)
-          System.out.print(s + " ");
-      }
-    }
-    ```
 
-  - 
+``` java
+public class MultiIterableClass extends IterableClass {
+  public Iterable <String> reversed() {
+    return new Iterable <String>() {
+        //自定义逆向迭代器
+      public Iterator <String> iterator() {
+        return new Iterator <String>() {
+          int current = words.length - 1;
+          @Override public boolean hasNext() {
+            return current > -1;
+          }
+          @Override public String next() {
+            return words [current--];
+          }
+          @Override
+          public void remove() { // Not implemented
+            throw new UnsupportedOperationException();
+          }
+        };
+      }
+    };
+  }
+  public Iterable <String> randomized() {
+    return new Iterable <String>() {
+      public Iterator <String> iterator() {
+        List <String> shuffled =
+          new ArrayList <>(Arrays.asList(words));
+        Collections.shuffle(shuffled, new Random(47));
+          //不会影响原始数组，只是影响引用的顺序
+        return shuffled.iterator();
+      }
+    };
+  }
+  public static void main(String [] args) {
+    MultiIterableClass mic = new MultiIterableClass();
+    for(String s : mic.reversed())
+      System.out.print(s + " ");
+    System.out.println();
+    for(String s : mic.randomized())
+      System.out.print(s + " ");
+    System.out.println();
+    for(String s : mic)
+      System.out.print(s + " ");
+  }
+}
+```
+
+- 
 
 ##### ListIterator
 
@@ -3464,18 +3467,19 @@ public class NonCollectionSequence extends PetSequence {
 
   - **sort(List<T> list, Comparator<? super T> c)**: 根据提供的比较器对列表进行排序。
 
-    - ``` java
-      Comparator <Person> ageComparator = new Comparator <Person>() {
-          @Override
-          public int compare(Person p1, Person p2) {
-              return Integer.compare(p1.getAge(), p2.getAge());
-          }
-      };
-      ```
 
-  - **shuffle(List<?> list)**: 随机打乱指定列表中元素的顺序。
+``` java
+Comparator <Person> ageComparator = new Comparator <Person>() {
+    @Override
+    public int compare(Person p1, Person p2) {
+        return Integer.compare(p1.getAge(), p2.getAge());
+    }
+};
+```
 
-  - **shuffle(List<?> list, Random rnd)**: 使用指定的随机源随机打乱列表。
+- **shuffle(List<?> list)**: 随机打乱指定列表中元素的顺序。
+
+- **shuffle(List<?> list, Random rnd)**: 使用指定的随机源随机打乱列表。
 
 - 查找和替换
 
@@ -3521,7 +3525,7 @@ public class NonCollectionSequence extends PetSequence {
   - **addAll(Collection<? super T> c, T... elements)**: 将所有指定元素添加到指定集合。
 
   - **disjoint(Collection<?> c1, Collection<?> c2)**: 如果两个指定集合没有共同的元素，则返回true。
-  
+
   - `removeIf(s->xx)`填入一个表达式，删除满足条件的元素
 
 #### List
@@ -3636,10 +3640,12 @@ public class NonCollectionSequence extends PetSequence {
 - 添加`put(,)`
 - 对键、值分别查找`containsKey() containsValue()`
 - 创建`Map<Integer, Integer>m = new HasMap<>();`
-- ``` java
-  Integer freq = m.get(r);
-  m.put(r, freq==null?1: freq+1);
-  ```
+
+``` java
+Integer freq = m.get(r);
+m.put(r, freq==null?1: freq+1);
+```
+
 - 允许`null`键和`null`值。
 - 不保证映射的顺序，顺序可能随时间发生变化。
 - `entrySet()`生成Map.Entry（Map中的键值对）组成的Set，这个Set可以转化为流对象进行操作
@@ -3654,25 +3660,26 @@ public class NonCollectionSequence extends PetSequence {
 
 - 常用方法
 
-  - ``` java
-    //小于等于 n 的最大键值（向前）
-    floorEntry(n);
-    //小于
-    lowerEntry(n);
-    //大于等于的（向后）
-    ceilingEntry();
-    //大于
-    higherEntry(K key)；
-    //首尾元素
-    firstEntry();
-    lastEntry();
-    pollFirstEntry();
-    pollLastEntry();
-    //逆序排序
-    map = map.descendingMap();
-    //范围查找元素
-    
-    ```
+
+``` java
+//小于等于 n 的最大键值（向前）
+floorEntry(n);
+//小于
+lowerEntry(n);
+//大于等于的（向后）
+ceilingEntry();
+//大于
+higherEntry(K key)；
+//首尾元素
+firstEntry();
+lastEntry();
+pollFirstEntry();
+pollLastEntry();
+//逆序排序
+map = map.descendingMap();
+//范围查找元素
+
+```
 
 
 - 范围操作
@@ -3717,26 +3724,28 @@ public class NonCollectionSequence extends PetSequence {
 
 - 经典的比较
 
-  - ``` java
-    @Override public boolean equals(Object rval) {
-        //既确保不为 null，也确保类型相同
-        return rval instanceof SuccinctEquality &&
-            Objects.equals(i, ((SuccinctEquality)rval).i) &&
-            Objects.equals(s, ((SuccinctEquality)rval).s) &&
-            Objects.equals(d, ((SuccinctEquality)rval).d);
-    }
-    ```
+
+``` java
+@Override public boolean equals(Object rval) {
+    //既确保不为 null，也确保类型相同
+    return rval instanceof SuccinctEquality &&
+        Objects.equals(i, ((SuccinctEquality)rval).i) &&
+        Objects.equals(s, ((SuccinctEquality)rval).s) &&
+        Objects.equals(d, ((SuccinctEquality)rval).d);
+}
+```
 
 - 有继承的比较
 
-  - ``` java
-    @Override public boolean equals(Object rval) {
-        return rval instanceof ComposedEquality &&
-          super.equals(rval) &&//先比较基类
-          Objects.equals(part,999
-            ((ComposedEquality)rval).part);
-      }
-    ```
+
+``` java
+@Override public boolean equals(Object rval) {
+    return rval instanceof ComposedEquality &&
+      super.equals(rval) &&//先比较基类
+      Objects.equals(part,999
+        ((ComposedEquality)rval).part);
+  }
+```
 
 ##### hashCode()
 
@@ -3762,41 +3771,44 @@ public class NonCollectionSequence extends PetSequence {
 
 - 创建
 
-  - ``` java
-    recoed Employee(String name, int id){}
-    var bob = new Employee("",0);
-    ```
 
-  - 会自动创建规范的构造器根据传入的参数进行初始化，recoed的字段要定义在头部
+``` java
+recoed Employee(String name, int id){}
+var bob = new Employee("",0);
+```
 
-  - 不能加入静态方法、字段和初始化器
+- 会自动创建规范的构造器根据传入的参数进行初始化，recoed的字段要定义在头部
+
+- 不能加入静态方法、字段和初始化器
 
 - record内的方法只能读取字段，不能进行修改，定义在{}内
 
 - record不能继承其他类，但是可以实现接口
 
-- ``` java
-  interface Strar{
-      double brightness();
-      double density();
-  }
-  
-  record RedDwarf(double brightness) implement Star{
-      @Override public double density(){return 100.0;}
-  }
-  //record 会自动为 brightness 提供访问器，正好匹配了接口的要求
-  ```
+
+``` java
+interface Strar{
+    double brightness();
+    double density();
+}
+
+record RedDwarf(double brightness) implement Star{
+    @Override public double density(){return 100.0;}
+}
+//record 会自动为 brightness 提供访问器，正好匹配了接口的要求
+```
 
 - 可以嵌套在类或方法中，并且隐含都是静态的
 
 - 可以自定义一个紧凑构造器（没有参数列表）
 
-  - ``` java
-    Redwarf {
-        //可以修改字段的初始化值(这不是对 final 继续进行修改，而是在对 final 进行初始化前对初始化值进行修改)
-        //也可以对参数进行验证
-    }
-    ```
+
+``` java
+Redwarf {
+    //可以修改字段的初始化值(这不是对 final 继续进行修改，而是在对 final 进行初始化前对初始化值进行修改)
+    //也可以对参数进行验证
+}
+```
 
 - 如果想要使用带参构造器，构造器必须静秋额复制record的签名（括号内完全一致）并且必须在函数体中对字段进行初始化
 
@@ -3806,78 +3818,80 @@ public class NonCollectionSequence extends PetSequence {
 
 - 创建一个只读数组
 
-  - ``` java
-    public class CountingIntegerList
-    extends AbstractList <Integer> {
-      private int size;
-      public CountingIntegerList() { size = 0; }
-      public CountingIntegerList(int size) {
-        this.size = size < 0 ? 0 : size;
-      }
-        //重写 get 及 set
-        //并没有实际存储 list，取值时再计算，可以创建无限大的数据集
-      @Override public Integer get(int index) {
-        return index;
-      }
-      @Override public int size() { return size; }
-      public static void main(String [] args) {
-        List <Integer> cil =
-          new CountingIntegerList(30);
-        System.out.println(cil);
-        System.out.println(cil.get(500));
-      }
-    }
-    ```
+
+``` java
+public class CountingIntegerList
+extends AbstractList <Integer> {
+  private int size;
+  public CountingIntegerList() { size = 0; }
+  public CountingIntegerList(int size) {
+    this.size = size < 0 ? 0 : size;
+  }
+    //重写 get 及 set
+    //并没有实际存储 list，取值时再计算，可以创建无限大的数据集
+  @Override public Integer get(int index) {
+    return index;
+  }
+  @Override public int size() { return size; }
+  public static void main(String [] args) {
+    List <Integer> cil =
+      new CountingIntegerList(30);
+    System.out.println(cil);
+    System.out.println(cil.get(500));
+  }
+}
+```
 
 - 实现Map享元
 
-  - ``` java
-    public class CountMap
-    extends AbstractMap <Integer,String> {
-      private int size;
-      private static char [] chars =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-        //自动计算 value
-      private static String value(int key) {
-        return
-          chars [key % chars.length] +
-          Integer.toString(key / chars.length);
-      }
-      public CountMap(int size) {
-        this.size = size < 0 ? 0 : size;
-      }
-      @Override public String get(Object key) {
-        return value((Integer)key);
-      }
-      private static class Entry
-      implements Map.Entry <Integer,String> {
-        int index;
-        Entry(int index) { this.index = index; }
-        @Override   public boolean equals(Object o) {
-          return o instanceof Entry &&
-            Objects.equals(index, ((Entry)o).index);
-        }
-        @Override public Integer getKey() { return index; }
-        @Override public String getValue() {
-          return value(index);
-        }
-        @Override public String setValue(String value) {
-          throw new UnsupportedOperationException();
-        }
-        @Override public int hashCode() {
-          return Objects.hashCode(index);
-        }
-      }
-      @Override
-      public Set <Map.Entry<Integer,String> > entrySet() {
-        // LinkedHashSet retains initialization order:
-        return IntStream.range(0, size)
-          .mapToObj(Entry:: new)
-          .collect(Collectors
-            .toCollection(LinkedHashSet:: new));
-      }
-    
-    ```
+
+``` java
+public class CountMap
+extends AbstractMap <Integer,String> {
+  private int size;
+  private static char [] chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+    //自动计算 value
+  private static String value(int key) {
+    return
+      chars [key % chars.length] +
+      Integer.toString(key / chars.length);
+  }
+  public CountMap(int size) {
+    this.size = size < 0 ? 0 : size;
+  }
+  @Override public String get(Object key) {
+    return value((Integer)key);
+  }
+  private static class Entry
+  implements Map.Entry <Integer,String> {
+    int index;
+    Entry(int index) { this.index = index; }
+    @Override   public boolean equals(Object o) {
+      return o instanceof Entry &&
+        Objects.equals(index, ((Entry)o).index);
+    }
+    @Override public Integer getKey() { return index; }
+    @Override public String getValue() {
+      return value(index);
+    }
+    @Override public String setValue(String value) {
+      throw new UnsupportedOperationException();
+    }
+    @Override public int hashCode() {
+      return Objects.hashCode(index);
+    }
+  }
+  @Override
+  public Set <Map.Entry<Integer,String> > entrySet() {
+    // LinkedHashSet retains initialization order:
+    return IntStream.range(0, size)
+      .mapToObj(Entry:: new)
+      .collect(Collectors
+        .toCollection(LinkedHashSet:: new));
+  }
+
+```
 
 ### 时间类
 
@@ -3913,14 +3927,15 @@ public class NonCollectionSequence extends PetSequence {
 
 - 将日志输出到文件
 
-  - ``` java
-    Logger logger = Logger.getLogger("com.example.MyClass");
-    FileHandler fh = new FileHandler("mylog.log");
-    logger.addHandler(fh);
-    SimpleFormatter formatter = new SimpleFormatter();
-    fh.setFormatter(formatter);
-    logger.info("This is an info message");
-    ```
+
+``` java
+Logger logger = Logger.getLogger("com.example.MyClass");
+FileHandler fh = new FileHandler("mylog.log");
+logger.addHandler(fh);
+SimpleFormatter formatter = new SimpleFormatter();
+fh.setFormatter(formatter);
+logger.info("This is an info message");
+```
 
 ### Object
 
@@ -3977,23 +3992,24 @@ public class NonCollectionSequence extends PetSequence {
 
 - 注解通常包含一些可以设定值的元素，程序或工具在处理注解时可以使用参数，没有任何元素的注解为标记注解
 
-  - ``` java
-    @Target(ElementType.METHOD)
-    @Retention(RetentionPolicy.RUNTIME)
-    public @interface name{
-        int id()p;
-        String description() default "no description";//默认值 
-    }
-    
-    @UseCase(id = 47, description = "xxx")
-    public void...//绑定注解的方法
-    ```
 
-  - 注解允许的元素类型：基本数据类型、String、Class、enum、Annotation（注解）、及以上类型的数组
+``` java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface name{
+    int id()p;
+    String description() default "no description";//默认值 
+}
 
-  - 元素要么有默认值，要么在使用时必须给出值
+@UseCase(id = 47, description = "xxx")
+public void...//绑定注解的方法
+```
 
-  - 非基本类型不允许赋值为null
+- 注解允许的元素类型：基本数据类型、String、Class、enum、Annotation（注解）、及以上类型的数组
+
+- 元素要么有默认值，要么在使用时必须给出值
+
+- 非基本类型不允许赋值为null
 
 - 标准注解
 
@@ -4030,169 +4046,173 @@ public class NonCollectionSequence extends PetSequence {
 
   - 这就是一个嵌套注解
 
-  - ``` java
-    public @interface Uniqueness {
-      Constraints constraints()
-      default @Constraints(unique = true);
-    }
-    ```
+
+``` java
+public @interface Uniqueness {
+  Constraints constraints()
+  default @Constraints(unique = true);
+}
+```
 
 #### 注解处理器
 
 - 例：读取被注解的类，通过反射查找注解标签，通过注解的id查找出已经注册的测试案例
 
-  - ``` java
-    public static void trackUseCases(List <Integer> useCases, Class <?> cl) {
-        for(Method m : cl.getDeclaredMethods()) {
-            UseCase uc = m.getAnnotation(UseCase.class);
-            if(uc != null) {
-                System.out.println("Found Use Case " +uc.id() + "\n  " + uc.description());
-                useCases.remove(Integer.valueOf(uc.id()));
-            }
+
+``` java
+public static void trackUseCases(List <Integer> useCases, Class <?> cl) {
+    for(Method m : cl.getDeclaredMethods()) {
+        UseCase uc = m.getAnnotation(UseCase.class);
+        if(uc != null) {
+            System.out.println("Found Use Case " +uc.id() + "\n  " + uc.description());
+            useCases.remove(Integer.valueOf(uc.id()));
         }
     }
-    ```
+}
+```
 
 - 示例
 
-  -  ``` java
-     @Target(ElementType.TYPE) // Applies to classes only
-     @Retention(RetentionPolicy.RUNTIME)
-     public @interface DBTable {
-       String name() default "";
-     }
-     
-     @Target(ElementType.FIELD)
-     @Retention(RetentionPolicy.RUNTIME)
-     public @interface Constraints {
-       boolean primaryKey() default false;
-       boolean allowNull() default true;
-       boolean unique() default false;
-     }
-     
-     @Target(ElementType.FIELD)
-     @Retention(RetentionPolicy.RUNTIME)
-     public @interface SQLInteger {
-       String name() default "";
-       Constraints constraints() default @Constraints;
-     }
-     
-     @Target(ElementType.FIELD)
-     @Retention(RetentionPolicy.RUNTIME)
-     public @interface SQLString {
-       int value() default 0;
-       String name() default "";
-       Constraints constraints() default @Constraints;
-     }
-     
-     public @interface Uniqueness {
-       Constraints constraints()
-       default @Constraints(unique = true);
-     }
-     
-     @DBTable(name = "MEMBER")
-     public class Member {
-       @SQLString(30) String firstName;
-       @SQLString(50) String lastName;
-       @SQLInteger Integer age;
-       @SQLString(value = 30,
-       constraints = @Constraints(primaryKey = true))
-       String reference;
-       static int memberCount;
-       public String getReference() { return reference; }
-       public String getFirstName() { return firstName; }
-       public String getLastName() { return lastName; }
-       @Override public String toString() {
-         return reference;
-       }
-       public Integer getAge() { return age; }
-     }
-     ```
 
-  - 这套自定义注解的意义在于提供一种**声明式的方法**来描述一个Java类**如何映射**到数据库的表和字段。通过这些注解，你可以将类和字段的元数据（例如表名、字段名、字段类型、约束等）直接嵌入到Java代码中。这种方式的好处是代码更清晰、更直观，并且可以由框架或工具在运行时动态解析，从而自动生成SQL语句或执行其他数据库相关操作。
+``` java
+@Target(ElementType.TYPE) // Applies to classes only
+@Retention(RetentionPolicy.RUNTIME)
+public @interface DBTable {
+  String name() default "";
+}
+
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Constraints {
+  boolean primaryKey() default false;
+  boolean allowNull() default true;
+  boolean unique() default false;
+}
+
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SQLInteger {
+  String name() default "";
+  Constraints constraints() default @Constraints;
+}
+
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SQLString {
+  int value() default 0;
+  String name() default "";
+  Constraints constraints() default @Constraints;
+}
+
+public @interface Uniqueness {
+  Constraints constraints()
+  default @Constraints(unique = true);
+}
+
+@DBTable(name = "MEMBER")
+public class Member {
+  @SQLString(30) String firstName;
+  @SQLString(50) String lastName;
+  @SQLInteger Integer age;
+  @SQLString(value = 30,
+  constraints = @Constraints(primaryKey = true))
+  String reference;
+  static int memberCount;
+  public String getReference() { return reference; }
+  public String getFirstName() { return firstName; }
+  public String getLastName() { return lastName; }
+  @Override public String toString() {
+    return reference;
+  }
+  public Integer getAge() { return age; }
+}
+```
+
+-  这套自定义注解的意义在于提供一种**声明式的方法**来描述一个Java类**如何映射**到数据库的表和字段。通过这些注解，你可以将类和字段的元数据（例如表名、字段名、字段类型、约束等）直接嵌入到Java代码中。这种方式的好处是代码更清晰、更直观，并且可以由框架或工具在运行时动态解析，从而自动生成SQL语句或执行其他数据库相关操作。
 
 - 注解处理器：根据注解读取文件创建SQL数据库
 
-  - ``` java
-    public class TableCreator {
-      public static void
-      main(String [] args) throws Exception {
-        if(args.length < 1) {
-          System.out.println(
-            "arguments: annotated classes");
-          System.exit(0);
-        }
-          //参数标识已经标注好需要进行自动构建的类
-        for(String className : args) {
-          Class <?> cl = Class.forName(className);
-            //获取注解
-          DBTable dbTable = cl.getAnnotation(DBTable.class);
-          if(dbTable == null) {
-            System.out.println(
-              "No DBTable annotations in class " +
-              className);
-            continue;
-          }
-          String tableName = dbTable.name();
-          // If the name is empty, use the Class name:
-          if(tableName.length() < 1)
-            tableName = cl.getName().toUpperCase();
-          List <String> columnDefs = new ArrayList <>();
-           //检查所有字段
-          for(Field field : cl.getDeclaredFields()) {
-            String columnName = null;
-              //获取字段上的注解
-            Annotation [] anns =
-              field.getDeclaredAnnotations();
-            if(anns.length < 1)
-              continue; // Not a db table column
-              //根据类型自动执行 SQL 命令进行构建
-            if(anns [0] instanceof SQLInteger) {
-              SQLInteger sInt = (SQLInteger) anns [0];
-              if(sInt.name().length() < 1)
-                columnName = field.getName().toUpperCase();
-              else
-                columnName = sInt.name();
-              columnDefs.add(columnName + " INT" +
-                getConstraints(sInt.constraints()));
-            }
-            if(anns [0] instanceof SQLString) {
-              SQLString sString = (SQLString) anns [0];
-              // Use field name if name not specified.
-              if(sString.name().length() < 1)
-                columnName = field.getName().toUpperCase();
-              else
-                columnName = sString.name();
-              columnDefs.add(columnName + " VARCHAR(" +
-                sString.value() + ")" +
-                getConstraints(sString.constraints()));
-            }
-            StringBuilder createCommand = new StringBuilder(
-              "CREATE TABLE " + tableName + "(");
-            for(String columnDef : columnDefs)
-              createCommand.append(
-                "\n    " + columnDef + ",");
-            // Remove trailing comma
-            String tableCreate = createCommand.substring(
-              0, createCommand.length() - 1) + ");";
-            System.out.println("Table Creation SQL for " +
-              className + " is:\n" + tableCreate);
-          }
-        }
+
+``` java
+public class TableCreator {
+  public static void
+  main(String [] args) throws Exception {
+    if(args.length < 1) {
+      System.out.println(
+        "arguments: annotated classes");
+      System.exit(0);
+    }
+      //参数标识已经标注好需要进行自动构建的类
+    for(String className : args) {
+      Class <?> cl = Class.forName(className);
+        //获取注解
+      DBTable dbTable = cl.getAnnotation(DBTable.class);
+      if(dbTable == null) {
+        System.out.println(
+          "No DBTable annotations in class " +
+          className);
+        continue;
       }
-      private static
-      String getConstraints(Constraints con) {
-        String constraints = "";
-        if(! con.allowNull())
-          constraints += " NOT NULL";
-        if(con.primaryKey())
-          constraints += " PRIMARY KEY";
-        if(con.unique())
-          constraints += " UNIQUE";
-        return constraints;
+      String tableName = dbTable.name();
+      // If the name is empty, use the Class name:
+      if(tableName.length() < 1)
+        tableName = cl.getName().toUpperCase();
+      List <String> columnDefs = new ArrayList <>();
+       //检查所有字段
+      for(Field field : cl.getDeclaredFields()) {
+        String columnName = null;
+          //获取字段上的注解
+        Annotation [] anns =
+          field.getDeclaredAnnotations();
+        if(anns.length < 1)
+          continue; // Not a db table column
+          //根据类型自动执行 SQL 命令进行构建
+        if(anns [0] instanceof SQLInteger) {
+          SQLInteger sInt = (SQLInteger) anns [0];
+          if(sInt.name().length() < 1)
+            columnName = field.getName().toUpperCase();
+          else
+            columnName = sInt.name();
+          columnDefs.add(columnName + " INT" +
+            getConstraints(sInt.constraints()));
+        }
+        if(anns [0] instanceof SQLString) {
+          SQLString sString = (SQLString) anns [0];
+          // Use field name if name not specified.
+          if(sString.name().length() < 1)
+            columnName = field.getName().toUpperCase();
+          else
+            columnName = sString.name();
+          columnDefs.add(columnName + " VARCHAR(" +
+            sString.value() + ")" +
+            getConstraints(sString.constraints()));
+        }
+        StringBuilder createCommand = new StringBuilder(
+          "CREATE TABLE " + tableName + "(");
+        for(String columnDef : columnDefs)
+          createCommand.append(
+            "\n    " + columnDef + ",");
+        // Remove trailing comma
+        String tableCreate = createCommand.substring(
+          0, createCommand.length() - 1) + ");";
+        System.out.println("Table Creation SQL for " +
+          className + " is:\n" + tableCreate);
       }
-    
-    ```
+    }
+  }
+  private static
+  String getConstraints(Constraints con) {
+    String constraints = "";
+    if(! con.allowNull())
+      constraints += " NOT NULL";
+    if(con.primaryKey())
+      constraints += " PRIMARY KEY";
+    if(con.unique())
+      constraints += " UNIQUE";
+    return constraints;
+  }
+
+```
 
 ##### 用javac处理-编译时注解*
 
@@ -4220,209 +4240,212 @@ public class NonCollectionSequence extends PetSequence {
 
 - 示例
 
-  - ``` java
-    //注解定义
-    @Retention(RetentionPolicy.SOURCE)
-    @Target({ElementType.TYPE, ElementType.METHOD,
-             ElementType.CONSTRUCTOR,
-             ElementType.ANNOTATION_TYPE,
-             ElementType.PACKAGE, ElementType.FIELD,
-             ElementType.LOCAL_VARIABLE})
-    public @interface Simple {
-        String value() default "-default-";
-    }
-    //使用注解
+
+``` java
+//注解定义
+@Retention(RetentionPolicy.SOURCE)
+@Target({ElementType.TYPE, ElementType.METHOD,
+         ElementType.CONSTRUCTOR,
+         ElementType.ANNOTATION_TYPE,
+         ElementType.PACKAGE, ElementType.FIELD,
+         ElementType.LOCAL_VARIABLE})
+public @interface Simple {
+    String value() default "-default-";
+}
+//使用注解
+@Simple
+public class SimpleTest {
+  @Simple
+  int i;
+  @Simple
+  public SimpleTest() {}
+  @Simple
+  public void foo() {
+    System.out.println("SimpleTest.foo()");
+  }
+  @Simple
+  public void bar(String s, int i, float f) {
+    System.out.println("SimpleTest.bar()");
+  }
+  @Simple
+  public static void main(String [] args) {
     @Simple
-    public class SimpleTest {
-      @Simple
-      int i;
-      @Simple
-      public SimpleTest() {}
-      @Simple
-      public void foo() {
-        System.out.println("SimpleTest.foo()");
-      }
-      @Simple
-      public void bar(String s, int i, float f) {
-        System.out.println("SimpleTest.bar()");
-      }
-      @Simple
-      public static void main(String [] args) {
-        @Simple
-        SimpleTest st = new SimpleTest();
-        st.foo();
-      }
+    SimpleTest st = new SimpleTest();
+    st.foo();
+  }
+}
+//处理器（仅仅打印注解的信息）
+@SupportedAnnotationTypes(
+  "annotations.simplest.Simple")
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
+//继承标识是一个注解处理器
+public class SimpleProcessor
+extends AbstractProcessor {
+  @Override public boolean process(
+    Set <? extends TypeElement> annotations,
+    RoundEnvironment env) {
+      //打印所有待处理的注解类型
+    for(TypeElement t : annotations)
+      System.out.println(t);
+    for(Element el : env.getElementsAnnotatedWith(Simple.class))
+        //显示所有被注解标记的元素
+      display(el);
+    return false;
+  }
+  private void display(Element el) {
+    System.out.println("==== " + el + " ====");
+    System.out.println(el.getKind() +
+      " : " + el.getModifiers() +
+      " : " + el.getSimpleName() +
+      " : " + el.asType());
+      //不同类型不同显示
+    if(el.getKind().equals(ElementKind.CLASS)) {
+      TypeElement te = (TypeElement)el;
+      System.out.println(te.getQualifiedName());
+      System.out.println(te.getSuperclass());
+      System.out.println(te.getEnclosedElements());
     }
-    //处理器（仅仅打印注解的信息）
-    @SupportedAnnotationTypes(
-      "annotations.simplest.Simple")
-    @SupportedSourceVersion(SourceVersion.RELEASE_8)
-    //继承标识是一个注解处理器
-    public class SimpleProcessor
-    extends AbstractProcessor {
-      @Override public boolean process(
-        Set <? extends TypeElement> annotations,
-        RoundEnvironment env) {
-          //打印所有待处理的注解类型
-        for(TypeElement t : annotations)
-          System.out.println(t);
-        for(Element el : env.getElementsAnnotatedWith(Simple.class))
-            //显示所有被注解标记的元素
-          display(el);
-        return false;
-      }
-      private void display(Element el) {
-        System.out.println("==== " + el + " ====");
-        System.out.println(el.getKind() +
-          " : " + el.getModifiers() +
-          " : " + el.getSimpleName() +
-          " : " + el.asType());
-          //不同类型不同显示
-        if(el.getKind().equals(ElementKind.CLASS)) {
-          TypeElement te = (TypeElement)el;
-          System.out.println(te.getQualifiedName());
-          System.out.println(te.getSuperclass());
-          System.out.println(te.getEnclosedElements());
-        }
-        if(el.getKind().equals(ElementKind.METHOD)) {
-          ExecutableElement ex = (ExecutableElement)el;
-          System.out.print(ex.getReturnType() + " ");
-          System.out.print(ex.getSimpleName() + "(");
-          System.out.println(ex.getParameters() + ")");
-        }
-      }
+    if(el.getKind().equals(ElementKind.METHOD)) {
+      ExecutableElement ex = (ExecutableElement)el;
+      System.out.print(ex.getReturnType() + " ");
+      System.out.print(ex.getSimpleName() + "(");
+      System.out.println(ex.getParameters() + ")");
     }
-    ```
+  }
+}
+```
 
 - 正常编译是不会使用注解处理器，要加上参数`-processor com.注解类`
 
 - 在编译时注解处理器中不能使用反射，因为操作的是源代码而不是编译后的类，使用**镜子**查看源代码中的方法字段类型等信息
 
-  - ``` java
-    @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface ExtractInterface {
-        String interfaceName() default "-!!-";
-    }
-    //一个简单的乘法计算类
-    @ExtractInterface(interfaceName = "IMultiplier")
-    public class Multiplier {
-        public boolean flag = false;
-        private int n = 0;
-        public int multiply(int x, int y) {
-            int total = 0;
-            for(int i = 0; i < x; i++)
-                total = add(total, y);
-            return total;
-        }
-        public int fortySeven() { return 47; }
-        private int add(int x, int y) {
-            return x + y;
-        }
-        public double timesTen(double arg) {
-            return arg * 10;
-        }
-        public static void main(String [] args) {
-            Multiplier m = new Multiplier();
-            System.out.println(
-                " 11 * 16 = " + m.multiply(11, 16));
-        }
-    }
-    //处理器，提取出方法创建新接口的源代码文件
-    @SupportedAnnotationTypes(
-        "annotations.ifx.ExtractInterface")
-    @SupportedSourceVersion(SourceVersion.RELEASE_8)
-    public class IfaceExtractorProcessor
-        extends AbstractProcessor {
-        //存储符合条件的方法字段
-        private ArrayList <Element>
-            interfaceMethods = new ArrayList <>();
-        Elements elementUtils;
-        private ProcessingEnvironment processingEnv;
-        @Override public void init(ProcessingEnvironment processingEnv) {
-            this.processingEnv = processingEnv;
-            elementUtils = processingEnv.getElementUtils();
-        }
-        @Override public boolean process(
-            Set <? extends TypeElement> annotations,
-            RoundEnvironment env) {
-            //处理有目标注解的字段
-            for(Element elem: env.getElementsAnnotatedWith(
-                ExtractInterface.class)) {
-                //获取设置的名称参数
-                String interfaceName = elem.getAnnotation(
-                    ExtractInterface.class).interfaceName();
-                //检查目标类的所有封闭元素（字段、方法、构造器等）
-                for(Element enclosed :
-                    elem.getEnclosedElements()) {
-                    
-                    //寻找 public static 方法
-                    if(enclosed.getKind()
-                       .equals(ElementKind.METHOD) &&
-                       enclosed.getModifiers()
-                       .contains(Modifier.PUBLIC) &&
-                       ! enclosed.getModifiers()
-                       .contains(Modifier.STATIC)) {
-                        interfaceMethods.add(enclosed);
-                    }
-                }
-                if(interfaceMethods.size() > 0)
-                    writeInterfaceFile(interfaceName);
-            }
-            return false;
-        }
-        //创建并写入接口
-        private void
-            writeInterfaceFile(String interfaceName) {
-            try(
-                Writer writer = processingEnv.getFiler()
-                .createSourceFile(interfaceName)
-                .openWriter()
-            ) {
-                String packageName = elementUtils
-                    .getPackageOf(interfaceMethods
-                                  .get(0)).toString();
-                writer.write(
-                    "package " + packageName + ";\n");
-                writer.write("public interface " +
-                             interfaceName + " {\n");
-                for(Element elem : interfaceMethods) {
-                    ExecutableElement method =
-                        (ExecutableElement)elem;
-                    String signature = "  public ";
-                    signature += method.getReturnType() + " ";
-                    signature += method.getSimpleName();
-                    signature += createArgList(
-                        method.getParameters());
-                    System.out.println(signature);
-                    writer.write(signature + ";\n");
-                }
-                writer.write("}");
-            } catch(Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        private String createArgList(
-            List <? extends VariableElement> parameters) {
-            String args = parameters.stream()
-                .map(p -> p.asType() + " " + p.getSimpleName())
-                .collect(Collectors.joining(", "));
-            return "(" + args + ")";
-        }
-    }
-    ```
 
-  - 得到的文件
+``` java
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.SOURCE)
+public @interface ExtractInterface {
+    String interfaceName() default "-!!-";
+}
+//一个简单的乘法计算类
+@ExtractInterface(interfaceName = "IMultiplier")
+public class Multiplier {
+    public boolean flag = false;
+    private int n = 0;
+    public int multiply(int x, int y) {
+        int total = 0;
+        for(int i = 0; i < x; i++)
+            total = add(total, y);
+        return total;
+    }
+    public int fortySeven() { return 47; }
+    private int add(int x, int y) {
+        return x + y;
+    }
+    public double timesTen(double arg) {
+        return arg * 10;
+    }
+    public static void main(String [] args) {
+        Multiplier m = new Multiplier();
+        System.out.println(
+            " 11 * 16 = " + m.multiply(11, 16));
+    }
+}
+//处理器，提取出方法创建新接口的源代码文件
+@SupportedAnnotationTypes(
+    "annotations.ifx.ExtractInterface")
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
+public class IfaceExtractorProcessor
+    extends AbstractProcessor {
+    //存储符合条件的方法字段
+    private ArrayList <Element>
+        interfaceMethods = new ArrayList <>();
+    Elements elementUtils;
+    private ProcessingEnvironment processingEnv;
+    @Override public void init(ProcessingEnvironment processingEnv) {
+        this.processingEnv = processingEnv;
+        elementUtils = processingEnv.getElementUtils();
+    }
+    @Override public boolean process(
+        Set <? extends TypeElement> annotations,
+        RoundEnvironment env) {
+        //处理有目标注解的字段
+        for(Element elem: env.getElementsAnnotatedWith(
+            ExtractInterface.class)) {
+            //获取设置的名称参数
+            String interfaceName = elem.getAnnotation(
+                ExtractInterface.class).interfaceName();
+            //检查目标类的所有封闭元素（字段、方法、构造器等）
+            for(Element enclosed :
+                elem.getEnclosedElements()) {
+                
+                //寻找 public static 方法
+                if(enclosed.getKind()
+                   .equals(ElementKind.METHOD) &&
+                   enclosed.getModifiers()
+                   .contains(Modifier.PUBLIC) &&
+                   ! enclosed.getModifiers()
+                   .contains(Modifier.STATIC)) {
+                    interfaceMethods.add(enclosed);
+                }
+            }
+            if(interfaceMethods.size() > 0)
+                writeInterfaceFile(interfaceName);
+        }
+        return false;
+    }
+    //创建并写入接口
+    private void
+        writeInterfaceFile(String interfaceName) {
+        try(
+            Writer writer = processingEnv.getFiler()
+            .createSourceFile(interfaceName)
+            .openWriter()
+        ) {
+            String packageName = elementUtils
+                .getPackageOf(interfaceMethods
+                              .get(0)).toString();
+            writer.write(
+                "package " + packageName + ";\n");
+            writer.write("public interface " +
+                         interfaceName + " {\n");
+            for(Element elem : interfaceMethods) {
+                ExecutableElement method =
+                    (ExecutableElement)elem;
+                String signature = "  public ";
+                signature += method.getReturnType() + " ";
+                signature += method.getSimpleName();
+                signature += createArgList(
+                    method.getParameters());
+                System.out.println(signature);
+                writer.write(signature + ";\n");
+            }
+            writer.write("}");
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private String createArgList(
+        List <? extends VariableElement> parameters) {
+        String args = parameters.stream()
+            .map(p -> p.asType() + " " + p.getSimpleName())
+            .collect(Collectors.joining(", "));
+        return "(" + args + ")";
+    }
+}
+```
 
-    - ``` java
-      //IMultiplier.java
-      package annotations.ifx;
-      public interface IMultiplier{
-          public int multiply(int x, int y);
-          public int fortySeven();
-          public double timesTen(double arg);
-      }
-      ```
+- 得到的文件
+
+
+``` java
+//IMultiplier.java
+package annotations.ifx;
+public interface IMultiplier{
+    public int multiply(int x, int y);
+    public int fortySeven();
+    public double timesTen(double arg);
+}
+```
 
 ### 函数式编程
 
@@ -4430,28 +4453,29 @@ public class NonCollectionSequence extends PetSequence {
 
 - 简化函数式接口的使用
 
-  - ``` java
-    // 定义一个函数式接口
-    @FunctionalInterface
-    interface MyFunction {
-        int apply(int a, int b);
+
+``` java
+// 定义一个函数式接口
+@FunctionalInterface
+interface MyFunction {
+    int apply(int a, int b);
+}
+
+public class LambdaExample {
+    public static void main(String [] args) {
+        // 使用 Lambda 表达式实现函数式接口
+        MyFunction add = (a, b) -> a + b;
+        MyFunction subtract = (a, b) -> a - b;
+
+        // 调用函数对象
+        int result1 = add.apply(5, 3);
+        int result2 = subtract.apply(5, 3);
+
+        System.out.println("Addition result: " + result1);
+        System.out.println("Subtraction result: " + result2);
     }
-    
-    public class LambdaExample {
-        public static void main(String [] args) {
-            // 使用 Lambda 表达式实现函数式接口
-            MyFunction add = (a, b) -> a + b;
-            MyFunction subtract = (a, b) -> a - b;
-    
-            // 调用函数对象
-            int result1 = add.apply(5, 3);
-            int result2 = subtract.apply(5, 3);
-    
-            System.out.println("Addition result: " + result1);
-            System.out.println("Subtraction result: " + result2);
-        }
-    }
-    ```
+}
+```
 
 - `()->{}`
 
@@ -4469,159 +4493,163 @@ public class NonCollectionSequence extends PetSequence {
 
   - 自然，非静态方法使用对象名，静态方法使用类名
 
-- ``` java
-  interface Callable {                        // [1]
-    void call(String s);
+
+``` java
+interface Callable {                        // [1]
+  void call(String s);
+}
+
+class Describe {
+  void show(String msg) {                   // [2]
+    System.out.println(msg);
   }
-  
-  class Describe {
-    void show(String msg) {                   // [2]
+}
+
+public class MethodReferences {
+  static void hello(String name) {          // [3]
+    System.out.println("Hello, " + name);
+  }
+  static class Description {
+    String about;
+    Description(String desc) { about = desc; }
+    void help(String msg) {                 // [4]
+      System.out.println(about + " " + msg);
+    }
+  }
+  static class Helper {
+    static void assist(String msg) {        // [5]
       System.out.println(msg);
     }
   }
-  
-  public class MethodReferences {
-    static void hello(String name) {          // [3]
-      System.out.println("Hello, " + name);
-    }
-    static class Description {
-      String about;
-      Description(String desc) { about = desc; }
-      void help(String msg) {                 // [4]
-        System.out.println(about + " " + msg);
-      }
-    }
-    static class Helper {
-      static void assist(String msg) {        // [5]
-        System.out.println(msg);
-      }
-    }
-    public static void main(String [] args) {
-      Describe d = new Describe();
-      Callable c = d:: show;                   // [6]
-      c.call("call()");                       // [7]
-  
-      c = MethodReferences:: hello;            // [8]
-      c.call("Bob");
-  
-      c = new Description("valuable"):: help;  // [9]
-      c.call("information");
-  
-      c = Helper:: assist;                     // [10]
-      c.call("Help!");
-    }
-  }
-  ```
+  public static void main(String [] args) {
+    Describe d = new Describe();
+    Callable c = d:: show;                   // [6]
+    c.call("call()");                       // [7]
 
-  - 可以使用具有和接口相同签名（参数类型和返回值）的方法引用来实现接口。
+    c = MethodReferences:: hello;            // [8]
+    c.call("Bob");
+
+    c = new Description("valuable"):: help;  // [9]
+    c.call("information");
+
+    c = Helper:: assist;                     // [10]
+    c.call("Help!");
+  }
+}
+```
+
+- 可以使用具有和接口相同签名（参数类型和返回值）的方法引用来实现接口。
 
 - Thead对象创建要求传入实现Runnable接口的对象
 
-  - ``` java
-    class Go {
-      static void go() {
-        System.out.println("Go:: go()");
+
+``` java
+class Go {
+  static void go() {
+    System.out.println("Go:: go()");
+  }
+}
+
+public class RunnableMethodReference {
+  public static void main(String [] args) {
+
+    new Thread(new Runnable() {
+      public void run() {
+        System.out.println("Anonymous");
       }
-    }
-    
-    public class RunnableMethodReference {
-      public static void main(String [] args) {
-    
-        new Thread(new Runnable() {
-          public void run() {
-            System.out.println("Anonymous");
-          }
-        }).start();
-    	//lambda 和方法引用都不需要再定义 run 方法
-        new Thread(
-          () -> System.out.println("lambda")
-        ).start();
-    
-        new Thread(Go:: go).start();
-      }
-    }
-    ```
+    }).start();
+	//lambda 和方法引用都不需要再定义 run 方法
+    new Thread(
+      () -> System.out.println("lambda")
+    ).start();
+
+    new Thread(Go:: go).start();
+  }
+}
+```
 
 - 未绑定的方法引用
 
   - 对于非静态方法不能直接通过类访问，因为这缺少缺少this参数
 
-  - ``` java
-    class X {
-      String f() { return "X:: f()"; }
-    }
-    
-    interface MakeString {
-      String make();
-    }
-    
-    interface TransformX {
-      String transform(X x);
-    }
-    
-    public class UnboundMethodReference {
-      public static void main(String [] args) {
-        // MakeString ms = X:: f;                // [1]
-        TransformX sp = X:: f;
-        X x = new X();
-        System.out.println(sp.transform(x));    // [2]
-        System.out.println(x.f()); // Same effect
-      }
-    }
-    ```
 
-    - 神奇的是如果接口参数多一个对象类型，就你不了缺少对向的问题
+``` java
+class X {
+  String f() { return "X:: f()"; }
+}
+
+interface MakeString {
+  String make();
+}
+
+interface TransformX {
+  String transform(X x);
+}
+
+public class UnboundMethodReference {
+  public static void main(String [] args) {
+    // MakeString ms = X:: f;                // [1]
+    TransformX sp = X:: f;
+    X x = new X();
+    System.out.println(sp.transform(x));    // [2]
+    System.out.println(x.f()); // Same effect
+  }
+}
+```
+
+- 神奇的是如果接口参数多一个对象类型，就你不了缺少对向的问题
 
 - 构造器方法引用
 
   - 使用参数匹配的接口捕获不同的构造方法
 
-    - ``` java
-      class Dog {
-        String name;
-        int age = -1; // For "unknown"
-        Dog() { name = "stray"; }
-        Dog(String nm) { name = nm; }
-        Dog(String nm, int yrs) { name = nm; age = yrs; }
-      }
-      
-      interface MakeNoArgs {
-        Dog make();
-      }
-      
-      interface Make1Arg {
-        Dog make(String nm);
-      }
-      
-      interface Make2Args {
-        Dog make(String nm, int age);
-      }
-      
-      public class CtorReference {
-        public static void main(String [] args) {
-            //名字都是 new
-          MakeNoArgs mna = Dog:: new;        // [1]
-          Make1Arg m1a = Dog:: new;          // [2]
-          Make2Args m2a = Dog:: new;         // [3]
-      
-          Dog dn = mna.make();
-          Dog d1 = m1a.make("Comet");
-          Dog d2 = m2a.make("Ralph", 4);
-        }
-      }
-      ```
+
+``` java
+class Dog {
+  String name;
+  int age = -1; // For "unknown"
+  Dog() { name = "stray"; }
+  Dog(String nm) { name = nm; }
+  Dog(String nm, int yrs) { name = nm; age = yrs; }
+}
+
+interface MakeNoArgs {
+  Dog make();
+}
+
+interface Make1Arg {
+  Dog make(String nm);
+}
+
+interface Make2Args {
+  Dog make(String nm, int age);
+}
+
+public class CtorReference {
+  public static void main(String [] args) {
+      //名字都是 new
+    MakeNoArgs mna = Dog:: new;        // [1]
+    Make1Arg m1a = Dog:: new;          // [2]
+    Make2Args m2a = Dog:: new;         // [3]
+
+    Dog dn = mna.make();
+    Dog d1 = m1a.make("Comet");
+    Dog d2 = m2a.make("Ralph", 4);
+  }
+}
+```
 
 #### 函数式接口
 
-- 函数式接口是只包含一个抽象方法声明的接口
+函数式接口是只包含一个抽象方法声明的接口
 
 - lambda表达式是函数式接口的实例，是与其关联的目标类型（即函数式接口描述lambda的类型，而lambda是特定类型函数式接口的一个具体实例）
 
   - 每个 Lambda 表达式都能隐式地赋值给函数式接口
 
-  - ```java
-    Runnable r = () -> System.out.println("hello world");
-    ```
+- ```java
+  Runnable r = () -> System.out.println("hello world");
+  ```
 
 - 函数式接口要求接口中**只能有一个**抽象方法
 
@@ -4634,37 +4662,38 @@ public class NonCollectionSequence extends PetSequence {
 
     - 处理基本数据类型只是出于性能考虑，实际上会自动装箱拆箱
 
-  - ``` java
-    static Function <Foo,Bar> f1 = f -> new Bar(f);
-    static IntFunction <IBaz> f2 = i -> new IBaz(i);
-    static LongFunction <LBaz> f3 = l -> new LBaz(l);
-    static DoubleFunction <DBaz> f4 = d -> new DBaz(d);
-    static ToIntFunction <IBaz> f5 = ib -> ib.i;
-    static ToLongFunction <LBaz> f6 = lb -> lb.l;
-    static ToDoubleFunction <DBaz> f7 = db -> db.d;
-    static IntToLongFunction f8 = i -> i;
-    static IntToDoubleFunction f9 = i -> i;
-    static LongToIntFunction f10 = l -> (int)l;
-    static LongToDoubleFunction f11 = l -> l;
-    static DoubleToIntFunction f12 = d -> (int)d;
-    static DoubleToLongFunction f13 = d -> (long)d;
-    
-    Bar b = f1.apply(new Foo());
-    IBaz ib = f2.apply(11);
-    LBaz lb = f3.apply(11);
-    DBaz db = f4.apply(11);
-    int i = f5.applyAsInt(ib);
-    long l = f6.applyAsLong(lb);
-    double d = f7.applyAsDouble(db);
-    l = f8.applyAsLong(12);
-    d = f9.applyAsDouble(12);
-    i = f10.applyAsInt(12);
-    d = f11.applyAsDouble(12);
-    i = f12.applyAsInt(13.0);
-    l = f13.applyAsLong(13.0);
-    ```
 
-  - 使用apply、get、compare等方法调用（见图片）
+``` java
+static Function <Foo,Bar> f1 = f -> new Bar(f);
+static IntFunction <IBaz> f2 = i -> new IBaz(i);
+static LongFunction <LBaz> f3 = l -> new LBaz(l);
+static DoubleFunction <DBaz> f4 = d -> new DBaz(d);
+static ToIntFunction <IBaz> f5 = ib -> ib.i;
+static ToLongFunction <LBaz> f6 = lb -> lb.l;
+static ToDoubleFunction <DBaz> f7 = db -> db.d;
+static IntToLongFunction f8 = i -> i;
+static IntToDoubleFunction f9 = i -> i;
+static LongToIntFunction f10 = l -> (int)l;
+static LongToDoubleFunction f11 = l -> l;
+static DoubleToIntFunction f12 = d -> (int)d;
+static DoubleToLongFunction f13 = d -> (long)d;
+
+Bar b = f1.apply(new Foo());
+IBaz ib = f2.apply(11);
+LBaz lb = f3.apply(11);
+DBaz db = f4.apply(11);
+int i = f5.applyAsInt(ib);
+long l = f6.applyAsLong(lb);
+double d = f7.applyAsDouble(db);
+l = f8.applyAsLong(12);
+d = f9.applyAsDouble(12);
+i = f10.applyAsInt(12);
+d = f11.applyAsDouble(12);
+i = f12.applyAsInt(13.0);
+l = f13.applyAsLong(13.0);
+```
+
+- 使用apply、get、compare等方法调用（见图片）
 
 - 方法引用也可以使用函数是接口
 
@@ -4676,20 +4705,21 @@ public class NonCollectionSequence extends PetSequence {
 
 - 把函数作为返回值
 
-  - ``` java
-    //可以对内置的函数式接口进行重命名（通过继承）
-    interface
-    FuncSS extends Function <String, String> {}
-    public class ProduceFunction {
-      static FuncSS produce() {
-        return s -> s.toLowerCase();//函数作为返回值
-      }
-      public static void main(String [] args) {
-        FuncSS f = produce();
-        System.out.println(f.apply("YELLING"));
-      }
-    }
-    ```
+
+``` java
+//可以对内置的函数式接口进行重命名（通过继承）
+interface
+FuncSS extends Function <String, String> {}
+public class ProduceFunction {
+  static FuncSS produce() {
+    return s -> s.toLowerCase();//函数作为返回值
+  }
+  public static void main(String [] args) {
+    FuncSS f = produce();
+    System.out.println(f.apply("YELLING"));
+  }
+}
+```
 
 - 函数作为参数时同样使用函数式接口限制
 
@@ -4707,64 +4737,64 @@ public class NonCollectionSequence extends PetSequence {
 
   - 将多个函数结合使用
 
-    - ``` java
-      return in.andThen(o -> {
-          System.out.println(o);
-          return o;
-      });
-      ```
 
-    - `f.andThen()`在f之后调用
+``` java
+	xxxxxxxxxx4 1return in.andThen(o -> {2    System.out.println(o);3    return o;4});
+```
 
-    - `.compose()`在f之前调用
+- `f.andThen()`在f之后调用
 
-    - 会得到一个新函数
+- `.compose()`在f之前调用
 
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113004543975.png" alt="image-20231113004543975" style="zoom:50%;" />
+- 会得到一个新函数
 
-    - ``` java
-      //函数组合
-      f4 = fa.compose(f2).andThen(f3);
-      //逻辑
-      public class PredicateComposition {
-        static Predicate <String>
-          p1 = s -> s.contains("bar"),
-          p2 = s -> s.length() < 5,
-          p3 = s -> s.contains("foo"),
-          p4 = p1.negate().and(p2).or(p3);
-        public static void main(String [] args) {
-          Stream.of("bar", "foobar", "foobaz", "fongopuckey")
-            .filter(p4)
-            .forEach(System.out:: println);
-        }
-      }
-      //不包含并且 或者...
-      ```
+- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113004543975.png" alt="image-20231113004543975" style="zoom:50%;" />
+
+
+``` java
+//函数组合
+f4 = fa.compose(f2).andThen(f3);
+//逻辑
+public class PredicateComposition {
+  static Predicate <String>
+    p1 = s -> s.contains("bar"),
+    p2 = s -> s.length() < 5,
+    p3 = s -> s.contains("foo"),
+    p4 = p1.negate().and(p2).or(p3);
+  public static void main(String [] args) {
+    Stream.of("bar", "foobar", "foobaz", "fongopuckey")
+      .filter(p4)
+      .forEach(System.out:: println);
+  }
+}
+//不包含并且 或者...
+```
 
 - 柯里化和部分求值
 
   - 将一个接受多个参数的函数转变为一系列只接受一个参数的函数
   - 每接收一个新参数就得到一个新函数，直至得到结果
 
-  - ``` java
-    import java.util.function.*;
-    
-    public class Curry3Args {
-       public static void main(String [] args) {
-          Function < String,
-            Function < String,
-              Function <String, String> >> sum =
-                a -> b -> c -> a + b + c;
-          Function < String,
-            Function <String, String> > hi =
-              sum.apply("Hi ");
-          Function <String, String> ho =
-            hi.apply("Ho ");
-           sum.apply("Hup ").apply("Ho ").apply("Hup");
-          System.out.println(ho.apply("Hup"));
-       }
-    }
-    ```
+
+``` java
+import java.util.function.*;
+
+public class Curry3Args {
+   public static void main(String [] args) {
+      Function < String,
+        Function < String,
+          Function <String, String> >> sum =
+            a -> b -> c -> a + b + c;
+      Function < String,
+        Function <String, String> > hi =
+          sum.apply("Hi ");
+      Function <String, String> ho =
+        hi.apply("Ho ");
+       sum.apply("Hup ").apply("Ho ").apply("Hup");
+      System.out.println(ho.apply("Hup"));
+   }
+}
+```
 
 ### 流
 
@@ -4796,17 +4826,18 @@ public class NonCollectionSequence extends PetSequence {
 
 - 随机数流
 
-  - ``` java
-    Random rand = new Random(47);
-    rand.ints()//无参数无限流
-    rand.ints(n)//一个参数表示流的大小
-    rand.ints(down, up)//两个参数表示上下边界
-    rand.ints(n, down, up )
-    ```
 
-  - 只可以生成int、long、double
+``` java
+Random rand = new Random(47);
+rand.ints()//无参数无限流
+rand.ints(n)//一个参数表示流的大小
+rand.ints(down, up)//两个参数表示上下边界
+rand.ints(n, down, up )
+```
 
-  - 使用[.boxed()]打包为包装类型
+- 只可以生成int、long、double
+
+- 使用[.boxed()]打包为包装类型
 
 - `range(from, to)`
 
@@ -4827,18 +4858,19 @@ public class NonCollectionSequence extends PetSequence {
 
   - 生成斐波那契序列
 
-    - ``` java
-      public class Fibonacci {
-        int x = 1;
-        Stream <Integer> numbers() {
-          return Stream.iterate(0, i -> {
-            int result = x + i;
-            x = i;
-            return result;
-          });
-        }
-      }
-      ```
+
+``` java
+public class Fibonacci {
+  int x = 1;
+  Stream <Integer> numbers() {
+    return Stream.iterate(0, i -> {
+      int result = x + i;
+      x = i;
+      return result;
+    });
+  }
+}
+```
 
 - 流生成器
 
@@ -4859,15 +4891,16 @@ public class NonCollectionSequence extends PetSequence {
   - `Pattern.compile("正则").splitAsStream(String);`
 - 创建空流
   - `Stream<String? s = Stream.empty();`
-  
+
 - 使用迭代器从流获取元素
 
-  - ``` java
-    Stream <Integer> stream = new Random().ints(0, 100).boxed().distinct();
-            Iterator <Integer> iterator = stream.iterator();
-    ```
 
-  -  通过操作迭代器进行访问
+``` java
+Stream <Integer> stream = new Random().ints(0, 100).boxed().distinct();
+        Iterator <Integer> iterator = stream.iterator();
+```
+
+- 通过操作迭代器进行访问
 
 
 #### 修改流元素
@@ -4884,11 +4917,12 @@ public class NonCollectionSequence extends PetSequence {
 
   - 使用lambda（创建匿名类）
 
-    - ``` java
-      List <Person> sortedByAge = people.stream()
-          .sorted((p1, p2) -> Integer.compare(p1.getAge(), p2.getAge()))
-          .collect(Collectors.toList());
-      ```
+
+``` java
+List <Person> sortedByAge = people.stream()
+    .sorted((p1, p2) -> Integer.compare(p1.getAge(), p2.getAge()))
+    .collect(Collectors.toList());
+```
 
 - 移除重复元素`distinct()`
 
@@ -4896,17 +4930,18 @@ public class NonCollectionSequence extends PetSequence {
 
   - 过滤操作只保留传给过滤函数后返回值为true的元素
 
-  - ``` java
-    public static boolean isPrime(long n){
-        return rangeClosed(2,(long)Math.sqrt(n))
-            .noneMath(i-> n%i==0);//有一项不满足就终止并返回 false
-    }
-    //生成素数
-    public LongStream numbers(){
-        return iterate(2, i-> i+1)
-            .filter(Prime:: isPrime);
-    }
-    ```
+
+``` java
+public static boolean isPrime(long n){
+    return rangeClosed(2,(long)Math.sqrt(n))
+        .noneMath(i-> n%i==0);//有一项不满足就终止并返回 false
+}
+//生成素数
+public LongStream numbers(){
+    return iterate(2, i-> i+1)
+        .filter(Prime:: isPrime);
+}
+```
 
 - `map(Function)`
 
@@ -4924,17 +4959,18 @@ public class NonCollectionSequence extends PetSequence {
 
   - 按照单词创建流
 
-  - ``` java
-    public class FileToWords {
-      public static Stream <String> stream(String filePath)
-      throws Exception {
-        return Files.lines(Paths.get(filePath))
-          .skip(1) // First (comment) line
-          .flatMap(line -> Pattern.compile("\\W+").splitAsStream(line));
-          //	将对行拆分的字符串流扁平化
-      }
-    }
-    ```
+
+``` java
+public class FileToWords {
+  public static Stream <String> stream(String filePath)
+  throws Exception {
+    return Files.lines(Paths.get(filePath))
+      .skip(1) // First (comment) line
+      .flatMap(line -> Pattern.compile("\\W+").splitAsStream(line));
+      //	将对行拆分的字符串流扁平化
+  }
+}
+```
 
 #### Optional类型
 
@@ -4946,26 +4982,26 @@ public class NonCollectionSequence extends PetSequence {
 
   - 流操作经常以`Optional`结束
 
-  - `findFirst()`返回包含第一个元素的Optional，如果流为空则返回`Optional.empty`
+- `findFirst()`返回包含第一个元素的Optional，如果流为空则返回`Optional.empty`
 
-    - ``` java
-      //逐个获取
-      for...
-      stream
-          .skip(i)
-          .findFirst()
-      ```
+``` java
+//逐个获取
+for...
+stream
+    .skip(i)
+    .findFirst()
+```
 
-  - `findAny()`返回包含任何元素的Optional
+- `findAny()`返回包含任何元素的Optional
 
-  - `max() min()`
+- `max() min()`
 
-  - 数值化流（IntStream）的`average()`
+- 数值化流（IntStream）的`average()`
 
-  - 流聚合`reduce([T identity可选初始值], BinaryOperator<T> accumulator);`
+- 流聚合`reduce([T identity可选初始值], BinaryOperator<T> accumulator);`
 
-    - 对所有元素进行操作合并，得到聚合后的汇总结果
-    - `reduce(0, (a, b) -> a + b);`获取元素的总和
+  - 对所有元素进行操作合并，得到聚合后的汇总结果
+  - `reduce(0, (a, b) -> a + b);`获取元素的总和
 
 - 便捷函数：对Optional中的数据进行快捷操作（定义在null时进行的操作）
 
@@ -4977,14 +5013,15 @@ public class NonCollectionSequence extends PetSequence {
 
   - `orElseThrow(Supplier)`不存在则抛出由函数创建的异常
 
-  - ``` java
-    //为 null 则怕抛出异常 
-    title = Optional.ofNullable(newTitle)
-          .orElseThrow(EmptyTitleException:: new);
-    //为 null 则自动创建新对象
-    person = Optional.ofNullable(newPerson)
-          .orElse(new Person());
-    ```
+
+``` java
+//为 null 则怕抛出异常 
+title = Optional.ofNullable(newTitle)
+      .orElseThrow(EmptyTitleException:: new);
+//为 null 则自动创建新对象
+person = Optional.ofNullable(newPerson)
+      .orElse(new Person());
+```
 
 - 创建Optional
 
@@ -5005,12 +5042,13 @@ public class NonCollectionSequence extends PetSequence {
 
   - 获得Optional中的对象
 
-    - ``` java
-      stream
-          .filter(Optional:: isPresent)//保留非 empty
-          .map(Optional:: get)获取对象
-          ...
-      ```
+
+``` java
+stream
+    .filter(Optional:: isPresent)//保留非 empty
+    .map(Optional:: get)获取对象
+    ...
+```
 
 #### 消费流元素
 
@@ -5030,37 +5068,38 @@ public class NonCollectionSequence extends PetSequence {
 
   - `collect(Collector)`将元素累加到一个结果集合
 
-    - 指定生成的集合类型`collect(Collectors.toCollection(TreeSet::new))`
+  - 指定生成的集合类型`collect(Collectors.toCollection(TreeSet::new))`
 
-    - ``` java
-      public class TreeSetOfWords {
-        public static void
-        main(String [] args) throws Exception {
-          Set <String> words2 =
-            Files.lines(Paths.get("TreeSetOfWords.java"))
-              //根据非单词字符划分
-              .flatMap(s -> Arrays.stream(s.split("\\W+")))
-              //去除非数字
-              .filter(s -> ! s.matches("\\d+")) // No numbers
-              //去除左右空白
-              .map(String:: trim)
-              //去除太短
-              .filter(s -> s.length() > 2)
-              .limit(100)
-      //指定生成的集合类型        
-      .collect(Collectors.toCollection(TreeSet:: new));
-          System.out.println(words2);
-        }
-      }
-      ```
 
-    - 转化为map`Collectors.toMap(获取key的函数,获取val的函数)`
+``` java
+public class TreeSetOfWords {
+  public static void
+  main(String [] args) throws Exception {
+    Set <String> words2 =
+      Files.lines(Paths.get("TreeSetOfWords.java"))
+        //根据非单词字符划分
+        .flatMap(s -> Arrays.stream(s.split("\\W+")))
+        //去除非数字
+        .filter(s -> ! s.matches("\\d+")) // No numbers
+        //去除左右空白
+        .map(String:: trim)
+        //去除太短
+        .filter(s -> s.length() > 2)
+        .limit(100)
+//指定生成的集合类型        
+.collect(Collectors.toCollection(TreeSet:: new));
+    System.out.println(words2);
+  }
+}
+```
 
-    - 大部分时候都可以直接使用预定义的Collector
+- 转化为map`Collectors.toMap(获取key的函数,获取val的函数)`
 
-  - `collect(Supplier, BiConsumer, BiConsumer)`创建新集合,将下一个元素包含到结果中,将两个值组合起来
+- 大部分时候都可以直接使用预定义的Collector
 
-    - `collector(ArrayList::new,ArrayList::add,ArrayList::addAll)`
+- `collect(Supplier, BiConsumer, BiConsumer)`创建新集合,将下一个元素包含到结果中,将两个值组合起来
+
+  - `collector(ArrayList::new,ArrayList::add,ArrayList::addAll)`
 
 - 组合
 
@@ -5128,32 +5167,33 @@ public class NonCollectionSequence extends PetSequence {
   - 还有一个标志位changed，只有changed被设置时`notifyObservers()`才有效（先清除changed后通知），否则不起作用
   - 使用`setChanged()`设置
 
-- ``` java
-  //被观察者
-  class MyObservable extends Observable {
-      private String data;
-  
-      public void setData(String data) {
-          this.data = data;
-          setChanged();  // 标记状态已改变
-          notifyObservers(data);  // 通知观察者
-      }
-  }
-  //观察者
-  class MyObserver implements Observer {
-      @Override
-      public void update(Observable o, Object arg) {
-          System.out.println("Received response: " + arg);
-      }
-  }
-  
-  //注册及测试
-  MyObservable observable = new MyObservable();
-  MyObserver observer = new MyObserver();
-  observable.addObserver(observer);
-  observable.setData("New Data");
-  
-  ```
+
+``` java
+//被观察者
+class MyObservable extends Observable {
+    private String data;
+
+    public void setData(String data) {
+        this.data = data;
+        setChanged();  // 标记状态已改变
+        notifyObservers(data);  // 通知观察者
+    }
+}
+//观察者
+class MyObserver implements Observer {
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("Received response: " + arg);
+    }
+}
+
+//注册及测试
+MyObservable observable = new MyObservable();
+MyObserver observer = new MyObserver();
+observable.addObserver(observer);
+observable.setData("New Data");
+
+```
 
 - 线程不安全
 
@@ -5185,17 +5225,18 @@ public class NonCollectionSequence extends PetSequence {
 
 - 命令行参数的使用
 
-  - ``` shell
-    $ javac CommandLine.java 
-    $ java CommandLine this is a command line 200 -100
-    args [0]: this
-    args [1]: is
-    args [2]: a
-    args [3]: command
-    args [4]: line
-    args [5]: 200
-    args [6]: -100
-    ```
+
+``` shell
+$ javac CommandLine.java 
+$ java CommandLine this is a command line 200 -100
+args [0]: this
+args [1]: is
+args [2]: a
+args [3]: command
+args [4]: line
+args [5]: 200
+args [6]: -100
+```
 
 ## 环境配置
 
@@ -5216,26 +5257,27 @@ public class NonCollectionSequence extends PetSequence {
   - 字段注释
   - 方法注释
 
-- ``` java
-  import java.util.*;
-  
-  /** The first On Java 8 example program.
-   * Displays a String and today's date.
-   * @author Bruce Eckel
-   * @author www.MindviewInc.com
-   * @version 5.0
+
+``` java
+import java.util.*;
+
+/** The first On Java 8 example program.
+ * Displays a String and today's date.
+ * @author Bruce Eckel
+ * @author www.MindviewInc.com
+ * @version 5.0
+ */
+public class HelloDateDoc {
+  /** Entry point to class & application.
+   * @param args array of String arguments
+   * @throws exceptions No exceptions thrown
    */
-  public class HelloDateDoc {
-    /** Entry point to class & application.
-     * @param args array of String arguments
-     * @throws exceptions No exceptions thrown
-     */
-    public static void main(String [] args) {
-      System.out.println("Hello, it's: ");
-      System.out.println(new Date());
-    }
+  public static void main(String [] args) {
+    System.out.println("Hello, it's: ");
+    System.out.println(new Date());
   }
-  ```
+}
+```
 
 ### 基本语法
 
@@ -5243,18 +5285,18 @@ public class NonCollectionSequence extends PetSequence {
 
 #### 嵌入式HTML
 
-- ``` java
-  /** You can <em> even </em> insert a list:
-   * <ol>
-   * <li> Item one
-   * <li> Item two
-   * <li> Item three
-   * </ol>
-   */
-  public class Documentation3 {}
-  ```
+``` java
+/** You can <em> even </em> insert a list:
+ * <ol>
+ * <li> Item one
+ * <li> Item two
+ * <li> Item three
+ * </ol>
+ */
+public class Documentation3 {}
+```
 
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231121151640157.png" alt="image-20231121151640157" style="zoom:33%;" />
+- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231121151640157.png" alt="image-20231121151640157" style="zoom:33%;" />
 
 - 行首的星号和空格会抛弃
 
