@@ -168,16 +168,18 @@
   },
   "active": "26c2fff38fa78e64",
   "lastOpenFiles": [
-    "python/工具/jupyter.md",
+    "java/java基础/数据类型/数组类型.md",
+    "java/java基础/数据类型/基本数据类型与包装类.md",
     "java/java基础.md",
+    "java/java基础/数据类型/集合类型",
+    "java/java基础/数据类型/字符串.md",
+    "python/工具/jupyter.md",
     "java/java基础/数据类型/枚举类型.md",
     "java/java基础/流程控制/switch.md",
-    "java/java基础/数据类型/基本数据类型与包装类.md",
     "基本数据类型类型与包装类.md",
     "java/java基础/io",
     "java/java基础/并发",
     "java/java基础/流程控制",
-    "java/java基础/数据类型/数组类型.md",
     "java/java基础/数据类型",
     "java/java基础",
     "未命名.canvas",
@@ -198,7 +200,6 @@
     "export/金融大数据p4/plugin/chalkboard/img/chalk-blue.png",
     "export/金融大数据p4/plugin/chalkboard/img/boardmarker-yellow.png",
     "export/金融大数据p4/plugin/chalkboard/style.css",
-    "export/金融大数据p4/plugin/chalkboard/_style.css",
     "export/金融大数据p4/plugin/chalkboard/README.md",
     "export/金融大数据p4/plugin/chart/README.md",
     "export/金融大数据p4/plugin/customcontrols/README.md",
@@ -212,8 +213,6 @@
     "游戏开发/unity/c#.md",
     "web开发/前端/js.md",
     "assets/cppFather.png.md",
-    "assets/图片1.png.md",
-    "折腾/reveal.js.md",
-    "折腾/jupyter.md"
+    "assets/图片1.png.md"
   ]
 }
