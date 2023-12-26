@@ -17,32 +17,7 @@
                 "mode": "preview",
                 "source": false
               }
-            },
-            "group": "bbbeda4d00095c56"
-          }
-        ]
-      },
-      {
-        "id": "c01e14c560af15e6",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "ca2b8e12fb7f579d",
-            "type": "leaf",
-            "state": {
-              "type": "media-view",
-              "state": {
-                "info": {
-                  "host": 0,
-                  "id": "GtYDhcVTNxo",
-                  "iframe": "https://www.youtube.com/embed/GtYDhcVTNxo",
-                  "src": "https://www.youtube.com/watch?v=GtYDhcVTNxo",
-                  "hash": ""
-                },
-                "currentTime": 0.7509211945495605
-              }
-            },
-            "group": "bbbeda4d00095c56"
+            }
           }
         ]
       }
@@ -110,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "未命名.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "未命名.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -147,7 +124,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "未命名.md"
+              }
             }
           }
         ],
@@ -166,11 +145,10 @@
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
       "workspaces:管理工作区布局": false,
-      "audio-recorder:开始/结束录音": false,
-      "obsidian-excalidraw-plugin:新建绘图文件": false
+      "audio-recorder:开始/结束录音": false
     }
   },
-  "active": "ca2b8e12fb7f579d",
+  "active": "e4ef016721f85215",
   "lastOpenFiles": [
     "未命名.md",
     "Excalidraw/Drawing 2023-12-26 13.12.59.excalidraw.md",
