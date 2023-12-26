@@ -11,9 +11,9 @@
             "id": "aeeb39d828c5924f",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "pdf-annotator",
               "state": {
-                "file": "财务基础.pdf"
+                "file": "未命名.md"
               }
             }
           }
@@ -91,7 +91,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "财务基础.pdf",
+                "file": "未命名.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -108,7 +108,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "财务基础.pdf",
+                "file": "未命名.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -131,7 +131,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "财务基础.pdf"
+                "file": "未命名.md"
               }
             }
           },
@@ -166,8 +166,8 @@
   },
   "active": "aeeb39d828c5924f",
   "lastOpenFiles": [
+    "min.pdf",
     "未命名.md",
-    "财务基础.pdf",
     "1某上市公司2006年年度财务报告.pdf",
     "Excalidraw/2023-12-27.md",
     "2023-12-28.md",
