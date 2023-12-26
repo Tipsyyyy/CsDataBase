@@ -1,9 +1,9 @@
 
 ## 数据类型
 
-[[基本数据类型与包装类]]]
+### [[基本数据类型与包装类]]
 
-[[数组类型]]
+### [[数组类型]]
 
 ### 枚举类型
 
@@ -44,10 +44,32 @@
     
   - 要注意的是这个构造函数是private的，仅限于内部初始化预定的枚举实例，不能在外部使用new创建任意对象
 
-  - ```
+  - ```java
+    public enum ConstantSpecificMethod {
+      DATE_TIME {
+        @Override String getInfo() {
+          return
+            DateFormat.getDateInstance()
+              .format(new Date());
+        }
+      },
+      CLASSPATH {
+        @Override String getInfo() {
+          return System.getenv("CLASSPATH");
+        }
+      },
+      VERSION {
+        @Override String getInfo() {
+          return System.getProperty("java.version");
+        }
+      };
+      abstract String getInfo();
+      public static void main(String [] args) {
+        for(ConstantSpecificMethod csm : values())
+          System.out.println(csm.getInfo());
+      }
+    }
     ```
-
-  - 
 
 - 分组枚举
   - 使用接口实现，外层接口没有定义任何方法，因此任何一个类都可以实现这个接口，每个枚举类都实现这个接口是为了按照一个类型来使用
@@ -124,11 +146,6 @@
 - EnumMap
   - 所有的键来源某个枚举类型（实际上就是一个数组）除此之外与普通map一样
   - **所有的枚举类型**会被作为键初始化加入到map，但是对应的val为**null**
-
-- 常量特定方法
-
-  - 可以在枚举类型中定义抽象方法，并未具体枚举实例编写实现
-- 要注意的是枚举类中的枚举实例**并不是类，而是static、final的实例**（比如不能将枚举对象作为类型进行实例化）
 
 #### 枚举类型的应用
 
