@@ -398,15 +398,11 @@ public class Holder <T> {
 ```
 
 - 对泛型的处理全部集中在**编译**期，在编译时，编译器会执行如下操作。
-
   - 会将泛型类的类型参数都用**边界类型**替换。
-  - 对于传入对象给方法形参的指令，编译器会执行一个**类型检查**（这是与直接使用Object相比最大的意义了），看传入的对象是不是类型参数所**指定的类型**。
+  - 对于传入对象给方法形参的指令，编译器会执行一个**类型检查**，看传入的对象是不是类型参数所**指定的类型**。
   - 对于返回类型参数表示对象的指令，也会执行一个类型检查，还会插入一个自动的向下转型，将对象从**边界类型向下转型**到类型参数所表示的类型。
-
-- 任何需要在运行时知道确切类型的操作都无法运行（因为 `T` 的具体类型信息只存在于编译时期的检查，在运行时期信息已经丢失了）
-
+- 任何需要在运行时**知道确切类型的操作**都无法运行（因为 `T` 的具体类型信息只存在于编译时期的检查，在运行时期信息已经丢失了）
   - 如`new T() `、`x instanceof T`
-
   - 虽然不能使用T进行类型检查，但是可以通过传入`class<T>`实现
 
 
@@ -443,32 +439,8 @@ true
 
 ### 生成泛型对象
 
-- 由于不能直接通过T创建对象，需要使用特殊方法
-
 - 法一，工厂模式
-
-
 ``` java
-//生成者
-class ClassAsFactory <T> implements Supplier <T> {
-  Class <T> kind;
-  ClassAsFactory(Class <T> kind) {
-    this.kind = kind;
-  }
-  @Override public T get() {
-    try {
-      return kind.getConstructor().newInstance();
-    } catch(Exception e) {
-      throw new RuntimeException(e);
-    }
-  }
-}
-```
-
-- 这种方法要求必须存在无参构造器，像Integer就不行
-
-``` java
-//显式工厂，更加安全，避免出现缺少无参构造函数等运行时错误
 class Holder <T>{
     private T t;
     public void init(IFactory <T> factory){
@@ -486,20 +458,16 @@ class IntegerFactory implements IFactory <Integer>{
 public class newTwithFactory{
     public static void main(String [] args){
         Holder <Integer> holder = new Holder <>();
+        //明确支出创建对象使用的工厂方法
         holder.init(new IntegerFactory());
     }
 }
 ```
-
 - 使用一个工厂方法，如 `IntegerFactory`，它**具体指明**了要创建的对象的类型（在这个例子中是 `Integer`）。
 
 - 法二Class
-
   - 将`Class`对象作为类型标签来存储和使用类型信息。
-
   - 可以实现在运行中查询、使用对象类型。
-
-
 ````java
 class Holder <T>{
     private T t;
@@ -518,8 +486,7 @@ class Holder <T>{
     }
 }
 ````
-
-- 只能使用无参构造
+- 只能使用**无参构造**
 
 ``` java
 class Fruit{}
@@ -529,17 +496,12 @@ public class NonConvariantGeneric {
     List <Fruit> flist = new ArrayList <Apple>(); //编译错误
 }
 ```
-
 - Apple的`List`不是Fruit的`List`。Apple的`List`将持有Apple和Apple的子类型，Fruit的`List`将持有任何类型的`Fruit`。是的，这包括Apple，但是它**不是一个Apple**的`List`，**它仍然是Fruit**的`List`。Apple的`List`在**类型上**不等价于`Fruit`的List，**即使Apple是一种Fruit类型。**
 - Java泛型中规定，即使泛型类型具有继承关系，但是并不意味着该泛型类型的容器也具有继承关系。
 
 - 泛型数组
-
   - 可以使用ArrayList直接创建`private class<T> array = new ArrayList<>();`
-
   - 先创建Object数组再进行转换
-
-
 ``` java
 public GenericArray(int sz) {
     array = (T [])new Object [sz];
@@ -547,9 +509,7 @@ public GenericArray(int sz) {
 ```
 
 - 注意强制转型要使用`@SuppressWarnings("unchecked")`
-
 - 也可以使用Class创建出具有精确数据类型的数组，这样最终转化为T类型的数组更为安全
-
 
 ``` java
 private T [] array;
@@ -560,17 +520,12 @@ private T [] array;
   }
 ```
 
-
 ### 协变与逆变
 
 - **协变**（covariant），如果它保持了子类型序关系≦。该序关系是：子类型≦基类型。
-
 - **逆变**（contravariant），如果它逆转了子类型序关系。
-
 - **不变**（invariant），如果上述两种均不适用。
-
 - 允许多参数，但不能重写一个函数
-
 
 ``` java
 public class UseList <W,T>{
@@ -585,9 +540,7 @@ public class UseList <W,T>{
 ### 自限定类型
 
 - CRG：奇异地规泛型
-
   - 泛型参数是无法直接继承的，但是可以继承一个在自身定义中用到了该泛型参数的类
-
 
 ``` java
 class GenericType <T> {}
@@ -597,7 +550,6 @@ public class CuriouslyRecurringGeneric
 ```
 
 - 限制一个泛型类的类型参数，使其只能是该泛型类的**子类**。
-
 
 ``` java
 public class BasicHolder <T> {
@@ -665,13 +617,11 @@ public static void main(String [] args){
 
   - 也可以对泛型进行一定限制
 
-
 ``` java
 public class Computer <T extends Disk>{//必须是 Disk 或子类
 ```
 
 - 使用类型和接口限制
-
 
 ``` java
 interface HasColor{ java.awt.Color getColor(); }

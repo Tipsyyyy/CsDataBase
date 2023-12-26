@@ -5,6 +5,14 @@
       "path": "java/java.md"
     },
     {
+      "basename": "测试",
+      "path": "java/java基础/杂项/测试.md"
+    },
+    {
+      "basename": "异常",
+      "path": "java/java基础/杂项/异常.md"
+    },
+    {
       "basename": "final",
       "path": "java/java基础/杂项/final.md"
     },

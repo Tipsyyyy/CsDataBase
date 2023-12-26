@@ -48,7 +48,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "生成器模式",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -73,8 +73,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -167,11 +166,13 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "24063adb5be26e38",
+  "active": "26c2fff38fa78e64",
   "lastOpenFiles": [
+    "java/java基础/杂项/测试.md",
+    "java/java.md",
+    "java/java基础/杂项/异常.md",
     "java/java基础/杂项/final.md",
     "java/高级",
-    "java/java.md",
     "Home",
     "java/java基础/杂项/泛型.md",
     "java/java基础/杂项/反射.md",
@@ -213,7 +214,6 @@
     "export/金融大数据p4/plugin/chalkboard/README.md",
     "export/金融大数据p4/plugin/chart/README.md",
     "export/金融大数据p4/plugin/customcontrols/README.md",
-    "export/金融大数据p4/plugin/menu/CONTRIBUTING.md",
-    "export/金融大数据p4/plugin/menu/README.md"
+    "export/金融大数据p4/plugin/menu/CONTRIBUTING.md"
   ]
 }
