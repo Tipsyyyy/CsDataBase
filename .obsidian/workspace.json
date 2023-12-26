@@ -166,8 +166,9 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "26c2fff38fa78e64",
+  "active": "96e173acdf249e6c",
   "lastOpenFiles": [
+    "Home",
     "java/java基础/杂项/final.md",
     "java/java.md",
     "java/java基础/杂项/泛型.md",
@@ -213,7 +214,6 @@
     "export/金融大数据p4/plugin/chart/README.md",
     "export/金融大数据p4/plugin/customcontrols/README.md",
     "export/金融大数据p4/plugin/menu/CONTRIBUTING.md",
-    "export/金融大数据p4/plugin/menu/README.md",
-    "Excalidraw/Drawing 2023-12-26 17.46.55.excalidraw.md"
+    "export/金融大数据p4/plugin/menu/README.md"
   ]
 }
