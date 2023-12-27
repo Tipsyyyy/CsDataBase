@@ -1,0 +1,4 @@
+- 推荐使用[obsidance](https://obsidian.md/)阅读
+- 为了更好的阅读体验，请先fork仓库，clone之后使用obsidance阅读
+- 配置了git插件，打开后会自动pull
+- 只需要更新自己fork的仓库，本地打开后就会自动进行同步
