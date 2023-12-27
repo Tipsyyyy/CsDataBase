@@ -5,12 +5,12 @@
       "path": "java/java基础/杂项/函数式编程.md"
     },
     {
-      "basename": "流",
-      "path": "java/java基础/数据类型/流.md"
-    },
-    {
       "basename": "数字逻辑与计算机组成",
       "path": "课程/数字逻辑与计算机组成/笔记/数字逻辑与计算机组成.md"
+    },
+    {
+      "basename": "流",
+      "path": "java/java基础/数据类型/流.md"
     },
     {
       "basename": "java",
