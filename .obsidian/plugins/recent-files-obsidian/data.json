@@ -1,16 +1,24 @@
 {
   "recentFiles": [
     {
+      "basename": "流",
+      "path": "java/java基础/数据类型/流.md"
+    },
+    {
+      "basename": "内部类",
+      "path": "java/java基础/面向对象/内部类.md"
+    },
+    {
+      "basename": "基本语法",
+      "path": "python/基本语法.md"
+    },
+    {
       "basename": "函数式编程",
       "path": "java/java基础/杂项/函数式编程.md"
     },
     {
       "basename": "数字逻辑与计算机组成",
       "path": "课程/数字逻辑与计算机组成/笔记/数字逻辑与计算机组成.md"
-    },
-    {
-      "basename": "流",
-      "path": "java/java基础/数据类型/流.md"
     },
     {
       "basename": "java",
@@ -75,10 +83,6 @@
     {
       "basename": "反射",
       "path": "java/java基础/杂项/反射.md"
-    },
-    {
-      "basename": "内部类",
-      "path": "java/java基础/面向对象/内部类.md"
     },
     {
       "basename": "基本数据类型与包装类",
