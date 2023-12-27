@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "java/java基础/并发编程/线程与线程池.md",
+                "file": "java/java.md",
                 "mode": "source",
                 "source": false
               }
@@ -31,7 +31,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -124,7 +125,7 @@
               "state": {
                 "file": "java/java基础/并发编程/线程与线程池.md",
                 "linksCollapsed": false,
-                "unlinkedCollapsed": true
+                "unlinkedCollapsed": false
               }
             }
           },
@@ -177,11 +178,11 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "f75b4edd907b14e0",
+  "active": "d4a4e5ce4ec263ba",
   "lastOpenFiles": [
-    "java/java基础/数据类型/线程安全的数据类型.md",
     "java/java.md",
     "java/java基础/并发编程/线程与线程池.md",
+    "java/java基础/数据类型/线程安全的数据类型.md",
     "java/java基础/并发编程/共享资源与线程安全.md",
     "java/java基础/数据类型/基本数据类型与包装类.md",
     "java/java基础/杂项/函数式编程.md",
