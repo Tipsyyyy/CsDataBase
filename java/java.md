@@ -985,20 +985,6 @@ logger.info("This is an info message");
 
 ## 杂项
 
-### 引用类型
-
-- 强引用：Strong Reference
-  - 默认情况下，当我们在Java中创建一个对象并赋值给一个变量时，就是创建了一个强引用。只要强引用存在，垃圾回收器就不会回收被引用的对象。
-- 软引用：Soft Reference
-  - 软引用是一种内存敏感的引用类型。垃圾回收器在内存不足时会回收这些对象。软引用通常用于实现内存敏感的缓存。
-  - `SoftReference<String> softReference = new SoftReference<>(new String("Hello"));`
-- 弱引用：
-  - 弱引用比软引用更弱。垃圾回收器在下一次回收时，无论内存是否足够，**都会回收只被弱引用指向**的对象。弱引用适合用于实现没有阻止垃圾收集器回收对象的映射（例如，`WeakHashMap`）。
-  - `WeakReference<String> weakReference = new WeakReference<>(new String("Hello"));`
-- 虚引用：
-  - 虚引用是最弱的一种引用类型。设置虚引用的唯一目的是在这个对象被垃圾回收器回收时收到一个系统通知。虚引用对于确定对象何时被从内存中移除非常有用，它们常被用于实现高级的内存管理和监控。
-  - `PhantomReference<String> phantomReference = new PhantomReference<>(new String("Hello"), new ReferenceQueue<>());`
-
 ### 注解
 
 #### 定义注解

@@ -166,8 +166,8 @@ System.out.println(bb.getDouble());
 bb.rewind();
 ```
 
-- 视图缓冲区
-  - 透过某个特定基本类型的视角来看底层的缓冲区
+- 视图缓冲区（即某种特定基本数据类型的专用缓冲期）
+  - 透过某个**特定基本类型**的视角来看底层的缓冲区
 ``` java
 public static void main(String [] args) {
   ByteBuffer bb = ByteBuffer.allocate(BSIZE);
@@ -217,7 +217,7 @@ public class LargeMappedFiles {
 
 ### 文件加锁
 
-- 对文件枷锁会对文件的访问操作加上同步处理，这样文件才能作为共享资源，由于文件并不一定在一个 JVM 被操作（也可能被系统进程等操作），因此 Java 的文件加锁直接映射到本地操作系统，对其它进程可见
+- 对文件枷锁会对文件的访问操作加上同步处理，这样**文件才能作为共享资源**，由于文件并不一定在一个 JVM 被操作（也可能被系统进程等操作），因此 Java 的文件加锁直接映射到本地操作系统，对其它进程可见
 ``` java
 public class FileLocking {
   public static void main(String [] args) {
