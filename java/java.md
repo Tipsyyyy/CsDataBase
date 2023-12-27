@@ -974,7 +974,6 @@ extends AbstractMap <Integer,String> {
 
 - 将日志输出到文件
 
-
 ``` java
 Logger logger = Logger.getLogger("com.example.MyClass");
 FileHandler fh = new FileHandler("mylog.log");
@@ -983,37 +982,6 @@ SimpleFormatter formatter = new SimpleFormatter();
 fh.setFormatter(formatter);
 logger.info("This is an info message");
 ```
-
-### Object
-
-- 所有的类，都直接或者间接的继承了 Object 类 ，也就是说所有类都继承了Object的方法，可以进行重写
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230920235956794.png" alt="image-20230920235956794" style="zoom:50%;" />
-  - toString() 返回对象的内容信息，而不是地址信息
-  - equals便子类自己来定制比较规则。
-
-### Math
-
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230921000139100.png" alt="image-20230921000139100" style="zoom: 50%;" />
-
-- | [rint()](https://www.runoob.com/java/number-rint.html)   | 返回与参数最接近的整数。返回类型为double。              |
-  | -------------------------------------------------------- | ------------------------------------------------------- |
-  | [round()](https://www.runoob.com/java/number-round.html) | 四舍五入                                                |
-  | [exp()](https://www.runoob.com/java/number-exp.html)     | 返回自然数底数e的参数次方。                             |
-  | [ log()](https://www.runoob.com/java/number-log.html)    | [ sqrt()](https://www.runoob.com/java/number-sqrt.html) |
-  | 三角函数                                                 | 弧度转化                                                |
-
-  
-
-### System
-
-- System的功能是静态的，都是直接用类名调用即可
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230921000221654.png" alt="image-20230921000221654" style="zoom: 50%;" />
-
-### BigDecimal
-
-- 解决小数运算中, 出现的不精确问题，高精计算
-- 创建<img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230921000358201.png" alt="image-20230921000358201" style="zoom:50%;" />
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230921000427758.png" alt="image-20230921000427758" style="zoom:50%;" />
 
 ## 杂项
 

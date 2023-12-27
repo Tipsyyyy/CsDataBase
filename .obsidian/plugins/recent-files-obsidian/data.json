@@ -1,12 +1,16 @@
 {
   "recentFiles": [
     {
+      "basename": "NIO",
+      "path": "java/java基础/IO/NIO.md"
+    },
+    {
       "basename": "java",
       "path": "java/java.md"
     },
     {
-      "basename": "NIO",
-      "path": "java/java基础/IO/NIO.md"
+      "basename": "Javadoc",
+      "path": "java/java基础/杂项/Javadoc.md"
     },
     {
       "basename": "文件",
