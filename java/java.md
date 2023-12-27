@@ -290,29 +290,6 @@ public class Calculator {
 - 构造器在编写构造器时要注意在发生异常时保证资源的正常释放
   - 并不是在finally中释放就一定可以解决，因为此时可能在创建之前就中断了（如读取文件失败就不能关闭文件）
 ``` java
-public InputFile(String fname) throws Exception {
-    try {
-        in = new BufferedReader(new FileReader(fname));
-        // Other code that might throw exceptions
-    } catch(FileNotFoundException e) {//文件根本没打开，不用关
-        System.out.println("Could not open " + fname);
-        // Wasn't open, so don't close it
-        throw e;
-    } catch(Exception e) {
-        // All other exceptions must close it
-        try {
-            in.close();
-        } catch(IOException e2) {
-            System.out.println("in.close() unsuccessful");
-        }
-        throw e; // Rethrow
-    } finally {
-    }
-}
-```
-
-- 更好的嵌套格式
-``` java
 public static void main(String [] args) {
     try {
         InputFile in = new InputFile("Cleanup.java");
@@ -335,17 +312,6 @@ public static void main(String [] args) {
 }
 ```
 
-- 一般来说，在创建了一个需要清理的对象之后应该直接跟一个try-finally用于在发生错误时自动进行清理。如果构造也会失败（像文件那样），则需要双层嵌套
-``` java
-.. = new ...
-try{
-    
-}
-finally{
-    ..close
-}
-```
-
 - try-with-resources
   - 对于一个类，比如要在生命周期持续对文件读取，则会导致每一步都可能引发异常，这很危险和麻烦
   - 一种解决办法：尽可能一次性实现文件的打开读取和关闭  ，也看了一使用文件创建流，后续的操作通过流来实现
@@ -362,12 +328,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("example.txt"))) 
     e.printStackTrace();
 }
 ```
-
 - 即提供了一种类似文件作用域的机制，在范围内使用文件，之后会被自动关闭
-
-- 异常匹配
-
-  - 父类catch可以捕获子类的异常类型，即可以匹配异常的基类
 
 ### 抛出异常
 
@@ -387,10 +348,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("example.txt"))) 
 #### 自定义的异常类型
 
 - 从异常类Exception创建`class SimpleException extends Exception {}`
-
-  - 带有完整构造器的版本
-
-
+  - 带有完整构造器的版
 ```
 class SimpleException extends Exception {
 	MyExtion(){}
@@ -401,8 +359,6 @@ class SimpleException extends Exception {
 ### 捕获异常
 
 - 处理异常
-
-
 ``` java
 try {
     // The guarded region: Dangerous activities
@@ -414,27 +370,21 @@ try {
 ```
 
 - finaly的用途
-
   - 无论是否发生异常，保证最终状态结果的一致性
   - 也可以用于非异常的情况，无论是使用了break、continue、return，finally的内容也总是会被使用
 
 - 捕捉任何异常：使用基类`Exception`
-
   - 应该放在最后
 
 - 获取异常的信息
-
   - `getMessage() getLocalizedMessage()`
   - ` printStackTrace()`
     - 以数组的形式获取`getStackTrace()`
-
   - 获取包信息`getName()`
   - 获取类名`getSimpleName()`
   - 可以重写并使用tostring定制输出
 
 - 多重捕获
-
-
 ``` java
 public class SameHandler {
     void x() throws Except1, Except2, Except3, Except4 {}
@@ -453,41 +403,29 @@ public class SameHandler {
         }
     }
 }
-```
-
-``` java
+//使用多重捕获简化
 try {
     x();
 } catch(Except1 | Except2 | Except3 | Except4 e) {
     process();
 }
 ```
-
 - 可以用`|`表示or
 
 - 重新抛出
-
   - 重抛异常会把异常抛给上一级环境中的异常处理程序，同一个 try 块的后续 catch 子句将被忽略。
-
-
 ``` java
 catch(Exception e) {
     System.out.println("An exception was thrown");
     throw e;
 }
 ```
-
 - 要注意的是重新抛出不会对异常栈进行修改，也就是说每一层得到的栈信息是一致的，缺失传递过程
-
   - 使用`throw e.fillInStackTrace();`
 
 - 异常匹配
-
   - 异常匹配机制按照`catch`子句的顺序进行。当异常发生时，会查找第一个与之匹配的`catch`子句。一旦找到匹配的`catch`子句，将执行该子句中的代码，然后继续执行`try-catch`块后面的代码，不再检查其它的`catch`子句。
-
   - 同样，对于异常的子类也被会匹配
-
-
 ``` java
 class SuperException extends Exception { }
 class SubException extends SuperException { }
