@@ -292,19 +292,13 @@ if (animal instanceof Dog) {
   - `isInterface()`
   - `getSimpleName()`
   - `getInterfaces()`返回Class数组，即所有实现的接口类型
-
   - `getSuperClass()`查询直接基类
-
   - `Method[] getDeclaredMethods()`返回当前 `Class` 对象所表示的类或接口的所有声明的方法，包括公共、保护、默认（包）访问和私有方法，但不包括继承的方法。
-
   - `Annotation[] getDeclaredAnnotations() `获取全部注解
-
   - `newInstance()`得到一个Object类型的引用，类型必须要有无参构造器（非public类要手动提供一个public的无参构造）
 
-    - 新的方法
-
-
-``` java
+- 创建对象
+```java
 //无参构造
 try {
     return type.getConstructor().newInstance();
@@ -318,15 +312,10 @@ MyClass myObject = (MyClass) constructor.newInstance("example", 123);
 ```
 
 - 泛型类的引用
-
   - `Class<Integer>`只接受特定类型的Class
-
   - 通配`Class<?>`（实际上\<?>可以省略）
-
     - `Class<? extends Number>`可以存储整数/浮点数
-
-
-``` java
+```java
 Class <FancyToy> ftc = FancyToy.class;
     // Produces exact type:
     FancyToy fancyToy =
