@@ -252,68 +252,9 @@ public class SpaceShipDelegation {
 ## 并发编程
 
 
-![[基本概念]]
+### [[基本概念]]
 
-![[线程与线程池]]
-#### 线程池
-
-- 线程池类型
-  - FixedThreadPool：创建一个**固定大小**的线程池。每提交一个任务就创建一个线程，直到线程达到线程池的最大大小。
-    - `ExecutorService executor = Executors.newFixedThreadPool(int nThreads);`
-    - 当所有线程都在忙时，新提交的任务不会立即执行，而是会放入线程池的工作队列中等待。
-  - CachedThreadPool：创建一个可缓存的线程池。如果线程池长度超过处理需求，可灵活回收空闲线程，若无可回收，则新建线程。（无数目限制，除非超过内存）
-    - `ExecutorService executor = Executors.newCachedThreadPool();`
-  - SingleThreadExecutor：创建一个单线程的Executor。如果这个线程因异常而结束，会创建一个新线程来继续执行后续的任务。
-    - `ExecutorService executor = Executors.newSingleThreadExecutor(); `
-  - ScheduledThreadPool：创建一个大小无限制的线程池。支持定时以及周期性执行任务的需求。
-``` java
-ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(int corePoolSize);
-scheduler.schedule(Callable <V> callable, long delay, TimeUnit unit);
-```
-- WorkStealingPool：基于工作窃取的线程池。适用于大量的短任务，使用多个队列减少竞争。(使用双端队列为每个线程维护任务，如果一个线程没有任务会从别的线程“窃取”任务)
-  - `ExecutorService executor = Executors.newWorkStealingPool(int parallelism);`
-
-- 基本使用方法
-
-  - `execute(Runnable command)`: 提交不需要返回值的任务。
-  - `submit(Runnable task)`: 提交需要返回值的任务，并返回 `Future` 对象。
-  - `submit(Callable<T> task)`: 提交有返回值的任务，返回 `Future<T>`。
-  - `executor.shutdown();`关闭线程池，仍然会执行完已经提交的任务，但是不接受新任务。
-
-##### 异常
-
-- 无法捕获已逃离线程的异常，一旦异常逃逸到任务的run()方法之外便会扩散到控制台，在execute语句包上try-catch是没用的
-
-- 需要创建一个新的TreadFactory类型，为创建的Tread对象添加Thread.UncaughtExceptionHandler用于添加异常处理程序
-
-
-``` java
-//自定义异常处理
-class MyUncaughtExceptionHandler implements
-    Thread.UncaughtExceptionHandler {
-    @Override
-    public void uncaughtException(Thread t, Throwable e) {
-        System.out.println("caught " + e);
-    }
-}
-//绑定异常处理对象的工厂方法
-class HandlerThreadFactory implements ThreadFactory {
-    @Override public Thread newThread(Runnable r) {
-        System.out.println(this + " creating new Thread");
-        Thread t = new Thread(r);
-        System.out.println("created " + t);
-        t.setUncaughtExceptionHandler(
-            new MyUncaughtExceptionHandler());
-        System.out.println(
-            "eh = " + t.getUncaughtExceptionHandler());
-        return t;
-    }
-}
-//创建线程池时使用自定义的工厂方法
-ExecutorService exec = Executors.newCachedThreadPool(new HandlerThreadFactory());
-//设置全局
-Thread.setDefaultUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
-```
+### [[线程与线程池]]
 
 #### 共享资源
 
