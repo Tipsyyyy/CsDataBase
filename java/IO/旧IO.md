@@ -7,8 +7,8 @@
 - PipedInputStream：生成写入到对应PipedOutStream的数据，实现管道传输
 - SequenceInputStream：将两个以上的InputStream转化为单个InputStream
 - FilterInputStream：作为**装饰器**接口抽象类，为其他InputStream提供功能
-  - DataInputStream：从流读取基本类型，有方法如readFloat()等
-  - Buffered-InputStream：声明使用缓冲区（提高效率）
+  - DataInputStream：从流读取**基本类型**，有方法如readFloat()等
+  - Buffered-InputStream：声明使用**缓冲区**（提高效率）
 
 #### OutputStream
 
@@ -64,8 +64,9 @@ public static void main(String [] args) throws IOException {
         System.out.print((char)c);
 }
 ```
-
 - 按照字符读取
+
+- 读取为基本数据类型
 ``` java
 public static void main(String [] args) {
     try(
@@ -85,9 +86,8 @@ public static void main(String [] args) {
     }
 }
 ```
-
 - 格式化读取
-- 使用`in.available!=0`判断字符读取是否终止，当然也可以使用异常进行控制
+- 使用 `in.available!=0` 判断字符读取是否终止，当然也可以使用异常进行控制
 
 - 文件输出
 ``` java
@@ -110,7 +110,7 @@ public static void main(String [] args) {
 }
 ```
 
-- 存储和回复数据
+- 存储和恢复恢复数据
   - 使用DataOutputStream写入数据，一定可以通过DataInputStream精确的恢复数据
 ``` java
 public static void main(String [] args) {
