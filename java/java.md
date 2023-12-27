@@ -262,46 +262,39 @@ public class SpaceShipDelegation {
 
 - join等待线程（等待另一个线程完成之后在继续）
 ```java
-xxxxxxxxxx16 1	class Joiner extends Thread {2    private Sleeper sleeper;//一个自定义线程类型3    public Joiner(String name, Sleeper sleeper) {4        super(name);5        this.sleeper = sleeper;6        start();7    }8    public void run() {9        try {10            sleeper.join();11        } catch (InterruptedException e) {12            System.out.println("Interrupted");13        }14        System.out.println(getName() + " join completed");15    }16}
-```
+class Joiner extends Thread {
+    private Sleeper sleeper; // 一个自定义线程类型
 
-- 直接使用锁
-```java
-public int next() {
-        //加锁
-        lock.lock();  // block until condition holds
-        try {
-            ++currentEvenValue;
-            Thread.yield();
-            ++currentEvenValue;
-            return currentEvenValue;
-        } finally {
-            lock.unlock();   //一定要用try-catch的finally去释放锁
-        }
+    public Joiner(String name, Sleeper sleeper) {
+        super(name);
+        this.sleeper = sleeper;
+        start();
     }
-```
 
-- 更高级的锁``ReentrantLock``
-  - 如果一个线程已经持有了锁，**它可以再次请求并获得锁而不会被阻塞**。`ReentrantLock` 会维护一个持有锁的计数器来跟踪锁的重入**次数**，线程每请求一次锁，计数器就增加一，每释放一次锁，计数器就减一。当计数器归零时，锁被释放。
+    public void run() {
+        try {
+            sleeper.join();
+        } catch (InterruptedException e) {
+            System.out.println("Interrupted");
+        }
+        System.out.println(getName() + " join completed");
+    }
+}
+```
 
 - **wait()**:
-
   - 当一个线程调用 `wait()` 时，它会**释放当前持有的监视器锁**，并暂停执行，直到另一个线程调用相同对象的 `notify()` 或 `notifyAll()` 方法。
   - 调用 `wait()` 后，当前线程进入**对象的等待集**（wait set），处于阻塞状态，直到被通知（或中断）。
 
 - **notify()**:
-
   - `notify()` 方法用于**唤醒**在此对象监视器上等待的单个线程。
   - 如果有多个线程都在等待，那么会**随机选择一个线程进行唤醒**。被唤醒的线程将尝试**重新获取对象监视器的锁**。
 
 - **notifyAll()**:
-
   - `notifyAll()` 方法用于**唤醒在此对象监视器上等待的所有线程。**
   - 一旦调用 `notifyAll()`，所有处于等待集中的线程都会被唤醒，然后竞争尝试重新获取对象监视器的锁。
 
 - 例子：汽车打蜡
-
-
 ```java
 class Car {
     private boolean waxOn = false;
