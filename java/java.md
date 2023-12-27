@@ -940,49 +940,10 @@ extends AbstractMap <Integer,String> {
 
 ```
 
-### 时间类
-
--  Date封装当前的日期和时间
-   - 默认使用当前日期和时间来初始化对象（否则为毫秒数）`Date(long millisec)`
-   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230921003154413.png" style="zoom: 33%;" />
--  SimpleDateFormat 格式化日期
-   - 允许你选择任何用户自定义日期时间格式来运行`SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");`
--  日期类Calendar
-   - Calendar类是一个抽象类，在实际使用时实现特定的子类的对象，创建对象的过程对程序员来说是透明的，只需要使用getInstance方法创建即可。
-   - `Calendar c = Calendar.getInstance();//默认是当前日期`
--  GregorianCalendar类
-   - Calendar类实现了公历日历，GregorianCalendar是Calendar类的一个具体实现。
+### [[时间类]]
 ### [[Math类]]
-### logging日志
 
-- `java.util.logging`
-
-- 创建Logger实例`Logger logger = Logger.getLogger(name)`
-
-  - 可以传入一个string作为logger的标识
-
-- 日志级别
-
-  - `logger.setLevel()`
-  - `Level.SEVERE`、`Level.WARNING`、`Level.INFO` 等。
-  - 也可以在记录异常时作为第一个参数临时设置级别
-
-- 记录日志
-
-  -  `logger.info()`、`logger.warning()`、`logger.severe()` 
-  - 附带异常对象及堆栈信息`logger.log(Level.SEVERE, "Exception message", e)`
-
-- 将日志输出到文件
-
-``` java
-Logger logger = Logger.getLogger("com.example.MyClass");
-FileHandler fh = new FileHandler("mylog.log");
-logger.addHandler(fh);
-SimpleFormatter formatter = new SimpleFormatter();
-fh.setFormatter(formatter);
-logger.info("This is an info message");
-```
-
+### [[日志]]
 ## 杂项
 
 ### [[注解]]

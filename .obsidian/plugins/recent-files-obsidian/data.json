@@ -1,8 +1,8 @@
 {
   "recentFiles": [
     {
-      "basename": "Java编码规范",
-      "path": "java/java基础/杂项/Java编码规范.md"
+      "basename": "流",
+      "path": "java/java基础/数据类型/流.md"
     },
     {
       "basename": "java",
@@ -17,12 +17,12 @@
       "path": "java/java基础/杂项/函数式编程.md"
     },
     {
-      "basename": "流",
-      "path": "java/java基础/数据类型/流.md"
-    },
-    {
       "basename": "包",
       "path": "java/java基础/杂项/包.md"
+    },
+    {
+      "basename": "Java编码规范",
+      "path": "java/java基础/杂项/Java编码规范.md"
     },
     {
       "basename": "日志",
