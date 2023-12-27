@@ -5,6 +5,14 @@
       "path": "java/java.md"
     },
     {
+      "basename": "文件",
+      "path": "java/java基础/IO/文件.md"
+    },
+    {
+      "basename": "序列化与反序列化",
+      "path": "java/java基础/高级/序列化与反序列化.md"
+    },
+    {
       "basename": "U8 中央处理器",
       "path": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md"
     },
@@ -15,14 +23,6 @@
     {
       "basename": "控制台IO",
       "path": "java/java基础/IO/控制台IO.md"
-    },
-    {
-      "basename": "文件",
-      "path": "java/java基础/IO/文件.md"
-    },
-    {
-      "basename": "序列化与反序列化",
-      "path": "java/java基础/高级/序列化与反序列化.md"
     },
     {
       "basename": "集合",
