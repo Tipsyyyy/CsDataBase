@@ -77,7 +77,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "d615b65a4ccf8a6a",
@@ -166,7 +167,7 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "26c2fff38fa78e64",
+  "active": "96e173acdf249e6c",
   "lastOpenFiles": [
     "java/java.md",
     "java/java基础/Util/集合/Collections工具类.md",
