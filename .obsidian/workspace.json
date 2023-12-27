@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "5338c62d4b63d294",
+        "id": "891694420cb2c548",
         "type": "tabs",
         "children": [
           {
-            "id": "f75b4edd907b14e0",
+            "id": "26c2fff38fa78e64",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "java/java基础/数据类型/拷贝与引用.md",
+                "file": "java/java.md",
                 "mode": "source",
                 "source": false
               }
@@ -48,7 +48,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "动态代理",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -66,7 +66,7 @@
             }
           },
           {
-            "id": "e9ac2cd663de210b",
+            "id": "0a9cd0319ddd3dbc",
             "type": "leaf",
             "state": {
               "type": "recent-files",
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "java/java基础/数据类型/拷贝与引用.md",
+                "file": "java/java.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,9 +110,9 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "java/java基础/数据类型/拷贝与引用.md",
+                "file": "java/java.md",
                 "linksCollapsed": false,
-                "unlinkedCollapsed": false
+                "unlinkedCollapsed": true
               }
             }
           },
@@ -133,12 +133,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "java/java基础/数据类型/拷贝与引用.md"
+                "file": "java/java.md"
               }
             }
           },
           {
-            "id": "9d8082ae89a6025f",
+            "id": "541551cc93ddceea",
             "type": "leaf",
             "state": {
               "type": "calendar",
@@ -150,11 +150,11 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 202.5
   },
   "left-ribbon": {
     "hiddenItems": {
-      "obsidian-advanced-slides:Show Slide Preview": false,
+      "obsidian-excalidraw-plugin:新建绘图文件": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
@@ -163,56 +163,57 @@
       "command-palette:打开命令面板": false,
       "workspaces:管理工作区布局": false,
       "audio-recorder:开始/结束录音": false,
-      "obsidian-excalidraw-plugin:新建绘图文件": false
+      "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "f75b4edd907b14e0",
+  "active": "26c2fff38fa78e64",
   "lastOpenFiles": [
-    "java/工具/环境配置与命令.md",
-    "java/java.md",
-    "java/java基础/数据类型/拷贝与引用.md",
-    "java/java基础/杂项/注解.md",
-    "java/java基础/IO/NIO.md",
-    "java/java基础/并发编程/线程与线程池.md",
     "java/java基础/杂项/Javadoc.md",
-    "java/java基础/IO/文件.md",
+    "java/java基础/并发编程/高级.md",
+    "java/工具/环境配置与命令.md",
     "java/java基础/高级/序列化与反序列化.md",
-    "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
-    "java/java基础/IO/网络编程.md",
-    "java/java基础/IO/控制台IO.md",
-    "java/IO/标准IO.md",
+    "java/java基础/杂项/注解.md",
     "java/java基础/Util/集合.md",
     "java/java基础/Util",
-    "java/java基础/IO/旧IO.md",
-    "java/java基础/IO",
-    "java/java基础/并发编程/高级.md",
-    "java/java基础/并发编程/基本概念.md",
-    "conflict-files-obsidian-git.md",
-    "Pasted image 20231227111944.png",
-    "java/java基础/数据类型/线程安全的数据类型.md",
-    "java/java基础/并发编程/共享资源与线程安全.md",
-    "java/java基础/数据类型/基本数据类型与包装类.md",
+    "java/java基础/io/网络编程.md",
+    "java/java基础/io/旧IO.md",
+    "java/java基础/io/文件.md",
+    "java/java基础/io/控制台IO.md",
+    "java/java基础/io/NIO.md",
+    "java/java.md",
     "java/java基础/杂项/函数式编程.md",
-    "java/java基础/并发编程/异常处理.md",
-    "java/java基础/数据类型/流.md",
-    "java/java基础/并发编程",
+    "java/java基础/面向对象/接口.md",
     "java/java基础/高级/代理模式.md",
-    "java/java基础/高级/标签接口.md",
     "java/java基础/高级",
-    "面试/移动端实习-百度",
-    "面试",
-    "软件工程",
-    "移动端开发/安卓",
-    "移动端开发",
-    "电子/嵌入式",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-3.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-2.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-1.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-3-3.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-3-2.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-3-1.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-2-2.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-2-1.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-1.png"
+    "java/java基础/数据类型/线程安全的数据类型.md",
+    "java/java基础/数据类型/流.md",
+    "java/java基础/并发编程/线程与线程池.md",
+    "java/java基础/并发编程/异常处理.md",
+    "java/java基础/并发编程/基本概念.md",
+    "java/java基础/并发编程",
+    "Pasted image 20231227111944.png",
+    "java/java基础/杂项/泛型.md",
+    "java/java基础/数据类型/数组类型.md",
+    "java/java基础/杂项/测试.md",
+    "java/java基础/杂项/异常.md",
+    "java/java基础/杂项/final.md",
+    "java/高级",
+    "Home",
+    "java/java基础/杂项/反射.md",
+    "java/java基础/杂项",
+    "java/java基础/面向对象",
+    "java/java基础/数据类型/集合类型",
+    "java/java基础/io",
+    "java/java基础/并发",
+    "未命名.canvas",
+    "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
+    "export/金融大数据p4/plugin/chalkboard/img/sponge.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-yellow.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-white.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-red.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-purple.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-orange.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-green.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-blue.png"
   ]
 }

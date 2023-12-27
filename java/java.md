@@ -2195,20 +2195,17 @@ args [6]: -100
 - `java-version`正常但是找不到`javac`：
   - 新建->变量名“CLASSPATH”,变量值`“.;%JAVA_HOME%\lib;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar”`
 
-## Javadoc
+
 
 - 生成`javadoc -d doc -sourcepath src -subpackages com.mycompany`
-
   - 生成源代码路径 `src` 下 `com.mycompany` 包（及其子包）的Javadoc，并将文档输出到 `doc` 目录。
 
 - 只会为public和protected成员处理文档，生成时添加`-private`将private纳入考虑
 
 - 分类
-
   - 类的注释
   - 字段注释
   - 方法注释
-
 
 ``` java
 import java.util.*;
@@ -2249,9 +2246,7 @@ public class Documentation3 {}
 ```
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231121151640157.png" alt="image-20231121151640157" style="zoom:33%;" />
-
 - 行首的星号和空格会抛弃
-
 - 不要使用标题标签
 
 #### 标签

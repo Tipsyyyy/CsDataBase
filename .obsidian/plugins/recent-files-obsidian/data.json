@@ -1,100 +1,116 @@
 {
   "recentFiles": [
     {
-      "basename": "拷贝与引用",
-      "path": "java/java基础/数据类型/拷贝与引用.md"
-    },
-    {
-      "basename": "环境配置与命令",
-      "path": "java/工具/环境配置与命令.md"
-    },
-    {
       "basename": "java",
       "path": "java/java.md"
-    },
-    {
-      "basename": "注解",
-      "path": "java/java基础/杂项/注解.md"
-    },
-    {
-      "basename": "NIO",
-      "path": "java/java基础/IO/NIO.md"
-    },
-    {
-      "basename": "线程与线程池",
-      "path": "java/java基础/并发编程/线程与线程池.md"
     },
     {
       "basename": "Javadoc",
       "path": "java/java基础/杂项/Javadoc.md"
     },
     {
-      "basename": "文件",
-      "path": "java/java基础/IO/文件.md"
-    },
-    {
-      "basename": "序列化与反序列化",
-      "path": "java/java基础/高级/序列化与反序列化.md"
-    },
-    {
-      "basename": "U8 中央处理器",
-      "path": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md"
-    },
-    {
-      "basename": "网络编程",
-      "path": "java/java基础/IO/网络编程.md"
-    },
-    {
-      "basename": "控制台IO",
-      "path": "java/java基础/IO/控制台IO.md"
-    },
-    {
-      "basename": "集合",
-      "path": "java/java基础/Util/集合.md"
-    },
-    {
-      "basename": "旧IO",
-      "path": "java/java基础/IO/旧IO.md"
-    },
-    {
       "basename": "高级",
       "path": "java/java基础/并发编程/高级.md"
-    },
-    {
-      "basename": "基本概念",
-      "path": "java/java基础/并发编程/基本概念.md"
-    },
-    {
-      "basename": "线程安全的数据类型",
-      "path": "java/java基础/数据类型/线程安全的数据类型.md"
-    },
-    {
-      "basename": "基本数据类型与包装类",
-      "path": "java/java基础/数据类型/基本数据类型与包装类.md"
     },
     {
       "basename": "函数式编程",
       "path": "java/java基础/杂项/函数式编程.md"
     },
     {
-      "basename": "异常处理",
-      "path": "java/java基础/并发编程/异常处理.md"
-    },
-    {
-      "basename": "流",
-      "path": "java/java基础/数据类型/流.md"
-    },
-    {
-      "basename": "代理模式",
-      "path": "java/java基础/高级/代理模式.md"
+      "basename": "接口",
+      "path": "java/java基础/面向对象/接口.md"
     },
     {
       "basename": "泛型",
       "path": "java/java基础/杂项/泛型.md"
     },
     {
+      "basename": "数组类型",
+      "path": "java/java基础/数据类型/数组类型.md"
+    },
+    {
+      "basename": "测试",
+      "path": "java/java基础/杂项/测试.md"
+    },
+    {
+      "basename": "异常",
+      "path": "java/java基础/杂项/异常.md"
+    },
+    {
+      "basename": "final",
+      "path": "java/java基础/杂项/final.md"
+    },
+    {
+      "basename": "反射",
+      "path": "java/java基础/杂项/反射.md"
+    },
+    {
+      "basename": "内部类",
+      "path": "java/java基础/面向对象/内部类.md"
+    },
+    {
+      "basename": "基本数据类型与包装类",
+      "path": "java/java基础/数据类型/基本数据类型与包装类.md"
+    },
+    {
       "basename": "构造方法",
       "path": "java/java基础/面向对象/构造方法.md"
+    },
+    {
+      "basename": "p8",
+      "path": "课程/数字逻辑与计算机组成/作业/p8.md"
+    },
+    {
+      "basename": "拷贝与引用",
+      "path": "java/java基础/数据类型/拷贝与引用.md"
+    },
+    {
+      "basename": "字符串",
+      "path": "java/java基础/数据类型/字符串.md"
+    },
+    {
+      "basename": "jupyter",
+      "path": "python/工具/jupyter.md"
+    },
+    {
+      "basename": "枚举类型",
+      "path": "java/java基础/数据类型/枚举类型.md"
+    },
+    {
+      "basename": "switch",
+      "path": "java/java基础/流程控制/switch.md"
+    },
+    {
+      "basename": "java",
+      "path": "Slide/java.md"
+    },
+    {
+      "basename": "Drawing 2023-12-26 18.44.27.excalidraw",
+      "path": "Excalidraw/Drawing 2023-12-26 18.44.27.excalidraw.md"
+    },
+    {
+      "basename": "金融大数据p4",
+      "path": "Slide/金融大数据p4.md"
+    },
+    {
+      "basename": "Drawing 2023-12-26 17.46.55.excalidraw",
+      "path": "Excalidraw/Drawing 2023-12-26 17.46.55.excalidraw.md"
+    },
+    {
+      "basename": "p4",
+      "path": "课程/金融大数据/实验/p4.md"
+    },
+    {
+      "basename": "c#",
+      "path": "游戏开发/unity/c#.md"
+    },
+    {
+      "basename": "js",
+      "path": "web开发/前端/js.md"
+    },
+    {
+      "basename": "Drawing 2023-12-26 13.12.59.excalidraw",
+      "path": "Excalidraw/Drawing 2023-12-26 13.12.59.excalidraw.md"
     }
   ],
   "omittedPaths": [],
