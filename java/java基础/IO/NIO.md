@@ -25,10 +25,9 @@
     - **rewind ()**：重置 `position` 为 0，可以重新读写缓冲区中的所有数据。
     - **reset ()**：讲 position 移动到 mark 的位置，如果 mark 还没有被设置则会抛出异常
 
-
 - 创建
   - 直接指定大小 `ByteBuffer buff = ByteBuffer.allocate(BSIZE);`
-  - 从数据创建 `c.write(ByteBuffer.wrap("Some text ".getBytes()));`
+  - 从数据创建 **wrap**`c.write(ByteBuffer.wrap("Some text ".getBytes()));`
   - 使用 `put` 放入数据：`buff.put(str.getBytes());` 将数据写入缓冲区的当前位置，并将**位置向前移动**。如果缓冲区的剩余空间不足以容纳新的数据，那么 `put` 方法将抛出 `BufferOverflowException` 异常。
 
 - `fc.read(buff);` 写入到缓冲区
@@ -37,7 +36,6 @@
 - 输出缓冲区的内容 `System.out.println(buff.asCharBuffer());`
   - 直接这么输出是字节内容，没有解码
 
-- 重新读取/写入（讲 position 设置为 0）`rewind()`
 - 读写文件
   - 三种通道：可读、可写、可读写
   - 通过 `.getChannel()`**获取通道**
@@ -78,6 +76,7 @@ public class GetChannel {
       fc.read(buff);
         //设置为读模式
       buff.flip();
+      //输出buffer中的读取结果
       while(buff.hasRemaining())
         System.out.write(buff.get());
     } catch(IOException e) {
@@ -89,17 +88,15 @@ public class GetChannel {
 ```
 
 - 连接通道的内置方法
-
   - `transferTo` 方法将数据从**源通道传输到目标通道**。它接收三个参数：开始位置、要传输的最大字节数和目标通道。从开始位置开始，最多传输指定数量的字节到目标通道。
     - `Channelin.transferTo(0, Channelin.size(), Channelout);`
   - `transferFrom` 方法将数据从源通道传输到目标通道。它接收三个参数：源通道、开始位置和要传输的最大字节数。从源通道中读取最多指定数量的字节，并将它们写入到目标通道的开始位置。
-    - Channel `out.transferFrom(Channelin, 0, Channelin.size());`
+    - `Channelout.transferFrom(Channelin, 0, Channelin.size());`
 
 - 字符集 CharSet
-
   - `Charset.forName(String charsetName)` 方法获取指定字符集的 `Charset` 实例 `Charset utf8 = Charset.forName("UTF-8");`
-  - 将字符串转换为字节序列：`ByteBuffer buffer = utf8.encode("测试文本");` 编码
-  - 将字节序列转换为字符串：`String text = utf8.decode(buffer).toString();` 解码
+  - 将**字符串转换为字节序列**：`ByteBuffer buffer = utf8.encode("测试文本");` 编码
+  - 将**字节序列转换为字符串**：`String text = utf8.decode(buffer).toString();` 
   - 获取系统使用的字符集名称：`String encoding =System.getProperty("file.encoding");`
 
 - 非字节数据
@@ -193,7 +190,6 @@ public static void main(String [] args) {
 - 其它基本类型也有类似的方法
 - 可以将同一个字节序类解析为不同类型，同样的缓冲区数据，不一样的解析方式
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231121131949514.png" alt="image-20231121131949514" style="zoom: 33%;" />
-
 
 ### 内存映射文件
 
