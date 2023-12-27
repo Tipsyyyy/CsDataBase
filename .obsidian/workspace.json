@@ -20,30 +20,6 @@
             }
           },
           {
-            "id": "c0fb1c0e5249804d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "java/IO/控制台IO.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "3a74fd2bf201a5b1",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "java/IO/网络编程.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "0b9dd8f4c1d38b89",
             "type": "leaf",
             "state": {
@@ -61,14 +37,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "java/IO/文件.md",
+                "file": "java/java基础/IO/文件.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -142,7 +117,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "java/IO/控制台IO.md",
+                "file": "java/java.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -159,7 +134,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "java/IO/控制台IO.md",
+                "file": "java/java.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -182,7 +157,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "java/IO/控制台IO.md"
+                "file": "java/java.md"
               }
             }
           },
@@ -215,19 +190,20 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "c0fb1c0e5249804d",
+  "active": "f75b4edd907b14e0",
   "lastOpenFiles": [
-    "java/IO/控制台IO.md",
-    "java/IO/标准IO.md",
+    "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
+    "java/java基础/IO/网络编程.md",
     "java/java.md",
-    "java/IO/文件.md",
-    "java/IO/网络编程.md",
+    "java/java基础/IO/控制台IO.md",
+    "java/IO/标准IO.md",
+    "java/java基础/IO/文件.md",
     "java/java基础/高级/序列化与反序列化.md",
     "java/java基础/Util/集合.md",
     "java/java基础/Util",
-    "java/IO/旧IO.md",
-    "java/IO/NIO.md",
-    "java/IO",
+    "java/java基础/IO/旧IO.md",
+    "java/java基础/IO/NIO.md",
+    "java/java基础/IO",
     "java/java基础/并发编程/高级.md",
     "java/java基础/并发编程/线程与线程池.md",
     "java/java基础/并发编程/基本概念.md",
@@ -249,7 +225,6 @@
     "面试/移动端实习-百度/kotlin.md",
     "面试/移动端实习-百度",
     "面试",
-    "软件工程/项目管理.md",
     "软件工程",
     "移动端开发/安卓",
     "移动端开发",

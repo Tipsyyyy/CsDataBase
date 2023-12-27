@@ -1,20 +1,24 @@
 {
   "recentFiles": [
     {
-      "basename": "控制台IO",
-      "path": "java/IO/控制台IO.md"
-    },
-    {
       "basename": "java",
       "path": "java/java.md"
     },
     {
-      "basename": "文件",
-      "path": "java/IO/文件.md"
+      "basename": "U8 中央处理器",
+      "path": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md"
     },
     {
       "basename": "网络编程",
-      "path": "java/IO/网络编程.md"
+      "path": "java/java基础/IO/网络编程.md"
+    },
+    {
+      "basename": "控制台IO",
+      "path": "java/java基础/IO/控制台IO.md"
+    },
+    {
+      "basename": "文件",
+      "path": "java/java基础/IO/文件.md"
     },
     {
       "basename": "序列化与反序列化",
@@ -26,11 +30,11 @@
     },
     {
       "basename": "旧IO",
-      "path": "java/IO/旧IO.md"
+      "path": "java/java基础/IO/旧IO.md"
     },
     {
       "basename": "NIO",
-      "path": "java/IO/NIO.md"
+      "path": "java/java基础/IO/NIO.md"
     },
     {
       "basename": "高级",

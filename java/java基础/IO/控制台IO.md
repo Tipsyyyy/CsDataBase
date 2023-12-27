@@ -88,9 +88,8 @@ public static void main(String [] args) {
   }
 ```
 
-- 重定向操作字节流
 - 进程控制
-  - 通过标准流实现向控制台发送命令，并监视输出到控制台的信息
+  - 通过标准流实现**向控制台发送命令**，并监视输出到控制台的信息
 ``` java
 public class OSExecute {
   public static void command(String command) {
