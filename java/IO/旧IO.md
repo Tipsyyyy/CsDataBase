@@ -1,13 +1,14 @@
 #### InputStream
 
+- 面向 **字节** 的 IO
 - ByteArrayInputStream：将内存缓冲区充当InputStream
 - StringBufferInputStream：将字符串转化为InputStream
 - FileInputStream：从文件读取信息
 - PipedInputStream：生成写入到对应PipedOutStream的数据，实现管道传输
 - SequenceInputStream：将两个以上的InputStream转化为单个InputStream
-- FilterInputStream：作为装饰器接口抽象类，为其他InputStream提供功能
+- FilterInputStream：作为**装饰器**接口抽象类，为其他InputStream提供功能
   - DataInputStream：从流读取基本类型，有方法如readFloat()等
-  - Buffered-InputStream：声明使用缓冲区
+  - Buffered-InputStream：声明使用缓冲区（提高效率）
 
 #### OutputStream
 
@@ -21,24 +22,19 @@
 
 #### Reader和Writer
 
-- Input/OutStream类提出了面向字节的IO能力，ReadWrite提供了兼容Unicode并且兼容字符的IO能力。
+- Input/OutStream类提出了**面向字节**的IO能力，ReadWrite提供了**兼容Unicode并且兼容字符的IO能力**
 - 适配器InputStreamReader和OutputStreamWriter可以将Input/OutputStream转化为Reader/Writer
   - 都有对应的，后缀为R/W
 
 #### Scanning
 
 - 用于扫描和解析文本数据
-
 - 可以用不同的输入源来创建 `Scanner` 对象`Scanner scanner = new Scanner(System.in); // 从标准输入读取`
-
 - `Scanner` 类提供了一系列的方法来读取不同类型的数据，如 `nextInt()`, `nextDouble()`, `nextLine()`,`hasNext()` 等。
-
-
 ```java
 int number = scanner.nextInt();
 String str = scanner.nextLine();
 ```
-
 - 关闭`scanner.close();`
 #### RandomAccessFile
 
@@ -46,8 +42,7 @@ String str = scanner.nextLine();
 
 ### 典型用法
 
-从文件输入
-
+- 从文件输入
 ``` java
 public static String read(String filename) {
     try(BufferedReader in = new BufferedReader(
@@ -59,7 +54,6 @@ public static String read(String filename) {
     }
 }
 ```
-
 - try-with-resource
 
 ``` java
@@ -72,7 +66,6 @@ public static void main(String [] args) throws IOException {
 ```
 
 - 按照字符读取
-
 ``` java
 public static void main(String [] args) {
     try(
@@ -97,8 +90,6 @@ public static void main(String [] args) {
 - 使用`in.available!=0`判断字符读取是否终止，当然也可以使用异常进行控制
 
 - 文件输出
-
-
 ``` java
 public static void main(String [] args) {
     try(
@@ -120,10 +111,7 @@ public static void main(String [] args) {
 ```
 
 - 存储和回复数据
-
   - 使用DataOutputStream写入数据，一定可以通过DataInputStream精确的恢复数据
-
-
 ``` java
 public static void main(String [] args) {
     try(
@@ -156,10 +144,7 @@ public static void main(String [] args) {
 ```
 
 - 随机访问文件
-
   - 可以使用DataInputStream相似的接口进行数据读取写入
-
-
 ``` java
 public class UsingRandomAccessFile {
     static String file = "rtest.dat";
