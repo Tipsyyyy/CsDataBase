@@ -283,10 +283,9 @@ public class Calculator {
     - `e.initCause(cause)`
 
 - 异常的约束
-  - 重写方法时只能抛出**基类版本**中说明的异常。也可以选择不抛出
+  - **重写方法**时只能抛出**基类版本**中说明的异常。也可以选择不抛出
     - 当继承的基类与子类实现的接口冲突时以基类为准
-  - 可以为构造器添加新异常，但是必须包含基类构造器的异常，子类也不应该捕获基类构造器的异常
-  - 即对于基类和子类，异常可以缩小但是不能扩大
+  - 可以为构造器添加新异常，但是必须**包含基类构造器的异常**，**子类也不应该捕获基类构造器的异常**
 
 - 构造器在编写构造器时要注意在发生异常时保证资源的正常释放
   - 并不是在finally中释放就一定可以解决，因为此时可能在创建之前就中断了（如读取文件失败就不能关闭文件）
@@ -313,8 +312,6 @@ public InputFile(String fname) throws Exception {
 ```
 
 - 更好的嵌套格式
-
-
 ``` java
 public static void main(String [] args) {
     try {
@@ -339,8 +336,6 @@ public static void main(String [] args) {
 ```
 
 - 一般来说，在创建了一个需要清理的对象之后应该直接跟一个try-finally用于在发生错误时自动进行清理。如果构造也会失败（像文件那样），则需要双层嵌套
-
-
 ``` java
 .. = new ...
 try{
@@ -352,17 +347,11 @@ finally{
 ```
 
 - try-with-resources
-
   - 对于一个类，比如要在生命周期持续对文件读取，则会导致每一步都可能引发异常，这很危险和麻烦
-
   - 一种解决办法：尽可能一次性实现文件的打开读取和关闭  ，也看了一使用文件创建流，后续的操作通过流来实现
-
   - 在try后面可以跟一个()，即资源说明头， 
-
     - 用于那些实现了 `java.lang.AutoCloseable` 或 `java.io.Closeable` 接口的资源.比如Stream、文件读取等
     - 在代码块结束时**自动释放资源**
-
-
 ``` java
 try (BufferedReader reader = new BufferedReader(new FileReader("example.txt"))) {
     String line;
