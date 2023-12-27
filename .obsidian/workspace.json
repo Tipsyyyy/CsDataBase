@@ -18,21 +18,8 @@
                 "source": false
               }
             }
-          },
-          {
-            "id": "06cf333813a35921",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "java/java基础/数据类型/流.md",
-                "mode": "source",
-                "source": false
-              }
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -106,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "java/java基础/数据类型/流.md",
+                "file": "java/java.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "java/java基础/数据类型/流.md",
+                "file": "java/java.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "java/java基础/数据类型/流.md"
+                "file": "java/java.md"
               }
             }
           },
@@ -179,9 +166,13 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "06cf333813a35921",
+  "active": "26c2fff38fa78e64",
   "lastOpenFiles": [
+    "java/java基础/Util/集合/迭代器.md",
     "java/java.md",
+    "java/java基础/Util/集合/Collections工具类.md",
+    "java/java基础/Util/集合",
+    "java/java基础/Util/集合.md",
     "java/java基础/数据类型/流.md",
     "java/java基础/杂项/注解.md",
     "java/java基础/杂项/equals()与hashCode().md",
@@ -202,13 +193,10 @@
     "java/java基础/并发编程/高级.md",
     "java/工具/环境配置与命令.md",
     "java/java基础/高级/序列化与反序列化.md",
-    "java/java基础/Util/集合.md",
     "java/java基础/Util",
     "java/java基础/io/网络编程.md",
     "java/java基础/io/旧IO.md",
     "java/java基础/io/文件.md",
-    "java/java基础/io/控制台IO.md",
-    "java/java基础/io/NIO.md",
     "java/java基础/高级",
     "java/java基础/并发编程",
     "Pasted image 20231227111944.png",
@@ -217,7 +205,6 @@
     "java/java基础/杂项",
     "java/java基础/面向对象",
     "java/java基础/数据类型/集合类型",
-    "java/java基础/io",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
     "export/金融大数据p4/plugin/chalkboard/img/sponge.png",

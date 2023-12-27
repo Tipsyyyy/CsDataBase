@@ -277,76 +277,19 @@ public class SpaceShipDelegation {
 
 ### 集合
 
-- 长度可变，更多功能
+- 长度可变，更多功能，不能使用基本数据类型
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231112215809676.png" alt="image-20231112215809676" style="zoom:33%;" />
 
 - `Collection`是**一个接口**，是Java集合框架的一部分。它提供了用于操作一组对象的基本方法，如添加、删除、遍历等。`Collection`接口是多个集合类的超接口，包括`List`、`Set`、`Queue`等。
-
   - 是所有序列集合共同的**根接口**，存在一个默认实现AbstractCollection，可以通过继承来实现接口
 
-  - 使用Collection作为参数可以实现一种通用的处理
-
-
-``` java
-public class CollectionSequence
-extends AbstractCollection <Pet> {
-  private Pet [] pets = new PetCreator().array(8);
-  @Override
-  public int size() { return pets.length; }
-  @Override public Iterator <Pet> iterator() {
-    return new Iterator <Pet>() {              // 还要实现迭代器接口
-      private int index = 0;
-      @Override public boolean hasNext() {
-        return index < pets.length;
-      }
-      @Override
-      public Pet next() { return pets [index++]; }
-      @Override
-      public void remove() { // Not implemented
-        throw new UnsupportedOperationException();
-      }
-    };
-  }
-  public static void main(String [] args) {
-    CollectionSequence c = new CollectionSequence();
-    InterfaceVsIterator.display(c);
-    InterfaceVsIterator.display(c.iterator());
-  }
-}
-//由于 Collection 包含了 Iterator，因此如果一个类不是 Collection 的外部类时，实现 iterator 并作为通用的访问是更简单的方式
-public class NonCollectionSequence extends PetSequence {
-  public Iterator <Pet> iterator() {
-    return new Iterator <Pet>() {
-      private int index = 0;
-      @Override public boolean hasNext() {
-        return index < pets.length;
-      }
-      @Override
-      public Pet next() { return pets [index++]; }
-      @Override
-      public void remove() { // Not implemented
-        throw new UnsupportedOperationException();
-      }
-    };
-  }
-  public static void main(String [] args) {
-    NonCollectionSequence nc =
-      new NonCollectionSequence();
-    InterfaceVsIterator.display(nc.iterator());
-  }
-}
-```
-
-- `Collections`是一个包含**静态方法的工具类**，这些方法用于操作或返回集合。它为整个集合框架提供了一系列的静态方法，如排序、搜索、线程安全转换等。
-
-- 集合中不能使用基本数据类型
+- [[Collections工具类|Collections]] 是一个包含**静态方法的工具类**，这些方法用于操作或返回集合。它为整个集合框架提供了一系列的静态方法，如排序、搜索、线程安全转换等。
 
 #### 基本方法
 
 - 集合都需要引入，如`import java.util.ArrayList;`
   - `import java.util.*`
-
 - 创建，如`ArrayList<String> sites = new ArrayList<String>();`
 
 - 添加元素`add([index],item)`
