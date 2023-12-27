@@ -247,14 +247,11 @@ public class SpaceShipDelegation {
 
 ## 异常
 
-- “**异常**”，**也许不清楚该如何处理**，但知道**不应该置之不理**，要停下来，看看是不是有别人或在别的地方，能够处理这个问题。只是在当前的环境中还没有足够的信息来解决这个问题，所以就把这个问题**提交**到一个**更高级别的环境中**，在那里将作出正确的决定。
-
+- “**异常**”，**也许不清楚该如何处理**，但知道**不应该置之不理**，要停下来，看看是不是有别人或在别的地方，能够处理这个问题。
 - 一个方法后跟`throws`关键字，它表示这个方法可能会抛出指定的一个或多个异常。当调用这样的方法时，调用者要么需要使用`try-catch`块来**捕获和处理这些异常**，要么也需要在其方法签名中声明`throws`，从而**传递异常给其上级调用者**。
-
-
 ``` java
 public class Calculator {
-    public int div(int a, int b) throws Exception {
+    public int div(int a, int b) throws Exception {//表示方法可能抛出的受检时异常
         if (b == 0) {
             throw new Exception("divided by zero");
         }
@@ -274,43 +271,25 @@ public class Calculator {
 ### Java异常机制
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231019105850829.png" alt="image-20231019105850829" style="zoom:50%;" />
-
   - throwable包含全部的异常可错误
-
   - Error是严重的问题（系统级错误），普通的程序不应该捕获处理
-
   - **受检异常**：由`Exception`类及其子类（但不包括`RuntimeException`的子类）表示的。当一个方法或构造函数可能会抛出这类异常时，**必须在方法或构造函数的签名中使用`throws`子句来声明它**。调用该方法或构造函数的代码**必须处理或再次声明该异常。**
-
-
-``` java
-//会读取错误时自动抛出异常
-private static void checkedExceptionWithThrows() throws FileNotFoundException {
-    File file = new File("not_existing_file.txt");
-    FileInputStream stream = new FileInputStream(file);
-}
-```
-
 - **未检异常**：也称为运行时异常，它们是`RuntimeException`及其子类表示的。这类异常不需要强制声明或捕获，因为它们通常代表**编程错误**，例如空指针或数组越界。
 
 - 异常链
-
   - 抛出一个新的异常时可以仍然保留原始异常信息
   - Throwable子类的构造器都支持传入一个原始异常`Throwable(String message, Throwable cause)`
     - 此外只有Error、Exception、RuntimeException提供了此种构造，其它异常类型使用initCause
     - `e.initCause(cause)`
 
 - 异常的约束
-
   - 重写方法时只能抛出**基类版本**中说明的异常。也可以选择不抛出
     - 当继承的基类与子类实现的接口冲突时以基类为准
   - 可以为构造器添加新异常，但是必须包含基类构造器的异常，子类也不应该捕获基类构造器的异常
   - 即对于基类和子类，异常可以缩小但是不能扩大
 
 - 构造器在编写构造器时要注意在发生异常时保证资源的正常释放
-
   - 并不是在finally中释放就一定可以解决，因为此时可能在创建之前就中断了（如读取文件失败就不能关闭文件）
-
-
 ``` java
 public InputFile(String fname) throws Exception {
     try {
