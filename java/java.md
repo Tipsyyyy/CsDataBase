@@ -251,64 +251,26 @@ public class SpaceShipDelegation {
 
 ## 并发编程
 
-### 基本概念
 
-- 并发：同时**处理多个任务，不必等待**一个任务完成就开始处理其他任务。解决阻塞问题，如IO，一个任务在等待输入时会阻塞，类似的场景为**IO密集型**问题。并发是一系列聚焦于如何**减少等待**并提升性能的技术。
-  - 对于单处理器并发也是有意义的，比如处理阻塞问题，但这也是唯一的意义了
-  - 应用：事件驱动编程，如建立高响应的应用程序 
-- 并行：**同时在多处执行**多个任务，解决**计算密集型**问题，将任务分为多个部分，并在多个处理器上执行，提高程序的运行速度。
+![[基本概念]]
 
-#### 线程
-
-- 并发将程序分割成多个独立运行的任务，每个人物就是一个线程。
-- Java使用Thread管理线程，创建Thread时JVM会在专门保留的内存区域中分配一大块空间。包含许多内容
-  - 程序计数器，指示要执行的下一条字节码
-  - 支持Java代码执行的栈，包含线程到达当前执行结点**前所调用过的方法的相关信息**以及正在执行的方法的本地变量（基本类型和对象引用）
-    - 堆由所有线程共享
-  - 本地代码栈
-  - 本地线程变量存储
-  - 用于控制线程的状态维护变
-- 获取机器上的处理器数量`Runtime.getRuntime().availableProcessors();`
-  - 通常来说线程的最佳数目就是可用处理器的数量
-  - 由于超线程只是会大幅加快上下文切换的速度，而并不会增加实际的计算吞吐量。因此设置计算密集型程序时不应该考虑超线程
-  - 大部分情况由JVM决定即可
-
-##### 死锁
-
-- 循环等待造成无限循环
-- 死锁发生的条件
-  - 互斥：任务使用的至少一项资源不是共享的（即同一时间只能被一个对象使用，其他对象必须等待）
-  - 至少一个任务必须**持有**一项资源，并且**等待**正在被另一个任务持有的资源。
-  - 不能从一个任务中夺走一项资源。
-  - 会发生循环等待。
-
-##### 线程池
+![[线程与线程池]]
+#### 线程池
 
 - 线程池类型
-
   - FixedThreadPool：创建一个**固定大小**的线程池。每提交一个任务就创建一个线程，直到线程达到线程池的最大大小。
-
     - `ExecutorService executor = Executors.newFixedThreadPool(int nThreads);`
     - 当所有线程都在忙时，新提交的任务不会立即执行，而是会放入线程池的工作队列中等待。
-
   - CachedThreadPool：创建一个可缓存的线程池。如果线程池长度超过处理需求，可灵活回收空闲线程，若无可回收，则新建线程。（无数目限制，除非超过内存）
-
     - `ExecutorService executor = Executors.newCachedThreadPool();`
-
   - SingleThreadExecutor：创建一个单线程的Executor。如果这个线程因异常而结束，会创建一个新线程来继续执行后续的任务。
-
     - `ExecutorService executor = Executors.newSingleThreadExecutor(); `
-
   - ScheduledThreadPool：创建一个大小无限制的线程池。支持定时以及周期性执行任务的需求。
-
-
 ``` java
 ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(int corePoolSize);
 scheduler.schedule(Callable <V> callable, long delay, TimeUnit unit);
 ```
-
 - WorkStealingPool：基于工作窃取的线程池。适用于大量的短任务，使用多个队列减少竞争。(使用双端队列为每个线程维护任务，如果一个线程没有任务会从别的线程“窃取”任务)
-
   - `ExecutorService executor = Executors.newWorkStealingPool(int parallelism);`
 
 - 基本使用方法
