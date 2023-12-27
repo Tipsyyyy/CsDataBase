@@ -67,7 +67,7 @@ xxx{
 - 控制break、continue控制**特定的迭代**（比如直接从内层break到最外层）
 - 应用于嵌套循环
 
-![[switch]]
+### [[switch]]
 
 ### 方法
 
@@ -265,316 +265,7 @@ public class SpaceShipDelegation {
 
 ### [[旧IO]]
 
-### NIO
-
-- Buffer包含一些要写入或者刚读出的数据。在NIO库中，所有数据都是用Buffer处理的。在读取数据时，它是直接读到Buffer中的；在写入数据时，也是写入到Buffer中的。
-- ByteBuffer是唯一和FileChannel通信的类型。在NIO中，所有的数据都是通过Channel处理的。它就像水管一样，是一个通道。数据可以从Channel读取到Buffer中，也可以从Buffer写入到Channel中。
-  - `FileChannel` 是 Java NIO（New Input/Output）中的一个关键类，用于文件的读取、写入、映射和操作。它提供了一个与文件相关联的通道，并支持高效的文件处理。
-  - 隧道通常绑定一个目标对象，**作为从文件读取到缓冲区、从缓冲区写入到文件的中间桥梁**
-  
-- 对比传统IO：
-  - NIO基于缓冲区进行操作，数据的读写都是通过Buffer进行的，这使得处理速度更快。
-  - NIO可以进行非阻塞的读写操作。
-
-##### ByteBuffer与Channel
-
-- 创建特定大小的一块字节缓冲区，放入取出数据（注意这是一个底层方法，不能放入取出对象）
-
-- 参数
-
-  - capacity：冲区能够容纳的数据元素的**最大数量**。这个容量在缓冲区创建时被设置，且不能被改变。
-  - mark：可以通过 `Buffer` 类的 `mark()` 方法来设置。`mark` **保存了一个** `position` 的值，可以通过 `reset()` 方法恢复到这个 `position`。
-  - position：`position` 是缓冲区中**下一个要被读写**的元素的索引。`position` 的初始值为0。
-  - limit：`limit` 是**第一个不应该被读或写的数据**的索引（读取模式下为0）。`limit` 的值不能大于 `capacity`。
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231121132322512.png" alt="image-20231121132322512" style="zoom:50%;" />
-  - 相关方法
-    - **flip()**：从**写模式切换到读模式**。调用 `flip()` 后，`position` 被设回0，`limit` 被设置为之前的 `position` 值。
-    - **clear()**：清除缓冲区，准备重新写数据。`position` 被设回0，`limit` 被设置为 `capacity`。
-    - **rewind()**：重置 `position` 为0，可以重新读写缓冲区中的所有数据。
-    - **reset()**：讲position移动到mark的位置，如果mark还没有被设置则会抛出异常
-
-- 创建
-  - 直接指定大小`ByteBuffer buff = ByteBuffer.allocate(BSIZE);`
-  - 从数据创建`c.write(ByteBuffer.wrap("Some text ".getBytes()));`
-  - 使用`put`放入数据：`buff.put(str.getBytes());`将数据写入缓冲区的当前位置，并将**位置向前移动**。如果缓冲区的剩余空间不足以容纳新的数据，那么`put`方法将抛出`BufferOverflowException`异常。
-
-- `fc.read(buff);`写入到缓冲区
-
-- `fc.write(buff);`从缓冲区读取
-
-- 输出缓冲区的内容`System.out.println(buff.asCharBuffer());`
-
-  - 直接这么输出是字节内容，没有解码
-
-- 重新读取/写入（讲position设置为0）`rewind()`
-
-- 读写文件
-
-  - 三种通道：可读、可写、可读写
-
-  - 通过`.getChannel()`**获取通道**
-
-
-``` java
-public class GetChannel {
-  private static String name = "data.txt";
-  private static final int BSIZE = 1024;
-  public static void main(String [] args) {
-    // Write a file:
-    try(
-      FileChannel fc = new FileOutputStream(name)
-        .getChannel()
-    ) {//通道只能和 ByteBuffer 对象交互
-      fc.write(ByteBuffer
-        .wrap("Some text ".getBytes()));//通过字节创建 ByteBuffer
-        //通过隧道从缓冲区写入数据到文件
-    } catch(IOException e) {
-      throw new RuntimeException(e);
-    }
-    // Add to the end of the file:
-    try(
-      FileChannel fc = new RandomAccessFile(
-        name, "rw").getChannel()
-    ) {
-      fc.position(fc.size()); // Move to the end
-      fc.write(ByteBuffer
-        .wrap("Some more".getBytes()));
-    } catch(IOException e) {
-      throw new RuntimeException(e);
-    }
-    // Read the file:
-    try(
-      FileChannel fc = new FileInputStream(name)
-        .getChannel()
-    ) {
-      ByteBuffer buff = ByteBuffer.allocate(BSIZE);//创建特定大小
-        //通过隧道将文件内容读取到缓冲区
-      fc.read(buff);
-        //设置为读模式
-      buff.flip();
-      while(buff.hasRemaining())
-        System.out.write(buff.get());
-    } catch(IOException e) {
-      throw new RuntimeException(e);
-    }
-    System.out.flush();
-  }
-}
-```
-
-- 连接通道的内置方法
-
-  - `transferTo`方法将数据从**源通道传输到目标通道**。它接收三个参数：开始位置、要传输的最大字节数和目标通道。从开始位置开始，最多传输指定数量的字节到目标通道。
-    - `Channelin.transferTo(0, Channelin.size(), Channelout);`
-  - `transferFrom`方法将数据从源通道传输到目标通道。它接收三个参数：源通道、开始位置和要传输的最大字节数。从源通道中读取最多指定数量的字节，并将它们写入到目标通道的开始位置。
-    - Channel`out.transferFrom(Channelin, 0, Channelin.size());`
-
-- 字符集CharSet
-
-  - `Charset.forName(String charsetName)` 方法获取指定字符集的 `Charset` 实例`Charset utf8 = Charset.forName("UTF-8");`
-  - 将字符串转换为字节序列：`ByteBuffer buffer = utf8.encode("测试文本");`编码
-  - 将字节序列转换为字符串：`String text = utf8.decode(buffer).toString();`解码
-  - 获取系统使用的字符集名称：`String encoding =System.getProperty("file.encoding");`
-
-- 非字节数据
-
-  - 缓冲区是对字节流的操作（不含数据类型）
-
-  - 存储到缓冲区的数据读取出来后是不能直接使用的
-
-  - 对于字符数据，要么在字节**放入时进行编码**，要么在从缓冲区**取出时进行解码**
-
-
-``` java
-String encoding =
-    System.getProperty("file.encoding");
-//输出时解码
-System.out.println("Decoded using " +
-                   encoding + ": " + Charset.forName(encoding).decode(buff));
-// Encode with something that prints:
-try(
-    FileChannel fc = new FileOutputStream(
-        "data2.txt").getChannel()
-) {
-    //陷入到隧道是解码
-    fc.write(ByteBuffer.wrap(
-        "Some text".getBytes("UTF-16BE")));
-} catch(IOException e) {
-    throw new RuntimeException(e);
-}
-// Now try reading again:
-buff.clear();
-try(
-    FileChannel fc = new FileInputStream(
-        "data2.txt").getChannel()
-) {
-    fc.read(buff);
-} catch(IOException e) {
-    throw new RuntimeException(e);
-}
-buff.flip();
-System.out.println(buff.asCharBuffer());
-```
-
-- 存储非字符数据的更简单方法
-
-  - `getX()`X为类型名称
-
-
-```java
-// Store and read a char array:
-bb.asCharBuffer().put("Howdy!");
-char c;
-while((c = bb.getChar()) != 0)//读取字符
-    System.out.print(c + " ");
-System.out.println();
-bb.rewind();
-// Store and read a short:
-bb.asShortBuffer().put((short)471142);
-System.out.println(bb.getShort());
-bb.rewind();
-// Store and read an int:
-bb.asIntBuffer().put(99471142);
-System.out.println(bb.getInt());
-bb.rewind();
-// Store and read a long:
-bb.asLongBuffer().put(99471142);
-System.out.println(bb.getLong());
-bb.rewind();
-// Store and read a float:
-bb.asFloatBuffer().put(99471142);
-System.out.println(bb.getFloat());
-bb.rewind();
-// Store and read a double:
-bb.asDoubleBuffer().put(99471142);
-System.out.println(bb.getDouble());
-bb.rewind();
-```
-
-
-- 视图缓冲区
-  - 透过某个特定基本类型的视角来看底层的缓冲区
-
-
-``` java
-public static void main(String [] args) {
-  ByteBuffer bb = ByteBuffer.allocate(BSIZE);
-  //看作 Int 缓冲区
-  IntBuffer ib = bb.asIntBuffer();
-  // Store an array of int:
-  ib.put(new int []{ 11, 42, 47, 99, 143, 811, 1016 });
-  // Absolute location read and write:
-  System.out.println(ib.get(3));
-  ib.put(3, 1811);
-  // Setting a new limit before rewinding the buffer.
-  ib.flip();
-  while(ib.hasRemaining()) {
-      int i = ib.get();
-      System.out.println(i);
-  }
-}
-```
-
-- 其它基本类型也有类似的方法
-- 可以将同一个字节序类解析为不同类型，同样的缓冲区数据，不一样的解析方式
-
-
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231121131949514.png" alt="image-20231121131949514" style="zoom: 33%;" />
-
-
-##### 内存映射文件
-
-- 处理因为太大而无法完整加载到内存的文件，可以根据地址把文件当作一个很大的数组来进行访问
-
-
-```java
-public class LargeMappedFiles {
-  static int length = 0x8000000; // 128 MB
-  public static void
-  main(String [] args) throws Exception {
-    try(
-      RandomAccessFile tdat =
-        new RandomAccessFile("test.dat", "rw")
-    ) {
-      MappedByteBuffer out = tdat.getChannel().map(
-        FileChannel.MapMode.READ_WRITE, 0, length);
-      for(int i = 0; i < length; i++)
-        out.put((byte)'x');
-      System.out.println("Finished writing");
-      for(int i = length/2; i < length/2 + 6; i++)
-        System.out.print((char)out.get(i));
-    }
-  }
-}
-```
-
-##### 文件加锁
-
-- 对文件枷锁会对文件的访问操作加上同步处理，这样文件才能作为共享资源，由于文件并不一定在一个JVM被操作（也可能被系统进程等操作），因此Java的文件加锁直接映射到本地操作系统，对其它进程可见
-
-
-``` java
-public class FileLocking {
-  public static void main(String [] args) {
-    try(
-      FileOutputStream fos =
-        new FileOutputStream("file.txt");
-        //加锁
-      FileLock fl = fos.getChannel().tryLock()
-    ) {
-        //得到了锁
-      if(fl != null) {
-        System.out.println("Locked File");
-        TimeUnit.MILLISECONDS.sleep(100);
-          //释放锁
-        fl.release();
-        System.out.println("Released Lock");
-      }
-    } catch(IOException | InterruptedException e) {
-      throw new RuntimeException(e);
-    }
-  }
-}
-```
-
-- `lock()`是阻塞方法，一直等到获得锁，try指示尝试一下
-
-  - 参数`long position, long size, bollean shared`
-  - 表示锁定的开始位置及长度（锁定范围），最后表示是否是共享锁
-
-- 部分加锁（用于文件映射及数据库等较大共用文件）
-
-
-``` java
-private static class LockAndModify extends Thread {
-    private ByteBuffer buff;
-    private int start, end;
-    LockAndModify(ByteBuffer mbb, int start, int end) {
-      this.start = start;
-      this.end = end;
-      mbb.limit(end);
-      mbb.position(start);
-      buff = mbb.slice();
-      start();
-    }
-    @Override public void run() {
-      try {
-        // Exclusive lock with no overlap:
-        FileLock fl = fc.lock(start, end, false);
-        System.out.println(
-          "Locked: "+ start +" to "+ end);
-        // Perform modification:
-        while(buff.position() < buff.limit() - 1)
-          buff.put((byte)(buff.get() + 1));
-        fl.release();
-        System.out.println(
-          "Released: " + start + " to " + end);
-      } catch(IOException e) {
-        throw new RuntimeException(e);
-      }
-    }
-  }
-```
+### [[NIO]]
 
 ### [[文件]]
 
@@ -820,9 +511,8 @@ public class MultiIterableClass extends IterableClass {
 
 - 排序和混排
 
-  - **sort(List<T> list)**: 对指定列表按自然顺序进行排序。
-
-  - **sort(List<T> list, Comparator<? super T> c)**: 根据提供的比较器对列表进行排序。
+  - **sort (List\<T> list)**: 对指定列表按自然顺序进行排序。
+  - **sort(List\<T> list, Comparator\<? super T> c)**: 根据提供的比较器对列表进行排序。
 
 
 ``` java
@@ -834,35 +524,35 @@ Comparator <Person> ageComparator = new Comparator <Person>() {
 };
 ```
 
-- **shuffle(List<?> list)**: 随机打乱指定列表中元素的顺序。
+- **shuffle(List\<?> list)**: 随机打乱指定列表中元素的顺序。
 
-- **shuffle(List<?> list, Random rnd)**: 使用指定的随机源随机打乱列表。
+- **shuffle(List\<?> list, Random rnd)**: 使用指定的随机源随机打乱列表。
 
 - 查找和替换
 
-  - **binarySearch(List<? extends Comparable<? super T>> list, T key)**: 使用二分查找算法在有序列表中查找指定对象。
+  - **binarySearch(List\<? extends Comparable\<? super T>> list, T key)**: 使用二分查找算法在有序列表中查找指定对象。
 
-  - **binarySearch(List<? extends T> list, T key, Comparator<? super T> c)**: 使用比较器进行二分查找。
+  - **binarySearch(List\<? extends T> list, T key, Comparator\<? super T> c)**: 使用比较器进行二分查找。
 
-  - **max(Collection<? extends T> coll)**: 返回给定集合的最大元素。
+  - **max(Collection\<? extends T> coll)**: 返回给定集合的最大元素。
 
-  - **min(Collection<? extends T> coll)**: 返回给定集合的最小元素。
+  - **min(Collection\<? extends T> coll)**: 返回给定集合的最小元素。
 
-  - **replaceAll(List<T> list, T oldVal, T newVal)**: 替换列表中所有出现的指定值。
+  - **replaceAll(List\<T> list, T oldVal, T newVal)**: 替换列表中所有出现的指定值。
 
   - **`frequency(Collection, Object x)`**返回和x等价的元素数目
 
 - 反转和旋转
 
-  - **reverse(List<?> list)**: 反转指定列表中元素的顺序。
+  - **reverse(List\<?> list)**: 反转指定列表中元素的顺序。
 
-  - **rotate(List<?> list, int distance)**: 将列表中的元素旋转指定的距离。
+  - **rotate(List\<?> list, int distance)**: 将列表中的元素旋转指定的距离。
 
 - 集合的视图和包装
 
-  - **unmodifiableCollection(Collection<? extends T> c)**: 返回指定集合的不可修改视图。
+  - **unmodifiableCollection(Collection\<? extends T> c)**: 返回指定集合的不可修改视图。
 
-  - **synchronizedCollection(Collection<T> c)**: 返回指定集合的线程安全视图。
+  - **synchronizedCollection(Collection\<T> c)**: 返回指定集合的线程安全视图。
 
   - **singleton(T o)**: 返回只包含指定对象的不可变集合。
 
@@ -870,18 +560,18 @@ Comparator <Person> ageComparator = new Comparator <Person>() {
 
 - 复制和填充
 
-  - **copy(List<? super T> dest, List<? extends T> src)**: 将所有元素从一个列表复制到另一个列表。
+  - **copy(List\<? super T> dest, List\<? extends T> src)**: 将所有元素从一个列表复制到另一个列表。
 
-  - **fill(List<? super T> list, T obj)**: 使用指定元素替换列表中的所有元素。只能用于list但是生成的列表可以用于构造器或addAll
+  - **fill(List\<? super T> list, T obj)**: 使用指定元素替换列表中的所有元素。只能用于 list 但是生成的列表可以用于构造器或 addAll
     - 只能替换已有的元素不能添加新元素
 
   - **`Collections.nCopies(n,item)`**创建具有相同元素的list
 
 - 添加和移除
 
-  - **addAll(Collection<? super T> c, T... elements)**: 将所有指定元素添加到指定集合。
+  - **addAll(Collection\<? super T> c, T... elements)**: 将所有指定元素添加到指定集合。
 
-  - **disjoint(Collection<?> c1, Collection<?> c2)**: 如果两个指定集合没有共同的元素，则返回true。
+  - **disjoint(Collection\<?> c1, Collection\<?> c2)**: 如果两个指定集合没有共同的元素，则返回 true。
 
   - `removeIf(s->xx)`填入一个表达式，删除满足条件的元素
 

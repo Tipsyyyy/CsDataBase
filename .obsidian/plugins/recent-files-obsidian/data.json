@@ -5,6 +5,10 @@
       "path": "java/java.md"
     },
     {
+      "basename": "NIO",
+      "path": "java/java基础/IO/NIO.md"
+    },
+    {
       "basename": "文件",
       "path": "java/java基础/IO/文件.md"
     },
@@ -31,10 +35,6 @@
     {
       "basename": "旧IO",
       "path": "java/java基础/IO/旧IO.md"
-    },
-    {
-      "basename": "NIO",
-      "path": "java/java基础/IO/NIO.md"
     },
     {
       "basename": "高级",
