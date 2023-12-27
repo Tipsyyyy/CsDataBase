@@ -1,12 +1,16 @@
 {
   "recentFiles": [
     {
-      "basename": "线程与线程池",
-      "path": "java/java基础/并发编程/线程与线程池.md"
-    },
-    {
       "basename": "java",
       "path": "java/java.md"
+    },
+    {
+      "basename": "高级",
+      "path": "java/java基础/并发编程/高级.md"
+    },
+    {
+      "basename": "线程与线程池",
+      "path": "java/java基础/并发编程/线程与线程池.md"
     },
     {
       "basename": "线程安全的数据类型",
