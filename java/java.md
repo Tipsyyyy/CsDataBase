@@ -382,67 +382,10 @@ Constructor [] ctors = c.getConstructors();
   - **但是使用\==或equal则表示要求**类型完全相同
 
 - isAssignableFrom
-  - 判断一个类是否相同或是另一个类的超类或接口。
+  - 判断一个类是否相同或是另一个类的超类或接口。F
   - `parentClass.isAssignableFrom(childClass);`
 
-### 动态代理
-
-- 想将额外的操作从实际对象分离，可以通过代理去调用对象，通过是否使用代理对对象进行操作，决定是否要进行一些额外操作
-- 动态代理允许在运行时创建一个符合某些给定接口的代理对象，此对象可以在调用实际方法前后执行特定操作。
-``` java
-interface Interface {
-  void doSomething();
-  void somethingElse(String arg);
-}
-
-class RealObject implements Interface {
-  @Override public void doSomething() {
-    System.out.println("doSomething");
-  }
-  @Override public void somethingElse(String arg) {
-    System.out.println("somethingElse " + arg);
-  }
-}
-
-class DynamicProxyHandler implements InvocationHandler {
-  private Object proxied;
-  DynamicProxyHandler(Object proxied) {
-    this.proxied = proxied;
-  }
-    //任何通过代理对象发起的方法调用都会被转发到这个接口的 invoke 方法。
-  @Override public Object
-  invoke(Object proxy, Method method, Object [] args)
-  throws Throwable {
-    System.out.println(
-      "**** proxy: " + proxy.getClass() +
-      ", method: " + method + ", args: " + args);
-    if(args != null)
-      for(Object arg : args)
-        System.out.println("  " + arg);
-    return method.invoke(proxied, args);
-  }
-}
-
-class SimpleDynamicProxy {
-  public static void consumer(Interface iface) {
-    iface.doSomething();
-    iface.somethingElse("bonobo");
-  }
-  public static void main(String [] args) {
-    RealObject real = new RealObject();
-    consumer(real);
-    // 创建动态代理（在运行时动态创建一个实现了指定接口的代理对象）
-    Interface proxy = (Interface)Proxy.newProxyInstance(
-      Interface.class.getClassLoader(),
-      new Class []{ Interface.class },//会被代理的接口（方法），可以有多个
-      new DynamicProxyHandler(real));
-      //得到了一个代理对象
-    consumer(proxy);
-  }
-}
-```
-- `Proxy.newProxyInstance` 需要三个参数：类加载器、一组接口以及一个 `InvocationHandler` 实例。          
-
+### [[动态代理]]
 ### 标签接口
 
 - 标签接口是没有定义任何方法的接口。标签接口的主要作用是**为实现该接口的类提供一个特定的标识**。这个标识允许类在运行时表现出一些特殊的行为。

@@ -5,8 +5,16 @@
       "path": "java/java.md"
     },
     {
+      "basename": "标签接口",
+      "path": "java/java基础/高级/标签接口.md"
+    },
+    {
       "basename": "泛型",
       "path": "java/java基础/杂项/泛型.md"
+    },
+    {
+      "basename": "动态代理",
+      "path": "java/java基础/高级/动态代理.md"
     },
     {
       "basename": "构造方法",

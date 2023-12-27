@@ -73,8 +73,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -169,8 +168,11 @@
   },
   "active": "086eea425a91a857",
   "lastOpenFiles": [
-    "java/java基础/杂项/泛型.md",
+    "java/java基础/高级/标签接口.md",
     "java/java.md",
+    "java/java基础/杂项/泛型.md",
+    "java/java基础/高级/动态代理.md",
+    "java/java基础/高级",
     "java/java基础/面向对象/构造方法.md",
     "conflict-files-obsidian-git.md",
     "面试/移动端实习-百度/八股文.md",
@@ -201,10 +203,7 @@
     "杂项/常见配置文件格式.md",
     "杂项/正则表达式.md",
     "杂项/latex-template.md",
-    "杂项",
     "折腾/jekyll.md",
-    "折腾/reveal.js.md",
-    "折腾/jupyter.md",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-3.png",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-2.png",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-1.png",
