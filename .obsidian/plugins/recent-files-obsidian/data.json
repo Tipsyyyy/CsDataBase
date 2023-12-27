@@ -1,12 +1,12 @@
 {
   "recentFiles": [
     {
-      "basename": "java",
-      "path": "java/java.md"
-    },
-    {
       "basename": "高级",
       "path": "java/java基础/并发编程/高级.md"
+    },
+    {
+      "basename": "java",
+      "path": "java/java.md"
     },
     {
       "basename": "函数式编程",
