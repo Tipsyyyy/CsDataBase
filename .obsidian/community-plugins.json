@@ -5,6 +5,9 @@
   "media-extended",
   "mx-bili-plugin",
   "calendar",
-  "obsidian-annotator",
-  "recent-files-obsidian"
+  "recent-files-obsidian",
+  "obsidian-image-auto-upload-plugin",
+  "obsidian-advanced-slides",
+  "obsidian-local-rest-api",
+  "obsidian-outliner"
 ]

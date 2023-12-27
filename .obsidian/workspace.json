@@ -11,8 +11,24 @@
             "id": "15dfe1d8a6ec7722",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "conflict-files-obsidian-git.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "94385f9855014b87",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "conflict-files-obsidian-git.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -89,6 +105,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "conflict-files-obsidian-git.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,6 +122,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "conflict-files-obsidian-git.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +144,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "conflict-files-obsidian-git.md"
+              }
             }
           },
           {
@@ -158,21 +178,53 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "15dfe1d8a6ec7722",
+  "active": "96e173acdf249e6c",
   "lastOpenFiles": [
-    "未命名.md",
-    "min.pdf",
-    "1某上市公司2006年年度财务报告.pdf",
-    "Excalidraw/2023-12-27.md",
-    "2023-12-28.md",
-    "2023-12-26.md",
-    "2023-W52.md",
-    "Excalidraw/Drawing 2023-12-26 13.12.59.excalidraw.md",
-    "Excalidraw",
-    "01 Big Data.pdf",
-    "未命名2.md",
-    "lll/Pasted image 20231226121629.png",
-    "lll/未命名 1.md",
-    "lll"
+    "java/java.md",
+    "conflict-files-obsidian-git.md",
+    "面试/移动端实习-百度/八股文.md",
+    "面试/移动端实习-百度/kotlin.md",
+    "面试/移动端实习-百度",
+    "面试",
+    "软件工程/项目管理.md",
+    "软件工程/设计模式.md",
+    "软件工程/编程思想.md",
+    "软件工程/uml.md",
+    "软件工程",
+    "移动端开发/安卓/kotlin.md",
+    "移动端开发/安卓/android.md",
+    "移动端开发/安卓",
+    "移动端开发",
+    "电子/嵌入式/硬件.md",
+    "电子/嵌入式/arduino.md",
+    "电子/嵌入式",
+    "电子",
+    "游戏开发/unity/unity.md",
+    "游戏开发/unity/c#.md",
+    "游戏开发/网络联机.md",
+    "游戏开发/unity",
+    "游戏开发/unreal.md",
+    "游戏开发/LibGDX .md",
+    "游戏开发/cocos.md",
+    "游戏开发",
+    "杂项/常见配置文件格式.md",
+    "杂项/正则表达式.md",
+    "杂项/latex-template.md",
+    "杂项",
+    "折腾/jekyll.md",
+    "折腾/reveal.js.md",
+    "折腾/jupyter.md",
+    "python/应用/爬虫.md",
+    "python/拓展包/pyqt.md",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-3.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-2.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-1.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-3-3.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-3-2.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-3-1.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-2-2.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-2-1.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-1.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/MobaXterm/xclock.png"
   ]
 }

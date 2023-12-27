@@ -1,0 +1,292 @@
+# 线性回归模型
+
+- 在已知变量 X 的取值条件下，X 与 Y 的（条件）期望值之间的关系$E[Y|X]=f(x)= a+bx$称为**线性总体回归函数**，ab为回归系数
+  - Y 称为**被解释变量**或因变量， X称为**解释变量**或自变量。
+  - 自变量（独立变量）和因变量（依赖变量）之间的关系被假设为线性关系
+  - 总体是指**研究对象的全体**，也可以理解为所有可能的个体或观察结果的集合。从总体中抽取一个样本，并通过样本数据来估计总体的关系或参数，如均值、方差、协方差等。
+  - 回归指的是通过建立一个数学模型（通常是线性模型），来描述自变量如何影响因变量的变化
+- y的真实值与条件期望之间的差异（离差）记为$u=Y-E[Y|X]$即$Y=E[X|Y]+u$
+  - u 被称为随机干扰项、扰动项或误差项等
+  - 代表位置的影响因素、残缺数据、数据误差、模型设计误差、内在随机性
+- 无偏性：马可夫条件成立的条件下：无偏性指的是**估计量的期望值**（均值）等于估计的**总体参数的真实值**。（指的是系数ab不是y）
+  - $E(\hat{b}|X)=b$
+- 自由度指的是计算某一统计量时，取值不受限制的变量个数
+  - 样本观测值的个数减去观测值约束的个数
+  - $T-k-1$样本数目减去自变量减去截距项（1）
+    - T表示样本数目（符号T或n）
+    - -1是因为n个数确定了n-1个最后一个数自然固定，自由度为n-1
+  
+
+## 二元线性回归
+
+### 普通最小二乘OLS
+
+- 加$ \ \hat{} \ $表示估计值
+
+- 用于估计总体回归函数中的回归系数$a \ b$
+
+- 假设收集T个数据${(x_t,y_t)|t=1,2,\dots,T}$
+
+- 模型对数据拟合：使$a \ b$尽可能更好反应$x_t \ y_t$的关系
+
+  - 即最小化$L=\sum_{t=1}^{T}(y_t-a-bx_t)^2$即$Y_t-\hat{Y}_t$
+
+- 得到估计量$\hat{b}=\frac{\sum(x_t-\overline{x})(y_t-\overline{y})}{\sum{x_t-\overline{x}}^2} \ \hat{a}=\overline{y}-\hat{b}$
+
+  - 记$x_i=x_t-\overline{x} \ y_i=y_t-\overline{y}$
+  - 样本回归函数（SRF）是使用样本观测值估计的变量之间关系的模型$\hat{y}_t=\hat{a}+\hat{b}x_t$
+  - 样本回归函数不含干扰项，样本**回归模型**含有$y_t=\hat{a}+\hat{b}x_t+\hat{u}_t \ \hat{u}_t=y_t-\hat{y}_t$
+
+- **总体回归函数**（PRF）描述了变量之间的真实关系，样本数据只是 PRF的一组实现值.
+
+  - 总体回归函数（PRF）是一个**理论上**的函数，它用数学方式描述了变量之间的真实关系。我们**无法直接观察或测量** PRF 本身，只能通过样**本数据**来**估计** PRF 的参数。我们的目标是找到一个最佳的参数估计，以使 PRF 尽可能地逼近真实关系（构造样本回归函数尽可能接近总体回归函数）
+  - RF 决定了样本数据实际是怎样产生的，因此，总体回归函数也被称为数据生成过程（DGP）。
+  
+- 基本假设：
+
+  - 模型正确设定，包括因变量和自变量以及它们之间的函数形式
+
+  - 解释变量的取值是给定的
+
+  - 解释变量具有足够的变异但方差有限
+
+  - 对扰动项假设
+
+    - $$
+      E(u_t)=0 \\
+      var(u_t)=\sigma^2<\infty\\
+      cov(u_i,u_j)=0(高斯-马尔科夫假设)\\
+      cov(u_t,x_t)=0\\
+      u_t\sim N(0,\sigma^2)
+      $$
+
+    - wOLS估计量是“**最优线性无偏估计量**”
+
+
+  - 线性估计量：OLS 估计量是随机变量$y_t$的线性组合
+    - wa、b是$Y_i$的线性组合
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230919103217056.png" alt="image-20230919103217056" style="zoom:33%;" /><img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230919103231484.png" alt="image-20230919103231484" style="zoom:33%;" />
+  - 无偏估计量：$E(\hat{a})=a \ E(\hat{b})=b$估计量的期望值是真实值
+  - 最优线性估计量（高斯-马尔科夫定理）：在所有的**线性无偏估计量**中，OLS 估计量的**方差**最小（效率最高）
+
+- OLS估计量满足一致性
+
+  - 样本区域无限大是OLS估计的平均值会**收敛到真实参数**，不会产生系统性估计的偏差
+  - $\underset{T\rightarrow\infty}{\lim}{Pr[|\hat{b}-b|>\sigma]}=0 \ \forall\sigma>0$
+
+### 假设检验        
+
+- 假设检验的目标是评估是否有足够的证据来**拒绝原假设，以支持备择假设**。在统计检验中，我们试图确定样本数据是否提供了足够的证据来反驳原假设。（对H~0~是否正确做出判断）
+  - 在假设检验中，我们使用样本数据和统计方法来评估是否有足够的证据来拒绝原假设，以支持备择假设。具体来说，我们计算一个统计量，并将其与某个**临界值**或p值进行比较，以确定是否拒绝原假设
+  - 利用小概率事件很难发生，如果不该出现的小概率事件出现了就表示应该拒绝H~0~
+- 原假设（H0）：
+  - 原假设是一个初始的、默认的、通常是保守的假设。它通常假定**没有发生显著差异**、效应或关系，即研究问题中的参数等于某个特定值，或者表示没有影响或效应。原假设是在开始假设检验时提出的，通常是以等于（=）、小于等于（≤）或大于等于（≥）某个特定值的形式表示。
+- 备择假设（H1）：
+
+  - 备择假设是我们想要检验的假设，通常表示我们**猜测存在**某种显著差异、效应或关系。备择假设是与原假设**相对立**的。备择假设可以是**双侧的**，表示参数**不等于**或等于某个特定值，也可以是**单侧的**，表示参数**大于或小于**某个特定值。
+
+  - 备择假设通常表示研究者关心的假设，即他们想要找到证据来支持的假设。
+- 如果统计量在拒绝域（拒绝原假设的区域）内，我们将拒绝原假设，支持备择假设。
+- 如果统计量在拒绝域之外，我们将无法拒绝原假设，即没有足够的证据支持备择假设。
+
+#### 显著性检验法（t检验）
+
+- 检查解释变量与被解释变量**之间的线性关系**是否显著
+- 先认为假设正确（反证法），看由此是否会得到一个不合理的结果，随机抽取一组样本，如果小概率事件发生了，就否定H~0~
+- 由于a、b是Y的线性组合，且$Y|X\sim N(a+bX,\sigma^2)$符合正态分布，固a、b也符合正态分布
+  - $\hat{b}\sim N(b,\frac{\sigma^2}{\sum{x_i^2}}) \ \hat{a}\sim N(a,\frac{\sum{X_i^2}}{n\sum{x_i^2}}\sigma^2)$
+  - $\sigma$是干扰项的标准差，有$\hat{\sigma}^2=\frac{\sum{e_i^2}}{n-2}$（$e_i是残差$）
+- 原假设：$\hat{b}=b$ t-统计量$tstat=\frac{\hat{b}-b}{SE(\hat{b})}\sim t(n-2)$（服从自由度为n-2的t分布）
+  - $SE(\hat{b})$是抽样估计的标准差$\sqrt{\hat{\sigma}^2/\sum{x_i^2}}$
+- 选择显著性水平（如 5%）
+  - $\alpha$表示拒绝原假设犯错误的概率（即拒绝域&显著性水平）
+  - 显著性检验中通常：$H_0:b=0 \ H_1:b\ne 0$
+  - 假设$H_0$成立，也就是在$b=0$的条件下计算$t$，与临界值比较，若$|t|>t_{\frac{\alpha}{2}}(n-2)$表示发生了小概率事件，在该显著性水平下应该拒绝原假设$H_0$，称变量X（b对应的）是显著的
+  - 类似的把b替换为a就可以对a进行显著性检验
+- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230912093048934.png" alt="image-20230912093048934" style="zoom: 15%;" />
+- 如果是单侧检验拒绝域在单侧<img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230918215713957.png" alt="image-20230918215713957" style="zoom:20%;" />
+- $\alpha$不是越小越好：弃真和纳伪此消彼长
+
+#### 置信区间检验法
+
+- 考察原假设的值是否**落在置信区间**以内
+- 显著性检验用于判断一个假设是否**成立**，而置信区间检验用于提供一个参数值的**估计范围**
+- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230918220053860.png" alt="image-20230918220053860" style="zoom:33%;" />
+  - 将得到的概率p与选定的$\alpha$进行比较，若$p>\alpha$则表示可以接受
+  - $\alpha$为显著性水平$1-\alpha$表示置信系数，置信区端点称为置信限
+  - 给定置信系数下的b的置信区间$(\hat{b}-t_{\frac{\alpha}{2}}(n-2)SE(\hat{b}),\hat{b}+t_{\frac{\alpha}{2}}(n-2)SE(\hat{b}))$
+- 置信区越小越接近真实值，这可以荣光增大样本容量n或提升模型拟合度实现。（拟合度越高残差平方越小，$SE$越小）
+
+#### 拟合优度
+
+- 度量样本线上的点与实际观测的样本点的距离
+- 观测值与**样本均值**的离差（数据点与某个中心值的差异或偏离程度）$y_i=Y_i-\overline{Y}=(Y_i-\hat{Y_i})+(\hat{Y_i}-\overline{Y})=e_i+\hat{y}_i$
+  - 由实际观测值与回归拟合值之差$e_i$（来自残差）；以及来自回归直线$\hat{y}_i$两部分
+- $TSS=ESS+RSS$
+  - 总离差平方和$TSS=\sum{y_i^2}=\sum{\hat{y}_i^2}+\sum{e_i^2}$（另一项为0）
+  - 回归平方和（被解释了的部分）$ESS=\sum{\hat{y}_i^2}$由**解释变量**的变异所解释的离差
+  - 残差平方和（不能被解释的部分）$RSS=\sum{e_i^2}$
+  - 即总离差一部分来自回归线一部分来自随机势力
+- 可决系数$R^2$
+  - $R^2=\frac{ESS}{TSS}$，值越大表示表示可由解释变量解释的部分占比越大，模型的拟合优度越好
+  - 更简单的计算方式$R^2=\hat{b}^2\frac{\sum{x_i^2}}{\sum{y_i^2}}$（在参数估计值已知时）
+  - 表示Y的变动中由R^2^的部分可有X的变动来解释
+
+## 多元线性回归模型
+
+- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230918220659239.png" alt="image-20230918220659239" style="zoom: 33%;" />
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230918220647571.png" alt="image-20230918220647571" style="zoom:33%;" />
+  - $\hat{b}=(X^TX)^{-1}X^Ty$
+  - $T$为样本的数目$k+1$为被解释变量的数目（包含常数项$u$）
+  - 总体回归函数为$E(Y|X_1,\dots,X_k)=\beta_0+\beta_1X_1+\dots+\beta_kX_k$
+    - $\beta_i$为偏回归系数表示其他解释变量$X_j$不变时$X_i$每变化一单位对$E(Y)$的影响
+
+- 基本假设
+  - 回归模型是正确设定的（无遗漏的解释变量、选择了正确的函数形式）
+  - $X_i$之间不存在严格线性相关性，具有变异性（某个特定变量的取值在不同观测或样本之间存在差异或波动）
+  - $E(\mu_i|X_i,\dots,X_k)=0$零均值
+  - $Var(\mu_i|X_i,\dots,X_k)=\sigma^2$同方差
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230919130021164.png" alt="image-20230919130021164" style="zoom:33%;" />
+    - 矩阵平方：$A^2=AA^T$
+    - $Var(A)=E((A-\mu)^2)=E((A-\mu)(A-\mu)^T)=E(AA^T) \ \mu=0$
+  - $Cov(\mu_i,\mu_j|X_i,\dots,X_k)=0$不序列相关
+    - 即$Cov(\mu_i,X_j)=E(\mu_iX_j)=0$
+  - $\mu_i|X_1,\dots,X_k\sim N(0,\sigma^2)$
+    -  <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230919130330011.png" alt="image-20230919130330011" style="zoom: 50%;" />
+- 参数估计量的统计性质
+  - 线性性$\hat{\beta}=CY$
+  - 无偏性$E(\hat{\beta})=\beta$
+  - 有效性：$Var(\hat{\beta}|X)$所有线性无偏估计量的方差矩阵中最小的
+  - 一致性
+
+### 假设检验
+
+#### **解释变量**的显著性检验（t检验）
+
+- 检验系数为0的原假设，即$H_0: \ b_i=0$检验一个回归系数使得否显著不等于0
+-  <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230918221616080.png" alt="image-20230918221616080" style="zoom:33%;" />
+  - k表示回归系数的数目（实际上是“**k+1**”包含了截距项）
+  - s^2^表示随机干扰项的方差的无偏估计量
+- $t=\frac{\hat{\beta_i}}{SE(\hat{\beta_i})}\sim t(n-k)$
+- 拒绝域$|t|>t_{\frac{\alpha}{2}}(n-k)$
+
+#### 参数的置信区间
+
+- $(\hat{\beta_i}-t_{\frac{\alpha}{2}}(n-2)SE(\hat{\beta_i}),\hat{\beta_i}+t_{\frac{\alpha}{2}}(n-2)SE(\hat{\beta_i}))$
+
+#### 拟合优度
+
+- 表示自变量对因变量的解释能力；检验样本回归函数(SRF)拟合数据的优劣程度
+
+- 所有解释变量联合起来对被解释变量的影响程度的高低->引入方程显著性检验F
+- $总平方和：TSS=\sum{(Y_i-\overline{Y})^2}=\sum y_i^2=\sum\hat{y}_i^2+\sum{e_i^2} \\ 解释平方和：ESS=\sum{(\hat{Y}_i-\overline{Y})^2}=\sum\hat{y}_i^2 \\ 残差平方和：RSS=\sum{(Y_i-\hat{Y}_i)^2=\sum{e_i^2}}$
+- $R^2=\frac{ESS}{TSS}$
+  - R^2^ 总是介于 0 到 1 之间
+  - R^2^ 越大，说明模型对数据拟合得越好，自变量对因变量的解释能力越强，故也被称为“**可决系数**”；
+- 调整$\overline{R}^2=1-[\frac{T-1}{T-k}(1-R^2)]$
+  - 适用于比较因变量相同但自变量个数不同的情形，因为随着变量数目的增加残差平方和会被稀释，R^2^会随变量数目增加而增加造成错觉
+  - 保证只有新加入的变量有解释能力，才增加，便于判断是否应该将一个新变量加入
+- 自由度
+  - TSS：T-1
+  - ESS：k-1
+  - RSS：T-k
+
+#### **方程**的显著性检验（F-检验）
+
+- 对模型中所有解释变量与被解释变量之间的线性关性在**总体**上是否显著成立的推断
+- $H_0:\beta_0=0,\dots,\beta_k=0 \ H_1:\beta_i不全为0$
+- $F=\frac{RRSS-URSS}{URSS}*\frac{T-k}m\sim F(m,T-k)$
+  - RRSS：在零模型（模型中只包括截距项，没有自变量）下的残差平方和
+  - URSS：在当前的多元线性回归模型下的残差平方和，表示考虑了所有自变量后的模型的残差平方和
+  - 一般有RRSS>URSS：因为零模型是一种更简单的模型，不包括任何自变量，因此其残差平方和往往会更大，因为它不能很好地拟合数据。
+  - 类似$ESS/RSS$不同表述
+  - T为样本数，k为自变量数目
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230919145441177.png" alt="image-20230919145441177" style="zoom:33%;" />
+- F-检验考察“残差平方和”的差异是否“过大”，即是否大于给定显著性水平下的临界值，故而是**单侧检验**
+
+- 书上表述$F=\frac{ESS/k}{RSS/(n-k-1)} \ F>F_{\alpha}(k,n-k-1) $
+
+<img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230919150254484.png" alt="image-20230919150254484" style="zoom:33%;" />
+
+### 放宽基本假定的模型
+
+- 关于扰动项的基本假设保证了OLS的性质，但这些性质常常被破坏
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925150553834.png" alt="image-20230925150553834" style="zoom:33%;" />
+- 假设1是OLS为无偏估计量为**无偏估计量**的必要条件，通过引入**截距项**防止被破坏。缺少截距项可能导致R^2^小于0或大于1，有很大偏差
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925154141250.png" alt="image-20230925154141250" style="zoom:33%;" />
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925154205555.png" alt="image-20230925154205555" style="zoom:33%;" />
+
+- 假设二保证**高效性**（方差最小）
+  - $Var(\mu_i|X_i,\dots,X_k)=\sigma_i^2$表示异方差，即对于**不同样本点**随机干扰项的方差不是常数
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925160704433.png" alt="image-20230925160704433" style="zoom:33%;" />
+  - 后果：
+    - 参数估计非有效
+    - 显著性（t）检验失效，<img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925155717017.png" alt="image-20230925155717017" style="zoom:33%;" />
+  - White检验法：
+    - 对于同方差有$E(\mu_i^2|X_i)=E(\mu_i^2)=\sigma^2$（$E(\mu_i)^2=0$）
+    - 同方差性就表示$\mu^2$于解释变量不想关，对于异方差表示是部分或全部解释变量的某种函数
+    - 对回归模型$y_t=\beta_0+\beta_1x_{1t}+\beta_2x_{2t}+\mu_i$
+    - 取辅助回归$\hat{u}_t^2=\alpha_1+\alpha_2x_{2t}+\alpha_3x_{3t}+\alpha_4x_{2t}^2+\alpha_5x_{3t}^2+\alpha_6x_{2t}x_{3t}+v_t$
+    - 检验原假设$H_0:\alpha_2=\alpha_3=\alpha_4=\alpha_5=\alpha_6=0$
+    - 可以使用F检验或拉格朗日乘子检验（LM检验）检验与解释变量某种组合的相关性
+      - LM：$TR^2\backsim X^2(m)$
+      - R^2^是辅助回归的可决系数，m 是辅助回归中自变量（不包括截距项）的
+        个数，等价于 F-检验中约束条件的个数。
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925171918023.png" alt="image-20230925171918023" style="zoom:33%;" />
+  - 处理方式:GLS广义最小二乘法(WLS)：
+    - 对原模型加权（对较小的残差平方赋予较大的权数，对较大的赋予较小的权数），使之变成新的不存在异方差性的模型，然后使用普通OLS计算。
+    - $y=X\beta+u , E[uu^T]=\sigma^2\varOmega,\varOmega\ne I$扰动项存在异方差
+    - $\varOmega$正定$\varOmega=C\Lambda C^T$，令$P=C\Lambda^{-1/2},\varOmega^{-1}=PP^T$
+    - $Py=PX\beta+Pu$新回归式满足同方差性$\hat{\beta}^{GLS}=(X^T\varOmega^{-1}X)^{-1}X^T\varOmega^{-1}y$
+- 假设三与估计量的效率性有关，自相关性
+  - 自相关即$u_t$可能与其滞后项$u_{t-1}\dots$等存在相关性
+  - DW检验：
+    - 检验扰动项之间是否存在一阶相关
+    - $DW=\sum_{t=2}^T(\hat{u}_t-\hat{u}_{t-1})^2/\sum_{t=2}^T\hat{u}_t^2$
+    - 即是否存在$u_t=pu_{t-1}+v_t$，原假设$H_0:p=0$，$DW\approx2(1-\hat p)$
+    -  <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925173431941.png" alt="image-20230925173431941" style="zoom:25%;" />
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925173446205.png" alt="image-20230925173446205" style="zoom:33%;" />
+    - 要求：回归方程中必须有截距项；自变量非随机；自变量中没有因变量的滞后变量
+  - BG检验：
+    - 适用于**高阶**序列相关以及模型中存在滞后因变量的情形，是对扰动项存在 r 阶自相关的一般性检验
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925173612644.png" alt="image-20230925173612644" style="zoom:33%;" />
+  - 处理自相关：
+    - 已知自相关形式时可以使用GLS
+    - 不确定时使用自回归迭代
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925174316286.png" alt="image-20230925174316286" style="zoom:33%;" />
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925174327544.png" alt="image-20230925174327544" style="zoom:33%;" />
+  - 分布滞后模型
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925174446051.png" alt="image-20230925174446051" style="zoom: 33%;" />
+- 假设四与内生性相关
+  - 对于满足条件四的为外生解释变量，否则为内生解释变量1
+  - 来源：遗漏变量、联立方程偏差（双向因果）、测度误差
+  - 双向因果问题：解释变量与被解释变量互为因果
+  - 测量误差问题
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925175532807.png" alt="image-20230925175532807" style="zoom:33%;" />
+  - 工具变量法：分离与扰动项相关的部分
+    - 为了估计需求曲线，寻找某因素使供给曲线频繁移动，而需求曲线基本不动，这个因素就可以作为工具变量
+    - 工具变量用于替代与随机干扰项相关的内生解释变量
+    - 满足：
+      - 与替代的内生解释变量相关：$Cov(z_t,p_t)\ne 0$
+      - 与随机干扰项无关：$Cov(z_t,u_t)=0$
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925181031134.png" alt="image-20230925181031134" style="zoom:33%;" />
+  - 工具变量的二阶段最小二乘法：
+    - 工具变量法估计过程可以替换为两个阶段的普通最小二乘
+    - 用内生解释变量对工具变量回归：$\hat{x}_i=\hat{\alpha}_0+\hat{\alpha}_1z_i$
+    - 用被解释变量对第一步得到的继续做回归：$y_i=\beta_0+\beta_1\hat{x}_i+\mu_i$
+  - 两个内生变量不应该使用一个工具变量，这说明要不工具变量比较差，要不两个解释变量相关性bi'jiao
+  - 解释变量的内生性检验：
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925181619617.png" alt="image-20230925181619617" style="zoom:33%;" />
+- 条件五表示样本数据的正态性
+  - 正态性检验：
+    - 正态分布的偏度为 0、峰度为 3，Jarque-Bera 统计量通过考察样本的偏度是否为 0 和峰度是否为 3 进行正态性检验
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230925181744155.png" alt="image-20230925181744155" style="zoom: 33%;" />
+- 多重共性
+  - 若过两个或多个解释变量之间出现了相关性则称存在多重共线性
+  - 对于$c_1X_{i1}+\dots+c_kX_{ik}+v=0$，c不全为0
+    - 若$v=0$即一个解释变量可以用其他解释变量的线性组合表示，则称存在完全共线性
+    - 若v为随机误差项则称为近似共线性
+
+<img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230926080320485.png" alt="image-20230926080320485" style="zoom:33%;" />
+
+- R^2^小于0大于1：残差均值不为零，原R^2^计算公式不成立
