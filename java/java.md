@@ -267,7 +267,7 @@ public class SpaceShipDelegation {
 
 ### [[标准IO]]
 
-#### 新NIO
+#### NIO
 
 - Buffer包含一些要写入或者刚读出的数据。在NIO库中，所有数据都是用Buffer处理的。在读取数据时，它是直接读到Buffer中的；在写入数据时，也是写入到Buffer中的。
 - ByteBuffer是唯一和FileChannel通信的类型。在NIO中，所有的数据都是通过Channel处理的。它就像水管一样，是一个通道。数据可以从Channel读取到Buffer中，也可以从Buffer写入到Channel中。
@@ -579,7 +579,7 @@ private static class LockAndModify extends Thread {
 ```
 
 
-### 文件(新)
+### 文件(推荐)
 
 #### 路径
 
@@ -624,10 +624,10 @@ for(int i = 0; i < p.getNameCount(); i++)
 
 - 添加/删除路径
 
-  - **relativize(Path other)**：`relativize` 方法用于构建**两个路径之间的相对路径。**如果你有两个路径 `A` 和 `B`，调用 `A.relativize(B)` 将返回一个路径，它从 `A` 导航到 `B` 的相对路径。它假设两个路径有一个共同的根，且不会在结果中包含根路径部分。
+  - **relativize(Path other)**：`relativize` 方法用于构建两个路径之间的相对路径。如果你有两个路径 `A` 和 `B`，调用 `A.relativize(B)` 将返回一个路径，它从 `A` 导航到 `B` 的相对路径。它假设两个路径有一个共同的根，且不会在结果中包含根路径部分。
   - **resolve(Path other)**：`resolve` 方法用于将一个路径**附加到另一个路径的末尾**。如果你有两个路径 `A` 和 `B`，调用 `A.resolve(B)` 会创建一个合并了两个路径的新 `Path` 对象，如果 `B` 是绝对路径，**则直接**返回 `B`。
 
-##### Files工具类
+#### Files工具类
 
 ``` java
 say("Exists", Files.exists(p));
@@ -773,16 +773,15 @@ try {
 
   - 使用PathMatcher
 
-  - ``` java
+``` java
     //创建匹配模式，**/表示所有子目录，*.表示任意文件名称
     PathMatcher matcher = FileSystems.getDefault()
         .getPathMatcher(" glob:**/*.{tmp, txt}");
     Files.walk(test)//从特定目录遍历所有路径
         .filter(matcher:: matches)//匹配路径
         .forEach(System.out:: println);
-    ```
-
-  - ``` java
+```
+``` java
     PathMatcher matcher2 = FileSystems.getDefault()
           .getPathMatcher(" glob:*.tmp ");
     Files.walk(test) // 只匹配文件名

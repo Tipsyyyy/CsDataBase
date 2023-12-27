@@ -1,16 +1,16 @@
 {
   "recentFiles": [
     {
-      "basename": "旧IO",
-      "path": "java/IO/旧IO.md"
-    },
-    {
       "basename": "java",
       "path": "java/java.md"
     },
     {
       "basename": "标准IO",
       "path": "java/IO/标准IO.md"
+    },
+    {
+      "basename": "旧IO",
+      "path": "java/IO/旧IO.md"
     },
     {
       "basename": "控制台IO",
