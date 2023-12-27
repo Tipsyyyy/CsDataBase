@@ -4,17 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "d2c59dd0453ad6c3",
+        "id": "013813060161ca20",
         "type": "tabs",
         "children": [
           {
-            "id": "aeeb39d828c5924f",
+            "id": "15dfe1d8a6ec7722",
             "type": "leaf",
             "state": {
-              "type": "pdf-annotator",
-              "state": {
-                "file": "未命名.md"
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -91,7 +89,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "未命名.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -108,7 +105,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "未命名.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -130,9 +126,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "未命名.md"
-              }
+              "state": {}
             }
           },
           {
@@ -164,10 +158,10 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "aeeb39d828c5924f",
+  "active": "15dfe1d8a6ec7722",
   "lastOpenFiles": [
-    "min.pdf",
     "未命名.md",
+    "min.pdf",
     "1某上市公司2006年年度财务报告.pdf",
     "Excalidraw/2023-12-27.md",
     "2023-12-28.md",
