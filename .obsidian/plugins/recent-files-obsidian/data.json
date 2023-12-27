@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "基本概念",
+      "path": "java/java基础/并发编程/基本概念.md"
+    },
+    {
       "basename": "java",
       "path": "java/java.md"
     },
@@ -27,10 +31,6 @@
     {
       "basename": "异常处理",
       "path": "java/java基础/并发编程/异常处理.md"
-    },
-    {
-      "basename": "基本概念",
-      "path": "java/java基础/并发编程/基本概念.md"
     },
     {
       "basename": "流",

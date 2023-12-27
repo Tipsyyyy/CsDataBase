@@ -20,6 +20,18 @@
             }
           },
           {
+            "id": "cb165052ebac20a2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "java/java基础/并发编程/基本概念.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
             "id": "d4a4e5ce4ec263ba",
             "type": "leaf",
             "state": {
@@ -31,7 +43,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -105,7 +118,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "java/java.md",
+                "file": "java/java基础/并发编程/基本概念.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -122,7 +135,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "java/java.md",
+                "file": "java/java基础/并发编程/基本概念.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -145,7 +158,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "java/java.md"
+                "file": "java/java基础/并发编程/基本概念.md"
               }
             }
           },
@@ -178,18 +191,19 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "f75b4edd907b14e0",
+  "active": "cb165052ebac20a2",
   "lastOpenFiles": [
+    "conflict-files-obsidian-git.md",
+    "java/java基础/并发编程/基本概念.md",
+    "java/java.md",
+    "Pasted image 20231227111944.png",
     "java/java基础/并发编程/高级.md",
     "java/java基础/并发编程/线程与线程池.md",
-    "java/java.md",
     "java/java基础/数据类型/线程安全的数据类型.md",
     "java/java基础/并发编程/共享资源与线程安全.md",
     "java/java基础/数据类型/基本数据类型与包装类.md",
     "java/java基础/杂项/函数式编程.md",
     "java/java基础/并发编程/异常处理.md",
-    "Pasted image 20231227111944.png",
-    "java/java基础/并发编程/基本概念.md",
     "java/java基础/数据类型/流.md",
     "java/java基础/并发编程",
     "java/java基础/高级/代理模式.md",
@@ -197,7 +211,6 @@
     "java/java基础/杂项/泛型.md",
     "java/java基础/高级",
     "java/java基础/面向对象/构造方法.md",
-    "conflict-files-obsidian-git.md",
     "面试/移动端实习-百度/八股文.md",
     "面试/移动端实习-百度/kotlin.md",
     "面试/移动端实习-百度",
@@ -215,7 +228,6 @@
     "电子/嵌入式/arduino.md",
     "电子/嵌入式",
     "电子",
-    "游戏开发/unity/unity.md",
     "游戏开发/unity",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-3.png",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-2.png",
