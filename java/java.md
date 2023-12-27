@@ -265,9 +265,7 @@ public class SpaceShipDelegation {
 
 ### [[旧IO]]
 
-### [[标准IO]]
-
-#### NIO
+### NIO
 
 - Buffer包含一些要写入或者刚读出的数据。在NIO库中，所有数据都是用Buffer处理的。在读取数据时，它是直接读到Buffer中的；在写入数据时，也是写入到Buffer中的。
 - ByteBuffer是唯一和FileChannel通信的类型。在NIO中，所有的数据都是通过Channel处理的。它就像水管一样，是一个通道。数据可以从Channel读取到Buffer中，也可以从Buffer写入到Channel中。
