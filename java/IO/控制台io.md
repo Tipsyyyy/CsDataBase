@@ -52,8 +52,6 @@ public static void main(String [] args) {
 - 如果在 2 秒内没有新的输入，那么程序就会被终止。
 
 - 将 System. Out 作为 PrintWriter
-
-
 ``` java
 public static void main(String [] args) {
     PrintWriter out =
@@ -61,7 +59,6 @@ public static void main(String [] args) {
     out.println("Hello, world");
 }//即将输出定向到标准输出
 ```
-
 - 清空缓冲区 `System.out.flush();`
 
 - 重定向
@@ -92,12 +89,8 @@ public static void main(String [] args) {
 ```
 
 - 重定向操作字节流
-
 - 进程控制
-
   - 通过标准流实现向控制台发送命令，并监视输出到控制台的信息
-
-
 ``` java
 public class OSExecute {
   public static void command(String command) {
