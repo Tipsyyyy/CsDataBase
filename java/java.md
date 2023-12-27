@@ -394,7 +394,7 @@ Map <String,String> sm = Collections.unmodifiableSortedMap(
 
 - 基本操作与Queue一致，但是是优先队列
 - 默认是小根堆
-- 可以传入比较器，或者类型实现Comporable<>接口
+- 可以传入比较器，或者类型实现 Comporable<>接口
 
 #### Set
 
@@ -402,7 +402,7 @@ Map <String,String> sm = Collections.unmodifiableSortedMap(
 
 - 不允许有重复元素，HashSet **是无序的**，即不会记录插入的顺序
 - 使用`contains()`判断元素是否存在
-- 允许存储一个null
+- 允许存储null
 - 范围搜索
   - 最小元素：`first()`
   - 最大元素：`last()`
@@ -412,11 +412,9 @@ Map <String,String> sm = Collections.unmodifiableSortedMap(
   - 注意对视图的修改是对原集合的修改
 - 自定义数据类型要实现equals、hashCode
 
-
 ##### TreeSet
 
 - 允许存储null
-
 - 使用红黑树实现元素排序存储
 - 创建时可以传入一个比较器，如`String.CASE_INSENSITIVE_ORDER`
 - 自定义数据类型要实现equals、Comparable<>接口
@@ -430,7 +428,6 @@ Map <String,String> sm = Collections.unmodifiableSortedMap(
 ##### LinkedHashSet
 
 - 允许存储null
-
 - 保持元素的**插入顺序**，迭代时将按照元素的添加顺序返回。
 - 性能略低于`HashSet`，但在迭代访问整个集合时有更好的性能。
 
@@ -441,7 +438,6 @@ Map <String,String> sm = Collections.unmodifiableSortedMap(
 - 添加`put(,)`
 - 对键、值分别查找`containsKey() containsValue()`
 - 创建`Map<Integer, Integer>m = new HasMap<>();`
-
 ``` java
 Integer freq = m.get(r);
 m.put(r, freq==null?1: freq+1);
@@ -454,14 +450,10 @@ m.put(r, freq==null?1: freq+1);
 ##### TreeMap
 
 - 不允许`null`键（如果使用自然顺序），但允许`null`值。
-
 - 提供了一个有序的映射。
-
 - 基于红黑树实现
 
 - 常用方法
-
-
 ``` java
 //小于等于 n 的最大键值（向前）
 floorEntry(n);
@@ -470,7 +462,7 @@ lowerEntry(n);
 //大于等于的（向后）
 ceilingEntry();
 //大于
-higherEntry(K key)；
+higherEntry(K key);
 //首尾元素
 firstEntry();
 lastEntry();
@@ -479,7 +471,6 @@ pollLastEntry();
 //逆序排序
 map = map.descendingMap();
 //范围查找元素
-
 ```
 
 

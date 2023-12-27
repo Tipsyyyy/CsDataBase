@@ -2,7 +2,6 @@
 
   - **sort (List\<T> list)**: 对指定列表按自然顺序进行排序。
   - **sort(List\<T> list, Comparator\<? super T> c)**: 根据提供的比较器对列表进行排序。
-
 ``` java
 Comparator <Person> ageComparator = new Comparator <Person>() {
     @Override
