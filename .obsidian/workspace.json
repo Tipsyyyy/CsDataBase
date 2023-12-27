@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "java/java.md",
+                "file": "java/java基础/Util/数学类.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "java/java.md",
+                "file": "java/java基础/Util/数学类.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "java/java.md",
+                "file": "java/java基础/Util/数学类.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "java/java.md"
+                "file": "java/java基础/Util/数学类.md"
               }
             }
           },
@@ -168,6 +168,10 @@
   },
   "active": "26c2fff38fa78e64",
   "lastOpenFiles": [
+    "java/java基础/Util/时间类.md",
+    "java/java基础/Util/数学类.md",
+    "java/java基础/Util/日志.md",
+    "java/java.md",
     "java/java基础/杂项/Javadoc.md",
     "java/java基础/并发编程/高级.md",
     "java/工具/环境配置与命令.md",
@@ -180,7 +184,6 @@
     "java/java基础/io/文件.md",
     "java/java基础/io/控制台IO.md",
     "java/java基础/io/NIO.md",
-    "java/java.md",
     "java/java基础/杂项/函数式编程.md",
     "java/java基础/面向对象/接口.md",
     "java/java基础/高级/代理模式.md",
@@ -195,11 +198,8 @@
     "java/java基础/杂项/泛型.md",
     "java/java基础/数据类型/数组类型.md",
     "java/java基础/杂项/测试.md",
-    "java/java基础/杂项/异常.md",
-    "java/java基础/杂项/final.md",
     "java/高级",
     "Home",
-    "java/java基础/杂项/反射.md",
     "java/java基础/杂项",
     "java/java基础/面向对象",
     "java/java基础/数据类型/集合类型",
