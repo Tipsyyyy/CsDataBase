@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "java/java.md",
+                "file": "java/java基础/数据类型/拷贝与引用.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "java/java.md",
+                "file": "java/java基础/数据类型/拷贝与引用.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "java/java.md",
+                "file": "java/java基础/数据类型/拷贝与引用.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "java/java.md"
+                "file": "java/java基础/数据类型/拷贝与引用.md"
               }
             }
           },
@@ -168,9 +168,12 @@
   },
   "active": "f75b4edd907b14e0",
   "lastOpenFiles": [
+    "java/工具/环境配置与命令.md",
+    "java/java.md",
+    "java/java基础/数据类型/拷贝与引用.md",
+    "java/java基础/杂项/注解.md",
     "java/java基础/IO/NIO.md",
     "java/java基础/并发编程/线程与线程池.md",
-    "java/java.md",
     "java/java基础/杂项/Javadoc.md",
     "java/java基础/IO/文件.md",
     "java/java基础/高级/序列化与反序列化.md",
@@ -195,10 +198,7 @@
     "java/java基础/并发编程",
     "java/java基础/高级/代理模式.md",
     "java/java基础/高级/标签接口.md",
-    "java/java基础/杂项/泛型.md",
     "java/java基础/高级",
-    "java/java基础/面向对象/构造方法.md",
-    "面试/移动端实习-百度/八股文.md",
     "面试/移动端实习-百度",
     "面试",
     "软件工程",
