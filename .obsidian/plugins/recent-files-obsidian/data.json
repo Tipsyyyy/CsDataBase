@@ -1,20 +1,40 @@
 {
   "recentFiles": [
     {
-      "basename": "数学类",
-      "path": "java/java基础/Util/数学类.md"
+      "basename": "Java编码规范",
+      "path": "java/java基础/杂项/Java编码规范.md"
     },
     {
-      "basename": "时间类",
-      "path": "java/java基础/Util/时间类.md"
+      "basename": "java",
+      "path": "java/java.md"
+    },
+    {
+      "basename": "注解",
+      "path": "java/java基础/杂项/注解.md"
+    },
+    {
+      "basename": "函数式编程",
+      "path": "java/java基础/杂项/函数式编程.md"
+    },
+    {
+      "basename": "流",
+      "path": "java/java基础/数据类型/流.md"
+    },
+    {
+      "basename": "包",
+      "path": "java/java基础/杂项/包.md"
     },
     {
       "basename": "日志",
       "path": "java/java基础/Util/日志.md"
     },
     {
-      "basename": "java",
-      "path": "java/java.md"
+      "basename": "时间类",
+      "path": "java/java基础/Util/时间类.md"
+    },
+    {
+      "basename": "Math类",
+      "path": "java/java基础/Util/Math类.md"
     },
     {
       "basename": "Javadoc",
@@ -23,10 +43,6 @@
     {
       "basename": "高级",
       "path": "java/java基础/并发编程/高级.md"
-    },
-    {
-      "basename": "函数式编程",
-      "path": "java/java基础/杂项/函数式编程.md"
     },
     {
       "basename": "接口",
