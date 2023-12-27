@@ -18,8 +18,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "ecf58e632c217cdc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "java/java基础/并发编程/共享资源与线程安全.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -93,7 +106,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "java/java.md",
+                "file": "java/java基础/并发编程/共享资源与线程安全.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +123,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "java/java.md",
+                "file": "java/java基础/并发编程/共享资源与线程安全.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +146,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "java/java.md"
+                "file": "java/java基础/并发编程/共享资源与线程安全.md"
               }
             }
           },
@@ -165,15 +178,15 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "f75b4edd907b14e0",
+  "active": "ecf58e632c217cdc",
   "lastOpenFiles": [
-    "java/java基础/并发编程/共享资源与线程安全.md",
+    "java/java基础/并发编程/线程与线程池.md",
     "java/java.md",
+    "java/java基础/并发编程/共享资源与线程安全.md",
     "java/java基础/杂项/函数式编程.md",
     "java/java基础/并发编程/异常处理.md",
     "Pasted image 20231227111944.png",
     "java/java基础/并发编程/基本概念.md",
-    "java/java基础/并发编程/线程与线程池.md",
     "java/java基础/数据类型/流.md",
     "java/java基础/并发编程",
     "java/java基础/高级/代理模式.md",

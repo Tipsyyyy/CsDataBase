@@ -251,188 +251,21 @@ public class SpaceShipDelegation {
 
 ## 并发编程
 
-
 ### [[基本概念]]
 
 ### [[线程与线程池]]
 
-#### 共享资源
+### [[共享资源与线程安全]]
 
-- 资源竞争：正在运行的任务不止有一个时，任何任务都可能**同时对一个共享资源进行读或写**操作
-- 守护进程
-  - 一个定时运行的进程或线程，它监**控应用程序的执行时间**，如果某个任务或整个应用程序运行时间超过预定阈值，它将执行中止操作。
-- 解决资源竞争
-  - 第一个访问资源的任务**对资源上锁**，其它任务将无法使用资源直到锁被解除，使用资源的新的任务会再次对资源上锁。即共享资源的访问操作**串行化**，被称为**互斥锁**。
-
-- 使用显式lock对象
-  - 显式创建加锁解锁
-    - `Lock lock = new ReentrantLock();`
-    - `lock.lock();`
-    - `lock.unlock();`
-  - lock语句应该与try-finally配合确保锁一定会被释放
-``` java
-//尝试获取锁
-boolean captured = lock.tryLock();
-try {
-    System.out.println("tryLock(): " + captured);
-} finally {
-    if(captured)
-        lock.unlock();
-}
-//有最大时间限制
-try {
-    captured = lock.tryLock(2, TimeUnit.SECONDS);
-} catch(InterruptedException e) {
-    throw new RuntimeException(e);
-}
-try {
-    System.out.println(
-        "tryLock(2, TimeUnit.SECONDS): " + captured);
-} finally {
-    if(captured)
-        lock.unlock();
-}
-```
-- 更加灵活，可以实现不同种类的锁
-#### synchronized
-- 一个任务想要执行由synchronized保护的代码断时，编译器会检查所是否可用，如果可用，该任务便会获得锁，执行代码然后释放锁。
-- 声明在普通方法上时：锁定的是包含该方法的对象实例
-  - 声明在静态方法上：锁定的是该类的Class对象。
-  - `public synchronized void synchronizedMethod()`
-- 如果在对一个**接下来**会被另一个线程**读取**的变量进行写操作或者操作一个可能**刚被**另一个线程**写完**操作的变量，就必须使用同步
-- 比如一个变量有自增以及获取值得方法，那这两个方法都应该被synchronized修饰
-
-- 指向防止多个线程同时访问方法中的部分代码，而不是整个方法，要隔离的代码区域就是**临界区**。
-``` java
-synchronized(this) {
-       // 同步代码块
-}//参数表示要锁定的对象
-```
-
-- 必须先获得被锁定对象的锁才能进入代码块
-- 使用临界区主要是为了提升性能，即不锁定不需要锁定但是耗时的部分
-- 在其它对象上进行同步
-  - 通过传入其他对象作为参数，可以实现在其他对象而不是对象自身上操作锁
-
-### 直接操作线程（Java高级程序设计课程内容）
-
-#### 线程的创建与运行
-
-- 使用线程运行对象的函数式接口
-
-
-```java
-class LiftOff implements Runnable {
-    protected int countDown = 10; // Default
-    private static int taskCount = 0;
-    private final int id = taskCount++;
-    public LiftOff(int countDown) { this.countDown = countDown; }
-    public String status() {
-        return "#" + id + "(" + (countDown > 0 ? countDown : "Liftoff!") + "), ";
-    }
-    public void run() {
-        while (countDown-- > 0) {
-            System.out.print(status()); 
-            Thread.yield(); //后面解释
-        }
-    }
-}
-
-public class BasicThreads {
-    public static void main(String[] args) {
-        //把任务装进线程里
-        Thread t = new Thread(new LiftOff(10));
-        t.start();
-        System.out.println("Waiting for LiftOff");
-    }
-}
-```
-
-- Runnable的内容就是线程的载荷
-
-- 或者直接为线程添加run方法
-
-
-```java
-ublic class SimpleThread extends Thread {
-    private int countDown = 5;  private static int threadCount = 0;
-    public SimpleThread() {
-        super(Integer.toString(++threadCount));  start();
-    }
-    public String toString() {
-        return "#" + getName() + "(" + countDown + "), ";
-    }
-    public void run() {
-        while (true) { System.out.print(this);  if (--countDown == 0) return; }
-    }
-    public static void main(String[] args) {
-        for (int i = 0; i < 5; i++) { new SimpleThread(); }
-    }
-}
-//更简洁的写法
-public class MoreBasicThreads {
-    public static void main(String[] args) {
-        for (int i = 0; i < 5; i++)
-            new Thread(new LiftOff(10)).start();
-        System.out.println("Waiting for LiftOff");
-    }
-} 
-```
-
-- 使用线程池
-
-
-```java
-//结合线程池
-public class CachedThreadPool {
-    public static void main(String[] args) {
-        ExecutorService exec = Executors.newCachedThreadPool();
-        for (int i = 0; i < 5; i++)
-            exec.execute(new LiftOff(10));
-        exec.shutdown();
-    }
-}
-```
-
-- 睡眠`TimeUnit.MILLISECONDS.sleep(100);`
-
-- 让位`Yield`
-
-  - 向调度程序**提示当前线程愿意放弃其当前对处理器的使用**。(只是一种启发性质的建议)
-  - yield会**临时暂停当前线程**，让有**同样优先级**的正在等待的线程有机会执行
-  - 若没有正在等待的线程或者所有正在等待的线程的**优先级都较低，则继续运行**
-  - 执行yield的线程何时继续运行由线程调度器来决定，不同厂商可能有不同行为
-  - yield方法**不保证当前的线程会暂停或者停止**，但是可以保证当前线程在调用yield方法时会放弃CPU
-
-- 线程优先级
-
-  - `Thread.currentThread().setPriority(priority);`
-  - 常量`Thread.MIN_PRIORITY Thread.MAX_PRIORITY `
-  - 尽量不要做
-
-- 守护(Daemon)进程
-
-  - 守护程序线程是一种线程，它**不会阻止 JVM 在程序完成**但**线程仍在运行时退出**。
-
-
-```java
-Thread daemon = new Thread(new SimpleDaemons());
-daemon.setDaemon(true); // Must call before start()
-daemon.start();
-```
-
-#### 线程控制
+[[线程与线程池]]
+#### 线程间协同
 
 - join等待线程（等待另一个线程完成之后在继续）
-
-
 ```java
 xxxxxxxxxx16 1	class Joiner extends Thread {2    private Sleeper sleeper;//一个自定义线程类型3    public Joiner(String name, Sleeper sleeper) {4        super(name);5        this.sleeper = sleeper;6        start();7    }8    public void run() {9        try {10            sleeper.join();11        } catch (InterruptedException e) {12            System.out.println("Interrupted");13        }14        System.out.println(getName() + " join completed");15    }16}
 ```
 
 - 直接使用锁
-
-
 ```java
 public int next() {
         //加锁
@@ -449,7 +282,6 @@ public int next() {
 ```
 
 - 更高级的锁``ReentrantLock``
-
   - 如果一个线程已经持有了锁，**它可以再次请求并获得锁而不会被阻塞**。`ReentrantLock` 会维护一个持有锁的计数器来跟踪锁的重入**次数**，线程每请求一次锁，计数器就增加一，每释放一次锁，计数器就减一。当计数器归零时，锁被释放。
 
 - **wait()**:

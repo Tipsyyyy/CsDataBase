@@ -1,12 +1,16 @@
 {
   "recentFiles": [
     {
-      "basename": "java",
-      "path": "java/java.md"
-    },
-    {
       "basename": "共享资源与线程安全",
       "path": "java/java基础/并发编程/共享资源与线程安全.md"
+    },
+    {
+      "basename": "线程与线程池",
+      "path": "java/java基础/并发编程/线程与线程池.md"
+    },
+    {
+      "basename": "java",
+      "path": "java/java.md"
     },
     {
       "basename": "函数式编程",
@@ -19,10 +23,6 @@
     {
       "basename": "基本概念",
       "path": "java/java基础/并发编程/基本概念.md"
-    },
-    {
-      "basename": "线程与线程池",
-      "path": "java/java基础/并发编程/线程与线程池.md"
     },
     {
       "basename": "流",
