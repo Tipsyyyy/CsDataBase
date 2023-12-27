@@ -272,28 +272,25 @@ if (animal instanceof Dog) {
 - 类在首次使用时才会被动态加载到JVM，[[jvm#类的加载|类加载器]]检查是否加载了类型的Class对象，如果没有就定位到对应的class文件并校验后加载，Class对象加载到内存后会用于创建类的所有对象
   - 类第一次被加载时会调用类的[[构造方法#^0710ee|静态初始化块]]
 
+#### 获取class对象
+
 - 获取Class对象`Class.forName("classname");`
   - 需要使用包含包名称的完全限定类型
   - 找不到则抛出ClassNotFoundException
-  - 如果有对应类型的**对象**，可以通过对象获取`xx.getClass()`
+
+- 如果有对应类型的**对象**，可以通过对象获取`xx.getClass()`
 
 - 使用类字面常量获取Class
-
   - `ClassName.class'`编译时检查们不用放在try
     - 包装类使用`TYPE`关键字
   - 不一定会立即导致初始化，等到首次使用静态方法再初始化，对于static final的编译时常量不会导致初始化
-  - 会生成确切（泛型）类型的Class，而不是Object
 
-- 常用方法
+#### 常用方法
 
   - `getName()`获取完整类名（含包路径），外部类内部类用$分隔
-
-    - `getCanonicalName()`获取规范名，wai不累内部类用.分隔，可能返回null（比如匿名内部类）
-
+    - `getCanonicalName()`获取规范名，外部类内部类用.分隔，可能返回null（比如匿名内部类）
   - `isInterface()`
-
   - `getSimpleName()`
-
   - `getInterfaces()`返回Class数组，即所有实现的接口类型
 
   - `getSuperClass()`查询直接基类
