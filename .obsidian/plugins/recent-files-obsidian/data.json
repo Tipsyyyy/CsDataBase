@@ -3,6 +3,10 @@
     {
       "basename": "java",
       "path": "java/java.md"
+    },
+    {
+      "basename": "构造方法",
+      "path": "java/java基础/面向对象/构造方法.md"
     }
   ],
   "omittedPaths": [],

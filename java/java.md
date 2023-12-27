@@ -252,16 +252,11 @@ public class SpaceShipDelegation {
 - 核心功能
   - 在运行时**判断**任意一个对象**所属的类**；
   - 在运行时**构造**任意一个类的**对象**；
-
   - 在运行时**判断**任意一个类所具有的**成员变量和方法**；
-
   - 在运行时**调用**任意一个对象的**方法**；
 
 - 向上转型可以自动发生，但是向下转型必须显示指出，并且如果这个对象并转型到目标并不是向下转型（不是其父类），会抛出ClassCastException
-
   - 通过反射可以获取实际类型并且进行安全的向下转型
-
-
 ``` java
 Animal animal = getAnimal(); // getAnimal()返回一个 Animal 对象
 if (animal instanceof Dog) {
@@ -273,18 +268,14 @@ if (animal instanceof Dog) {
 ### Class对象
 
 - Class对象包含了与类相关的信息，Class对象被用来创建常规对象，Java使用Class对象执行反射
-
 - 每个类都有一个Class对象，存储在同名的class文件中
+- 类在首次使用时才会被动态加载到JVM，[[jvm#类的加载|类加载器]]检查是否加载了类型的Class对象，如果没有就定位到对应的class文件并校验后加载，Class对象加载到内存后会用于创建类的所有对象
+  - 类第一次被加载时会调用类的[[构造方法#^0710ee|静态初始化块]]
 
-- 类在首次使用时才会被动态加载到JVM，类加载器检查是否加载了类型的Class对象，如果没有就定位到对应的class文件并校验后加载，Class对象加载到内存后会用于创建类的所有对象
-
-  - 类第一次被加载时会**调用类的静态初始快**
-
-- 获得Class对象的引用`Class.forName("classname");`
-
+- 获取Class对象`Class.forName("classname");`
   - 需要使用包含包名称的完全限定类型
   - 找不到则抛出ClassNotFoundException
-  - 如果有对应类型的对象，可以通过对象获取`xx.getClass()`
+  - 如果有对应类型的**对象**，可以通过对象获取`xx.getClass()`
 
 - 使用类字面常量获取Class
 
