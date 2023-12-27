@@ -6,18 +6,18 @@
   
 - 对比传统 IO：
   - NIO 基于缓冲区进行操作，数据的读写都是通过 Buffer 进行的，这使得处理速度更快。
-  - NIO 可以进行非阻塞的读写操作。
+  - NIO 可以进行**非阻塞**的读写操作。
 
 ### ByteBuffer 与 Channel
 
 - 创建特定大小的一块字节缓冲区，放入取出数据（注意这是一个底层方法，不能放入取出对象）
 
 - 参数
-
-  - capacity：冲区能够容纳的数据元素的**最大数量**。这个容量在缓冲区创建时被设置，且不能被改变。
+  - capacity：缓冲区能够容纳的数据元素的**最大数量**。这个容量在缓冲区创建时被设置，且不能被改变。
   - mark：可以通过 `Buffer` 类的 `mark()` 方法来设置。`mark` **保存了一个** `position` 的值，可以通过 `reset()` 方法恢复到这个 `position`。
   - position：`position` 是缓冲区中**下一个要被读写**的元素的索引。`position` 的初始值为 0。
   - limit：`limit` 是**第一个不应该被读或写的数据**的索引（读取模式下为 0）。`limit` 的值不能大于 `capacity`。
+
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231121132322512.png" alt="image-20231121132322512" style="zoom:50%;" />
   - 相关方法
     - **flip ()**：从**写模式切换到读模式**。调用 `flip()` 后，`position` 被设回 0，`limit` 被设置为之前的 `position` 值。
@@ -25,28 +25,22 @@
     - **rewind ()**：重置 `position` 为 0，可以重新读写缓冲区中的所有数据。
     - **reset ()**：讲 position 移动到 mark 的位置，如果 mark 还没有被设置则会抛出异常
 
+
 - 创建
   - 直接指定大小 `ByteBuffer buff = ByteBuffer.allocate(BSIZE);`
   - 从数据创建 `c.write(ByteBuffer.wrap("Some text ".getBytes()));`
   - 使用 `put` 放入数据：`buff.put(str.getBytes());` 将数据写入缓冲区的当前位置，并将**位置向前移动**。如果缓冲区的剩余空间不足以容纳新的数据，那么 `put` 方法将抛出 `BufferOverflowException` 异常。
 
 - `fc.read(buff);` 写入到缓冲区
-
 - `fc.write(buff);` 从缓冲区读取
 
 - 输出缓冲区的内容 `System.out.println(buff.asCharBuffer());`
-
   - 直接这么输出是字节内容，没有解码
 
 - 重新读取/写入（讲 position 设置为 0）`rewind()`
-
 - 读写文件
-
   - 三种通道：可读、可写、可读写
-
   - 通过 `.getChannel()`**获取通道**
-
-
 ``` java
 public class GetChannel {
   private static String name = "data.txt";
@@ -109,14 +103,9 @@ public class GetChannel {
   - 获取系统使用的字符集名称：`String encoding =System.getProperty("file.encoding");`
 
 - 非字节数据
-
   - 缓冲区是对字节流的操作（不含数据类型）
-
   - 存储到缓冲区的数据读取出来后是不能直接使用的
-
   - 对于字符数据，要么在字节**放入时进行编码**，要么在从缓冲区**取出时进行解码**
-
-
 ``` java
 String encoding =
     System.getProperty("file.encoding");
@@ -149,10 +138,7 @@ System.out.println(buff.asCharBuffer());
 ```
 
 - 存储非字符数据的更简单方法
-
   - `getX()` X 为类型名称
-
-
 ```java
 // Store and read a char array:
 bb.asCharBuffer().put("Howdy!");
@@ -183,11 +169,8 @@ System.out.println(bb.getDouble());
 bb.rewind();
 ```
 
-
 - 视图缓冲区
   - 透过某个特定基本类型的视角来看底层的缓冲区
-
-
 ``` java
 public static void main(String [] args) {
   ByteBuffer bb = ByteBuffer.allocate(BSIZE);
@@ -209,16 +192,12 @@ public static void main(String [] args) {
 
 - 其它基本类型也有类似的方法
 - 可以将同一个字节序类解析为不同类型，同样的缓冲区数据，不一样的解析方式
-
-
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231121131949514.png" alt="image-20231121131949514" style="zoom: 33%;" />
 
 
 ### 内存映射文件
 
 - 处理因为太大而无法完整加载到内存的文件，可以根据地址把文件当作一个很大的数组来进行访问
-
-
 ```java
 public class LargeMappedFiles {
   static int length = 0x8000000; // 128 MB
@@ -243,8 +222,6 @@ public class LargeMappedFiles {
 ### 文件加锁
 
 - 对文件枷锁会对文件的访问操作加上同步处理，这样文件才能作为共享资源，由于文件并不一定在一个 JVM 被操作（也可能被系统进程等操作），因此 Java 的文件加锁直接映射到本地操作系统，对其它进程可见
-
-
 ``` java
 public class FileLocking {
   public static void main(String [] args) {
@@ -270,13 +247,9 @@ public class FileLocking {
 ```
 
 - `lock()` 是阻塞方法，一直等到获得锁，try 指示尝试一下
-
   - 参数 `long position, long size, bollean shared`
   - 表示锁定的开始位置及长度（锁定范围），最后表示是否是共享锁
-
 - 部分加锁（用于文件映射及数据库等较大共用文件）
-
-
 ``` java
 private static class LockAndModify extends Thread {
     private ByteBuffer buff;
