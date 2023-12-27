@@ -43,7 +43,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -117,7 +118,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "java/java.md",
+                "file": "java/java基础/杂项/注解.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -134,7 +135,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "java/java.md",
+                "file": "java/java基础/杂项/注解.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -157,7 +158,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "java/java.md"
+                "file": "java/java基础/杂项/注解.md"
               }
             }
           },
@@ -190,10 +191,12 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "26c2fff38fa78e64",
+  "active": "19aca5267d984b3a",
   "lastOpenFiles": [
-    "java/java基础/杂项/equals()与hashCode().md",
     "java/java.md",
+    "java/java基础/杂项/equals()与hashCode().md",
+    "java/java基础/高级/record记录.md",
+    "java/java基础/高级/使用享元自定义Collecction和Map.md",
     "java/java基础/Util/日志.md",
     "java/java基础/Util/时间类.md",
     "java/java基础/数据类型/流.md",
@@ -218,8 +221,6 @@
     "java/java基础/io/文件.md",
     "java/java基础/io/控制台IO.md",
     "java/java基础/io/NIO.md",
-    "java/java基础/面向对象/接口.md",
-    "java/java基础/高级/代理模式.md",
     "java/java基础/高级",
     "java/java基础/并发编程",
     "Pasted image 20231227111944.png",
