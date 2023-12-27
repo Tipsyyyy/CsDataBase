@@ -311,7 +311,7 @@ Constructor <?> constructor = clazz.getConstructor(String.class, int.class);
 MyClass myObject = (MyClass) constructor.newInstance("example", 123);
 ```
 
-- 泛型类的引用
+- 结合泛型
   - `Class<Integer>`只接受特定类型的Class
   - 通配`Class<?>`（实际上\<?>可以省略）
     - `Class<? extends Number>`可以存储整数/浮点数
@@ -328,14 +328,9 @@ Class <FancyToy> ftc = FancyToy.class;
 ```
 
 - cast方法
-
-  - Class引用类型转换
-
+  - 使用Class引用类型转换
   - 用于将对象转换为由 `Class` 实例表示的类或接口
-
   - 这个方法在运行时动态地执行类型转换，与强制类型转换类似，但更加灵活，因为它允许在**编译时不知道具体类**的情况下进行转换。
-
-
 ``` java
 Class <String> clazz = String.class;
 Object obj = "Hello";
@@ -344,10 +339,7 @@ String str = clazz.cast(obj);
 ```
 
 - 类方法提取器
-
   - 可以查看一个类（包含其基类在内）的全部可用方法
-
-
 ``` java
 //全部方法
 Method [] methods = c.getMethods();
@@ -366,6 +358,7 @@ Constructor [] ctors = c.getConstructors();
   - `getAnnotations()`: 返回该方法上所有注解的数组。
   - `getGenericReturnType()`: 返回方法的泛型返回类型。
   - `getGenericParameterTypes()`: 返回方法的泛型参数类型数组。
+
 - 字段Field
   - 获取类或接口的全部字段`getDeclaredFields()`
   - `getName()`：返回字段的名称。
@@ -379,13 +372,15 @@ Constructor [] ctors = c.getConstructors();
 
 - 类型检查`x instanceof Dog`返回布尔值，是否是特定类型的对象
   - 在向下转型之前进行检查，防止遇到ClassCastException
-  - 必须使用命名类型进行比较，不能通过Class，也就是说不饿能创建一个数组自动化执行`instanceiof`
+  
 - 动态isInstance
   - `Class.isInstance()`
   - 可以使用Class数组方便的使用`Class对象.isInstance(待判断类型的对象)`
+
 - instanceof和isInstance的比较是等价的
   - 行同类型/基类都满足比较的条件
-  - **但是使用==或equal则表示要求**类型完全相同
+  - **但是使用\==或equal则表示要求**类型完全相同
+
 - isAssignableFrom
   - 判断一个类是否相同或是另一个类的超类或接口。
   - `parentClass.isAssignableFrom(childClass);`
@@ -393,10 +388,7 @@ Constructor [] ctors = c.getConstructors();
 ### 动态代理
 
 - 想将额外的操作从实际对象分离，可以通过代理去调用对象，通过是否使用代理对对象进行操作，决定是否要进行一些额外操作
-
 - 动态代理允许在运行时创建一个符合某些给定接口的代理对象，此对象可以在调用实际方法前后执行特定操作。
-
-
 ``` java
 interface Interface {
   void doSomething();
@@ -449,14 +441,11 @@ class SimpleDynamicProxy {
   }
 }
 ```
-
 - `Proxy.newProxyInstance` 需要三个参数：类加载器、一组接口以及一个 `InvocationHandler` 实例。          
 
 ### 标签接口
 
 - 标签接口是没有定义任何方法的接口。标签接口的主要作用是**为实现该接口的类提供一个特定的标识**。这个标识允许类在运行时表现出一些特殊的行为。
-
-
 ``` java
 class NullRobotProxyHandler
 implements InvocationHandler {
@@ -501,17 +490,13 @@ public class NullRobot {
   }
 }
 ```
-
 - 使用代理的提供一种**通用的方式**来创建任何类型的`Robot`的空对象，而不需要为每个`Robot`子类都创建一个特定的空对象类。
 - 通过使用代理，你可以为任何`Robot`子类创建一个空对象，而不需要写任何额外的代码。这是因为代理对象的所有方法调用都会被转发给`NullRobotProxyHandler`对象，然后由这个对象的`invoke`方法处理。这个方法将方法调用转发给`NRobot`对象，这个对象的所有方法都返回一个无操作的结果。
 
 ### 接口和类型信息
 
 - 把一个实现接口的类型赋值给接口类型，可以隐藏许多信息，只保留接口规定的方法，但是通过反射可以发现这一点并进行强制转换，从而破坏限制
-
   - 将实现接口的类声明为包作用域可以避免，因为包外根本没有这个类。但是虽然不能转型，如果知道方法的名字，仍然可以访问！
-
-
 ``` java
 callHiddenMethod(Object a, String methodName)
   throws Exception {
@@ -522,7 +507,6 @@ callHiddenMethod(Object a, String methodName)
     g.invoke(a);
   }
 ```
-
 - 无论是使用private方法还是匿名内部类都无法阻止
 
 ## 异常

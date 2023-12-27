@@ -5,6 +5,10 @@
       "path": "java/java.md"
     },
     {
+      "basename": "泛型",
+      "path": "java/java基础/杂项/泛型.md"
+    },
+    {
       "basename": "构造方法",
       "path": "java/java基础/面向对象/构造方法.md"
     }
