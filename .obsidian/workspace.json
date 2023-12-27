@@ -13,26 +13,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "java/java.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "d4a4e5ce4ec263ba",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "java/java基础/并发编程/高级.md",
+                "file": "java/IO/标准IO.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -106,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "java/java基础/并发编程/高级.md",
+                "file": "java/IO/标准IO.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "java/java基础/并发编程/高级.md",
+                "file": "java/IO/标准IO.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -146,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "java/java基础/并发编程/高级.md"
+                "file": "java/IO/标准IO.md"
               }
             }
           },
@@ -179,14 +166,19 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "d4a4e5ce4ec263ba",
+  "active": "f75b4edd907b14e0",
   "lastOpenFiles": [
-    "java/java基础/并发编程/线程与线程池.md",
+    "java/IO/旧IO.md",
+    "java/IO/标准IO.md",
     "java/java.md",
+    "java/IO/控制台io.md",
+    "java/IO/NIO.md",
+    "java/IO",
+    "java/java基础/并发编程/高级.md",
+    "java/java基础/并发编程/线程与线程池.md",
     "java/java基础/并发编程/基本概念.md",
     "conflict-files-obsidian-git.md",
     "Pasted image 20231227111944.png",
-    "java/java基础/并发编程/高级.md",
     "java/java基础/数据类型/线程安全的数据类型.md",
     "java/java基础/并发编程/共享资源与线程安全.md",
     "java/java基础/数据类型/基本数据类型与包装类.md",
@@ -209,14 +201,10 @@
     "软件工程/uml.md",
     "软件工程",
     "移动端开发/安卓/kotlin.md",
-    "移动端开发/安卓/android.md",
     "移动端开发/安卓",
     "移动端开发",
-    "电子/嵌入式/硬件.md",
-    "电子/嵌入式/arduino.md",
     "电子/嵌入式",
     "电子",
-    "游戏开发/unity",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-3.png",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-2.png",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-1.png",
