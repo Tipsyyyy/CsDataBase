@@ -1,28 +1,40 @@
 {
   "recentFiles": [
     {
+      "basename": "java",
+      "path": "java/java.md"
+    },
+    {
+      "basename": "equals()与hashCode()",
+      "path": "java/java基础/杂项/equals()与hashCode().md"
+    },
+    {
+      "basename": "日志",
+      "path": "java/java基础/Util/日志.md"
+    },
+    {
+      "basename": "时间类",
+      "path": "java/java基础/Util/时间类.md"
+    },
+    {
       "basename": "流",
       "path": "java/java基础/数据类型/流.md"
-    },
-    {
-      "basename": "内部类",
-      "path": "java/java基础/面向对象/内部类.md"
-    },
-    {
-      "basename": "基本语法",
-      "path": "python/基本语法.md"
     },
     {
       "basename": "函数式编程",
       "path": "java/java基础/杂项/函数式编程.md"
     },
     {
+      "basename": "内部类",
+      "path": "java/java基础/面向对象/内部类.md"
+    },
+    {
       "basename": "数字逻辑与计算机组成",
       "path": "课程/数字逻辑与计算机组成/笔记/数字逻辑与计算机组成.md"
     },
     {
-      "basename": "java",
-      "path": "java/java.md"
+      "basename": "基本语法",
+      "path": "python/基本语法.md"
     },
     {
       "basename": "注解",
@@ -35,14 +47,6 @@
     {
       "basename": "Java编码规范",
       "path": "java/java基础/杂项/Java编码规范.md"
-    },
-    {
-      "basename": "日志",
-      "path": "java/java基础/Util/日志.md"
-    },
-    {
-      "basename": "时间类",
-      "path": "java/java基础/Util/时间类.md"
     },
     {
       "basename": "Math类",
