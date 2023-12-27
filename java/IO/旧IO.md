@@ -55,6 +55,7 @@ public static String read(String filename) {
 }
 ```
 - try-with-resource
+- 通过装饰器创建的带有缓冲区的文件读取 `BufferedReader in = new BufferedReader(new FileReader(filename))`
 
 ``` java
 public static void main(String [] args) throws IOException {
