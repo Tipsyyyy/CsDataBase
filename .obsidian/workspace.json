@@ -167,8 +167,10 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "96e173acdf249e6c",
+  "active": "26c2fff38fa78e64",
   "lastOpenFiles": [
+    "算法/数据结构.md",
+    "课程/数据结构/数据结构.md",
     "java/java.md",
     "java/java基础/Util/集合/Collections工具类.md",
     "java/java基础/Util/集合/Iterator.md",
@@ -195,7 +197,6 @@
     "java/java基础/杂项/Java编码规范.md",
     "java/java基础/Util/Math类.md",
     "java/java基础/杂项/Javadoc.md",
-    "java/java基础/并发编程/高级.md",
     "java/java基础/Util",
     "java/java基础/高级",
     "java/java基础/并发编程",

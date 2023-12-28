@@ -5,6 +5,10 @@
       "path": "课程/数据结构/数据结构.md"
     },
     {
+      "basename": "数据结构",
+      "path": "算法/数据结构.md"
+    },
+    {
       "basename": "java",
       "path": "java/java.md"
     },
