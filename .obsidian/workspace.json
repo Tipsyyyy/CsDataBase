@@ -4,35 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "cf7d4b5ac89e0d7f",
+        "id": "9d031ff641264c50",
         "type": "tabs",
         "children": [
           {
-            "id": "fce6eedc56baf07c",
+            "id": "9418cb6aa6b24440",
             "type": "leaf",
             "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（1）.pdf"
-              }
-            }
-          }
-        ]
-      },
-      {
-        "id": "fe4a536a05aa7965",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "356be5ff186959f2",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -109,7 +89,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,7 +105,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -148,9 +126,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md"
-              }
+              "state": {}
             }
           },
           {
@@ -192,9 +168,10 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "356be5ff186959f2",
+  "active": "9418cb6aa6b24440",
   "lastOpenFiles": [
     "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（1）.pdf",
+    "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（2）.pdf",
     "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
     "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
     "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
