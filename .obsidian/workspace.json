@@ -89,8 +89,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "d615b65a4ccf8a6a",
@@ -191,8 +190,12 @@
   },
   "active": "26c2fff38fa78e64",
   "lastOpenFiles": [
-    "算法/数据结构.md",
+    "课程/数据结构/pdf/多路合并.pdf",
+    "多路合并.md",
     "课程/数据结构/数据结构.md",
+    "课程/数据结构/pdf/多路归并.pdf",
+    "课程/数据结构/pdf",
+    "算法/数据结构.md",
     "java/java.md",
     "java/java基础/Util/集合/Collections工具类.md",
     "java/java基础/Util/集合/Iterator.md",
@@ -217,17 +220,12 @@
     "python/基本语法.md",
     "java/java基础/杂项/包.md",
     "java/java基础/杂项/Java编码规范.md",
-    "java/java基础/Util/Math类.md",
-    "java/java基础/杂项/Javadoc.md",
     "java/java基础/Util",
     "java/java基础/高级",
     "java/java基础/并发编程",
     "Pasted image 20231227111944.png",
     "java/高级",
     "Home",
-    "java/java基础/杂项",
-    "java/java基础/面向对象",
-    "java/java基础/数据类型/集合类型",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
     "export/金融大数据p4/plugin/chalkboard/img/sponge.png",

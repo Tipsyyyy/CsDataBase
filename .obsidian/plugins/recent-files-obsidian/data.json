@@ -5,6 +5,10 @@
       "path": "课程/数据结构/数据结构.md"
     },
     {
+      "basename": "多路合并",
+      "path": "课程/数据结构/pdf/多路合并.pdf"
+    },
+    {
       "basename": "拷贝与引用",
       "path": "java/java基础/数据类型/拷贝与引用.md"
     },
