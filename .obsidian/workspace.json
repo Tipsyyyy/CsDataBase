@@ -4,11 +4,27 @@
     "type": "split",
     "children": [
       {
-        "id": "891694420cb2c548",
+        "id": "cf7d4b5ac89e0d7f",
         "type": "tabs",
         "children": [
           {
-            "id": "26c2fff38fa78e64",
+            "id": "fce6eedc56baf07c",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第1章 二进制编码（2）.pdf"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "652bd9b848b53d11",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4a4295415f059ede",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -176,45 +192,44 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "26c2fff38fa78e64",
+  "active": "4a4295415f059ede",
   "lastOpenFiles": [
-    "算法/数据结构.md",
+    "课程/数字逻辑与计算机组成/课件/第1章 二进制编码（2）.pdf",
+    "第1章 二进制编码（2）.md",
     "课程/数字逻辑与计算机组成/笔记/U1二进制编码.md",
+    "课程/数字逻辑与计算机组成/课件/第1章 二进制编码 （1）.pdf",
+    "课程/数字逻辑与计算机组成/课件/第1章 二进制编码（3）.pdf",
+    "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（1）.pdf",
+    "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md",
+    "课程/数字逻辑与计算机组成/第1章 二进制编码 （1）.pdf",
+    "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf",
+    "课程/数字逻辑与计算机组成/课件/第8章 CPU3-非流水线-多周期.pdf",
+    "课程/数字逻辑与计算机组成/课件/第8章 CPU2-非流水线-单周期.pdf",
+    "课程/数字逻辑与计算机组成/课件/第8章 CPU1-非流水线-概述.pdf",
+    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
+    "算法/数据结构.md",
     "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
     "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
     "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
     "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
     "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
     "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
-    "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md",
     "课程/数据结构/数据结构.md",
-    "课程/数据结构/pdf/多路合并.pdf",
     "多路合并.md",
-    "课程/数据结构/pdf/多路归并.pdf",
-    "课程/数据结构/pdf",
     "java/java.md",
     "java/java基础/Util/集合/Collections工具类.md",
     "java/java基础/Util/集合/Iterator.md",
     "README.md",
-    "未命名.pdf",
     "ListIterator.md",
     "java/java基础/io/NIO.md",
     "java/java基础/并发编程/线程安全的数据类型.md",
     "java/java基础/并发编程/线程与线程池.md",
-    "java/java基础/Util/集合",
     "java/java基础/Util/集合.md",
     "java/java基础/数据类型/流.md",
     "java/java基础/杂项/注解.md",
     "java/java基础/杂项/equals()与hashCode().md",
     "java/java基础/高级/record记录.md",
-    "java/java基础/高级/使用享元自定义Collecction和Map.md",
-    "java/java基础/Util/日志.md",
-    "java/java基础/Util",
-    "java/java基础/高级",
-    "java/java基础/并发编程",
     "Pasted image 20231227111944.png",
-    "java/高级",
-    "Home",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
     "export/金融大数据p4/plugin/chalkboard/img/sponge.png",
