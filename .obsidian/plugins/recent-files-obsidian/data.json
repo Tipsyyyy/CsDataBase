@@ -5,24 +5,28 @@
       "path": "杂项/linux与shell/linux/进程管理.md"
     },
     {
+      "basename": "权限管理",
+      "path": "杂项/linux与shell/linux/权限管理.md"
+    },
+    {
       "basename": "网络",
       "path": "杂项/linux与shell/linux/网络.md"
     },
     {
-      "basename": "linux",
-      "path": "杂项/linux与shell/linux.md"
+      "basename": "环境配置",
+      "path": "杂项/linux与shell/linux/环境配置.md"
     },
     {
       "basename": "文件系统",
       "path": "杂项/linux与shell/linux/文件系统.md"
     },
     {
-      "basename": "环境配置",
-      "path": "杂项/linux与shell/环境配置.md"
+      "basename": "linux",
+      "path": "杂项/linux与shell/linux.md"
     },
     {
-      "basename": "权限管理",
-      "path": "杂项/linux与shell/linux/权限管理.md"
+      "basename": "Shell编程",
+      "path": "杂项/linux与shell/Shell编程.md"
     },
     {
       "basename": "git",

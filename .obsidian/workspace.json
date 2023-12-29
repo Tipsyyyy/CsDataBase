@@ -4,39 +4,9 @@
     "type": "split",
     "children": [
       {
-        "id": "5bc55434763bfb99",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "0947bea0c2dc262f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "杂项/linux与shell/linux.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          }
-        ]
-      },
-      {
         "id": "997f1dac4334ab13",
         "type": "tabs",
         "children": [
-          {
-            "id": "a56d8308e2d8b1d9",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "杂项/linux与shell/linux/权限管理.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
           {
             "id": "deafd4f95efca686",
             "type": "leaf",
@@ -48,45 +18,8 @@
                 "source": false
               }
             }
-          },
-          {
-            "id": "fedfdb7978476263",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "杂项/linux与shell/环境配置.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "b8a9de9917a02b42",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "杂项/linux与shell/linux/文件系统.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "9670a30e56dde1a6",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "杂项/linux与shell/linux/网络.md",
-                "mode": "source",
-                "source": false
-              }
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -245,12 +178,13 @@
   },
   "active": "deafd4f95efca686",
   "lastOpenFiles": [
-    "杂项/linux与shell/linux/网络.md",
-    "杂项/linux与shell/linux.md",
-    "杂项/linux与shell/linux/文件系统.md",
-    "杂项/linux与shell/环境配置.md",
-    "杂项/linux与shell/linux/进程管理.md",
     "杂项/linux与shell/linux/权限管理.md",
+    "杂项/linux与shell/linux/进程管理.md",
+    "杂项/linux与shell/linux/网络.md",
+    "杂项/linux与shell/linux/环境配置.md",
+    "杂项/linux与shell/linux/文件系统.md",
+    "杂项/linux与shell/linux.md",
+    "杂项/linux与shell/Shell编程.md",
     "杂项/git/git.md",
     "杂项/git/github.md",
     "杂项/linux与shell/ssh.md",
@@ -262,7 +196,6 @@
     "杂项/实用工具",
     "杂项/构建",
     "杂项/git",
-    "杂项/linux与shell/Shell编程.md",
     "工具&技能/linux.md",
     "杂项/linux与shell",
     "工具&技能/Untitled Folder",

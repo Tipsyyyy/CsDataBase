@@ -357,3 +357,27 @@ source filename
 - 脚本静态代码分析工具 [shellcheck](https://github.com/koalaman/shellcheck)
   - 识别并提供关于 Shell 脚本中的语法错误、安全漏洞、代码风格问题和一般性问题的有用建议。
   - `shellcheck your_script.sh`
+
+### 数据处理
+
+- `sed` 基于文本编辑器 `ed` 构建的”流编辑器” 
+  - 利用一些简短的命令来**修改文件**，而不是直接操作文件的内容
+  - 替换文件的内容 `| sed 's/.*Disconnected from //'`
+    - `s/REGEX/SUBSTITUTION/`, 其中 `REGEX` 部分是我们需要使用的正则表达式，而 `SUBSTITUTION` 是用于替换匹配结果的文本。
+
+- 统计数目
+  - `wc` 默认单词数目 `-l` 统计行
+
+- `| sort | uniq -c`
+  - `sort` 会对其输入数据进行排序。`uniq -c` 会把连续出现的行折叠为一行并使用出现次数作为前缀。
+
+- awk：强大的**文本处理编程语言**
+  - `awk '{print $2}'` 输出介个后的序列中的第二个字符串
+  - `| awk '$1 == 1 && $2 ~ /^c[^ ]*e$/ { print $2 }' | wc -l`
+    - 为 `awk` 指定了一个匹配模式串（也就是 `{...}` 前面的那部分内容）。该匹配要求文本的第一部分需要等于 1（这部分刚好是 `uniq -c` 得到的计数值），然后其第二部分必须满足给定的一个正则表达式。代码块中的内容则表示打印用户名。然后我们使用 `wc -l` 统计输出结果的行数。
+
+- 数学计算 `bc -l`
+  - `| paste -sd+ | bc -l` 解析输入为加法表达式，之后进行计算
+  - 使用 R 语言进行统计 `R --slave -e 'x <- scan(file="stdin", quiet=TRUE); summary(x)'`
+  - 使用 `gnuplot` =绘制图表
+    - `gnuplot -p -e 'set boxwidth 0.5; plot "-" using 1:xtic(2) with boxes'`
