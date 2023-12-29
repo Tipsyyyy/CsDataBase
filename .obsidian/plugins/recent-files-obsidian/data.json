@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "未命名",
+      "path": "课程/software construction/未命名.md"
+    },
+    {
       "basename": "第4章 时序逻辑电路（2）",
       "path": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（2）.pdf"
     },
@@ -195,10 +199,6 @@
     {
       "basename": "网络编程",
       "path": "java/java基础/IO/网络编程.md"
-    },
-    {
-      "basename": "控制台IO",
-      "path": "java/java基础/IO/控制台IO.md"
     }
   ],
   "omittedPaths": [],
