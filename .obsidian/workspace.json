@@ -4,22 +4,6 @@
     "type": "split",
     "children": [
       {
-        "id": "11e47c7ed5a4a328",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "30357097c0d825fc",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf"
-              }
-            }
-          }
-        ]
-      },
-      {
         "id": "0ff57268f4455a4d",
         "type": "tabs",
         "children": [
