@@ -4,6 +4,22 @@
     "type": "split",
     "children": [
       {
+        "id": "7494b422e4c7e13d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9864064018554346",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（2）.pdf"
+              }
+            }
+          }
+        ]
+      },
+      {
         "id": "0ff57268f4455a4d",
         "type": "tabs",
         "children": [
@@ -93,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
+                "file": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（2）.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +126,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
+                "file": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（2）.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -133,7 +149,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md"
+                "file": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（2）.pdf"
               }
             }
           },
@@ -176,14 +192,15 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "cd8e123ad81ead1a",
+  "active": "9864064018554346",
   "lastOpenFiles": [
-    "conflict-files-obsidian-git.md",
     "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
+    "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
+    "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（2）.pdf",
+    "conflict-files-obsidian-git.md",
     "工具&技能/Shell编程.md",
     "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf",
     "归档课程/计算机系统基础/data/3.md",
-    "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
     "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（2）.pdf",
     "课程/金融大数据/课件",
     "临时/temp.md",
@@ -194,7 +211,6 @@
     "课程/数字逻辑与计算机组成/课件/第8章 CPU3-非流水线-多周期.pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU2-非流水线-单周期.pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU1-非流水线-概述.pdf",
-    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
     "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md",
     "java/java基础/数据类型/拷贝与引用.md",
     "课程/数字逻辑与计算机组成/笔记/数字逻辑与计算机组成.md",
@@ -213,7 +229,6 @@
     "java/工具/环境配置与命令.md",
     "java/java.md",
     "java/java基础/杂项/注解.md",
-    "java/java基础/IO/NIO.md",
     "Pasted image 20231227111944.png",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-3.png",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-2.png",
