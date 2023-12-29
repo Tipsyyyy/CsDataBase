@@ -8,41 +8,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "c80b00f8b9f7aa7d",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（1）.pdf"
-              }
-            }
-          },
-          {
             "id": "97fa63e4b0cff651",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/software construction/未命名.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          }
-        ],
-        "currentTab": 1
-      },
-      {
-        "id": "cc9e220439944a18",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "deafd4f95efca686",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
+                "file": "课程/software construction/代码规范.md",
                 "mode": "source",
                 "source": false
               }
@@ -122,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/software construction/未命名.md",
+                "file": "课程/software construction/代码规范.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/software construction/未命名.md",
+                "file": "课程/software construction/代码规范.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -162,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/software construction/未命名.md"
+                "file": "课程/software construction/代码规范.md"
               }
             }
           },
@@ -207,8 +178,12 @@
   },
   "active": "97fa63e4b0cff651",
   "lastOpenFiles": [
+    "课程/software construction/设计模式.md",
+    "课程/software construction/代码规范.md",
+    "课程/software construction/测试.md",
+    "课程/software construction/函数式编程.md",
+    "课程/software construction/并发编程.md",
     "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（2）.pdf",
-    "课程/software construction/未命名.md",
     "课程/software construction",
     "课程/未命名.md",
     "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（1）.pdf",
@@ -239,9 +214,6 @@
     "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
     "归档课程/高级程序设计/高级程序设计复习.md",
     "大数据/mpi.md",
-    "杂项/虚拟化/vms.md",
-    "杂项/实用工具/scoop.md",
-    "工具&技能/markdown.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",

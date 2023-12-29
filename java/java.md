@@ -247,7 +247,7 @@ public class SpaceShipDelegation {
 
 ## [[异常]]
 
-## [[测试]]
+## [[java/java基础/杂项/测试]]
 
 ## 并发编程
 
@@ -506,7 +506,7 @@ map = map.descendingMap();
 
 ### [[注解]]
 
-### [[函数式编程]]
+### [[java/java基础/杂项/函数式编程]]
 ### [[流|流Stream]]
 
 ### [[包]]

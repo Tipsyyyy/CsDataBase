@@ -1,8 +1,24 @@
 {
   "recentFiles": [
     {
-      "basename": "未命名",
-      "path": "课程/software construction/未命名.md"
+      "basename": "代码规范",
+      "path": "课程/software construction/代码规范.md"
+    },
+    {
+      "basename": "设计模式",
+      "path": "课程/software construction/设计模式.md"
+    },
+    {
+      "basename": "测试",
+      "path": "课程/software construction/测试.md"
+    },
+    {
+      "basename": "函数式编程",
+      "path": "课程/software construction/函数式编程.md"
+    },
+    {
+      "basename": "并发编程",
+      "path": "课程/software construction/并发编程.md"
     },
     {
       "basename": "第4章 时序逻辑电路（2）",
@@ -183,22 +199,6 @@
     {
       "basename": "线程与线程池",
       "path": "java/java基础/并发编程/线程与线程池.md"
-    },
-    {
-      "basename": "Javadoc",
-      "path": "java/java基础/杂项/Javadoc.md"
-    },
-    {
-      "basename": "文件",
-      "path": "java/java基础/IO/文件.md"
-    },
-    {
-      "basename": "序列化与反序列化",
-      "path": "java/java基础/高级/序列化与反序列化.md"
-    },
-    {
-      "basename": "网络编程",
-      "path": "java/java基础/IO/网络编程.md"
     }
   ],
   "omittedPaths": [],
