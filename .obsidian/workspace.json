@@ -89,7 +89,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -109,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf",
+                "file": "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,7 +127,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf",
+                "file": "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -149,7 +150,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf"
+                "file": "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md"
               }
             }
           },
@@ -192,13 +193,15 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "30357097c0d825fc",
+  "active": "cd8e123ad81ead1a",
   "lastOpenFiles": [
+    "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf",
     "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
+    "归档课程/计算机系统基础/data/3.md",
+    "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
     "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（2）.pdf",
     "课程/金融大数据/课件",
     "临时/temp.md",
-    "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
     "课程/数据结构/数据结构.md",
     "课程/数据结构/pdf/多路合并.pdf",
     "课程/数据结构/pdf",
@@ -207,7 +210,6 @@
     "课程/数字逻辑与计算机组成/课件/第8章 CPU2-非流水线-单周期.pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU1-非流水线-概述.pdf",
     "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
-    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （1）.pdf",
     "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md",
     "java/java基础/数据类型/拷贝与引用.md",
     "课程/数字逻辑与计算机组成/笔记/数字逻辑与计算机组成.md",
@@ -228,8 +230,6 @@
     "java/java基础/杂项/注解.md",
     "java/java基础/IO/NIO.md",
     "java/java基础/并发编程/线程与线程池.md",
-    "java/java基础/杂项/Javadoc.md",
-    "java/java基础/IO/文件.md",
     "Pasted image 20231227111944.png",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-3.png",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-2.png",
