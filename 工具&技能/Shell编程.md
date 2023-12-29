@@ -3,7 +3,10 @@
 
 - 扩展名为`sh`
 - `#!/bin/zsh`头文件指定要使用的终端程序
-  - 或者运行时指定`/bin/zsh test.sh`
+  - 或者运行时指定 `/bin/zsh test.sh`
+
+#### 输入输出
+
 - 使用`echo`输出
   - 使用`-e`启用转义字符`echo -e "OK! \n"`
   - 显式不换行`echo -e "OK! \c"`(默认echo会自动添加换行符)
@@ -15,8 +18,6 @@
   - **%-4.2f** 指格式化为小数，其中 **.2** 指保留2位小数。
   - 转义字符
   - ![image-20231229154411516](https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231229154411516.png)
-
-
 ```bash
 printf "%-10s %-8s %-4s\n" 姓名 性别 体重kg  
 printf "%-10s %-8s %-4.2f\n" 郭靖 男 66.1234
@@ -29,11 +30,16 @@ printf "%-10s %-8s %-4.2f\n" 郭芙 女 47.9876
 ```
 
 - 读取
-
 ```bash
 read name 
 echo "$name It is a test"
 ```
+
+- 输出重定向
+	- 
+
+- 输入重定向
+	- 
 
 ### 变量与参数
 
@@ -135,22 +141,44 @@ COMMENT
 
 - `$_` - 上一条命令的**最后一个参数**。如果你正在使用的是交互式 shell，你可以通过按下 `Esc` 之后键入 . 来获取这个值。
 
+#### 函数
+
 - 定义函数
-
-
 ```shell
 mcd () {
     mkdir -p "$1"
     cd "$1"
 }
+#执行函数
+mcd
 ```
 
+- 带有返回值的版本
+```bash
+funWithReturn(){  
+    echo "这个函数会对输入的两个数字进行相加运算..."  
+    echo "输入第一个数字: "  
+    read aNum  
+    echo "输入第二个数字: "  
+    read anotherNum  
+    echo "两个数字分别为 $aNum 和 $anotherNum !"  
+    return $(($aNum+$anotherNum))  
+}  
+funWithReturn  
+echo "输入的两个数字之和为 $? !"
+```
+
+- 同样使用 `$1` 等获取参数
 ### 流程控制
 
 - 条件语句
 ```shell
-if [[ "$variable" = "value" ]]; then
+if [[ "$variable" = "value" ]]; 
+then
     echo "变量等于值"
+elif condition
+then
+
 else
     echo "变量不等于值"
 fi
@@ -174,6 +202,14 @@ esac
 
 - 循环语句
 ```shell
+for var in item1 item2 ... itemN
+do
+    command1
+    command2
+    ...
+    commandN
+done
+
 for item in list; do
     # 循环体中的代码
 done
@@ -189,6 +225,23 @@ until [ condition ]; do# 条件为假时重复执行一段代码
 done
 ```
 
+- break 命令允许跳出所有循环
+```bash
+#!/bin/bash  
+while :  
+do  
+    echo -n "输入 1 到 5 之间的数字:"  
+    read aNum  
+    case $aNum in  
+        1|2|3|4|5) echo "你输入的数字为 $aNum!"  
+        ;;  
+        *) echo "你输入的数字不是 1 到 5 之间的! 游戏结束"  
+            break  
+        ;;  
+    esac  
+done
+```
+- continue
 ### 运算
 
 - 算数运算符
@@ -199,37 +252,28 @@ done
   
 - 关系运算符
   - 字符串连接`result="$str1.$str2"`
-
   - 比较
-
-
 ```shell
 -gt # 大于
 -lt # 小于
 -ge # 大于等于
 -le # 小于等于
 ```
-
 - `-e`：检查**文件是否存在**。如果文件存在，则返回真，否则返回假。
-
 - `-f`：检查文件是否是**一个普通文件**。如果是普通文件，则返回真，否则返回假。
-
 - `-d`：检查文件是否是**一个目录**。如果是目录，则返回真，否则返回假。
-
 - `-r`：检查文件是否可读。如果文件可读，则返回真，否则返回假。
-
 - `-w`：检查文件是否可写。如果文件可写，则返回真，否则返回假。
-
 - `-x`：检查文件是否可执行。如果文件可执行，则返回真，否则返回假。
-
 - `-s`：检查文件是否为空。如果文件不为空，则返回真，否则返回假。
+- `[ "$a" -gt "$b" ]`
+- 或者 `(( a > b ))`
+- 或者 ` if test $[num1] -eq $[num2]`
 
 - 布尔运算符
   - ![image-20231229153104488](https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231229153104488.png)
 
 - 逻辑运算符
-
-
 ```shell
 false || echo "Oops, fail"
 # Oops, fail
@@ -254,8 +298,6 @@ false ; echo "This will always run"
 - 执行脚本`source mcd`就将方法加载到了终端作用域，之后可以直接使用`mcd xxx`执行
 
 - 例子
-
-
 ```shell
 echo "Starting program at $(date)" # date会被替换成日期和时间
 
@@ -276,12 +318,8 @@ done
 - **标准错误（stderr，文件描述符 2）：** 用于向终端或其他输出设备输出错误消息和诊断信息。
 
 - 通配符
-
   - `ls *.sh`筛选文件类型
-
   - `ls project?`
-
-
 ```shell
 convert image.{png,jpg}
 # 会展开为
@@ -295,21 +333,15 @@ touch {foo,bar}/{a..h}
 ```
 
 - 其他语言编写脚本（不能作为函数）
-
-
 ```shell
 #!/usr/local/bin/python
 import sys
 for arg in reversed(sys.argv[1:]):
     print(arg)
 ```
-
 - 函数只能与shell使用相同的语言，脚本可以使用任意语言。因此在脚本中包含 `shebang` 是很重要的。
-
 - 函数仅在定义时被加载，脚本会在每次被执行时加载。这让函数的加载比脚本略快一些，但每次修改函数定义，都要重新加载一次。
-
 - 函数会在当前的shell环境中执行，脚本会在单独的进程中执行。因此，函数可以对环境变量进行更改，比如改变当前工作目录，脚本则不行。脚本需要使用 [`export`](https://man7.org/linux/man-pages/man1/export.1p.html) 将环境变量导出，并将值传递给环境变量。
-
 - 与其他程序语言一样，函数可以提高代码模块性、代码复用性并创建清晰性的结构。shell 脚本中往往也会包含它们自己的函数定义。
 
 - 脚本静态代码分析工具 [shellcheck](https://github.com/koalaman/shellcheck)
