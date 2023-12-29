@@ -18,8 +18,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "9670a30e56dde1a6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "工具&技能/Shell编程.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -175,8 +188,10 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "1e3a5ce3a19d0ace",
+  "active": "9670a30e56dde1a6",
   "lastOpenFiles": [
+    "conflict-files-obsidian-git.md",
+    "工具&技能/Shell编程.md",
     "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
     "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（2）.pdf",
     "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf",
@@ -185,7 +200,6 @@
     "工具&技能/linux.md",
     "工具&技能/vms.md",
     "工具&技能/vim.md",
-    "工具&技能/Shell编程.md",
     "工具&技能/scoop.md",
     "工具&技能/markdown.md",
     "工具&技能/make.md",
