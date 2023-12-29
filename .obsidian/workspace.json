@@ -4,15 +4,47 @@
     "type": "split",
     "children": [
       {
-        "id": "9d031ff641264c50",
+        "id": "22e737cd1957e7bf",
         "type": "tabs",
         "children": [
           {
-            "id": "9418cb6aa6b24440",
+            "id": "769fdc3724476251",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（2）.pdf"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "5338c62d4b63d294",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f75b4edd907b14e0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "e3464bc7ebcdc8bd",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "临时/temp.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -44,7 +76,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "闭包",
+                "query": "动态代理",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -62,7 +94,7 @@
             }
           },
           {
-            "id": "0a9cd0319ddd3dbc",
+            "id": "e9ac2cd663de210b",
             "type": "leaf",
             "state": {
               "type": "recent-files",
@@ -89,6 +121,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,8 +138,9 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
                 "linksCollapsed": false,
-                "unlinkedCollapsed": true
+                "unlinkedCollapsed": false
               }
             }
           },
@@ -126,22 +160,16 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md"
+              }
             }
           },
           {
-            "id": "541551cc93ddceea",
+            "id": "9d8082ae89a6025f",
             "type": "leaf",
             "state": {
               "type": "calendar",
-              "state": {}
-            }
-          },
-          {
-            "id": "160702efc0127260",
-            "type": "leaf",
-            "state": {
-              "type": "todo",
               "state": {}
             }
           }
@@ -150,13 +178,12 @@
       }
     ],
     "direction": "horizontal",
-    "width": 398.5,
+    "width": 200,
     "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
-      "omnisearch:Omnisearch": false,
-      "obsidian-excalidraw-plugin:新建绘图文件": false,
+      "obsidian-advanced-slides:Show Slide Preview": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
@@ -165,57 +192,56 @@
       "command-palette:打开命令面板": false,
       "workspaces:管理工作区布局": false,
       "audio-recorder:开始/结束录音": false,
-      "obsidian-advanced-slides:Show Slide Preview": false
+      "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "9418cb6aa6b24440",
+  "active": "96e173acdf249e6c",
   "lastOpenFiles": [
-    "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（1）.pdf",
-    "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（2）.pdf",
+    "课程/金融大数据/课件",
+    "临时/temp.md",
     "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
-    "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
-    "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
-    "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
-    "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
-    "课程/数字逻辑与计算机组成/笔记/U1二进制编码.md",
-    "课程/数字逻辑与计算机组成/课件/第1章 二进制编码（3）.pdf",
-    "课程/数字逻辑与计算机组成/课件/第1章 二进制编码（2）.pdf",
-    "第1章 二进制编码（2）.md",
-    "课程/数字逻辑与计算机组成/课件/第1章 二进制编码 （1）.pdf",
-    "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md",
-    "课程/数字逻辑与计算机组成/第1章 二进制编码 （1）.pdf",
+    "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（2）.pdf",
+    "课程/数据结构/数据结构.md",
+    "课程/数据结构/pdf/多路合并.pdf",
+    "课程/数据结构/pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU3-非流水线-多周期.pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU2-非流水线-单周期.pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU1-非流水线-概述.pdf",
     "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
-    "算法/数据结构.md",
-    "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
-    "课程/数据结构/数据结构.md",
-    "多路合并.md",
-    "java/java.md",
-    "java/java基础/Util/集合/Collections工具类.md",
-    "java/java基础/Util/集合/Iterator.md",
-    "README.md",
-    "ListIterator.md",
-    "java/java基础/io/NIO.md",
-    "java/java基础/并发编程/线程安全的数据类型.md",
-    "java/java基础/并发编程/线程与线程池.md",
-    "java/java基础/Util/集合.md",
-    "java/java基础/数据类型/流.md",
-    "java/java基础/杂项/注解.md",
-    "java/java基础/杂项/equals()与hashCode().md",
+    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （1）.pdf",
+    "课程/数字逻辑与计算机组成/课件/第6章 运算（3）除法.pdf",
+    "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md",
+    "java/java基础/数据类型/拷贝与引用.md",
+    "课程/数字逻辑与计算机组成/笔记/数字逻辑与计算机组成.md",
+    "java/java基础/高级/使用享元自定义Collecction和Map.md",
     "java/java基础/高级/record记录.md",
+    "java/java基础/杂项/包.md",
+    "java/java基础/杂项/equals()与hashCode().md",
+    "java/java基础/杂项/Java编码规范.md",
+    "java/java基础/并发编程/线程安全的数据类型.md",
+    "java/java基础/Util/集合/Iterator.md",
+    "java/java基础/Util/集合/Collections工具类.md",
+    "java/java基础/Util/时间类.md",
+    "java/java基础/Util/日志.md",
+    "java/java基础/Util/Math类.md",
+    "README.md",
+    "java/工具/环境配置与命令.md",
+    "java/java.md",
+    "java/java基础/杂项/注解.md",
+    "java/java基础/IO/NIO.md",
+    "java/java基础/并发编程/线程与线程池.md",
+    "java/java基础/杂项/Javadoc.md",
+    "java/java基础/IO/文件.md",
     "Pasted image 20231227111944.png",
-    "未命名.canvas",
-    "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
-    "export/金融大数据p4/plugin/chalkboard/img/sponge.png",
-    "export/金融大数据p4/plugin/chalkboard/img/chalk-yellow.png",
-    "export/金融大数据p4/plugin/chalkboard/img/chalk-white.png",
-    "export/金融大数据p4/plugin/chalkboard/img/chalk-red.png",
-    "export/金融大数据p4/plugin/chalkboard/img/chalk-purple.png",
-    "export/金融大数据p4/plugin/chalkboard/img/chalk-orange.png",
-    "export/金融大数据p4/plugin/chalkboard/img/chalk-green.png",
-    "export/金融大数据p4/plugin/chalkboard/img/chalk-blue.png"
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-3.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-2.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-1.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-3-3.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-3-2.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-3-1.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-2-2.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-2-1.png",
+    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-1.png"
   ]
 }
