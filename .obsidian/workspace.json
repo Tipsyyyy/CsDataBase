@@ -8,12 +8,39 @@
         "type": "tabs",
         "children": [
           {
+            "id": "c80b00f8b9f7aa7d",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（1）.pdf"
+              }
+            }
+          },
+          {
+            "id": "97fa63e4b0cff651",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（2）.pdf"
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      },
+      {
+        "id": "cc9e220439944a18",
+        "type": "tabs",
+        "children": [
+          {
             "id": "deafd4f95efca686",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "杂项/linux与shell/linux/进程管理.md",
+                "file": "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
                 "mode": "source",
                 "source": false
               }
@@ -48,7 +75,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "闭包",
+                "query": "asset",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -93,7 +120,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "杂项/linux与shell/linux/进程管理.md",
+                "file": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（2）.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +137,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "杂项/linux与shell/linux/进程管理.md",
+                "file": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（2）.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +160,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "杂项/linux与shell/linux/进程管理.md"
+                "file": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（2）.pdf"
               }
             }
           },
@@ -176,20 +203,24 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "deafd4f95efca686",
+  "active": "97fa63e4b0cff651",
   "lastOpenFiles": [
-    "杂项/linux与shell/linux/权限管理.md",
+    "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（1）.pdf",
+    "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
+    "c++/笔记（整理前）/1.md",
+    "杂项/latex/latex.md",
+    "杂项/git/git.md",
+    "杂项/latex",
     "杂项/linux与shell/linux/进程管理.md",
+    "杂项/linux与shell/linux/权限管理.md",
     "杂项/linux与shell/linux/网络.md",
     "杂项/linux与shell/linux/环境配置.md",
     "杂项/linux与shell/linux/文件系统.md",
     "杂项/linux与shell/linux.md",
     "杂项/linux与shell/Shell编程.md",
-    "杂项/git/git.md",
     "杂项/git/github.md",
     "杂项/linux与shell/ssh.md",
     "杂项/linux与shell/linux",
-    "杂项/杂项/latex.md",
     "杂项/杂项",
     "杂项/虚拟化",
     "杂项/linux与shell/vim.md",
@@ -203,7 +234,6 @@
     "conflict-files-obsidian-git.md",
     "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
     "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（2）.pdf",
-    "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf",
     "归档课程/高级程序设计/高级程序设计复习.md",
     "大数据/mpi.md",
     "杂项/虚拟化/vms.md",
@@ -211,9 +241,6 @@
     "工具&技能/markdown.md",
     "杂项/构建/make.md",
     "杂项/实用工具/ide.md",
-    "杂项/虚拟化/docker.md",
-    "杂项/杂项/杂项.md",
-    "工具&技能/数据流.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",

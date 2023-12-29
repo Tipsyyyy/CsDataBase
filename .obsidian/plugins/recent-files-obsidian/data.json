@@ -1,6 +1,30 @@
 {
   "recentFiles": [
     {
+      "basename": "第4章 时序逻辑电路（2）",
+      "path": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（2）.pdf"
+    },
+    {
+      "basename": "第4章 时序逻辑电路（1）",
+      "path": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（1）.pdf"
+    },
+    {
+      "basename": "U4时序逻辑电路",
+      "path": "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md"
+    },
+    {
+      "basename": "1",
+      "path": "c++/笔记（整理前）/1.md"
+    },
+    {
+      "basename": "latex",
+      "path": "杂项/latex/latex.md"
+    },
+    {
+      "basename": "git",
+      "path": "杂项/git/git.md"
+    },
+    {
       "basename": "进程管理",
       "path": "杂项/linux与shell/linux/进程管理.md"
     },
@@ -29,16 +53,8 @@
       "path": "杂项/linux与shell/Shell编程.md"
     },
     {
-      "basename": "git",
-      "path": "杂项/git/git.md"
-    },
-    {
       "basename": "github",
       "path": "杂项/git/github.md"
-    },
-    {
-      "basename": "latex",
-      "path": "杂项/杂项/latex.md"
     },
     {
       "basename": "vim",
@@ -95,10 +111,6 @@
     {
       "basename": "U2数字逻辑电路基础",
       "path": "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md"
-    },
-    {
-      "basename": "U4时序逻辑电路",
-      "path": "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md"
     },
     {
       "basename": "U7 指令系统",
@@ -187,18 +199,6 @@
     {
       "basename": "控制台IO",
       "path": "java/java基础/IO/控制台IO.md"
-    },
-    {
-      "basename": "旧IO",
-      "path": "java/java基础/IO/旧IO.md"
-    },
-    {
-      "basename": "高级",
-      "path": "java/java基础/并发编程/高级.md"
-    },
-    {
-      "basename": "基本概念",
-      "path": "java/java基础/并发编程/基本概念.md"
     }
   ],
   "omittedPaths": [],
