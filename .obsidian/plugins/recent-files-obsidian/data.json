@@ -1,8 +1,36 @@
 {
   "recentFiles": [
     {
+      "basename": "进程管理",
+      "path": "杂项/linux与shell/linux/进程管理.md"
+    },
+    {
+      "basename": "网络",
+      "path": "杂项/linux与shell/linux/网络.md"
+    },
+    {
       "basename": "linux",
       "path": "杂项/linux与shell/linux.md"
+    },
+    {
+      "basename": "文件系统",
+      "path": "杂项/linux与shell/linux/文件系统.md"
+    },
+    {
+      "basename": "环境配置",
+      "path": "杂项/linux与shell/环境配置.md"
+    },
+    {
+      "basename": "权限管理",
+      "path": "杂项/linux与shell/linux/权限管理.md"
+    },
+    {
+      "basename": "git",
+      "path": "杂项/git/git.md"
+    },
+    {
+      "basename": "github",
+      "path": "杂项/git/github.md"
     },
     {
       "basename": "latex",
@@ -43,14 +71,6 @@
     {
       "basename": "ide",
       "path": "杂项/实用工具/ide.md"
-    },
-    {
-      "basename": "github",
-      "path": "杂项/git/github.md"
-    },
-    {
-      "basename": "git",
-      "path": "杂项/git/git.md"
     },
     {
       "basename": "docker",
@@ -175,18 +195,6 @@
     {
       "basename": "基本概念",
       "path": "java/java基础/并发编程/基本概念.md"
-    },
-    {
-      "basename": "基本数据类型与包装类",
-      "path": "java/java基础/数据类型/基本数据类型与包装类.md"
-    },
-    {
-      "basename": "函数式编程",
-      "path": "java/java基础/杂项/函数式编程.md"
-    },
-    {
-      "basename": "异常处理",
-      "path": "java/java基础/并发编程/异常处理.md"
     }
   ],
   "omittedPaths": [],

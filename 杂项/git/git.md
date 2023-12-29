@@ -22,7 +22,6 @@
 - 在用户文件夹下新建.bashrc文件，在里面输入
 - alias newname='oldname'
 
- 
 
 ## 本地仓库
 
@@ -165,7 +164,7 @@
 
 ## 远程仓库
 
-### 配置ssh公钥
+### 配置 [[网络#ssh|ssh]] 公钥
 
 - 生成  ssh-keygen -t rsa
 - 获取cat ~/.ssh/id_rsa.pub

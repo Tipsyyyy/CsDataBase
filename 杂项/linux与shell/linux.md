@@ -6,203 +6,40 @@
 
 ### 基础概念
 
-#### 文件系统与路径
-
-
-
-- 命令行：linux终端，一种命令提示符界面，以纯字符操作系统，发出指令。
-- 命令：linux程序，可以在终端中提供字符化反馈。
-- 基础格式 command [-options] [parameter]
+- 命令格式 command [-options] [parameter]
   - command 命令本身
   - -options 命令的一些选项，控制行为细节
-    - 可以组合使用，如：-l -a或-la或-al均可
+    - 可以组合使用，如：-l -a 或-la 或-al 均可
   - parameter 命令的参数，多用于指向目标
-- linux系统终端默认会加载HOME目录为当前的工作目录
-  - HOME目录：每个Linux系统的个人账户目录（/home/用户名）
+- linux 系统终端默认会加载 HOME 目录为当前的工作目录
+  - HOME 目录：每个 Linux 系统的个人账户目录（/home/用户名）
   - /home/用户名/~
-
-- 路径
-  - 绝对路径：以根目录为起点
-  - 相对路径：以当前路径为起点
-  - 特殊路径符
-    - **.表示当前目录** cd ./Desktop等价于cd Desktop
-    - **..表示上一级目录** cd ..返回上一级目录 cd../..上两级
-    - ~ HOME目录
 
 - 通配符
   - \* 匹配任意内容
-  - test\* 以test开头
-  - \*test 以test结尾
-  - \*test\* 包含test
+  - test\* 以 test 开头
+  - \*test 以 test 结尾
+  - \*test\* 包含 test
 - | 管道符，将管道左边命令的结果作为右边命令的输入
-  - 比如cat text01.txt | grep xxx 等价于 grep xxx text01.txt
+  - 比如 cat text 01. txt | grep xxx 等价于 grep xxx text 01. txt
   - 如查找文件 ls xx | grep xx
-  - 嵌套使用xx|xx|xx|...依次向右传递
+  - 嵌套使用 xx|xx|xx|... 依次向右传递
 
-- **ctrl+c 强制停止**命令的执行
+- 查看指令的使用方法 `man xx
+- `history` 输出输入的命令的历史记录
+- `tree` 显示文件目录工具 `
 
-### 文件命令类似
+### [[文件系统]]
 
-- ls [-a -l -h] [linux路径]
-  - 省缺参数时直接列出当前工作目录下的内容
-  - 选项
-    - -a 列出全部的文件（包含隐藏的文件和文件夹）
-    - -l 以列表的形式展现详细内容
-    - -h 与l一起用，-hl以kb/mb等显示文件大小
-- cd [linux路径] 切换工作目录
-  - 省缺参数默认为home路径
-- pwd 输出当前工作目录（查看当前所处的位置）
-- mkdir [-p] linux路径 新建文件夹
-  - -p自动创建不存在的父目录，即连续创建多级目录
-  - 创建文件需要修改权限，HOME文件夹外无法成功
-- touch linux路径 创建路径
-- cat linux路径 查看文件内容
-- more linux路径 翻页查看
-  - 空格 下一页
-  - q 退出查看
-- cp [-r] 路径1 路径2 复制文件（夹）
-  - -r 用于复制文件夹
-  - 从路径1复制到路径2
-- mv 路径1 路径2 移动文件（夹）
-  - 可用于重命名 mv test01.txt test02.txt
-- rm [-r -f] 路径1 路径2 ...  删除
-  - -r用于删除文件夹
-  - -f强制删除，不弹出提示（管理员用户）
-  - 一次可以删除多个
-- grep [-n] 关键字 文件路径，通过关键字过滤文件行
-  - -n 在结果中显示匹配的行号
-  - 关键字，表示过滤的关键字，包含空格等特殊符号时用“”包住
-  - 文件路径，要过滤内容的文件，可作为内容输入端口(可以由管道符输入)
+### [[权限管理]]
 
-- wc [-c -m -l -w] 文件路径，统计文件信息
-  - -c 统计bytes数目
-  - -m 统计字符数目
-  - -l 统计行数
-  - -w 统计单词数目
-  - 默认输出 行数+单词数+字节数
-  - 文件路径，要统计内容的文件，可作为内容输入端口
+### [[进程管理]]
 
-- which 要查找的命令（用于查找环境变量下的命令）
-  - 命令如ls本质上是一个个程序
-  - which用于查看which的程序文件在哪里
+## 杂项
 
-- find 起始路径 -name(查找方式) “名称”（用于查找文件）
-  - 可以结合，通配符使用
-  - find 起始路径 -size +(-)n[单位] ，按照文件的大小查找
-    - \+\-表示大于和小于
-    - n表示数字
-    - 单位：k表示kb，M表示MB，G表示GB
-    - 如 find / -size-10k
+### 软件安装
 
-- echo 内容（可以用双引号包含）
-  - 用于在命令行内输出内容
-  - 用反引号`包含的内容会被作为命令执行
-  - 如echo  \`ls\`
-
-- 重定向符
-  - \>将左侧命令结果覆盖写入右侧指定文件
-  - \>>将左侧命令追加写入右侧文件中
-  - 如echo "xxx" > text.txt
-
-- tail [-f -num] Linux路径 ，查看文件尾部内容，跟踪文件最新更改
-  - -f 表示持续跟踪
-    - 会实时显示文件内容的更改（当此文件在其它终端中被修改时）
-
-  - -num 表示查看尾部多少行，默认为10
-
-### 用户系统	
-
-- root用户（超级管理员）
-  - 拥有最大权限
-  - 普通用户一般只在home目录内不受限，在大多位置都没修改权限
-- su [-] [用户名]， 用户切换
-  - -表示切换用户后加载环境变量
-  - 用户名默认为root
-  - 切换到root需要输入密码
-- exit 回退到上一个用户
-  - 快捷键 ctrl+d 
-- sudo 其它命令
-  - 为一条命令赋予root权限
-  - 只有被sudo认真的用户才能使用sudo命令
-    - root用户 输入visudo 打开/etc/sudoers
-    - 在文件最后添加`username（用户名） ALL=(ALL) NOPASSWD: ALL`
-- passed 修改密码
-- 用户与用户组
-  - 可以配置多个用户、用户组
-  - 一个用户可以加入多个用户组
-  - linux中的权限管控可以是针对用户的也可以是针对用户组的
-  - 用户组管理：只有root用户才能执行
-    - groupadd 用户组名，创建用户组
-    - groupdel 用户组名， 删除用户组
-  - 用户管理
-    - useradd  [-g -d] 用户名
-      - -g指定用户的组，指定的组必须是已经存在的组，不指定会创建同名组并自动加入
-        - 如-g its
-      - -d指定用户的home路径，默认为/home/用户名
-        - 如-d /home/test
-    - userdel [-r] 用户名
-      - -r 同时删除对应的home目录
-    - id [用户名]，查看用户所属的组，默认查看子集
-    - usermod -aG 用户组  用户名 ，将指定用户加入指定
-  - getent passwd 显示操作系统中的全部用户
-    - thdlrt: x:1000:1000:thdlrt:/home/thdlrt:/bin/bash
-    - 用户名：密码：id：组id：描述信息：home目录：执行终端（默认bash）
-  - getent group查看组的信息
-    - test: x:1001:thdlrt
-    - 组名：组认证：id
-
-#### 文件权限控制
-
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316191457164.png" alt="image-20230316191457164" style="zoom: 60%;" />
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316191824148.png" alt="image-20230316191824148" style="zoom:50%;" />
-  - 首位表示文件类型。后面每三位表示一种用户的权限
-    - r：读权限（查看文件内容；ls文件夹内容）
-    - w：写权限（修改文件；在文件夹内删除修改创建）
-    - x：执行权限（将文件作为程序执行；cd进入文件夹，作为工作目录）
-- chmod权限控制（只有文件的所属用户以及root用户才可以进修改）
-  - `chmod [-R] 权限 文件、文件夹`
-    - -R表示对文件夹内全部内容进行同样的操作
-    - `chmod u=rwx,g=rx,o=x hello.txt`分别对三种用户的权限进行修改（只写修改的即可,并且省略-）
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316193937027.png" alt="image-20230316193937027" style="zoom:50%;" />
-    - 用一位数字表示一种用户的权限状态，三个数字表示全部三种用户的权限
-    - 如`chmod 751 gello.txt`
-- chown修改文件拥有者/用户组
-  - `chown -R [用户][:][用户组] 文件/文件夹`
-    - -R对文件内全部文件执行相同的操作
-    - 可选修改用户以及用户组（用:分隔）
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316194413686.png" alt="image-20230316194413686" style="zoom: 50%;" />
-  - 只有root用户有权限执行这个命令
-
-## 实用操作
-
-#### 实用命令
-
-- `ctrl+c`终止程序运行/放弃输入这条命令，重新换行进行输入
-- `ctrl+d`退出登录（相当于exit）/退出某些程序的特定界面
-- `ctrl+l`清空终端相当于clear
-- `history`查看历史命令
-- `!+前缀`搜索最近的匹配前缀的命令并执行
-- `ctrl+r`搜索历史命令
-  - 回车直接执行
-  - 左右方向键获取命令
--  光标移动
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316203548007.png" alt="image-20230316203548007" style="zoom:50%;" />
-
-### 系统时间/时区
-
-- `date [-d] [+格式化字符串]`查看系统时间
-  - -d:按照给定的字符串显示日期，一般用于日期计算
-    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316215420462.png" alt="image-20230316215420462" style="zoom:50%;" />
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316215012764.png" alt="image-20230316215012764" style="zoom:50%;" />
-    - 可以自由组合，如`date +%Y-%m-%d"`
-- ntp时间自动校准
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316215702020.png" alt="image-20230316215702020" style="zoom:50%;" />
-
-### 软件控制
-
-#### 软件安装
-
-##### yum-centos
+#### yum-centos
 
 - rpm包软件管理器，用于自动化安装配置linux软件
 - `yum [-y] [install | remove | search] 软件名称`
@@ -211,8 +48,7 @@
   - remove卸载
   - search搜索是否有对应的安装包
 - yum需要root权限以及联网
-
-##### apt-ubuntu
+#### apt-ubuntu
 
 - 仅将yum换成apt
 
@@ -248,15 +84,6 @@
     - -r表示包含文件夹
   - 解压：`unzip 要解压的文件 [-d 解压目的地址]`
 
-### 进程管理
-
-- `ps [-e -f]`查看进程
-  - -e显示全部进程；-f显示详细信息
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316214302697.png" alt="image-20230316214302697" style="zoom:50%;" />
-  - 查找进程`ps -ef | grep name`
-- `kill [-9] 进程ID`关闭进程
-  - -9：强制关闭
-
 ### 主机状态监测
 
 - `top`查看信息（类似任务管理器），5s刷新一次
@@ -278,49 +105,6 @@
   - 参数1：被链接的（源文件）
   - 参数2：链接目的地（快捷方式）
 
-### 网络
-
-#### ip与主机名
-
-- `ifconfig`查看
-- `127.0.0.1`表示本机
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316210527891.png" alt="image-20230316210527891" style="zoom:35%;" />
-- `hostname`查看主机名
-  - `hostnamectl set-hostname 主机名`修改主机名（需要root）
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316211222362.png" alt="image-20230316211222362" style="zoom:50%;" />
-  - 想要通过域名而不是IP访问服务器可以通过设置本地域名映射来实现
-    - 格式`ip 主机名`
-- 由于虚拟机使用DHCP获取ip，因此可能需要为虚拟机设置[固定ip](https://www.bilibili.com/video/BV1n84y1i7td?p=35&vd_source=acab52c21ffa9e9c57428e615e773279)
-
-#### 网络传输
-
-- ping检查是否连通
-  - `ping [-c num] ip或主机名`
-    - -c检查次数，省略时将无限次数持续检查，如`-c 3`检查三次
-- wget下载网络文件
-  - `wget [-b] url`
-    - -b表示后台下载
-      - 会将日志写入当前工作目录的wget-log文件
-    - url下载链接
-  - 中断下载`ctrl+c`
-- curl发送http网络请求（下载文件、获取信息）
-  - `curl [-O] url`
-    - -O表示下载文件
-  - 与浏览器打开网页详细，会受到网页的html的源代码
-- 端口
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316213424911.png" alt="image-20230316213424911" style="zoom:50%;" />
-  - `nmap ip`查看指定ip被占用的端口（需要用yum安装nmap）
-  - `netstat -anp|grep 端口号`查看指定端口的占用情况
-
-#### 上传/下载
-
-- finalshell直接下载/拖拽（）（注意：看到文件的权限是由连接时的账号决定的，su没有用）
-- 命令方式
-  - 安装lrzsz
-  - rz上传
-    - 输入后会弹出对话框让选择要上传的文件
-  - `sz 文件名`下载
-
 ## shell(补充)
 
 - 在shell中执行命令时实际上是在执行一段 shell 可以解释执行的简短代码。对于不是shell了解的编程关键字，shell会去环境变量寻找，搜索目标程序，然后根据路径执行程序。
@@ -336,78 +120,10 @@ missing:~$ /bin/echo $PATH
 ```
 
 - 参数之间是不能有空格的，如`mkdir hello world`是分别创建两个文件夹
-
   - 要想使用带有空格的字符串参数：`\ `转义或用双引号包住字符参数
-
 - win使用\，Mac和Linux使用/
 
-### 常用方法
-
-- `echo`：在 shell 中显示一行文本或字符串
-  - 用途
-    - `echo Hello, world!`
-    - `echo $HOME`
-    - 输出文件`echo "Some text" > file.txt`
-    - 获取当前工作目录`pwd`
-- 返回上一个目录`cd -`
-- `-`后根参数名，如`--help`通常表示帮助
-- mv、cp、mkdir、rm、rkdir
-- 流（程序之间传递）<>
-  - `echo hello > hello.txt`
-  - `cat test1.txt > test2.txt`
-  - \>是写入，>>表示append
-  - 假设test需要管理员权限，那么`sudo echo 500 > test`**是无法运行的**：这个命令的执行过程中，`> test` 部分实际上是在当前用户的上下文中执行的，而不是在使用 `sudo` 权限的上下文中。
-    - 实现上会在执行`sudo echo`之前执行`test`因此会出现问题
-    - 正确做法`echo 3 | sudo tee brightness`
-- 管道
-  - \>和|都是重定向前一项的输出作为后一项的输入，但是>仍使用前一项作为命令的输出，而|则会使用后一项
-  - `ls -l / | tail -n1`
-  - 更好的阅读模式`| less`
-    - `less ssh.log`
-  - grep匹配
-    - `-v`反向匹配
-    - `-E` 参数用于启用扩展正则表达式匹配模式。
-  - xargs将来自管道的**输入作为参数传递**给指定的命令。
-    - `rustup toolchain list | grep nightly | grep -vE "nightly-x86" | sed 's/-x86.*//' | xargs rustup toolchain uninstall`
-
 ### [[Shell编程]]
-### Shell工具
-
-- 查看指令的使用方法`man xx`
-
-- 查找文件find
-
-
-```shell
-# 查找所有名称为src的文件夹(.表示从当前目录开始查找)
-find . -name src -type d
-# 查找所有文件夹路径中包含test的python文件
-find . -path '*/test/*.py' -type f
-# 查找前一天修改的所有文件
-find . -mtime -1
-# 查找所有大小在500k至10M的tar.gz文件
-find . -size +500k -size -10M -name '*.tar.gz'
-# 删除全部扩展名为.tmp 的文件
-find . -name '*.tmp' -exec rm {} \;
-# 查找全部的 PNG 文件并将其转换为 JPG
-find . -name '*.png' -exec convert {} {}.jpg \;
-```
-
-- [`fd`](https://github.com/sharkdp/fd) 就是一个更简单、更快速、更友好的程序，它可以用来作为`find`的替代品。
-
-- 对于频繁进行文件查找的情况 `locate` 使用一个由 [`updatedb`](https://man7.org/linux/man-pages/man1/updatedb.1.html)负责更新的数据库，在大多数系统中 `updatedb` 都会通过 [`cron`](https://man7.org/linux/man-pages/man8/cron.8.html) 每日更新。
-
-- 查找代码（文件内容）grep
-
-  - `grep footbar mcd.sh`
-    
-  -  `-C` ：获取查找结果的上下文（Context）；`-v` 将对结果进行反选（Invert），也就是输出不匹配的结果。举例来说， `grep -C 5` 会输出匹配结果前后五行。当需要搜索大量文件的时候，使用 `-R` 会递归地进入子目录并搜索所有的文本文件。
-
-  -  [rg](https://github.com/BurntSushi/ripgrep)更好用
-
-- `history`输出输入的命令的历史记录
-
-- `tree`显示文件目录工具
 
 ### 数据处理
 
@@ -439,100 +155,6 @@ find . -name '*.png' -exec convert {} {}.jpg \;
 
 ### 杂项
 
-#### 工作控制
-
-- 信号
-
-  - **SIGHUP (Hangup)**：
-    - **描述：** SIGHUP信号通常用于通知进程重新加载其配置或进行一些其他操作，通常由终端会话结束时触发。例如，当你**关闭一个终端会话**时，会向该会话中的进程发送SIGHUP信号，以便它们有机会执行清理工作或重新加载配置。
-  - **SIGINT (Interrupt)**：
-    - **描述：** SIGINT信号通常由用户按下**Ctrl+C**组合键来触发，用于终止当前运行的进程。这是一种常见的方式来停止正在运行的程序。
-  - **SIGTERM (Termination)**：
-    - **描述：** SIGTERM信号是用于请求进程正常终止的信号。进程可以捕获该信号并执行清理工作，然后正常退出。
-  - **SIGKILL (Kill)**：
-    - **描述：** SIGKILL信号是用于**强制终止进程**的信号，进程无法捕获或忽略它。使用SIGKILL会立即终止进程，而不允许进程执行清理操作。
-  - 使用 `Ctrl-C` 来停止命令（将**进程stopped**）的执行时，shell 会发送一个`SIGINT` 信号到进程。
-
-
-```python
-#!/usr/bin/env python
-import signal, time
-# 捕获了ctrl-c发送的信号
-def handler(signum, time):
-    print("\nI got a SIGINT, but I am not stopping")
-
-signal.signal(signal.SIGINT, handler)
-i = 0
-while True:
-    time.sleep(.1)
-    print("\r{}".format(i), end="")
-    i += 1
-```
-
-- 一个不会在`ctrl-c`时终止的程序
-- 可以使用`ctrl-\`发送SIGQUIT信号终止程序
-
-- `Ctrl-Z` 会让 shell 发送 `SIGTSTP` 信号（会将**进程挂起为suspended**）
-- 关闭终端（ssh断开连接）会发送另外一个信号`SIGHUP`
-
-- `jobs` 命令会列出当前终端会话中尚未完成的全部任务
-
-  - 后台运行命令，在命令后面添加`$`后缀
-
-  - 恢复进程`bg %1`
-
-    - `fg`恢复到前台执行，并输出到标准输出
-    - `%`加上进程的id
-
-  - 杀死进程`kill %1 kill -SIGHUP %1`
-
-    - 可以用于发送任何信号`kill -STOP %1`
-
-
-```shell
-$ sleep 1000
-^Z
-[1]  + 18653 suspended  sleep 1000
-
-$ nohup sleep 2000 &
-[2] 18745
-appending output to nohup.out
-
-$ jobs
-[1]  + suspended  sleep 1000
-[2]  - running    nohup sleep 2000
-
-$ bg %1
-[1]  - 18653 continued  sleep 1000
-
-$ jobs
-[1]  - running    sleep 1000
-[2]  + running    nohup sleep 2000
-
-$ kill -STOP %1
-[1]  + 18653 suspended (signal)  sleep 1000
-
-$ jobs
-[1]  + suspended (signal)  sleep 1000
-[2]  - running    nohup sleep 2000
-
-$ kill -SIGHUP %1
-[1]  + 18653 hangup     sleep 1000
-
-$ jobs
-[2]  + running    nohup sleep 2000
-
-$ kill -SIGHUP %2
-
-$ jobs
-[2]  + running    nohup sleep 2000
-
-$ kill %2
-[2]  + 18745 terminated  nohup sleep 2000
-
-$ jobs
-```
-
 #### 终端多路复用tmux
 
 - 大部分的命令需要先`<C-b>`激活tmux命令模式
@@ -562,10 +184,7 @@ $ jobs
 #### shell配置
 
 - 别名alias
-
   - `alias alias_name="command_to_alias arg1 arg2"`
-
-
 ```shell
 # 创建常用命令的缩写
 alias ll="ls -lh"
@@ -577,12 +196,8 @@ alias v="vim"
 ```
 
 - 配置文件dotfiles
-
   - 让配置（如alias）永久生效
-
   - 配置文件的位置
-
-
 ```shell
 bash - ~/.bashrc, ~/.bash_profile
 git - ~/.gitconfig
@@ -630,9 +245,27 @@ wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - 
 
 [调试及性能分析 · the missing semester of your cs education (missing-semester-cn.github.io)](https://missing-semester-cn.github.io/2020/debugging-profiling/)
 
-#### 调试与日志
-
-- （UNIX 系统）多数的程序都会将日志保存在`/var/log`
-
 ## 杂项
 
+### 快捷键
+
+- `ctrl+c` 终止程序运行/放弃输入这条命令，重新换行进行输入
+- `ctrl+d` 退出登录（相当于 exit）/退出某些程序的特定界面
+- `ctrl+l` 清空终端相当于 clear
+- `history` 查看历史命令
+- `!+前缀` 搜索最近的匹配前缀的命令并执行
+- `ctrl+r` 搜索历史命令
+  - 回车直接执行
+  - 左右方向键获取命令
+-  光标移动
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316203548007.png" alt="image-20230316203548007" style="zoom:50%;" />
+
+### 系统时间/时区
+
+- `date [-d] [+格式化字符串]` 查看系统时间
+  - -d: 按照给定的字符串显示日期，一般用于日期计算
+    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316215420462.png" alt="image-20230316215420462" style="zoom:50%;" />
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316215012764.png" alt="image-20230316215012764" style="zoom:50%;" />
+    - 可以自由组合，如 `date +%Y-%m-%d"`
+- ntp 时间自动校准
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230316215702020.png" alt="image-20230316215702020" style="zoom:50%;" />
