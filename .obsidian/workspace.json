@@ -73,8 +73,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -179,8 +178,10 @@
   },
   "active": "cd8e123ad81ead1a",
   "lastOpenFiles": [
-    "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf",
+    "conflict-files-obsidian-git.md",
     "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
+    "工具&技能/Shell编程.md",
+    "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf",
     "归档课程/计算机系统基础/data/3.md",
     "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
     "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（2）.pdf",
@@ -213,7 +214,6 @@
     "java/java.md",
     "java/java基础/杂项/注解.md",
     "java/java基础/IO/NIO.md",
-    "java/java基础/并发编程/线程与线程池.md",
     "Pasted image 20231227111944.png",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-3.png",
     "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-2.png",
