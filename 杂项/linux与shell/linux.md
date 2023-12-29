@@ -1,23 +1,14 @@
 # linux
 
-## 虚拟机
-
-### 快照
-
-- 用于虚拟机备份/还原
-
-## 基础命令
+## 基础
 
 ### [vim](vim.md)
 
-### 文件系统
-
-- 整个系统都在根目录/下
-- linux中层级用/表示，windows用\\(//)
-  - 此外开头一定会有一个/ 表示根目录
-  - 之后的/表示层级关系
-
 ### 基础概念
+
+#### 文件系统与路径
+
+
 
 - 命令行：linux终端，一种命令提示符界面，以纯字符操作系统，发出指令。
 - 命令：linux程序，可以在终端中提供字符化反馈。
@@ -31,18 +22,14 @@
   - /home/用户名/~
 
 - 路径
-
   - 绝对路径：以根目录为起点
-
   - 相对路径：以当前路径为起点
-
   - 特殊路径符
     - **.表示当前目录** cd ./Desktop等价于cd Desktop
     - **..表示上一级目录** cd ..返回上一级目录 cd../..上两级
     - ~ HOME目录
 
 - 通配符
-
   - \* 匹配任意内容
   - test\* 以test开头
   - \*test 以test结尾
@@ -337,15 +324,17 @@
 ## shell(补充)
 
 - 在shell中执行命令时实际上是在执行一段 shell 可以解释执行的简短代码。对于不是shell了解的编程关键字，shell会去环境变量寻找，搜索目标程序，然后根据路径执行程序。
-  - ```bash
-    missing:~$ echo $PATH
-    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-    missing:~$ which echo(获得程序位置)
-    /bin/echo
-    missing:~$ /bin/echo $PATH
-    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-    ```
-  
+
+
+```bash
+missing:~$ echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+missing:~$ which echo(获得程序位置)
+/bin/echo
+missing:~$ /bin/echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+```
+
 - 参数之间是不能有空格的，如`mkdir hello world`是分别创建两个文件夹
 
   - 要想使用带有空格的字符串参数：`\ `转义或用双引号包住字符参数
@@ -388,31 +377,30 @@
 
 - 查找文件find
 
-  - ```shell
-    # 查找所有名称为src的文件夹(.表示从当前目录开始查找)
-    find . -name src -type d
-    # 查找所有文件夹路径中包含test的python文件
-    find . -path '*/test/*.py' -type f
-    # 查找前一天修改的所有文件
-    find . -mtime -1
-    # 查找所有大小在500k至10M的tar.gz文件
-    find . -size +500k -size -10M -name '*.tar.gz'
-    # 删除全部扩展名为.tmp 的文件
-    find . -name '*.tmp' -exec rm {} \;
-    # 查找全部的 PNG 文件并将其转换为 JPG
-    find . -name '*.png' -exec convert {} {}.jpg \;
-    ```
 
-  - [`fd`](https://github.com/sharkdp/fd) 就是一个更简单、更快速、更友好的程序，它可以用来作为`find`的替代品。
+```shell
+# 查找所有名称为src的文件夹(.表示从当前目录开始查找)
+find . -name src -type d
+# 查找所有文件夹路径中包含test的python文件
+find . -path '*/test/*.py' -type f
+# 查找前一天修改的所有文件
+find . -mtime -1
+# 查找所有大小在500k至10M的tar.gz文件
+find . -size +500k -size -10M -name '*.tar.gz'
+# 删除全部扩展名为.tmp 的文件
+find . -name '*.tmp' -exec rm {} \;
+# 查找全部的 PNG 文件并将其转换为 JPG
+find . -name '*.png' -exec convert {} {}.jpg \;
+```
 
-  - 对于频繁进行文件查找的情况 `locate` 使用一个由 [`updatedb`](https://man7.org/linux/man-pages/man1/updatedb.1.html)负责更新的数据库，在大多数系统中 `updatedb` 都会通过 [`cron`](https://man7.org/linux/man-pages/man8/cron.8.html) 每日更新。
+- [`fd`](https://github.com/sharkdp/fd) 就是一个更简单、更快速、更友好的程序，它可以用来作为`find`的替代品。
+
+- 对于频繁进行文件查找的情况 `locate` 使用一个由 [`updatedb`](https://man7.org/linux/man-pages/man1/updatedb.1.html)负责更新的数据库，在大多数系统中 `updatedb` 都会通过 [`cron`](https://man7.org/linux/man-pages/man8/cron.8.html) 每日更新。
 
 - 查找代码（文件内容）grep
 
-  - ```shell
-    grep footbar mcd.sh
-    ```
-
+  - `grep footbar mcd.sh`
+    
   -  `-C` ：获取查找结果的上下文（Context）；`-v` 将对结果进行反选（Invert），也就是输出不匹配的结果。举例来说， `grep -C 5` 会输出匹配结果前后五行。当需要搜索大量文件的时候，使用 `-R` 会递归地进入子目录并搜索所有的文本文件。
 
   -  [rg](https://github.com/BurntSushi/ripgrep)更好用
@@ -465,26 +453,27 @@
     - **描述：** SIGKILL信号是用于**强制终止进程**的信号，进程无法捕获或忽略它。使用SIGKILL会立即终止进程，而不允许进程执行清理操作。
   - 使用 `Ctrl-C` 来停止命令（将**进程stopped**）的执行时，shell 会发送一个`SIGINT` 信号到进程。
 
-  - ```python
-    #!/usr/bin/env python
-    import signal, time
-    # 捕获了ctrl-c发送的信号
-    def handler(signum, time):
-        print("\nI got a SIGINT, but I am not stopping")
-    
-    signal.signal(signal.SIGINT, handler)
-    i = 0
-    while True:
-        time.sleep(.1)
-        print("\r{}".format(i), end="")
-        i += 1
-    ```
 
-    - 一个不会在`ctrl-c`时终止的程序
-    - 可以使用`ctrl-\`发送SIGQUIT信号终止程序
+```python
+#!/usr/bin/env python
+import signal, time
+# 捕获了ctrl-c发送的信号
+def handler(signum, time):
+    print("\nI got a SIGINT, but I am not stopping")
 
-  -  `Ctrl-Z` 会让 shell 发送 `SIGTSTP` 信号（会将**进程挂起为suspended**）
-  - 关闭终端（ssh断开连接）会发送另外一个信号`SIGHUP`
+signal.signal(signal.SIGINT, handler)
+i = 0
+while True:
+    time.sleep(.1)
+    print("\r{}".format(i), end="")
+    i += 1
+```
+
+- 一个不会在`ctrl-c`时终止的程序
+- 可以使用`ctrl-\`发送SIGQUIT信号终止程序
+
+- `Ctrl-Z` 会让 shell 发送 `SIGTSTP` 信号（会将**进程挂起为suspended**）
+- 关闭终端（ssh断开连接）会发送另外一个信号`SIGHUP`
 
 - `jobs` 命令会列出当前终端会话中尚未完成的全部任务
 
@@ -499,49 +488,50 @@
 
     - 可以用于发送任何信号`kill -STOP %1`
 
-  - ```shell
-    $ sleep 1000
-    ^Z
-    [1]  + 18653 suspended  sleep 1000
-    
-    $ nohup sleep 2000 &
-    [2] 18745
-    appending output to nohup.out
-    
-    $ jobs
-    [1]  + suspended  sleep 1000
-    [2]  - running    nohup sleep 2000
-    
-    $ bg %1
-    [1]  - 18653 continued  sleep 1000
-    
-    $ jobs
-    [1]  - running    sleep 1000
-    [2]  + running    nohup sleep 2000
-    
-    $ kill -STOP %1
-    [1]  + 18653 suspended (signal)  sleep 1000
-    
-    $ jobs
-    [1]  + suspended (signal)  sleep 1000
-    [2]  - running    nohup sleep 2000
-    
-    $ kill -SIGHUP %1
-    [1]  + 18653 hangup     sleep 1000
-    
-    $ jobs
-    [2]  + running    nohup sleep 2000
-    
-    $ kill -SIGHUP %2
-    
-    $ jobs
-    [2]  + running    nohup sleep 2000
-    
-    $ kill %2
-    [2]  + 18745 terminated  nohup sleep 2000
-    
-    $ jobs
-    ```
+
+```shell
+$ sleep 1000
+^Z
+[1]  + 18653 suspended  sleep 1000
+
+$ nohup sleep 2000 &
+[2] 18745
+appending output to nohup.out
+
+$ jobs
+[1]  + suspended  sleep 1000
+[2]  - running    nohup sleep 2000
+
+$ bg %1
+[1]  - 18653 continued  sleep 1000
+
+$ jobs
+[1]  - running    sleep 1000
+[2]  + running    nohup sleep 2000
+
+$ kill -STOP %1
+[1]  + 18653 suspended (signal)  sleep 1000
+
+$ jobs
+[1]  + suspended (signal)  sleep 1000
+[2]  - running    nohup sleep 2000
+
+$ kill -SIGHUP %1
+[1]  + 18653 hangup     sleep 1000
+
+$ jobs
+[2]  + running    nohup sleep 2000
+
+$ kill -SIGHUP %2
+
+$ jobs
+[2]  + running    nohup sleep 2000
+
+$ kill %2
+[2]  + 18745 terminated  nohup sleep 2000
+
+$ jobs
+```
 
 #### 终端多路复用tmux
 
@@ -575,15 +565,16 @@
 
   - `alias alias_name="command_to_alias arg1 arg2"`
 
-  - ```shell
-    # 创建常用命令的缩写
-    alias ll="ls -lh"
-    
-    # 能够少输入很多
-    alias gs="git status"
-    alias gc="git commit"
-    alias v="vim"
-    ```
+
+```shell
+# 创建常用命令的缩写
+alias ll="ls -lh"
+
+# 能够少输入很多
+alias gs="git status"
+alias gc="git commit"
+alias v="vim"
+```
 
 - 配置文件dotfiles
 
@@ -591,34 +582,34 @@
 
   - 配置文件的位置
 
-    - ```shell
-      bash - ~/.bashrc, ~/.bash_profile
-      git - ~/.gitconfig
-      vim - ~/.vimrc 和 ~/.vim 目录
-      ssh - ~/.ssh/config
-      tmux - ~/.tmux.conf
-      ```
 
-  - 配置文件应该使用版本控制工具进行管理，然后通过脚本将其 **符号链接** 到需要的地方
+```shell
+bash - ~/.bashrc, ~/.bash_profile
+git - ~/.gitconfig
+vim - ~/.vimrc 和 ~/.vim 目录
+ssh - ~/.ssh/config
+tmux - ~/.tmux.conf
+```
 
-    - **安装简单**: 如果您登录了一台新的设备，在这台设备上应用您的配置只需要几分钟的时间；
-    - **可移植性**: 您的工具在任何地方都以相同的配置工作
-    - **同步**: 在一处更新配置文件，可以同步到其他所有地方
-    - **变更追踪**: **您可能要在整个程序员生涯中持续维护这些配置文件**，而对于长期项目而言，版本历史是非常重要的
+- 配置文件应该使用版本控制工具进行管理，然后通过脚本将其 **符号链接** 到需要的地方
 
-  - 对于 `bash`来说，在大多数系统下，可以通过编辑 `.bashrc` 或 `.bash_profile` 来进行配置。在文件中可以添加需要在启动时执行的命令，例如**别名**，或者是**环境变量**。
+  - **安装简单**: 如果您登录了一台新的设备，在这台设备上应用您的配置只需要几分钟的时间；
+  - **可移植性**: 您的工具在任何地方都以相同的配置工作
+  - **同步**: 在一处更新配置文件，可以同步到其他所有地方
+  - **变更追踪**: **您可能要在整个程序员生涯中持续维护这些配置文件**，而对于长期项目而言，版本历史是非常重要的
+
+- 对于 `bash`来说，在大多数系统下，可以通过编辑 `.bashrc` 或 `.bash_profile` 来进行配置。在文件中可以添加需要在启动时执行的命令，例如**别名**，或者是**环境变量**。
 
 #### 更强大的shell-zsh
 
 - 安装并启用（以及oh my zsh）
 
-  - ```shell
-    sudo yum install zsh
-    chsh -s /bin/zsh
-    wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
-    ```
 
-- 
+```shell
+sudo yum install zsh
+chsh -s /bin/zsh
+wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+```
 
 #### ssh
 
@@ -641,28 +632,7 @@
 
 #### 调试与日志
 
-- （UNIX 系统）多数的程序都会将日志保存在`/var/log`下
-- 
+- （UNIX 系统）多数的程序都会将日志保存在`/var/log`
 
-#### 性能分析	
+## 杂项
 
-- 
-
-### 杂项
-
-#### 文件结构
-
-- `/bin` - 基本命令二进制文件
-- `/sbin` - 基本的系统二进制文件，通常是root运行的
-- `/dev` - 设备文件，通常是硬件设备接口文件
-- `/etc` - 主机特定的**系统配置**文件
-- `/home` - 系统**用户的主目录**
-- `/lib` - 系统**软件通用库**
-- `/opt` - 可选的应用软件
-- `/sys` - 包含系统的信息和配置
-- `/tmp` - 临时文件( `/var/tmp` ) 通常重启时删除
-- `/usr/`**只读的用户数据**
-  - `/usr/bin` - 非必须的命令二进制文件
-  - `/usr/sbin` - 非必须的系统二进制文件，通常是由root运行的
-  - `/usr/local/bin` - 用户编译程序的二进制文件
-- `/var` -变量文件 像**日志或缓存**

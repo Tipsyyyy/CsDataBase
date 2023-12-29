@@ -1,8 +1,16 @@
 {
   "recentFiles": [
     {
-      "basename": "Shell编程",
-      "path": "工具&技能/Shell编程.md"
+      "basename": "linux",
+      "path": "杂项/linux与shell/linux.md"
+    },
+    {
+      "basename": "latex",
+      "path": "杂项/杂项/latex.md"
+    },
+    {
+      "basename": "vim",
+      "path": "杂项/linux与shell/vim.md"
     },
     {
       "basename": "U3组合逻辑电路",
@@ -21,52 +29,36 @@
       "path": "归档课程/高级程序设计/高级程序设计复习.md"
     },
     {
-      "basename": "linux",
-      "path": "工具&技能/linux.md"
-    },
-    {
       "basename": "vms",
-      "path": "工具&技能/vms.md"
-    },
-    {
-      "basename": "vim",
-      "path": "工具&技能/vim.md"
+      "path": "杂项/虚拟化/vms.md"
     },
     {
       "basename": "scoop",
-      "path": "工具&技能/scoop.md"
-    },
-    {
-      "basename": "markdown",
-      "path": "工具&技能/markdown.md"
+      "path": "杂项/实用工具/scoop.md"
     },
     {
       "basename": "make",
-      "path": "工具&技能/make.md"
-    },
-    {
-      "basename": "latex",
-      "path": "工具&技能/latex.md"
+      "path": "杂项/构建/make.md"
     },
     {
       "basename": "ide",
-      "path": "工具&技能/ide.md"
+      "path": "杂项/实用工具/ide.md"
     },
     {
       "basename": "github",
-      "path": "工具&技能/github.md"
+      "path": "杂项/git/github.md"
     },
     {
       "basename": "git",
-      "path": "工具&技能/git.md"
+      "path": "杂项/git/git.md"
     },
     {
       "basename": "docker",
-      "path": "工具&技能/docker.md"
+      "path": "杂项/虚拟化/docker.md"
     },
     {
       "basename": "杂项",
-      "path": "工具&技能/杂项.md"
+      "path": "杂项/杂项/杂项.md"
     },
     {
       "basename": "第2章 数字逻辑基础（1）",

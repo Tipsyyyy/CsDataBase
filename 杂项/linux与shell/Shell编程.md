@@ -35,11 +35,13 @@ read name
 echo "$name It is a test"
 ```
 
-- 输出重定向
-	- 
+- 重定向
+	- ![image.png|500](https://thdlrt.oss-cn-beijing.aliyuncs.com/20231229170250.png)
 
-- 输入重定向
-	- 
+- 默认情况下，command > file 将 **stdout** 重定向到 file，command < file 将 **stdin** 重定向到 file。
+- 如果希望 stderr 重定向到 file，可以这样写：`command 2>file`
+
+- 如果希望执行某个命令，但又**不希望在屏幕上显示输出结果**，那么可以将输出重定向到 /dev/null：`$ command > /dev/null`
 
 ### 变量与参数
 
@@ -314,9 +316,6 @@ for file in "$@"; do
 done
 ```
 
-- **标准输出（stdout，文件描述符 1）：** 用于向终端或其他输出设备输出数据。
-- **标准错误（stderr，文件描述符 2）：** 用于向终端或其他输出设备输出错误消息和诊断信息。
-
 - 通配符
   - `ls *.sh`筛选文件类型
   - `ls project?`
@@ -343,6 +342,17 @@ for arg in reversed(sys.argv[1:]):
 - 函数仅在定义时被加载，脚本会在每次被执行时加载。这让函数的加载比脚本略快一些，但每次修改函数定义，都要重新加载一次。
 - 函数会在当前的shell环境中执行，脚本会在单独的进程中执行。因此，函数可以对环境变量进行更改，比如改变当前工作目录，脚本则不行。脚本需要使用 [`export`](https://man7.org/linux/man-pages/man1/export.1p.html) 将环境变量导出，并将值传递给环境变量。
 - 与其他程序语言一样，函数可以提高代码模块性、代码复用性并创建清晰性的结构。shell 脚本中往往也会包含它们自己的函数定义。
+
+#### 文件包含
+
+- shell 脚本调用外部脚本
+```bash
+. filename
+#或
+source filename
+```
+
+#### 工具
 
 - 脚本静态代码分析工具 [shellcheck](https://github.com/koalaman/shellcheck)
   - 识别并提供关于 Shell 脚本中的语法错误、安全漏洞、代码风格问题和一般性问题的有用建议。

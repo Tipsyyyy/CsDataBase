@@ -13,7 +13,25 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "工具&技能/Shell编程.md",
+                "file": "杂项/linux与shell/linux.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "458da7bf463718f0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "53c4a8d3b0c24a15",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "杂项/linux与shell/linux.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +111,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "工具&技能/Shell编程.md",
+                "file": "杂项/linux与shell/linux.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +128,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "工具&技能/Shell编程.md",
+                "file": "杂项/linux与shell/linux.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +151,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "工具&技能/Shell编程.md"
+                "file": "杂项/linux与shell/linux.md"
               }
             }
           },
@@ -176,44 +194,43 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "9670a30e56dde1a6",
+  "active": "53c4a8d3b0c24a15",
   "lastOpenFiles": [
-    "conflict-files-obsidian-git.md",
+    "杂项/杂项/latex.md",
+    "杂项/杂项",
+    "杂项/虚拟化",
+    "杂项/linux与shell/vim.md",
+    "杂项/实用工具",
+    "杂项/构建",
+    "杂项/git",
+    "杂项/linux与shell/Shell编程.md",
+    "工具&技能/linux.md",
+    "杂项/linux与shell/linux.md",
+    "杂项/linux与shell",
+    "工具&技能/Untitled Folder",
     "工具&技能/Shell编程.md",
+    "conflict-files-obsidian-git.md",
     "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
     "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（2）.pdf",
     "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf",
     "归档课程/高级程序设计/高级程序设计复习.md",
     "大数据/mpi.md",
-    "工具&技能/linux.md",
-    "工具&技能/vms.md",
-    "工具&技能/vim.md",
-    "工具&技能/scoop.md",
+    "杂项/虚拟化/vms.md",
+    "杂项/实用工具/scoop.md",
     "工具&技能/markdown.md",
-    "工具&技能/make.md",
-    "工具&技能/latex.md",
-    "工具&技能/ide.md",
-    "工具&技能/github.md",
-    "工具&技能/git.md",
-    "工具&技能/docker.md",
-    "工具&技能/杂项.md",
+    "杂项/构建/make.md",
+    "杂项/实用工具/ide.md",
+    "杂项/git/github.md",
+    "杂项/git/git.md",
+    "杂项/虚拟化/docker.md",
+    "杂项/杂项/杂项.md",
     "工具&技能/数据流.md",
     "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（1）.pdf",
-    "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（2）.pdf",
     "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
     "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
     "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
     "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
     "课程/数字逻辑与计算机组成/笔记/U1二进制编码.md",
-    "课程/数字逻辑与计算机组成/课件/第1章 二进制编码（3）.pdf",
-    "课程/数字逻辑与计算机组成/课件/第1章 二进制编码（2）.pdf",
-    "第1章 二进制编码（2）.md",
-    "课程/数字逻辑与计算机组成/课件/第1章 二进制编码 （1）.pdf",
-    "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md",
-    "课程/数字逻辑与计算机组成/第1章 二进制编码 （1）.pdf",
-    "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf",
-    "课程/数字逻辑与计算机组成/课件/第8章 CPU3-非流水线-多周期.pdf",
-    "算法/数据结构.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
