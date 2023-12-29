@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "11e47c7ed5a4a328",
+        "id": "ef111c08b68b5cd8",
         "type": "tabs",
         "children": [
           {
-            "id": "30357097c0d825fc",
+            "id": "3180779399136b23",
             "type": "leaf",
             "state": {
               "type": "pdf",
@@ -16,15 +16,25 @@
                 "file": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf"
               }
             }
+          },
+          {
+            "id": "6bd4c3e5784b5cd7",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（2）.pdf"
+              }
+            }
           }
         ]
       },
       {
-        "id": "0ff57268f4455a4d",
+        "id": "23a89a2ba7e2cf9b",
         "type": "tabs",
         "children": [
           {
-            "id": "cd8e123ad81ead1a",
+            "id": "637cbe720f650c6c",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -64,7 +74,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "闭包",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -82,15 +92,14 @@
             }
           },
           {
-            "id": "e9ac2cd663de210b",
+            "id": "0a9cd0319ddd3dbc",
             "type": "leaf",
             "state": {
               "type": "recent-files",
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -129,7 +138,7 @@
               "state": {
                 "file": "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
                 "linksCollapsed": false,
-                "unlinkedCollapsed": false
+                "unlinkedCollapsed": true
               }
             }
           },
@@ -155,7 +164,7 @@
             }
           },
           {
-            "id": "9d8082ae89a6025f",
+            "id": "541551cc93ddceea",
             "type": "leaf",
             "state": {
               "type": "calendar",
@@ -163,7 +172,7 @@
             }
           },
           {
-            "id": "a1121166369d2526",
+            "id": "160702efc0127260",
             "type": "leaf",
             "state": {
               "type": "todo",
@@ -171,17 +180,16 @@
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 398.5
   },
   "left-ribbon": {
     "hiddenItems": {
       "omnisearch:Omnisearch": false,
-      "obsidian-advanced-slides:Show Slide Preview": false,
+      "obsidian-excalidraw-plugin:新建绘图文件": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
@@ -190,55 +198,57 @@
       "command-palette:打开命令面板": false,
       "workspaces:管理工作区布局": false,
       "audio-recorder:开始/结束录音": false,
-      "obsidian-excalidraw-plugin:新建绘图文件": false
+      "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "cd8e123ad81ead1a",
+  "active": "637cbe720f650c6c",
   "lastOpenFiles": [
     "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf",
+    "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（2）.pdf",
     "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
-    "归档课程/计算机系统基础/data/3.md",
-    "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
+    "工具&技能/linux.md",
+    "工具&技能/vms.md",
+    "工具&技能/vim.md",
+    "工具&技能/Shell编程.md",
+    "工具&技能/scoop.md",
+    "工具&技能/markdown.md",
+    "工具&技能/make.md",
+    "工具&技能/latex.md",
+    "工具&技能/ide.md",
+    "工具&技能/github.md",
+    "工具&技能/git.md",
+    "工具&技能/docker.md",
+    "工具&技能/杂项.md",
+    "工具&技能/数据流.md",
+    "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（1）.pdf",
     "课程/数字逻辑与计算机组成/课件/第2章 数字逻辑基础（2）.pdf",
-    "课程/金融大数据/课件",
-    "临时/temp.md",
-    "课程/数据结构/数据结构.md",
-    "课程/数据结构/pdf/多路合并.pdf",
-    "课程/数据结构/pdf",
+    "课程/数字逻辑与计算机组成/笔记/U2数字逻辑电路基础.md",
+    "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
+    "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
+    "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
+    "课程/数字逻辑与计算机组成/笔记/U1二进制编码.md",
+    "课程/数字逻辑与计算机组成/课件/第1章 二进制编码（3）.pdf",
+    "课程/数字逻辑与计算机组成/课件/第1章 二进制编码（2）.pdf",
+    "第1章 二进制编码（2）.md",
+    "课程/数字逻辑与计算机组成/课件/第1章 二进制编码 （1）.pdf",
+    "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md",
+    "课程/数字逻辑与计算机组成/第1章 二进制编码 （1）.pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU3-非流水线-多周期.pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU2-非流水线-单周期.pdf",
-    "课程/数字逻辑与计算机组成/课件/第8章 CPU1-非流水线-概述.pdf",
-    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
-    "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md",
-    "java/java基础/数据类型/拷贝与引用.md",
-    "课程/数字逻辑与计算机组成/笔记/数字逻辑与计算机组成.md",
-    "java/java基础/高级/使用享元自定义Collecction和Map.md",
-    "java/java基础/高级/record记录.md",
-    "java/java基础/杂项/包.md",
-    "java/java基础/杂项/equals()与hashCode().md",
-    "java/java基础/杂项/Java编码规范.md",
-    "java/java基础/并发编程/线程安全的数据类型.md",
-    "java/java基础/Util/集合/Iterator.md",
-    "java/java基础/Util/集合/Collections工具类.md",
-    "java/java基础/Util/时间类.md",
-    "java/java基础/Util/日志.md",
-    "java/java基础/Util/Math类.md",
-    "README.md",
-    "java/工具/环境配置与命令.md",
-    "java/java.md",
-    "java/java基础/杂项/注解.md",
-    "java/java基础/IO/NIO.md",
-    "java/java基础/并发编程/线程与线程池.md",
+    "算法/数据结构.md",
+    "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
+    "课程/数据结构/数据结构.md",
     "Pasted image 20231227111944.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-3.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-2.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-4-1.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-3-3.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-3-2.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-3-1.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-2-2.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-2-1.png",
-    "归档课程/计算机系统基础/实验/实验手册/PIC/pa/pa-1.png"
+    "未命名.canvas",
+    "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
+    "export/金融大数据p4/plugin/chalkboard/img/sponge.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-yellow.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-white.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-red.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-purple.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-orange.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-green.png",
+    "export/金融大数据p4/plugin/chalkboard/img/chalk-blue.png"
   ]
 }
