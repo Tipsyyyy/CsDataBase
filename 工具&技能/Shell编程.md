@@ -148,8 +148,6 @@ mcd () {
 ### 流程控制
 
 - 条件语句
-
-
 ```shell
 if [[ "$variable" = "value" ]]; then
     echo "变量等于值"
@@ -157,11 +155,9 @@ else
     echo "变量不等于值"
 fi
 ```
+- 也可以使用 test 产生条件 `if test $[num1] -eq $[num2]`
 
-- 也可以使用test产生条件`if test $[num1] -eq $[num2]`
 - case语句
-
-
 ```shell
 case "$variable" in
     pattern1)
@@ -177,8 +173,6 @@ esac
 ```
 
 - 循环语句
-
-
 ```shell
 for item in list; do
     # 循环体中的代码
