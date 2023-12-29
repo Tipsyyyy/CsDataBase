@@ -1,16 +1,20 @@
 {
   "recentFiles": [
     {
+      "basename": "Shell编程",
+      "path": "工具&技能/Shell编程.md"
+    },
+    {
       "basename": "U3组合逻辑电路",
       "path": "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md"
     },
     {
-      "basename": "第3章 组合逻辑电路（1）",
-      "path": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf"
-    },
-    {
       "basename": "第3章 组合逻辑电路（2）",
       "path": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（2）.pdf"
+    },
+    {
+      "basename": "第3章 组合逻辑电路（1）",
+      "path": "课程/数字逻辑与计算机组成/课件/第3章 组合逻辑电路（1）.pdf"
     },
     {
       "basename": "高级程序设计复习",
@@ -27,10 +31,6 @@
     {
       "basename": "vim",
       "path": "工具&技能/vim.md"
-    },
-    {
-      "basename": "Shell编程",
-      "path": "工具&技能/Shell编程.md"
     },
     {
       "basename": "scoop",
