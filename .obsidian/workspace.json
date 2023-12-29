@@ -76,7 +76,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "动态代理",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -101,11 +101,13 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "d615b65a4ccf8a6a",
@@ -172,9 +174,17 @@
               "type": "calendar",
               "state": {}
             }
+          },
+          {
+            "id": "a1121166369d2526",
+            "type": "leaf",
+            "state": {
+              "type": "todo",
+              "state": {}
+            }
           }
         ],
-        "currentTab": 3
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
@@ -183,6 +193,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "omnisearch:Omnisearch": false,
       "obsidian-advanced-slides:Show Slide Preview": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
@@ -195,7 +206,7 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "96e173acdf249e6c",
+  "active": "a1121166369d2526",
   "lastOpenFiles": [
     "课程/金融大数据/课件",
     "临时/temp.md",
