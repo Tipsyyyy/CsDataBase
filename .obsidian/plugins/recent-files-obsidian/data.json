@@ -5,16 +5,20 @@
       "path": "课程/software construction/文档.md"
     },
     {
+      "basename": "代码规范",
+      "path": "课程/software construction/代码规范.md"
+    },
+    {
       "basename": "设计模式",
       "path": "课程/software construction/设计模式.md"
     },
     {
-      "basename": "代码审查",
-      "path": "课程/software construction/代码审查.md"
+      "basename": "异常",
+      "path": "java/java基础/杂项/异常.md"
     },
     {
-      "basename": "代码规范",
-      "path": "课程/software construction/代码规范.md"
+      "basename": "代码审查",
+      "path": "课程/software construction/代码审查.md"
     },
     {
       "basename": "测试",
@@ -195,10 +199,6 @@
     {
       "basename": "java",
       "path": "java/java.md"
-    },
-    {
-      "basename": "注解",
-      "path": "java/java基础/杂项/注解.md"
     }
   ],
   "omittedPaths": [],
