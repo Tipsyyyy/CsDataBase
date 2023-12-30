@@ -5,20 +5,20 @@
       "path": "课程/software construction/代码规范.md"
     },
     {
-      "basename": "代码审查",
-      "path": "课程/software construction/代码审查.md"
+      "basename": "调试",
+      "path": "课程/software construction/调试.md"
     },
     {
       "basename": "文档",
       "path": "课程/software construction/文档.md"
     },
     {
-      "basename": "设计模式",
-      "path": "课程/software construction/设计模式.md"
+      "basename": "代码审查",
+      "path": "课程/software construction/代码审查.md"
     },
     {
-      "basename": "调试",
-      "path": "课程/software construction/调试.md"
+      "basename": "设计模式",
+      "path": "课程/software construction/设计模式.md"
     },
     {
       "basename": "异常",
