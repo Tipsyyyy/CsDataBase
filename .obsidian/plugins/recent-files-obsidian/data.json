@@ -1,16 +1,20 @@
 {
   "recentFiles": [
     {
+      "basename": "代码规范",
+      "path": "课程/software construction/代码规范.md"
+    },
+    {
+      "basename": "git",
+      "path": "杂项/git/git.md"
+    },
+    {
       "basename": "代码审查",
       "path": "课程/software construction/代码审查.md"
     },
     {
       "basename": "测试",
       "path": "课程/software construction/测试.md"
-    },
-    {
-      "basename": "代码规范",
-      "path": "课程/software construction/代码规范.md"
     },
     {
       "basename": "设计模式",
@@ -43,10 +47,6 @@
     {
       "basename": "latex",
       "path": "杂项/latex/latex.md"
-    },
-    {
-      "basename": "git",
-      "path": "杂项/git/git.md"
     },
     {
       "basename": "进程管理",

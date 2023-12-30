@@ -133,7 +133,7 @@
 
   <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/20221125111646.png" style="zoom:25%;" />
 
-  - git会在文件中保存两个文件的共同信息，需要手动选择，并移除<<<<<<<，\=\=\=====，>>>>>>>等标记
+  - git 会在文件中保存两个文件的共同信息，需要手动选择，并移除<<<<<<<，\=\=\=\=\=\=\=，>>>>>>>等标记
   - 对文件修改完成，解决冲突后再次add 并commit
 
 - 如果本地仓库已经过时，而又进行了修改：
@@ -206,11 +206,14 @@
 - 解决冲突后再add，commit即可
   - 可以直接 git commit (不-m)然后直接wq
 
-## ide中使用（待补充）
+## ide 中使用（待补充）
 
+## [[代码规范#版本控制 |git 规范]]
 ## 补充
 
-- ```
+### 报错
+
+```
   kex_exchange_identification: Connection closed by remote host
   Connection closed by 20.205.243.166 port 22
   fatal: Could not read from remote repository.
@@ -218,8 +221,7 @@
   Please make sure you have the correct access rights
   and the repository exists.
   
-  ```
-
+```
   - 解决：关闭代理
 
 ### Git LFS大文件存储管理
