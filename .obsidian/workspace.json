@@ -13,13 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/software construction/文档.md",
+                "file": "课程/software construction/代码规范.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "50c1b14e6d6d0a56",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "java/java基础/杂项/异常.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -93,7 +106,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/software construction/文档.md",
+                "file": "java/java基础/杂项/异常.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +123,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/software construction/文档.md",
+                "file": "java/java基础/杂项/异常.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +146,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/software construction/文档.md"
+                "file": "java/java基础/杂项/异常.md"
               }
             }
           },
@@ -176,13 +189,15 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "97fa63e4b0cff651",
+  "active": "50c1b14e6d6d0a56",
   "lastOpenFiles": [
-    "杂项/专业名词.md",
-    "课程/software construction/文档.md",
     "课程/software construction/代码规范.md",
-    "课程/software construction/设计模式.md",
+    "Excalidraw/Drawing 2023-12-30 17.05.45.excalidraw.md",
     "java/java基础/杂项/异常.md",
+    "课程/software construction/调试.md",
+    "课程/software construction/文档.md",
+    "杂项/专业名词.md",
+    "课程/software construction/设计模式.md",
     "异常（Java）.md",
     "课程/software construction/代码审查.md",
     "课程/software construction/测试.md",
@@ -211,9 +226,7 @@
     "杂项/linux与shell/linux",
     "杂项/杂项",
     "杂项/虚拟化",
-    "杂项/linux与shell/vim.md",
     "杂项/实用工具",
-    "工具&技能/linux.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
