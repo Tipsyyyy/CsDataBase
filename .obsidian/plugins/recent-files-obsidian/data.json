@@ -1,6 +1,14 @@
 {
   "recentFiles": [
     {
+      "basename": "时间类",
+      "path": "java/java基础/Util/时间类.md"
+    },
+    {
+      "basename": "ps1",
+      "path": "课程/software construction/实验/ps1.md"
+    },
+    {
       "basename": "测试",
       "path": "课程/software construction/测试.md"
     },
@@ -191,14 +199,6 @@
     {
       "basename": "第1章 二进制编码（2）",
       "path": "课程/数字逻辑与计算机组成/课件/第1章 二进制编码（2）.pdf"
-    },
-    {
-      "basename": "第1章 二进制编码 （1）",
-      "path": "课程/数字逻辑与计算机组成/课件/第1章 二进制编码 （1）.pdf"
-    },
-    {
-      "basename": "数字逻辑与计算机组成",
-      "path": "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md"
     }
   ],
   "omittedPaths": [],
