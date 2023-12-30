@@ -1,8 +1,24 @@
 {
   "recentFiles": [
     {
+      "basename": "java",
+      "path": "杂项/构建&编译&调试/java.md"
+    },
+    {
       "basename": "异常",
       "path": "java/java基础/杂项/异常.md"
+    },
+    {
+      "basename": "实验笔记",
+      "path": "归档课程/计算机系统基础/实验/实验笔记.md"
+    },
+    {
+      "basename": "c++",
+      "path": "杂项/构建&编译&调试/c++.md"
+    },
+    {
+      "basename": "杂项",
+      "path": "算法/杂项.md"
     },
     {
       "basename": "代码规范",
@@ -126,7 +142,7 @@
     },
     {
       "basename": "make",
-      "path": "杂项/构建/make.md"
+      "path": "杂项/构建&编译&调试/make.md"
     },
     {
       "basename": "ide",
@@ -183,22 +199,6 @@
     {
       "basename": "数据结构",
       "path": "算法/数据结构.md"
-    },
-    {
-      "basename": "U8 中央处理器",
-      "path": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md"
-    },
-    {
-      "basename": "数据结构",
-      "path": "课程/数据结构/数据结构.md"
-    },
-    {
-      "basename": "多路合并",
-      "path": "课程/数据结构/pdf/多路合并.pdf"
-    },
-    {
-      "basename": "拷贝与引用",
-      "path": "java/java基础/数据类型/拷贝与引用.md"
     }
   ],
   "omittedPaths": [],

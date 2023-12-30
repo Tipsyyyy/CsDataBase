@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/software construction/代码规范.md",
+                "file": "杂项/构建&编译&调试/java.md",
                 "mode": "source",
                 "source": false
               }
@@ -31,8 +31,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -106,7 +105,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "java/java基础/杂项/异常.md",
+                "file": "杂项/构建&编译&调试/java.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +122,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "java/java基础/杂项/异常.md",
+                "file": "杂项/构建&编译&调试/java.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,7 +145,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "java/java基础/杂项/异常.md"
+                "file": "杂项/构建&编译&调试/java.md"
               }
             }
           },
@@ -189,11 +188,16 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "50c1b14e6d6d0a56",
+  "active": "97fa63e4b0cff651",
   "lastOpenFiles": [
+    "java/java基础/杂项/异常.md",
+    "杂项/构建&编译&调试/java.md",
+    "归档课程/计算机系统基础/实验/实验笔记.md",
+    "归档课程/计算机系统基础/实验/汇编调试.md",
+    "杂项/构建&编译&调试/c++.md",
+    "算法/杂项.md",
     "课程/software construction/代码规范.md",
     "Excalidraw/Drawing 2023-12-30 17.05.45.excalidraw.md",
-    "java/java基础/杂项/异常.md",
     "课程/software construction/调试.md",
     "课程/software construction/文档.md",
     "杂项/专业名词.md",
@@ -218,11 +222,6 @@
     "杂项/linux与shell/linux/权限管理.md",
     "杂项/linux与shell/linux/网络.md",
     "杂项/linux与shell/linux/环境配置.md",
-    "杂项/linux与shell/linux/文件系统.md",
-    "杂项/linux与shell/linux.md",
-    "杂项/linux与shell/Shell编程.md",
-    "杂项/git/github.md",
-    "杂项/linux与shell/ssh.md",
     "杂项/linux与shell/linux",
     "杂项/杂项",
     "杂项/虚拟化",
