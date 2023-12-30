@@ -5,32 +5,32 @@
       "path": "课程/software construction/文档.md"
     },
     {
-      "basename": "代码规范",
-      "path": "课程/software construction/代码规范.md"
-    },
-    {
-      "basename": "git",
-      "path": "杂项/git/git.md"
+      "basename": "设计模式",
+      "path": "课程/software construction/设计模式.md"
     },
     {
       "basename": "代码审查",
       "path": "课程/software construction/代码审查.md"
     },
     {
+      "basename": "代码规范",
+      "path": "课程/software construction/代码规范.md"
+    },
+    {
       "basename": "测试",
       "path": "课程/software construction/测试.md"
     },
     {
-      "basename": "设计模式",
-      "path": "课程/software construction/设计模式.md"
+      "basename": "并发编程",
+      "path": "课程/software construction/并发编程.md"
+    },
+    {
+      "basename": "git",
+      "path": "杂项/git/git.md"
     },
     {
       "basename": "函数式编程",
       "path": "课程/software construction/函数式编程.md"
-    },
-    {
-      "basename": "并发编程",
-      "path": "课程/software construction/并发编程.md"
     },
     {
       "basename": "第4章 时序逻辑电路（2）",
