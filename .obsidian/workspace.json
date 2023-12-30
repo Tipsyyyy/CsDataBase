@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/software construction/代码规范.md",
+                "file": "课程/software construction/文档.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/software construction/代码规范.md",
+                "file": "课程/software construction/文档.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/software construction/代码规范.md",
+                "file": "课程/software construction/文档.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/software construction/代码规范.md"
+                "file": "课程/software construction/文档.md"
               }
             }
           },
@@ -178,10 +178,11 @@
   },
   "active": "97fa63e4b0cff651",
   "lastOpenFiles": [
+    "课程/software construction/代码规范.md",
+    "课程/software construction/文档.md",
     "杂项/git/git.md",
     "课程/software construction/代码审查.md",
     "课程/software construction/测试.md",
-    "课程/software construction/代码规范.md",
     "课程/software construction/设计模式.md",
     "课程/software construction/函数式编程.md",
     "课程/software construction/并发编程.md",
@@ -213,7 +214,6 @@
     "工具&技能/Shell编程.md",
     "conflict-files-obsidian-git.md",
     "课程/数字逻辑与计算机组成/笔记/U3组合逻辑电路.md",
-    "归档课程/高级程序设计/高级程序设计复习.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",

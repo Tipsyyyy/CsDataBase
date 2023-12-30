@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "文档",
+      "path": "课程/software construction/文档.md"
+    },
+    {
       "basename": "代码规范",
       "path": "课程/software construction/代码规范.md"
     },
@@ -195,10 +199,6 @@
     {
       "basename": "注解",
       "path": "java/java基础/杂项/注解.md"
-    },
-    {
-      "basename": "NIO",
-      "path": "java/java基础/IO/NIO.md"
     }
   ],
   "omittedPaths": [],
