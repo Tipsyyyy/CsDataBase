@@ -195,10 +195,6 @@
     {
       "basename": "环境配置与命令",
       "path": "java/工具/环境配置与命令.md"
-    },
-    {
-      "basename": "java",
-      "path": "java/java.md"
     }
   ],
   "omittedPaths": [],
