@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "测试",
+      "path": "课程/software construction/测试.md"
+    },
+    {
       "basename": "调试",
       "path": "课程/software construction/调试.md"
     },
@@ -51,10 +55,6 @@
     {
       "basename": "Drawing 2023-12-30 17.05.45.excalidraw",
       "path": "Excalidraw/Drawing 2023-12-30 17.05.45.excalidraw.md"
-    },
-    {
-      "basename": "测试",
-      "path": "课程/software construction/测试.md"
     },
     {
       "basename": "并发编程",

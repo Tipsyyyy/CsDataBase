@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/software construction/调试.md",
+                "file": "课程/software construction/测试.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/software construction/调试.md",
+                "file": "课程/software construction/测试.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/software construction/调试.md",
+                "file": "课程/software construction/测试.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/software construction/调试.md"
+                "file": "课程/software construction/测试.md"
               }
             }
           },
@@ -176,10 +176,12 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "50c1b14e6d6d0a56",
+  "active": "96e173acdf249e6c",
   "lastOpenFiles": [
-    "课程/数字逻辑与计算机组成/课件/第8章 CPU5-流水线-冒险.pdf",
+    "课程/software construction/实验/未命名",
+    "课程/software construction/实验",
     "课程/software construction/调试.md",
+    "课程/数字逻辑与计算机组成/课件/第8章 CPU5-流水线-冒险.pdf",
     "2023-12-30.md",
     "课程/software construction/文档.md",
     "课程/software construction/函数式编程.md",
@@ -212,7 +214,6 @@
     "杂项/linux与shell/linux",
     "杂项/杂项",
     "杂项/虚拟化",
-    "杂项/实用工具",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
