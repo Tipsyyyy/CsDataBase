@@ -8,26 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "5fc8af7d83fb36d8",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第5章 FPGA设计和硬件描述语言.pdf"
-              }
-            }
-          },
-          {
-            "id": "f893dfa0a03b4ea0",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第6章 运算（1）加法器.pdf"
-              }
-            }
-          },
-          {
             "id": "a6c5da5e22ace0d6",
             "type": "leaf",
             "state": {
@@ -38,12 +18,62 @@
             }
           },
           {
-            "id": "5c7751799dcb75bb",
+            "id": "8d9612e199d967fc",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第6章 运算（3）除法.pdf"
+                "file": "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （1）.pdf"
+              }
+            }
+          },
+          {
+            "id": "f9d5b89e3ccfa07b",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf"
+              }
+            }
+          },
+          {
+            "id": "e562764c07665512",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第8章 CPU2-非流水线-单周期.pdf"
+              }
+            }
+          },
+          {
+            "id": "1ee7c1d1a26818a2",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第8章 CPU3-非流水线-多周期.pdf"
+              }
+            }
+          },
+          {
+            "id": "7da7bb6aad53ef67",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf"
+              }
+            }
+          },
+          {
+            "id": "fce41b71ba201b43",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第8章 CPU5-流水线-冒险.pdf"
               }
             }
           }
@@ -54,24 +84,36 @@
         "type": "tabs",
         "children": [
           {
-            "id": "19b7e9f77707790b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "1222dda7e8a39103",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
                 "file": "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "b219c596e12aefe1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "7aa74e7ef2f4624f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
                 "mode": "source",
                 "source": false
               }
@@ -151,7 +193,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
+                "file": "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -168,7 +210,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
+                "file": "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -191,7 +233,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md"
+                "file": "课程/数字逻辑与计算机组成/笔记/U6 运算.md"
               }
             }
           },
@@ -234,27 +276,31 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "19b7e9f77707790b",
+  "active": "1222dda7e8a39103",
   "lastOpenFiles": [
+    "课程/数字逻辑与计算机组成/课件/第6章 运算（2）ALU定点.pdf",
+    "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf",
+    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
+    "课程/数字逻辑与计算机组成/课件/第8章 CPU5-流水线-冒险.pdf",
+    "课程/数字逻辑与计算机组成/课件/第8章 CPU3-非流水线-多周期.pdf",
+    "课程/数字逻辑与计算机组成/课件/第8章 CPU2-非流水线-单周期.pdf",
     "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
+    "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
+    "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
+    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （1）.pdf",
+    "课程/数字逻辑与计算机组成/课件/第6章 运算（1）加法器.pdf",
+    "课程/数字逻辑与计算机组成/课件/第6章 运算（3）除法.pdf",
     "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
+    "课程/数字逻辑与计算机组成/课件/第5章 FPGA设计和硬件描述语言.pdf",
     "电子/嵌入式/硬件.md",
     "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（2）.pdf",
-    "课程/数字逻辑与计算机组成/课件/第6章 运算（3）除法.pdf",
-    "课程/数字逻辑与计算机组成/课件/第6章 运算（1）加法器.pdf",
-    "课程/数字逻辑与计算机组成/课件/第6章 运算（2）ALU定点.pdf",
-    "课程/数字逻辑与计算机组成/课件/第5章 FPGA设计和硬件描述语言.pdf",
-    "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（1）.pdf",
     "课程/software construction/实验/ps1.md",
     "课程/software construction/并发编程.md",
     "杂项/杂项/正则表达式.md",
     "java/java基础/Util/时间类.md",
     "课程/software construction/文档.md",
     "课程/software construction/测试.md",
-    "课程/software construction/实验/未命名",
-    "课程/software construction/实验",
     "课程/software construction/调试.md",
-    "课程/数字逻辑与计算机组成/课件/第8章 CPU5-流水线-冒险.pdf",
     "2023-12-30.md",
     "课程/software construction/函数式编程.md",
     "课程/software construction/设计模式.md",
@@ -268,10 +314,6 @@
     "算法/杂项.md",
     "Excalidraw/Drawing 2023-12-30 17.05.45.excalidraw.md",
     "杂项/专业名词.md",
-    "异常（Java）.md",
-    "杂项/git/git.md",
-    "课程/数字逻辑与计算机组成/课件/复习小结 20231229.pdf",
-    "课程/未命名.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
