@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "正则表达式",
+      "path": "杂项/杂项/正则表达式.md"
+    },
+    {
       "basename": "时间类",
       "path": "java/java基础/Util/时间类.md"
     },
@@ -195,10 +199,6 @@
     {
       "basename": "第1章 二进制编码（3）",
       "path": "课程/数字逻辑与计算机组成/课件/第1章 二进制编码（3）.pdf"
-    },
-    {
-      "basename": "第1章 二进制编码（2）",
-      "path": "课程/数字逻辑与计算机组成/课件/第1章 二进制编码（2）.pdf"
     }
   ],
   "omittedPaths": [],
