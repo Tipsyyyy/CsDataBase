@@ -1,6 +1,22 @@
 {
   "recentFiles": [
     {
+      "basename": "U4时序逻辑电路",
+      "path": "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md"
+    },
+    {
+      "basename": "ps1",
+      "path": "课程/software construction/实验/ps1.md"
+    },
+    {
+      "basename": "第4章 时序逻辑电路（1）",
+      "path": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（1）.pdf"
+    },
+    {
+      "basename": "并发编程",
+      "path": "课程/software construction/并发编程.md"
+    },
+    {
       "basename": "正则表达式",
       "path": "杂项/杂项/正则表达式.md"
     },
@@ -15,10 +31,6 @@
     {
       "basename": "测试",
       "path": "课程/software construction/测试.md"
-    },
-    {
-      "basename": "ps1",
-      "path": "课程/software construction/实验/ps1.md"
     },
     {
       "basename": "调试",
@@ -69,24 +81,12 @@
       "path": "Excalidraw/Drawing 2023-12-30 17.05.45.excalidraw.md"
     },
     {
-      "basename": "并发编程",
-      "path": "课程/software construction/并发编程.md"
-    },
-    {
       "basename": "git",
       "path": "杂项/git/git.md"
     },
     {
       "basename": "第4章 时序逻辑电路（2）",
       "path": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（2）.pdf"
-    },
-    {
-      "basename": "第4章 时序逻辑电路（1）",
-      "path": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（1）.pdf"
-    },
-    {
-      "basename": "U4时序逻辑电路",
-      "path": "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md"
     },
     {
       "basename": "1",
