@@ -8,22 +8,52 @@
         "type": "tabs",
         "children": [
           {
-            "id": "2f7ecc3ad7f1d64b",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（1）.pdf"
-              }
-            }
-          },
-          {
             "id": "8b3356b8530bea35",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
                 "file": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（2）.pdf"
+              }
+            }
+          },
+          {
+            "id": "5fc8af7d83fb36d8",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第5章 FPGA设计和硬件描述语言.pdf"
+              }
+            }
+          },
+          {
+            "id": "f893dfa0a03b4ea0",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第6章 运算（1）加法器.pdf"
+              }
+            }
+          },
+          {
+            "id": "a6c5da5e22ace0d6",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第6章 运算（2）ALU定点.pdf"
+              }
+            }
+          },
+          {
+            "id": "5c7751799dcb75bb",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数字逻辑与计算机组成/课件/第6章 运算（3）除法.pdf"
               }
             }
           }
@@ -204,9 +234,13 @@
   },
   "active": "19b7e9f77707790b",
   "lastOpenFiles": [
-    "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（1）.pdf",
-    "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
     "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（2）.pdf",
+    "课程/数字逻辑与计算机组成/课件/第6章 运算（3）除法.pdf",
+    "课程/数字逻辑与计算机组成/课件/第6章 运算（1）加法器.pdf",
+    "课程/数字逻辑与计算机组成/课件/第6章 运算（2）ALU定点.pdf",
+    "课程/数字逻辑与计算机组成/课件/第5章 FPGA设计和硬件描述语言.pdf",
+    "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
+    "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（1）.pdf",
     "课程/software construction/实验/ps1.md",
     "课程/software construction/并发编程.md",
     "杂项/杂项/正则表达式.md",
@@ -236,9 +270,6 @@
     "课程/software construction",
     "课程/未命名.md",
     "c++/笔记（整理前）/1.md",
-    "杂项/latex",
-    "杂项/linux与shell/linux",
-    "杂项/杂项",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
