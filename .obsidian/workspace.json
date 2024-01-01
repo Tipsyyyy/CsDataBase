@@ -4,28 +4,143 @@
     "type": "split",
     "children": [
       {
-        "id": "13705209cfb1e6bc",
+        "id": "48250b3e7d4025a8",
         "type": "tabs",
         "children": [
           {
-            "id": "7aa74e7ef2f4624f",
+            "id": "649468bdb1fdb6a7",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/金融大数据/课件/01 Big Data.pdf"
+              }
+            }
+          },
+          {
+            "id": "6cb1a8b1bdd8937d",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/金融大数据/课件/02 Parallel Computing.pdf"
+              }
+            }
+          },
+          {
+            "id": "a5e61a974091a064",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/金融大数据/课件/03 MapReduce简介.pdf"
+              }
+            }
+          },
+          {
+            "id": "1e5fd4117c016105",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf"
+              }
+            }
+          },
+          {
+            "id": "31dc28819da37b59",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/金融大数据/课件/05 Hadoop基本架构.pdf"
+              }
+            }
+          },
+          {
+            "id": "aeb774ef94cc411b",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/金融大数据/课件/22 Review.pdf"
+              }
+            }
+          }
+        ],
+        "currentTab": 4
+      },
+      {
+        "id": "8fdc18036a6ce0f9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "25cae27755b201c4",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
+                "file": "课程/金融大数据/笔记/概述.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "6660d104eed176ad",
+            "id": "83e24452ad95d86e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/作业/p8.md",
+                "file": "课程/金融大数据/笔记/Hadoop.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "90b23e04a297af2d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/金融大数据/笔记/NoSQL.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "f9c129fb92fe5272",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/金融大数据/笔记/HBase.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "6bbb35776362c0b6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/金融大数据/笔记/Hive.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "30c728bf35052e72",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/金融大数据/笔记/Spark.md",
                 "mode": "source",
                 "source": false
               }
@@ -89,8 +204,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "d615b65a4ccf8a6a",
@@ -106,7 +220,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
+                "file": "课程/金融大数据/笔记/概述.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +237,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
+                "file": "课程/金融大数据/笔记/概述.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,7 +260,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md"
+                "file": "课程/金融大数据/笔记/概述.md"
               }
             }
           },
@@ -189,44 +303,43 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "7aa74e7ef2f4624f",
+  "active": "25cae27755b201c4",
   "lastOpenFiles": [
+    "课程/金融大数据/笔记/Spark.md",
+    "课程/金融大数据/课件/05 Hadoop基本架构.pdf",
+    "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
+    "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf",
+    "课程/金融大数据/课件/03 MapReduce简介.pdf",
+    "课程/金融大数据/课件/02 Parallel Computing.pdf",
+    "课程/金融大数据/课件/01 Big Data.pdf",
+    "课程/金融大数据/笔记/Hive.md",
+    "课程/金融大数据/笔记/NoSQL.md",
+    "课程/金融大数据/笔记/HBase.md",
+    "课程/金融大数据/笔记/Hadoop.md",
+    "课程/金融大数据/课件/22 Review.pdf",
+    "课程/金融大数据/笔记/概述.md",
+    "软件工程/编程思想.md",
+    "临时/java.md",
+    "课程/数据结构/课件/栈和队列.pdf",
+    "课程/数据结构/课件/线性表.pdf",
+    "课程/数据结构/课件/文件.pdf",
+    "临时/temp.md",
+    "课程/金融大数据/期末复习.md",
+    "Excalidraw/Drawing 2024-01-01 22.42.06.excalidraw.md",
     "课程/数字逻辑与计算机组成/作业/p8.md",
     "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
-    "课程/数字逻辑与计算机组成/课件/第8章 CPU5-流水线-冒险.pdf",
-    "课程/数字逻辑与计算机组成/课件/复习小结 20231229.pdf",
     "Blog/配置 LDAP 用户连接 Oracle-CSDN 博客.md",
     "Excalidraw/Drawing 2024-01-01 19.10.54.excalidraw.md",
     "Excalidraw/Drawing 2023-12-30 17.05.45.excalidraw.md",
     "Excalidraw/Drawing 2023-12-26 17.46.55.excalidraw.md",
     "Excalidraw/Drawing 2023-12-26 13.12.59.excalidraw.md",
     "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
-    "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf",
     "未命名.md",
-    "课程/数字逻辑与计算机组成/课件/第8章 CPU3-非流水线-多周期.pdf",
-    "课程/数字逻辑与计算机组成/课件/第8章 CPU2-非流水线-单周期.pdf",
-    "课程/数字逻辑与计算机组成/课件/第8章 CPU1-非流水线-概述.pdf",
-    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
-    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （1）.pdf",
     "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
-    "课程/数字逻辑与计算机组成/课件/第6章 运算（2）ALU定点.pdf",
-    "课程/数字逻辑与计算机组成/课件/第6章 运算（1）加法器.pdf",
     "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
     "电子/嵌入式/硬件.md",
     "课程/software construction/实验/ps1.md",
     "课程/software construction/并发编程.md",
-    "杂项/杂项/正则表达式.md",
-    "java/java基础/Util/时间类.md",
-    "课程/software construction/文档.md",
-    "课程/software construction/测试.md",
-    "课程/software construction/调试.md",
-    "2023-12-30.md",
-    "课程/software construction/函数式编程.md",
-    "课程/software construction/设计模式.md",
-    "课程/software construction/代码审查.md",
-    "课程/software construction/代码规范.md",
-    "java/java基础/杂项/异常.md",
-    "杂项/构建&编译&调试/java.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",

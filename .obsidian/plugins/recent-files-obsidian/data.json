@@ -1,12 +1,88 @@
 {
   "recentFiles": [
     {
-      "basename": "U8 中央处理器",
-      "path": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md"
+      "basename": "概述",
+      "path": "课程/金融大数据/笔记/概述.md"
+    },
+    {
+      "basename": "Spark",
+      "path": "课程/金融大数据/笔记/Spark.md"
+    },
+    {
+      "basename": "05 Hadoop基本架构",
+      "path": "课程/金融大数据/课件/05 Hadoop基本架构.pdf"
+    },
+    {
+      "basename": "06 MapReduce Basic Programming (I)",
+      "path": "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf"
+    },
+    {
+      "basename": "04 Google MapReduce基本架构",
+      "path": "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf"
+    },
+    {
+      "basename": "03 MapReduce简介",
+      "path": "课程/金融大数据/课件/03 MapReduce简介.pdf"
+    },
+    {
+      "basename": "02 Parallel Computing",
+      "path": "课程/金融大数据/课件/02 Parallel Computing.pdf"
+    },
+    {
+      "basename": "01 Big Data",
+      "path": "课程/金融大数据/课件/01 Big Data.pdf"
+    },
+    {
+      "basename": "Hive",
+      "path": "课程/金融大数据/笔记/Hive.md"
+    },
+    {
+      "basename": "NoSQL",
+      "path": "课程/金融大数据/笔记/NoSQL.md"
+    },
+    {
+      "basename": "HBase",
+      "path": "课程/金融大数据/笔记/HBase.md"
+    },
+    {
+      "basename": "Hadoop",
+      "path": "课程/金融大数据/笔记/Hadoop.md"
+    },
+    {
+      "basename": "22 Review",
+      "path": "课程/金融大数据/课件/22 Review.pdf"
+    },
+    {
+      "basename": "编程思想",
+      "path": "软件工程/编程思想.md"
+    },
+    {
+      "basename": "java",
+      "path": "临时/java.md"
+    },
+    {
+      "basename": "temp",
+      "path": "临时/temp.md"
+    },
+    {
+      "basename": "多路合并",
+      "path": "课程/数据结构/pdf/多路合并.pdf"
+    },
+    {
+      "basename": "期末复习",
+      "path": "课程/金融大数据/期末复习.md"
+    },
+    {
+      "basename": "Drawing 2024-01-01 22.42.06.excalidraw",
+      "path": "Excalidraw/Drawing 2024-01-01 22.42.06.excalidraw.md"
     },
     {
       "basename": "p8",
       "path": "课程/数字逻辑与计算机组成/作业/p8.md"
+    },
+    {
+      "basename": "U8 中央处理器",
+      "path": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md"
     },
     {
       "basename": "第8章 CPU5-流水线-冒险",
@@ -123,66 +199,6 @@
     {
       "basename": "代码审查",
       "path": "课程/software construction/代码审查.md"
-    },
-    {
-      "basename": "代码规范",
-      "path": "课程/software construction/代码规范.md"
-    },
-    {
-      "basename": "异常",
-      "path": "java/java基础/杂项/异常.md"
-    },
-    {
-      "basename": "java",
-      "path": "杂项/构建&编译&调试/java.md"
-    },
-    {
-      "basename": "实验笔记",
-      "path": "归档课程/计算机系统基础/实验/实验笔记.md"
-    },
-    {
-      "basename": "c++",
-      "path": "杂项/构建&编译&调试/c++.md"
-    },
-    {
-      "basename": "杂项",
-      "path": "算法/杂项.md"
-    },
-    {
-      "basename": "git",
-      "path": "杂项/git/git.md"
-    },
-    {
-      "basename": "1",
-      "path": "c++/笔记（整理前）/1.md"
-    },
-    {
-      "basename": "latex",
-      "path": "杂项/latex/latex.md"
-    },
-    {
-      "basename": "进程管理",
-      "path": "杂项/linux与shell/linux/进程管理.md"
-    },
-    {
-      "basename": "权限管理",
-      "path": "杂项/linux与shell/linux/权限管理.md"
-    },
-    {
-      "basename": "网络",
-      "path": "杂项/linux与shell/linux/网络.md"
-    },
-    {
-      "basename": "环境配置",
-      "path": "杂项/linux与shell/linux/环境配置.md"
-    },
-    {
-      "basename": "文件系统",
-      "path": "杂项/linux与shell/linux/文件系统.md"
-    },
-    {
-      "basename": "linux",
-      "path": "杂项/linux与shell/linux.md"
     }
   ],
   "omittedPaths": [],
