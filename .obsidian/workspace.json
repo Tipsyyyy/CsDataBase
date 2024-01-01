@@ -8,16 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "a6c5da5e22ace0d6",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第6章 运算（2）ALU定点.pdf"
-              }
-            }
-          },
-          {
             "id": "8d9612e199d967fc",
             "type": "leaf",
             "state": {
@@ -83,18 +73,6 @@
         "id": "13705209cfb1e6bc",
         "type": "tabs",
         "children": [
-          {
-            "id": "1222dda7e8a39103",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
           {
             "id": "b219c596e12aefe1",
             "type": "leaf",
@@ -203,7 +181,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
+                "file": "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -220,7 +198,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
+                "file": "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -243,7 +221,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U6 运算.md"
+                "file": "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md"
               }
             }
           },
@@ -286,10 +264,10 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "1222dda7e8a39103",
+  "active": "b219c596e12aefe1",
   "lastOpenFiles": [
-    "课程/数字逻辑与计算机组成/课件/第6章 运算（2）ALU定点.pdf",
     "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
+    "课程/数字逻辑与计算机组成/课件/第6章 运算（2）ALU定点.pdf",
     "课程/数字逻辑与计算机组成/课件/复习小结 20231229.pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf",
     "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
