@@ -1,28 +1,56 @@
 {
   "recentFiles": [
     {
-      "basename": "p1",
-      "path": "课程/金融大数据/作业/p1.md"
+      "basename": "期末复习",
+      "path": "课程/金融大数据/期末复习.md"
     },
     {
-      "basename": "p4",
-      "path": "课程/金融大数据/作业/p4.md"
-    },
-    {
-      "basename": "p3",
-      "path": "课程/金融大数据/作业/p3.md"
-    },
-    {
-      "basename": "p2",
-      "path": "课程/金融大数据/作业/p2.md"
+      "basename": "01 Big Data",
+      "path": "课程/金融大数据/课件/01 Big Data.pdf"
     },
     {
       "basename": "概述",
       "path": "课程/金融大数据/笔记/概述.md"
     },
     {
+      "basename": "Hive",
+      "path": "课程/金融大数据/笔记/Hive.md"
+    },
+    {
+      "basename": "p2",
+      "path": "课程/金融大数据/作业/p2.md"
+    },
+    {
+      "basename": "p3",
+      "path": "课程/金融大数据/作业/p3.md"
+    },
+    {
+      "basename": "22 Review",
+      "path": "课程/金融大数据/课件/22 Review.pdf"
+    },
+    {
       "basename": "Spark",
       "path": "课程/金融大数据/笔记/Spark.md"
+    },
+    {
+      "basename": "HBase",
+      "path": "课程/金融大数据/笔记/HBase.md"
+    },
+    {
+      "basename": "NoSQL",
+      "path": "课程/金融大数据/笔记/NoSQL.md"
+    },
+    {
+      "basename": "Hadoop",
+      "path": "课程/金融大数据/笔记/Hadoop.md"
+    },
+    {
+      "basename": "p1",
+      "path": "课程/金融大数据/作业/p1.md"
+    },
+    {
+      "basename": "p4",
+      "path": "课程/金融大数据/作业/p4.md"
     },
     {
       "basename": "05 Hadoop基本架构",
@@ -45,30 +73,6 @@
       "path": "课程/金融大数据/课件/02 Parallel Computing.pdf"
     },
     {
-      "basename": "01 Big Data",
-      "path": "课程/金融大数据/课件/01 Big Data.pdf"
-    },
-    {
-      "basename": "Hive",
-      "path": "课程/金融大数据/笔记/Hive.md"
-    },
-    {
-      "basename": "NoSQL",
-      "path": "课程/金融大数据/笔记/NoSQL.md"
-    },
-    {
-      "basename": "HBase",
-      "path": "课程/金融大数据/笔记/HBase.md"
-    },
-    {
-      "basename": "Hadoop",
-      "path": "课程/金融大数据/笔记/Hadoop.md"
-    },
-    {
-      "basename": "22 Review",
-      "path": "课程/金融大数据/课件/22 Review.pdf"
-    },
-    {
       "basename": "编程思想",
       "path": "软件工程/编程思想.md"
     },
@@ -83,10 +87,6 @@
     {
       "basename": "多路合并",
       "path": "课程/数据结构/pdf/多路合并.pdf"
-    },
-    {
-      "basename": "期末复习",
-      "path": "课程/金融大数据/期末复习.md"
     },
     {
       "basename": "Drawing 2024-01-01 22.42.06.excalidraw",
@@ -115,10 +115,6 @@
     {
       "basename": "第8章 CPU4-流水线-数据通路",
       "path": "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf"
-    },
-    {
-      "basename": "未命名",
-      "path": "未命名.md"
     },
     {
       "basename": "第8章 CPU3-非流水线-多周期",

@@ -4,134 +4,48 @@
     "type": "split",
     "children": [
       {
-        "id": "f048f0e3e13c2f91",
-        "type": "split",
+        "id": "48250b3e7d4025a8",
+        "type": "tabs",
         "children": [
           {
-            "id": "48250b3e7d4025a8",
-            "type": "tabs",
-            "dimension": 56.68604651162791,
-            "children": [
-              {
-                "id": "649468bdb1fdb6a7",
-                "type": "leaf",
-                "state": {
-                  "type": "pdf",
-                  "state": {
-                    "file": "课程/金融大数据/课件/01 Big Data.pdf"
-                  }
-                }
-              },
-              {
-                "id": "6cb1a8b1bdd8937d",
-                "type": "leaf",
-                "state": {
-                  "type": "pdf",
-                  "state": {
-                    "file": "课程/金融大数据/课件/02 Parallel Computing.pdf"
-                  }
-                }
-              },
-              {
-                "id": "a5e61a974091a064",
-                "type": "leaf",
-                "state": {
-                  "type": "pdf",
-                  "state": {
-                    "file": "课程/金融大数据/课件/03 MapReduce简介.pdf"
-                  }
-                }
-              },
-              {
-                "id": "1e5fd4117c016105",
-                "type": "leaf",
-                "state": {
-                  "type": "pdf",
-                  "state": {
-                    "file": "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf"
-                  }
-                }
-              },
-              {
-                "id": "31dc28819da37b59",
-                "type": "leaf",
-                "state": {
-                  "type": "pdf",
-                  "state": {
-                    "file": "课程/金融大数据/课件/05 Hadoop基本架构.pdf"
-                  }
-                }
-              },
-              {
-                "id": "aeb774ef94cc411b",
-                "type": "leaf",
-                "state": {
-                  "type": "pdf",
-                  "state": {
-                    "file": "课程/金融大数据/课件/22 Review.pdf"
-                  }
-                }
+            "id": "6cb1a8b1bdd8937d",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/金融大数据/课件/02 Parallel Computing.pdf"
               }
-            ],
-            "currentTab": 4
+            }
           },
           {
-            "id": "794cb47c319d0afc",
-            "type": "tabs",
-            "dimension": 43.31395348837209,
-            "children": [
-              {
-                "id": "d0a1e10dc7e23e17",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/金融大数据/作业/p1.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
-              },
-              {
-                "id": "3ae04d0c1e4572a2",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/金融大数据/作业/p2.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
-              },
-              {
-                "id": "2118bc4cfc136981",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/金融大数据/作业/p3.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
-              },
-              {
-                "id": "a916eaf4c1363e28",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/金融大数据/作业/p4.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
+            "id": "aeb774ef94cc411b",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/金融大数据/课件/22 Review.pdf"
               }
-            ]
+            }
           }
-        ],
-        "direction": "horizontal"
+        ]
+      },
+      {
+        "id": "ab9d111c4271ed1f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "649468bdb1fdb6a7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/金融大数据/期末复习.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
       },
       {
         "id": "8fdc18036a6ce0f9",
@@ -150,60 +64,24 @@
             }
           },
           {
-            "id": "83e24452ad95d86e",
+            "id": "d0a1e10dc7e23e17",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/金融大数据/笔记/Hadoop.md",
+                "file": "课程/金融大数据/作业/p1.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "90b23e04a297af2d",
+            "id": "3ae04d0c1e4572a2",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/金融大数据/笔记/NoSQL.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "f9c129fb92fe5272",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "课程/金融大数据/笔记/HBase.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "6bbb35776362c0b6",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "课程/金融大数据/笔记/Hive.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "30c728bf35052e72",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "课程/金融大数据/笔记/Spark.md",
+                "file": "课程/金融大数据/作业/p2.md",
                 "mode": "source",
                 "source": false
               }
@@ -283,7 +161,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/金融大数据/作业/p1.md",
+                "file": "课程/金融大数据/期末复习.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -300,7 +178,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/金融大数据/作业/p1.md",
+                "file": "课程/金融大数据/期末复习.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -323,7 +201,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/金融大数据/作业/p1.md"
+                "file": "课程/金融大数据/期末复习.md"
               }
             }
           },
@@ -366,25 +244,26 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "d0a1e10dc7e23e17",
+  "active": "649468bdb1fdb6a7",
   "lastOpenFiles": [
-    "课程/金融大数据/作业/p4.md",
-    "课程/金融大数据/作业/p3.md",
-    "课程/金融大数据/作业/p2.md",
-    "课程/金融大数据/作业/p1.md",
+    "课程/金融大数据/课件/01 Big Data.pdf",
+    "未命名.md",
     "课程/金融大数据/笔记/概述.md",
+    "课程/金融大数据/笔记/Hive.md",
+    "课程/金融大数据/作业/p2.md",
+    "课程/金融大数据/作业/p3.md",
+    "课程/金融大数据/课件/22 Review.pdf",
     "课程/金融大数据/笔记/Spark.md",
+    "课程/金融大数据/笔记/HBase.md",
+    "课程/金融大数据/笔记/NoSQL.md",
+    "课程/金融大数据/笔记/Hadoop.md",
+    "课程/金融大数据/作业/p1.md",
+    "课程/金融大数据/作业/p4.md",
     "课程/金融大数据/课件/05 Hadoop基本架构.pdf",
     "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
     "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf",
     "课程/金融大数据/课件/03 MapReduce简介.pdf",
     "课程/金融大数据/课件/02 Parallel Computing.pdf",
-    "课程/金融大数据/课件/01 Big Data.pdf",
-    "课程/金融大数据/笔记/Hive.md",
-    "课程/金融大数据/笔记/NoSQL.md",
-    "课程/金融大数据/笔记/HBase.md",
-    "课程/金融大数据/笔记/Hadoop.md",
-    "课程/金融大数据/课件/22 Review.pdf",
     "软件工程/编程思想.md",
     "临时/java.md",
     "课程/数据结构/课件/栈和队列.pdf",
@@ -401,9 +280,7 @@
     "Excalidraw/Drawing 2023-12-26 17.46.55.excalidraw.md",
     "Excalidraw/Drawing 2023-12-26 13.12.59.excalidraw.md",
     "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
-    "未命名.md",
     "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
-    "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
