@@ -8,16 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "8d9612e199d967fc",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （1）.pdf"
-              }
-            }
-          },
-          {
             "id": "f9d5b89e3ccfa07b",
             "type": "leaf",
             "state": {
@@ -191,7 +181,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
+                "file": "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -208,7 +198,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
+                "file": "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -231,7 +221,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md"
+                "file": "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf"
               }
             }
           },
@@ -274,10 +264,10 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "b219c596e12aefe1",
+  "active": "f9d5b89e3ccfa07b",
   "lastOpenFiles": [
-    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （1）.pdf",
     "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
+    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （1）.pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU1-非流水线-概述.pdf",
     "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
     "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
