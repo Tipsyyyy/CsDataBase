@@ -181,7 +181,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
+                "file": "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -198,7 +198,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
+                "file": "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -221,7 +221,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf"
+                "file": "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md"
               }
             }
           },
@@ -264,12 +264,12 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "f9d5b89e3ccfa07b",
+  "active": "b219c596e12aefe1",
   "lastOpenFiles": [
+    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
     "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
     "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （1）.pdf",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU1-非流水线-概述.pdf",
-    "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf",
     "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
     "课程/数字逻辑与计算机组成/课件/第6章 运算（2）ALU定点.pdf",
     "课程/数字逻辑与计算机组成/课件/复习小结 20231229.pdf",
