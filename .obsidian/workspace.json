@@ -27,19 +27,8 @@
                 "file": "课程/金融大数据/课件/02 Parallel Computing.pdf"
               }
             }
-          },
-          {
-            "id": "aeb774ef94cc411b",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/金融大数据/课件/22 Review.pdf"
-              }
-            }
           }
-        ],
-        "currentTab": 2
+        ]
       },
       {
         "id": "ab9d111c4271ed1f",
@@ -175,7 +164,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/金融大数据/期末复习.md",
+                "file": "课程/金融大数据/课件/01 Big Data.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -192,7 +181,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/金融大数据/期末复习.md",
+                "file": "课程/金融大数据/课件/01 Big Data.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -215,7 +204,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/金融大数据/期末复习.md"
+                "file": "课程/金融大数据/课件/01 Big Data.pdf"
               }
             }
           },
@@ -258,24 +247,25 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "649468bdb1fdb6a7",
+  "active": "3a9106a20945344d",
   "lastOpenFiles": [
+    "课程/金融大数据/课件/02 Parallel Computing.pdf",
     "课程/金融大数据/课件/22 Review.pdf",
     "课程/金融大数据/期末复习.md",
+    "课程/金融大数据/笔记/云计算.md",
+    "课程/金融大数据/笔记/概述.md",
+    "课程/金融大数据/作业/p1.md",
+    "课程/金融大数据/作业/p2.md",
+    "课程/金融大数据/笔记/HBase.md",
     "课程/金融大数据/作业/p4.md",
     "课程/金融大数据/课件/01 Big Data.pdf",
-    "课程/金融大数据/课件/02 Parallel Computing.pdf",
     "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
     "未命名.md",
-    "课程/金融大数据/笔记/概述.md",
     "课程/金融大数据/笔记/Hive.md",
-    "课程/金融大数据/作业/p2.md",
     "课程/金融大数据/作业/p3.md",
     "课程/金融大数据/笔记/Spark.md",
-    "课程/金融大数据/笔记/HBase.md",
     "课程/金融大数据/笔记/NoSQL.md",
     "课程/金融大数据/笔记/Hadoop.md",
-    "课程/金融大数据/作业/p1.md",
     "课程/金融大数据/课件/05 Hadoop基本架构.pdf",
     "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
     "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf",
@@ -294,7 +284,6 @@
     "Excalidraw/Drawing 2023-12-26 17.46.55.excalidraw.md",
     "Excalidraw/Drawing 2023-12-26 13.12.59.excalidraw.md",
     "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md",
-    "课程/数字逻辑与计算机组成/笔记/U6 运算.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",

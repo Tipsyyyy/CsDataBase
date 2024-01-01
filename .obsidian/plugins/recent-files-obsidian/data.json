@@ -1,18 +1,6 @@
 {
   "recentFiles": [
     {
-      "basename": "期末复习",
-      "path": "课程/金融大数据/期末复习.md"
-    },
-    {
-      "basename": "22 Review",
-      "path": "课程/金融大数据/课件/22 Review.pdf"
-    },
-    {
-      "basename": "p4",
-      "path": "课程/金融大数据/作业/p4.md"
-    },
-    {
       "basename": "01 Big Data",
       "path": "课程/金融大数据/课件/01 Big Data.pdf"
     },
@@ -21,20 +9,44 @@
       "path": "课程/金融大数据/课件/02 Parallel Computing.pdf"
     },
     {
-      "basename": "U8 中央处理器",
-      "path": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md"
+      "basename": "22 Review",
+      "path": "课程/金融大数据/课件/22 Review.pdf"
+    },
+    {
+      "basename": "期末复习",
+      "path": "课程/金融大数据/期末复习.md"
+    },
+    {
+      "basename": "云计算",
+      "path": "课程/金融大数据/笔记/云计算.md"
     },
     {
       "basename": "概述",
       "path": "课程/金融大数据/笔记/概述.md"
     },
     {
-      "basename": "Hive",
-      "path": "课程/金融大数据/笔记/Hive.md"
+      "basename": "p1",
+      "path": "课程/金融大数据/作业/p1.md"
     },
     {
       "basename": "p2",
       "path": "课程/金融大数据/作业/p2.md"
+    },
+    {
+      "basename": "HBase",
+      "path": "课程/金融大数据/笔记/HBase.md"
+    },
+    {
+      "basename": "p4",
+      "path": "课程/金融大数据/作业/p4.md"
+    },
+    {
+      "basename": "U8 中央处理器",
+      "path": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md"
+    },
+    {
+      "basename": "Hive",
+      "path": "课程/金融大数据/笔记/Hive.md"
     },
     {
       "basename": "p3",
@@ -45,20 +57,12 @@
       "path": "课程/金融大数据/笔记/Spark.md"
     },
     {
-      "basename": "HBase",
-      "path": "课程/金融大数据/笔记/HBase.md"
-    },
-    {
       "basename": "NoSQL",
       "path": "课程/金融大数据/笔记/NoSQL.md"
     },
     {
       "basename": "Hadoop",
       "path": "课程/金融大数据/笔记/Hadoop.md"
-    },
-    {
-      "basename": "p1",
-      "path": "课程/金融大数据/作业/p1.md"
     },
     {
       "basename": "05 Hadoop基本架构",

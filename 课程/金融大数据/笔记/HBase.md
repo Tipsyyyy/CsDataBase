@@ -1,5 +1,7 @@
 ## HBase
 
+- HBase 对应谷歌的 BigTable
+
 - Hadoop的局限性
   - 无法满足大规模数据实时访问模式
   - HDFS面向**批量访问**不是随机访问
