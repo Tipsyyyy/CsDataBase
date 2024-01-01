@@ -1,6 +1,22 @@
 {
   "recentFiles": [
     {
+      "basename": "p1",
+      "path": "课程/金融大数据/作业/p1.md"
+    },
+    {
+      "basename": "p4",
+      "path": "课程/金融大数据/作业/p4.md"
+    },
+    {
+      "basename": "p3",
+      "path": "课程/金融大数据/作业/p3.md"
+    },
+    {
+      "basename": "p2",
+      "path": "课程/金融大数据/作业/p2.md"
+    },
+    {
       "basename": "概述",
       "path": "课程/金融大数据/笔记/概述.md"
     },
@@ -183,22 +199,6 @@
     {
       "basename": "测试",
       "path": "课程/software construction/测试.md"
-    },
-    {
-      "basename": "调试",
-      "path": "课程/software construction/调试.md"
-    },
-    {
-      "basename": "函数式编程",
-      "path": "课程/software construction/函数式编程.md"
-    },
-    {
-      "basename": "设计模式",
-      "path": "课程/software construction/设计模式.md"
-    },
-    {
-      "basename": "代码审查",
-      "path": "课程/software construction/代码审查.md"
     }
   ],
   "omittedPaths": [],
