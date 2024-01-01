@@ -6,7 +6,18 @@
       {
         "id": "48250b3e7d4025a8",
         "type": "tabs",
+        "dimension": 34.10852713178294,
         "children": [
+          {
+            "id": "3a9106a20945344d",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/金融大数据/课件/01 Big Data.pdf"
+              }
+            }
+          },
           {
             "id": "6cb1a8b1bdd8937d",
             "type": "leaf",
@@ -27,11 +38,13 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 2
       },
       {
         "id": "ab9d111c4271ed1f",
         "type": "tabs",
+        "dimension": 33.273703041144906,
         "children": [
           {
             "id": "649468bdb1fdb6a7",
@@ -50,6 +63,7 @@
       {
         "id": "8fdc18036a6ce0f9",
         "type": "tabs",
+        "dimension": 32.61776982707215,
         "children": [
           {
             "id": "25cae27755b201c4",
@@ -246,34 +260,34 @@
   },
   "active": "649468bdb1fdb6a7",
   "lastOpenFiles": [
+    "课程/金融大数据/课件/22 Review.pdf",
+    "课程/金融大数据/期末复习.md",
+    "课程/金融大数据/作业/p4.md",
     "课程/金融大数据/课件/01 Big Data.pdf",
+    "课程/金融大数据/课件/02 Parallel Computing.pdf",
+    "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
     "未命名.md",
     "课程/金融大数据/笔记/概述.md",
     "课程/金融大数据/笔记/Hive.md",
     "课程/金融大数据/作业/p2.md",
     "课程/金融大数据/作业/p3.md",
-    "课程/金融大数据/课件/22 Review.pdf",
     "课程/金融大数据/笔记/Spark.md",
     "课程/金融大数据/笔记/HBase.md",
     "课程/金融大数据/笔记/NoSQL.md",
     "课程/金融大数据/笔记/Hadoop.md",
     "课程/金融大数据/作业/p1.md",
-    "课程/金融大数据/作业/p4.md",
     "课程/金融大数据/课件/05 Hadoop基本架构.pdf",
     "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
     "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf",
     "课程/金融大数据/课件/03 MapReduce简介.pdf",
-    "课程/金融大数据/课件/02 Parallel Computing.pdf",
     "软件工程/编程思想.md",
     "临时/java.md",
     "课程/数据结构/课件/栈和队列.pdf",
     "课程/数据结构/课件/线性表.pdf",
     "课程/数据结构/课件/文件.pdf",
     "临时/temp.md",
-    "课程/金融大数据/期末复习.md",
     "Excalidraw/Drawing 2024-01-01 22.42.06.excalidraw.md",
     "课程/数字逻辑与计算机组成/作业/p8.md",
-    "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
     "Blog/配置 LDAP 用户连接 Oracle-CSDN 博客.md",
     "Excalidraw/Drawing 2024-01-01 19.10.54.excalidraw.md",
     "Excalidraw/Drawing 2023-12-30 17.05.45.excalidraw.md",
