@@ -129,7 +129,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
+                "file": "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -146,7 +146,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
+                "file": "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -169,7 +169,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md"
+                "file": "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf"
               }
             }
           },
@@ -212,10 +212,10 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "7aa74e7ef2f4624f",
+  "active": "7da7bb6aad53ef67",
   "lastOpenFiles": [
-    "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf",
     "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
+    "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf",
     "未命名.md",
     "课程/数字逻辑与计算机组成/课件/第8章 CPU5-流水线-冒险.pdf",
     "课程/数字逻辑与计算机组成/课件/复习小结 20231229.pdf",
