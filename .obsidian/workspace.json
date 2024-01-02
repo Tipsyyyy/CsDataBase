@@ -118,8 +118,7 @@
               }
             }
           }
-        ],
-        "currentTab": 10
+        ]
       },
       {
         "id": "ab9d111c4271ed1f",
@@ -141,60 +140,35 @@
         ]
       },
       {
-        "id": "4b93e7da879bb26b",
-        "type": "split",
+        "id": "2a1160213c0e25f6",
+        "type": "tabs",
         "dimension": 32.61776982707215,
         "children": [
           {
-            "id": "2a1160213c0e25f6",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "56fab8fba4807e0d",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/金融大数据/笔记/概述.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
-              },
-              {
-                "id": "d3bbe201a2f68ff5",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/金融大数据/笔记/Hadoop.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
+            "id": "56fab8fba4807e0d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/金融大数据/笔记/概述.md",
+                "mode": "source",
+                "source": false
               }
-            ]
+            }
           },
           {
-            "id": "8fdc18036a6ce0f9",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "25cae27755b201c4",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/金融大数据/笔记/概述.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
+            "id": "d3bbe201a2f68ff5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/金融大数据/笔记/Hadoop.md",
+                "mode": "source",
+                "source": false
               }
-            ]
+            }
           }
-        ],
-        "direction": "horizontal"
+        ]
       }
     ],
     "direction": "vertical"
@@ -268,7 +242,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/金融大数据/作业/p1.md",
+                "file": "课程/金融大数据/课件/01 Big Data.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -285,7 +259,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/金融大数据/作业/p1.md",
+                "file": "课程/金融大数据/课件/01 Big Data.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -308,7 +282,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/金融大数据/作业/p1.md"
+                "file": "课程/金融大数据/课件/01 Big Data.pdf"
               }
             }
           },
@@ -436,8 +410,12 @@
       }
     ]
   },
-  "active": "d0a1e10dc7e23e17",
+  "active": "3a9106a20945344d",
   "lastOpenFiles": [
+    "课程/金融大数据/笔记/概述.md",
+    "课程/金融大数据/课件/01 Big Data.pdf",
+    "课程/金融大数据/期末复习.md",
+    "211275022田昊东.pdf",
     "课程/金融大数据/课件/11 MapReduce数据挖掘基础算法 (II).pdf",
     "课程/金融大数据/作业/p1.md",
     "课程/金融大数据/课件/10 MapReduce数据挖掘基础算法 (I).pdf",
@@ -447,16 +425,12 @@
     "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
     "课程/金融大数据/课件/05 Hadoop基本架构.pdf",
     "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf",
-    "课程/金融大数据/课件/03 MapReduce简介.pdf",
-    "课程/金融大数据/课件/01 Big Data.pdf",
-    "课程/金融大数据/笔记/概述.md",
     "课程/金融大数据/笔记/Hadoop.md",
     "课程/金融大数据/作业/p5.md",
     "课程/金融大数据/作业/p6.md",
     "课程/金融大数据/作业/p4.md",
     "课程/金融大数据/作业/p3.md",
     "课程/金融大数据/作业/p2.md",
-    "课程/金融大数据/期末复习.md",
     "课程/金融大数据/笔记/云计算.md",
     "课程/金融大数据/笔记/HBase.md",
     "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",

@@ -1,12 +1,24 @@
 {
   "recentFiles": [
     {
-      "basename": "p1",
-      "path": "课程/金融大数据/作业/p1.md"
+      "basename": "01 Big Data",
+      "path": "课程/金融大数据/课件/01 Big Data.pdf"
+    },
+    {
+      "basename": "概述",
+      "path": "课程/金融大数据/笔记/概述.md"
+    },
+    {
+      "basename": "期末复习",
+      "path": "课程/金融大数据/期末复习.md"
     },
     {
       "basename": "11 MapReduce数据挖掘基础算法 (II)",
       "path": "课程/金融大数据/课件/11 MapReduce数据挖掘基础算法 (II).pdf"
+    },
+    {
+      "basename": "p1",
+      "path": "课程/金融大数据/作业/p1.md"
     },
     {
       "basename": "10 MapReduce数据挖掘基础算法 (I)",
@@ -41,14 +53,6 @@
       "path": "课程/金融大数据/课件/03 MapReduce简介.pdf"
     },
     {
-      "basename": "01 Big Data",
-      "path": "课程/金融大数据/课件/01 Big Data.pdf"
-    },
-    {
-      "basename": "概述",
-      "path": "课程/金融大数据/笔记/概述.md"
-    },
-    {
       "basename": "Hadoop",
       "path": "课程/金融大数据/笔记/Hadoop.md"
     },
@@ -79,10 +83,6 @@
     {
       "basename": "22 Review",
       "path": "课程/金融大数据/课件/22 Review.pdf"
-    },
-    {
-      "basename": "期末复习",
-      "path": "课程/金融大数据/期末复习.md"
     },
     {
       "basename": "云计算",
