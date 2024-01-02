@@ -1,24 +1,36 @@
 {
   "recentFiles": [
     {
+      "basename": "03 MapReduce简介",
+      "path": "课程/金融大数据/课件/03 MapReduce简介.pdf"
+    },
+    {
+      "basename": "04 Google MapReduce基本架构",
+      "path": "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf"
+    },
+    {
       "basename": "期末复习",
       "path": "课程/金融大数据/期末复习.md"
     },
     {
-      "basename": "概述",
-      "path": "课程/金融大数据/笔记/概述.md"
-    },
-    {
-      "basename": "02 Parallel Computing",
-      "path": "课程/金融大数据/课件/02 Parallel Computing.pdf"
+      "basename": "p3",
+      "path": "课程/金融大数据/作业/p3.md"
     },
     {
       "basename": "p2",
       "path": "课程/金融大数据/作业/p2.md"
     },
     {
-      "basename": "p3",
-      "path": "课程/金融大数据/作业/p3.md"
+      "basename": "02 Parallel Computing",
+      "path": "课程/金融大数据/课件/02 Parallel Computing.pdf"
+    },
+    {
+      "basename": "概述",
+      "path": "课程/金融大数据/笔记/概述.md"
+    },
+    {
+      "basename": "Hadoop",
+      "path": "课程/金融大数据/笔记/Hadoop.md"
     },
     {
       "basename": "p1",
@@ -55,18 +67,6 @@
     {
       "basename": "05 Hadoop基本架构",
       "path": "课程/金融大数据/课件/05 Hadoop基本架构.pdf"
-    },
-    {
-      "basename": "04 Google MapReduce基本架构",
-      "path": "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf"
-    },
-    {
-      "basename": "03 MapReduce简介",
-      "path": "课程/金融大数据/课件/03 MapReduce简介.pdf"
-    },
-    {
-      "basename": "Hadoop",
-      "path": "课程/金融大数据/笔记/Hadoop.md"
     },
     {
       "basename": "p5",

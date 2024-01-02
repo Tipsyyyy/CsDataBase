@@ -9,16 +9,6 @@
         "dimension": 34.10852713178294,
         "children": [
           {
-            "id": "6cb1a8b1bdd8937d",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/金融大数据/课件/02 Parallel Computing.pdf"
-              }
-            }
-          },
-          {
             "id": "6b28b54a7622fcf8",
             "type": "leaf",
             "state": {
@@ -135,18 +125,6 @@
         "dimension": 32.61776982707215,
         "children": [
           {
-            "id": "56fab8fba4807e0d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "课程/金融大数据/笔记/概述.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "d3bbe201a2f68ff5",
             "type": "leaf",
             "state": {
@@ -233,7 +211,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/金融大数据/期末复习.md",
+                "file": "课程/金融大数据/课件/03 MapReduce简介.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -250,7 +228,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/金融大数据/期末复习.md",
+                "file": "课程/金融大数据/课件/03 MapReduce简介.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -273,7 +251,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/金融大数据/期末复习.md"
+                "file": "课程/金融大数据/课件/03 MapReduce简介.pdf"
               }
             }
           },
@@ -329,30 +307,6 @@
             "type": "tabs",
             "children": [
               {
-                "id": "d0a1e10dc7e23e17",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/金融大数据/作业/p1.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
-              },
-              {
-                "id": "3ae04d0c1e4572a2",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/金融大数据/作业/p2.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
-              },
-              {
                 "id": "e66911a6489b17bf",
                 "type": "leaf",
                 "state": {
@@ -388,27 +342,29 @@
                   }
                 }
               }
-            ],
-            "currentTab": 1
+            ]
           }
         ],
         "direction": "vertical",
-        "x": 1920,
-        "y": -538,
-        "width": 1080,
-        "height": 936,
-        "maximize": false,
+        "x": 2329,
+        "y": -77,
+        "width": 601,
+        "height": 600,
+        "maximize": true,
         "zoom": 0
       }
     ]
   },
-  "active": "649468bdb1fdb6a7",
+  "active": "6b28b54a7622fcf8",
   "lastOpenFiles": [
-    "课程/金融大数据/笔记/概述.md",
+    "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf",
     "课程/金融大数据/期末复习.md",
-    "课程/金融大数据/课件/02 Parallel Computing.pdf",
-    "课程/金融大数据/作业/p2.md",
+    "课程/金融大数据/课件/03 MapReduce简介.pdf",
     "课程/金融大数据/作业/p3.md",
+    "课程/金融大数据/作业/p2.md",
+    "课程/金融大数据/课件/02 Parallel Computing.pdf",
+    "课程/金融大数据/笔记/概述.md",
+    "课程/金融大数据/笔记/Hadoop.md",
     "课程/金融大数据/作业/p1.md",
     "课程/金融大数据/课件/01 Big Data.pdf",
     "211275022田昊东.pdf",
@@ -417,9 +373,6 @@
     "课程/金融大数据/课件/09 基于MapReduce的搜索引擎算法.pdf",
     "课程/金融大数据/课件/08 MapReduce Advanced Programming.pdf",
     "课程/金融大数据/课件/07 MapReduce Basic Programming (II).pdf",
-    "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
-    "课程/金融大数据/课件/05 Hadoop基本架构.pdf",
-    "课程/金融大数据/笔记/Hadoop.md",
     "课程/金融大数据/作业/p5.md",
     "课程/金融大数据/作业/p6.md",
     "课程/金融大数据/作业/p4.md",
