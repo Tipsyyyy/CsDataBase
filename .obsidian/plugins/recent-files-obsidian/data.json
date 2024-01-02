@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "p3",
+      "path": "课程/金融大数据/作业/p3.md"
+    },
+    {
       "basename": "期末复习",
       "path": "课程/金融大数据/期末复习.md"
     },
@@ -9,16 +13,16 @@
       "path": "课程/金融大数据/笔记/Hadoop.md"
     },
     {
-      "basename": "p3",
-      "path": "课程/金融大数据/作业/p3.md"
-    },
-    {
-      "basename": "p4",
-      "path": "课程/金融大数据/作业/p4.md"
+      "basename": "12 MapReduce数据挖掘基础算法 (III)",
+      "path": "课程/金融大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf"
     },
     {
       "basename": "03 MapReduce简介",
       "path": "课程/金融大数据/课件/03 MapReduce简介.pdf"
+    },
+    {
+      "basename": "p4",
+      "path": "课程/金融大数据/作业/p4.md"
     },
     {
       "basename": "05 Hadoop基本架构",
@@ -195,10 +199,6 @@
     {
       "basename": "第5章 FPGA设计和硬件描述语言",
       "path": "课程/数字逻辑与计算机组成/课件/第5章 FPGA设计和硬件描述语言.pdf"
-    },
-    {
-      "basename": "硬件",
-      "path": "电子/嵌入式/硬件.md"
     }
   ],
   "omittedPaths": [],
