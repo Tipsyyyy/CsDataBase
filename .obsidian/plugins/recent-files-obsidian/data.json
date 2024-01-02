@@ -17,6 +17,10 @@
       "path": "课程/金融大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf"
     },
     {
+      "basename": "p2",
+      "path": "课程/金融大数据/实验/p2.md"
+    },
+    {
       "basename": "期末复习",
       "path": "课程/金融大数据/期末复习.md"
     },
@@ -39,10 +43,6 @@
     {
       "basename": "Drawing 2024-01-02 20.44.47.excalidraw",
       "path": "Excalidraw/Drawing 2024-01-02 20.44.47.excalidraw.md"
-    },
-    {
-      "basename": "p2",
-      "path": "课程/金融大数据/实验/p2.md"
     },
     {
       "basename": "p5",
