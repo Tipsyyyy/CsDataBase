@@ -1,24 +1,36 @@
 {
   "recentFiles": [
     {
+      "basename": "21 Cloud Computing",
+      "path": "课程/金融大数据/课件/21 Cloud Computing.pdf"
+    },
+    {
+      "basename": "云计算",
+      "path": "课程/金融大数据/笔记/云计算.md"
+    },
+    {
+      "basename": "期末复习",
+      "path": "课程/金融大数据/期末复习.md"
+    },
+    {
       "basename": "Hadoop",
       "path": "课程/金融大数据/笔记/Hadoop.md"
     },
     {
-      "basename": "12 MapReduce数据挖掘基础算法 (III)",
-      "path": "课程/金融大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf"
+      "basename": "NoSQL",
+      "path": "课程/金融大数据/笔记/NoSQL.md"
     },
     {
       "basename": "p2",
       "path": "课程/金融大数据/实验/p2.md"
     },
     {
-      "basename": "p4",
-      "path": "课程/金融大数据/实验/p4.md"
+      "basename": "12 MapReduce数据挖掘基础算法 (III)",
+      "path": "课程/金融大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf"
     },
     {
-      "basename": "期末复习",
-      "path": "课程/金融大数据/期末复习.md"
+      "basename": "p4",
+      "path": "课程/金融大数据/实验/p4.md"
     },
     {
       "basename": "p3",
@@ -45,10 +57,6 @@
       "path": "课程/金融大数据/作业/p7.md"
     },
     {
-      "basename": "云计算",
-      "path": "课程/金融大数据/笔记/云计算.md"
-    },
-    {
       "basename": "p5",
       "path": "课程/金融大数据/作业/p5.md"
     },
@@ -59,14 +67,6 @@
     {
       "basename": "Hive",
       "path": "课程/金融大数据/笔记/Hive.md"
-    },
-    {
-      "basename": "NoSQL",
-      "path": "课程/金融大数据/笔记/NoSQL.md"
-    },
-    {
-      "basename": "21 Cloud Computing",
-      "path": "课程/金融大数据/课件/21 Cloud Computing.pdf"
     },
     {
       "basename": "HBase",
