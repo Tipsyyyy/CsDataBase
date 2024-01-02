@@ -192,7 +192,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/金融大数据/期末复习.md",
+                "file": "课程/金融大数据/实验/p2.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -209,7 +209,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/金融大数据/期末复习.md",
+                "file": "课程/金融大数据/实验/p2.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -232,7 +232,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/金融大数据/期末复习.md"
+                "file": "课程/金融大数据/实验/p2.md"
               }
             }
           },
@@ -288,30 +288,6 @@
             "type": "tabs",
             "children": [
               {
-                "id": "ab6e9d07d324c0e2",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/金融大数据/作业/p4.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
-              },
-              {
-                "id": "1da468f40f5f6a08",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/金融大数据/作业/p5.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
-              },
-              {
                 "id": "09a88d84fea41553",
                 "type": "leaf",
                 "state": {
@@ -336,8 +312,9 @@
       }
     ]
   },
-  "active": "649468bdb1fdb6a7",
+  "active": "09a88d84fea41553",
   "lastOpenFiles": [
+    "课程/金融大数据/作业/p5.md",
     "课程/金融大数据/作业/p4.md",
     "课程/金融大数据/期末复习.md",
     "课程/金融大数据/笔记/Hadoop.md",
@@ -349,7 +326,6 @@
     "课程/金融大数据/课件/08 MapReduce Advanced Programming.pdf",
     "课程/金融大数据/课件/07 MapReduce Basic Programming (II).pdf",
     "课程/金融大数据/课件/05 Hadoop基本架构.pdf",
-    "课程/金融大数据/作业/p5.md",
     "课程/金融大数据/实验/p2.md",
     "课程/金融大数据/作业/p3.md",
     "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf",
