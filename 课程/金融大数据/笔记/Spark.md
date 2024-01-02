@@ -246,39 +246,40 @@
 
 - 程序示例
 
-  - ```java
-    package org.example;
-    
-    import org.apache.spark.SparkConf;
-    import org.apache.spark.api.java.JavaRDD;
-    import org.apache.spark.api.java.JavaSparkContext;
-    import org.apache.spark.api.java.function.Function;
-    
-    public class Main {
-        public static void main(String[] args) {
-            // 配置 Spark
-            SparkConf conf = new SparkConf().setAppName("SparkTest").setMaster("local");
-            JavaSparkContext sc = new JavaSparkContext(conf);
-    
-            // 读取本地文件系统中的文本文件，此处需替换为实际路径
-            String path = "C:\\Users\\MSI\\OneDrive\\study\\作业\\金融大数据\\test.txt";
-            JavaRDD<String> lines = sc.textFile(path);
-    
-            // 计算文本文件的行数
-            long numLines = lines.count();
-    
-            // 打印结果
-            System.out.println("Number of lines in the file: " + numLines);
-            try {
-                Thread.sleep(100000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            // 关闭 SparkContext
-            sc.close();
+
+```java
+package org.example;
+
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
+
+public class Main {
+    public static void main(String[] args) {
+        // 配置 Spark
+        SparkConf conf = new SparkConf().setAppName("SparkTest").setMaster("local");
+        JavaSparkContext sc = new JavaSparkContext(conf);
+
+        // 读取本地文件系统中的文本文件，此处需替换为实际路径
+        String path = "C:\\Users\\MSI\\OneDrive\\study\\作业\\金融大数据\\test.txt";
+        JavaRDD<String> lines = sc.textFile(path);
+
+        // 计算文本文件的行数
+        long numLines = lines.count();
+
+        // 打印结果
+        System.out.println("Number of lines in the file: " + numLines);
+        try {
+            Thread.sleep(100000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+        // 关闭 SparkContext
+        sc.close();
     }
-    ```
+}
+```
 
 - 添加scala支持
   - 直接创建scala项目，scala项目内可以直接使用java
@@ -296,29 +297,30 @@
 
 - scala spark程序示例
 
-  - ```scala
-    import org.apache.spark.{SparkConf, SparkContext}
-    
-    object Main {
-      def main(args: Array[String]) {
-        //定义一个sparkConf，提供Spark运行的各种参数，如程序名称、用户名称等
-        val conf = new SparkConf().setAppName("Spark Pi").setMaster("local")
-        //创建Spark的运行环境，并将Spark运行的参数传入Spark的运行环境中
-        val sc = new SparkContext(conf)
-        //调用Spark的读文件函数，从HDFS中读取Log文件，输出一个RDD类型的实例：fileRDD。具体类型：RDD[String]
-        val fileRDD = sc.textFile("C:\\Users\\MSI\\OneDrive\\study\\作业\\金融大数据\\test.txt")
-        //调用RDD的filter函数，过滤fileRDD中的每一行，如果该行中含有ERROR，保留；否则，删除。生成另一个RDD类型的实例：filterRDD。具体类型:RDD[String]
-        //注：line=>line.contains(“ERROR”)表示对每一个line应用contains()函数
-        val filterRDD = fileRDD.filter(line => line.contains("ERROR"))
-        //统计filterRDD中总共有多少行，result为Int类型
-        val result = filterRDD.count()
-        //打印结果
-        println(result)
-        sc.stop() //关闭Spark
-      }
-    }
-    
-    ```
+
+```scala
+import org.apache.spark.{SparkConf, SparkContext}
+
+object Main {
+  def main(args: Array[String]) {
+    //定义一个sparkConf，提供Spark运行的各种参数，如程序名称、用户名称等
+    val conf = new SparkConf().setAppName("Spark Pi").setMaster("local")
+    //创建Spark的运行环境，并将Spark运行的参数传入Spark的运行环境中
+    val sc = new SparkContext(conf)
+    //调用Spark的读文件函数，从HDFS中读取Log文件，输出一个RDD类型的实例：fileRDD。具体类型：RDD[String]
+    val fileRDD = sc.textFile("C:\\Users\\MSI\\OneDrive\\study\\作业\\金融大数据\\test.txt")
+    //调用RDD的filter函数，过滤fileRDD中的每一行，如果该行中含有ERROR，保留；否则，删除。生成另一个RDD类型的实例：filterRDD。具体类型:RDD[String]
+    //注：line=>line.contains(“ERROR”)表示对每一个line应用contains()函数
+    val filterRDD = fileRDD.filter(line => line.contains("ERROR"))
+    //统计filterRDD中总共有多少行，result为Int类型
+    val result = filterRDD.count()
+    //打印结果
+    println(result)
+    sc.stop() //关闭Spark
+  }
+}
+
+```
 
 ### 编程方法
 
@@ -451,25 +453,26 @@
 
   - **equals()**: 这个方法用于检查当前的分区器实例是否和另一个分区器实例相同。这在确定是否可以重用现有的分区数据时很有用。
 
-  - ```scala
-    class CustomPartitioner(partitions: Int) extends org.apache.spark.Partitioner {
-        //返回分区的数目
-        override def numPartitions: Int = partitions
-    
-        override def getPartition(key: Any): Int = {
-            // 自定义逻辑，例如基于键的某个特性进行分区
-            key match {
-                case k: Int => k % partitions
-                case _ => 0
-            }
-        }
-    
-        override def equals(other: Any): Boolean = other match {
-            case h: CustomPartitioner => h.numPartitions == numPartitions
-            case _ => false
+
+```scala
+class CustomPartitioner(partitions: Int) extends org.apache.spark.Partitioner {
+    //返回分区的数目
+    override def numPartitions: Int = partitions
+
+    override def getPartition(key: Any): Int = {
+        // 自定义逻辑，例如基于键的某个特性进行分区
+        key match {
+            case k: Int => k % partitions
+            case _ => 0
         }
     }
-    ```
+
+    override def equals(other: Any): Boolean = other match {
+        case h: CustomPartitioner => h.numPartitions == numPartitions
+        case _ => false
+    }
+}
+```
 
 #### 数据读取与保存
 
@@ -479,28 +482,30 @@
 
   - **文本文件**：输入的每一行都会成为RDD的一个元素；也可以将多个完整的文本文件一次性读取为一个Pair RDD，键是文件名，值是文件内容。
 
-    - ```scala
-      val input = sc.textFile(“file:///home/spark/README.MD”)
-      input.saveAsTextFile(outputFile)
-      val input = sc.wholeTextFiles(“file:///home/spark/salefiles”)
-      ```
 
-  - **JSON**：将数据作为文本文件读取，然后使用JSON解析器来对RDD的值进行映射操作。
+```scala
+val input = sc.textFile(“file:///home/spark/README.MD”)
+input.saveAsTextFile(outputFile)
+val input = sc.wholeTextFiles(“file:///home/spark/salefiles”)
+```
 
-  - **CSV**：**当作普通文本文件读取**，再对数据进行处理。每条记录都没有相关联的字段名，**只能得到对应的序号**。常规做法是使用第一行中每列的值作为字段名。
+- **JSON**：将数据作为文本文件读取，然后使用JSON解析器来对RDD的值进行映射操作。
 
-    - ```scala
-      import Java.io.StringReader
-      import au.com.bytecode.opencsv.CSVReader
-      …
-      val input = sc.textFile(inputFile)
-      val result = input.map{ line =>
-      val reader = new CSVReader(new StringReader(line));
-      reader.readNext();
-      }
-      ```
+- **CSV**：**当作普通文本文件读取**，再对数据进行处理。每条记录都没有相关联的字段名，**只能得到对应的序号**。常规做法是使用第一行中每列的值作为字段名。
 
-  - SequenceFile：由没有相对关系结构的键值对文件组成的常用Hadoop格式。有同步标记，Spark可以用它来定位到文件中的某个点，然后再与记录的边界对齐。由实现Hadoop的Writable接口的元素组成。
+
+```scala
+import Java.io.StringReader
+import au.com.bytecode.opencsv.CSVReader
+…
+val input = sc.textFile(inputFile)
+val result = input.map{ line =>
+val reader = new CSVReader(new StringReader(line));
+reader.readNext();
+}
+```
+
+- SequenceFile：由没有相对关系结构的键值对文件组成的常用Hadoop格式。有同步标记，Spark可以用它来定位到文件中的某个点，然后再与记录的边界对齐。由实现Hadoop的Writable接口的元素组成。
 
 - 文件系统
 
@@ -510,42 +515,44 @@
 
   - Hive：Spark SQL可以**读取Hive支持的任何表**
 
-    - ```scala
-      import org.apache.spark.sql.hive.HiveContext
-      val hiveCtx = new org.apache.spark.sql.hive.HiveContext(sc)
-      val rows = hiveCtx.sql(“SELECT name, age FROM users”)
-      val firstRow = rows.first()
-      println(firstRow.getString(0))
-      ```
 
-  - JSON：Spark SQL可以自动推断出JSON数据的结构信息
+```scala
+import org.apache.spark.sql.hive.HiveContext
+val hiveCtx = new org.apache.spark.sql.hive.HiveContext(sc)
+val rows = hiveCtx.sql(“SELECT name, age FROM users”)
+val firstRow = rows.first()
+println(firstRow.getString(0))
+```
 
-    - ```scala
-      import org.apache.spark.sql.hive.HiveContext
-      val hiveCtx = new org.apache.spark.sql.hive.HiveContext(sc)
-      val tweets = hiveCtx.jsonFile(“tweets.json”)
-      tweets.registerTempTable(“tweets”)
-      val results = hiveCtx.sql(“SELECT user.name, text FROM tweets”)
-      ```
+JSON：Spark SQL可以自动推断出JSON数据的结构信息
 
-  - Java**数据库连接**：org.apache.spark.rdd.JdbcRDD
+```scala
+import org.apache.spark.sql.hive.HiveContext
+val hiveCtx = new org.apache.spark.sql.hive.HiveContext(sc)
+val tweets = hiveCtx.jsonFile(“tweets.json”)
+tweets.registerTempTable(“tweets”)
+val results = hiveCtx.sql(“SELECT user.name, text FROM tweets”)
+```
 
-    - ```scala
-      def createConnection() = {
-          Class.forName(“com.mysql.jdbc.Driver”).newInstance();
-          DriverManager.getConnection(“jdbc:mysql:/localhost/test?user=holden”);
-      }
-      def extractValues(r: ResultSet) = {
-          (r.getInt(1), r.getString(2))
-      }
-      val data = new JdbcRDD(sc, createConnection, ”SELECT * FROM panda
-                             WHERE ? <= id and id <= ?”, lowerBound = 1, upperBound = 3, numPartitions = 2, mapRow =
-                             extractValues)
-      println(data.collect().toList)
-      ```
+- Java**数据库连接**：org.apache.spark.rdd.JdbcRDD
 
-  - Spark可以通过Hadoop输入格式访问HBase，这个输入格式会返回键值对数据，其中键的类型为org.apache.hadoop.hbase.io.ImmutableBytesWritable，值的类型为
-    org.apache.hadoop.hbase.client.Result.
+
+```scala
+def createConnection() = {
+    Class.forName(“com.mysql.jdbc.Driver”).newInstance();
+    DriverManager.getConnection(“jdbc:mysql:/localhost/test?user=holden”);
+}
+def extractValues(r: ResultSet) = {
+    (r.getInt(1), r.getString(2))
+}
+val data = new JdbcRDD(sc, createConnection, ”SELECT * FROM panda
+                       WHERE ? <= id and id <= ?”, lowerBound = 1, upperBound = 3, numPartitions = 2, mapRow =
+                       extractValues)
+println(data.collect().toList)
+```
+
+- Spark可以通过Hadoop输入格式访问HBase，这个输入格式会返回键值对数据，其中键的类型为org.apache.hadoop.hbase.io.ImmutableBytesWritable，值的类型为
+  org.apache.hadoop.hbase.client.Result.
 
 #### 共享变量
 
@@ -560,12 +567,13 @@
 
   - 可以通过调用SparkContext.broadcast(v)来从一个普通变量v中**创建一个广播变量**。这个广播变量就是对普通变量v的一个包装器，通过调用value方法就可以获得这个广播变量的值
 
-  - ```scala
-    val broadcastVar = sc.broadcast(Array(1, 2, 3))
-     broadcastVar.value//变量值的获取
-    ```
 
-  - 这个广播变量被创建以后，那么在集群中的任何函数中，**都应该使用广播变量**broadcastVar的值，而不是使用v的值，这样就不会把v重复分发到这些节点上。此外，一旦广播变量创建后，**普通变量v的值就不能再发生修改**（有人不应该修改广播变量的值），从而确保所有节点**都获得这个广播变量的相同的值**。
+```scala
+val broadcastVar = sc.broadcast(Array(1, 2, 3))
+ broadcastVar.value//变量值的获取
+```
+
+- 这个广播变量被创建以后，那么在集群中的任何函数中，**都应该使用广播变量**broadcastVar的值，而不是使用v的值，这样就不会把v重复分发到这些节点上。此外，一旦广播变量创建后，**普通变量v的值就不能再发生修改**（有人不应该修改广播变量的值），从而确保所有节点**都获得这个广播变量的相同的值**。
 
 - 累加器
 
@@ -573,23 +581,24 @@
 
   - 一个数值型的累加器，可以通过调用SparkContext.longAccumulator()或者SparkContext.doubleAccumulator()来创建。运行在集群中的任务，就可以使用**add方法**来把数值累加到累加器上，但是，这些任务**只能做累加操作，不能读取累加器的值**，只有任务**控制节点可以使用value来读取累加器的值**
 
-  - ```scala
-    al accum = sc.longAccumulator("My Accumulator")
-    sc.parallelize(Array(1, 2, 3, 4)).foreach(x => accum.add(x))
-    accum.value
-    ```
+
+```scala
+al accum = sc.longAccumulator("My Accumulator")
+sc.parallelize(Array(1, 2, 3, 4)).foreach(x => accum.add(x))
+accum.value
+```
 
 ### 示例
 
 #### Word count
 
-- ```scala
-  val file = spark.textFile("hdfs://.. ")
-  val counts = file.flatMap (line => line.split("")) //分词
-  .map(word =>(word, 1)) //对应mapper的工作
-  .reduceByKey(_ + _ ) //相同key的不同value之间进行”+”运算
-  counts.saveAsTextFile ("hdfs://...")
-  ```
+```scala
+val file = spark.textFile("hdfs://.. ")
+val counts = file.flatMap (line => line.split("")) //分词
+.map(word =>(word, 1)) //对应mapper的工作
+.reduceByKey(_ + _ ) //相同key的不同value之间进行”+”运算
+counts.saveAsTextFile ("hdfs://...")
+```
 
 #### K-Means
 
@@ -607,64 +616,65 @@
   - Spark的所有迭代操作都在**一个Job中**完成，相比于MapReduce没有重启多次Job带来的开销
   - Spark任务执行结束直接退出，**不需要另外一个Job**来检测迭代终止条件
 
-- ```scala
-  //读取数据初始化聚类
-  val lines = sc.textFile("data/mllib/kmeans_data.txt" )
-  /*
-  1.0 2.0 3.0
-  4.0 5.0 6.0
-  7.0 8.0 9.0
-  */
-  val data = lines.map(s => s.split(" ").map(_.toDouble)).cache()
-  /*
-  Array[Array[Double]] = Array(
-    Array(1.0, 2.0, 3.0),
-    Array(4.0, 5.0, 6.0),
-    Array(7.0, 8.0, 9.0)
-  )
-  */
-  val kPoints= data.takeSample(false, K, 42).map(s => spark.util.Vector(s))
-  //takeSample(Boolean, Int, Long)采样函数，false表示不使用替换方法采样，K表示样本数，42表示随机种子
-  /*
-  Array[Vector] = Array(
-    Vector(1.0, 2.0, 3.0),
-    Vector(7.0, 8.0, 9.0)
-  )
-  */
-  //划分数据给聚类中心
-  val closest = data.map //产生<ClusterID, (p, 1)>键值对
-  (p => ( closestPoint(spark.util.Vector(p), kPoints), (p, 1) )
-   //closestPoint计算最近的聚类中心，产生ClusterID (spark.util.Vector(p), 1)
-  )
-  /*
-  Array[(Int, (Array[Double], Int))] = Array(
-    (0, (Array(1.0, 2.0, 3.0), 1)),
-    (0, (Array(4.0, 5.0, 6.0), 1)),
-    (1, (Array(7.0, 8.0, 9.0), 1))
-  )
-  */
-  //聚合生成新的聚类中心
-  //同一个聚类下所有向量相加并统计向量个数
-  val pointStats= closest.reduceByKey{
-      case ((x1, y1), (x2, y2)) => (x1 + x2, y1 + y2) //产生(pm, n)
-  } //将同一clusterID的所有(p, 1)的两个分量分别相加，得到<ClusterID, (pm, n)>
-  /*
-  Array[(Int, (Array[Double], Int))] = Array(
-    (0, (Array(5.0, 7.0, 9.0), 2)),
-    (1, (Array(7.0, 8.0, 9.0), 1))
-  )
-  */
-  //计算生成新的聚类中心
-  val newPoints= pointStats.map {
-      pair => (pair._1, pair._2._1/ pair._2._2)}.collectAsMap()
-  //由<ClusterID, (pm, n)>产生(ClusterID, pm/n)。其中，pair._1表示聚类的ClusterID，pair._2._1表示聚类中所有向量之和pm ，pair._2._2表示聚类中所有向量的个数n
-  /*
-  Map[Int, Array[Double]] = Map(
-    (0 -> Array(2.5, 3.5, 4.5)),
-    (1 -> Array(7.0, 8.0, 9.0))
-  )
-  */
-  ```
+
+```scala
+//读取数据初始化聚类
+val lines = sc.textFile("data/mllib/kmeans_data.txt" )
+/*
+1.0 2.0 3.0
+4.0 5.0 6.0
+7.0 8.0 9.0
+*/
+val data = lines.map(s => s.split(" ").map(_.toDouble)).cache()
+/*
+Array[Array[Double]] = Array(
+  Array(1.0, 2.0, 3.0),
+  Array(4.0, 5.0, 6.0),
+  Array(7.0, 8.0, 9.0)
+)
+*/
+val kPoints= data.takeSample(false, K, 42).map(s => spark.util.Vector(s))
+//takeSample(Boolean, Int, Long)采样函数，false表示不使用替换方法采样，K表示样本数，42表示随机种子
+/*
+Array[Vector] = Array(
+  Vector(1.0, 2.0, 3.0),
+  Vector(7.0, 8.0, 9.0)
+)
+*/
+//划分数据给聚类中心
+val closest = data.map //产生<ClusterID, (p, 1)>键值对
+(p => ( closestPoint(spark.util.Vector(p), kPoints), (p, 1) )
+ //closestPoint计算最近的聚类中心，产生ClusterID (spark.util.Vector(p), 1)
+)
+/*
+Array[(Int, (Array[Double], Int))] = Array(
+  (0, (Array(1.0, 2.0, 3.0), 1)),
+  (0, (Array(4.0, 5.0, 6.0), 1)),
+  (1, (Array(7.0, 8.0, 9.0), 1))
+)
+*/
+//聚合生成新的聚类中心
+//同一个聚类下所有向量相加并统计向量个数
+val pointStats= closest.reduceByKey{
+    case ((x1, y1), (x2, y2)) => (x1 + x2, y1 + y2) //产生(pm, n)
+} //将同一clusterID的所有(p, 1)的两个分量分别相加，得到<ClusterID, (pm, n)>
+/*
+Array[(Int, (Array[Double], Int))] = Array(
+  (0, (Array(5.0, 7.0, 9.0), 2)),
+  (1, (Array(7.0, 8.0, 9.0), 1))
+)
+*/
+//计算生成新的聚类中心
+val newPoints= pointStats.map {
+    pair => (pair._1, pair._2._1/ pair._2._2)}.collectAsMap()
+//由<ClusterID, (pm, n)>产生(ClusterID, pm/n)。其中，pair._1表示聚类的ClusterID，pair._2._1表示聚类中所有向量之和pm ，pair._2._2表示聚类中所有向量的个数n
+/*
+Map[Int, Array[Double]] = Map(
+  (0 -> Array(2.5, 3.5, 4.5)),
+  (1 -> Array(7.0, 8.0, 9.0))
+)
+*/
+```
 
 ## 高级编程
 
@@ -685,12 +695,13 @@
 
 - `SparkContext` 是 Spark 的**早期编程接口**，主要用于 RDD 操作。而 `SparkSession` 是 Spark 2.0 之后引入的新接口，是 DataFrame 和 DataSet API 的主要入口点。
 
-  - ```scala
-    val conf = new SparkConf().setAppName("Spark Pi").setMaster("local")
-    val sc = new SparkContext(conf)
-    
-    val spark = SparkSession.builder.appName("Spark").master("local").getOrCreate()
-    ```
+
+```scala
+val conf = new SparkConf().setAppName("Spark Pi").setMaster("local")
+val sc = new SparkContext(conf)
+
+val spark = SparkSession.builder.appName("Spark").master("local").getOrCreate()
+```
 
 - **RDD、DataFrame、DataSet的区别**
   - **RDD (Resilient Distributed Dataset)**:
@@ -728,34 +739,38 @@
 
 - **读取数据创建 DataFrame**： 使用 `SparkSession` 读取数据。Spark 支持多种数据源（如 JSON、CSV、Parquet、Hive 表等）。
 
-  ```scala
-  val df = spark.read.json("path/to/jsonfile.json")
-  ```
+
+```scala
+val df = spark.read.json("path/to/jsonfile.json")
+```
 
 - **显示 DataFrame**： 为了查看 DataFrame 的内容，可以使用 `show()` 方法。
 
-  ```scala
-  df.show()
-  ```
+
+```scala
+df.show()
+```
 
 - **打印 Schema**： 要查看 DataFrame 的结构（即 Schema），可以使用 `printSchema()` 方法。
 
-  ```scala
-  df.printSchema()
-  ```
+
+```scala
+df.printSchema()
+```
 
 - **选择列和过滤行**： 使用 `select()` 选择特定的列，使用 `filter()` 或 `where()` 过滤行。
 
-  ```scala
-  scalaCopy codedf.select("columnName").show()
-  df.filter($"columnName" > value).show()
-  //选择的同时附加对列的操作
-  df.select(df("name"), df("age") + 1).show()
-  //重命名
-  df.select(df("name").as("username"), df("age")).show()
-  //进行运算
-  val res = dfG.select(dfG("CNT_CHILDREN"), (dfG("count")/sum).as("count"))
-  ```
+
+```scala
+scalaCopy codedf.select("columnName").show()
+df.filter($"columnName" > value).show()
+//选择的同时附加对列的操作
+df.select(df("name"), df("age") + 1).show()
+//重命名
+df.select(df("name").as("username"), df("age")).show()
+//进行运算
+val res = dfG.select(dfG("CNT_CHILDREN"), (dfG("count")/sum).as("count"))
+```
 
 - **新建列**：`withColumn`
 
@@ -771,22 +786,25 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
 - **聚合操作**： 使用诸如 `groupBy()` 和 `agg()` 等方法执行聚合操作。
 
-  ```scala
-  df.groupBy("columnName").agg(count("columnName")).show()
-  ```
+
+```scala
+df.groupBy("columnName").agg(count("columnName")).show()
+```
 
 - **SQL 查询**： 注册 DataFrame 为临时视图，然后使用 SQL 语句查询。
 
-  ```scala
-  codedf.createOrReplaceTempView("tableName")
-  spark.sql("SELECT * FROM tableName WHERE columnName > value").show()
-  ```
+
+```scala
+codedf.createOrReplaceTempView("tableName")
+spark.sql("SELECT * FROM tableName WHERE columnName > value").show()
+```
 
 - **将数据写入外部存储**： 使用 `write()` 方法将 DataFrame 数据写入到外部存储系统，如文件、数据库等。
 
-  ```scala
-  df.write.format("json").save("path/to/output")
-  ```
+
+```scala
+df.write.format("json").save("path/to/output")
+```
 
 - `df.groupBy("age").count().show()`： 按 `"age"` 列的值进行分组，并计算每个年龄组中的记录数（即每个不同年龄值有多少条记录），然后展示结果。
 - `df.sort(df("age").desc, df("name").asc).show()`： 按 `"age"` 列降序和 `"name"` 列升序（多列排序）对 DataFrame 进行排序，并展示结果。
@@ -841,42 +859,44 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
 - 分类器训练示例
 
-  - ```scala
-    //构造一个10行10列的数组
-    val data = Array.ofDim[Int](10,10)
-    for (i <- 0 until 10){
-    for ( j <- 0 until 10){
-    //给数组赋值随机数
-    data(i)(j) = scala.util.Random.nextInt(100)
-    }
-    //取第2～10列数据（训练集的样本特征空间）
-    x = data[, 2 to 10]
-    //取第1列数据（样本相应的分类标签）
-    y = data[, 1]
-    //调用分类算法进行分类（MLBase自动选择优化方案）
-    model = do_classify(y,x)
-    ```
+
+```scala
+//构造一个10行10列的数组
+val data = Array.ofDim[Int](10,10)
+for (i <- 0 until 10){
+for ( j <- 0 until 10){
+//给数组赋值随机数
+data(i)(j) = scala.util.Random.nextInt(100)
+}
+//取第2～10列数据（训练集的样本特征空间）
+x = data[, 2 to 10]
+//取第1列数据（样本相应的分类标签）
+y = data[, 1]
+//调用分类算法进行分类（MLBase自动选择优化方案）
+model = do_classify(y,x)
+```
 
 - KMeans示例
 
-  - ```scala
-    mport org.apache.spark.mllib.clustering.{KMeans, KMeansModel}
-    import org.apache.spark.mllib.linalg.Vectors
-    val data = sc.textFile("data/mllib/kmeans_data.txt")
-    //每行数据转化为一个稠密向量，并缓存避免每次操作重复计算
-    val parsedData = data.map(s => Vectors.dense(s.split(' ').map(_.toDouble))).cache()
-    //聚类数目，迭代次数
-    val numClusters = 2
-    val numIterations = 20
-    //执行算法
-    val clusters = KMeans.train(parsedData, numClusters, numIterations)
-    //评估模型
-    val WSSSE = clusters.computeCost(parsedData)
-    println("Within Set Sum of Squared Errors = " + WSSSE)
-    
-    clusters.save(sc, "target/org/apache/spark/KMeansExample/KMeansModel")
-    val sameModel = KMeansModel.load(sc, "target/org/apache/spark/KMeansExample/KMeansModel")
-    ```
+
+```scala
+mport org.apache.spark.mllib.clustering.{KMeans, KMeansModel}
+import org.apache.spark.mllib.linalg.Vectors
+val data = sc.textFile("data/mllib/kmeans_data.txt")
+//每行数据转化为一个稠密向量，并缓存避免每次操作重复计算
+val parsedData = data.map(s => Vectors.dense(s.split(' ').map(_.toDouble))).cache()
+//聚类数目，迭代次数
+val numClusters = 2
+val numIterations = 20
+//执行算法
+val clusters = KMeans.train(parsedData, numClusters, numIterations)
+//评估模型
+val WSSSE = clusters.computeCost(parsedData)
+println("Within Set Sum of Squared Errors = " + WSSSE)
+
+clusters.save(sc, "target/org/apache/spark/KMeansExample/KMeansModel")
+val sameModel = KMeansModel.load(sc, "target/org/apache/spark/KMeansExample/KMeansModel")
+```
 
 #### MLlib
 
@@ -891,18 +911,19 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
   - MLlib支持两种类型的本地向量：**密集向量和稀疏向量**。密集向量的值由Double型的数据表示，而稀疏向量由**两个并列的索引和值表示**。
 
-  - ```scala
-    //导入MLlib
-    import org.apache.spark.mllib.linalg.{Vector, Vectors}
-    //创建（1.0, 0.0, 3.0）的密集向量
-    val dv: Vector = Vectors.dense(1.0, 0.0, 3.0)
-    //通过指定非零向量的索引和值，创建(1.0, 0.0, 3.0)的数组类型的稀疏向量
-    val sv1: Vector = Vectors.sparse(3, Array(0,2), Array(1.0, 3.0))
-    //通过指定非零向量的索引和值，创建(1.0, 0.0, 3.0)的序列化的稀疏向量
-    val sv2: Vector = Vectors.sparse(3, Seq((0, 1.0), (2, 3.0)))
-    ```
 
-  - 读取并创建稀疏向量`val examples: RDD[LabeledPoint] = MLUtils.loadLibSVMFile(sc, “data/MLlib/sample_libsvm_data.txt”)`
+```scala
+//导入MLlib
+import org.apache.spark.mllib.linalg.{Vector, Vectors}
+//创建（1.0, 0.0, 3.0）的密集向量
+val dv: Vector = Vectors.dense(1.0, 0.0, 3.0)
+//通过指定非零向量的索引和值，创建(1.0, 0.0, 3.0)的数组类型的稀疏向量
+val sv1: Vector = Vectors.sparse(3, Array(0,2), Array(1.0, 3.0))
+//通过指定非零向量的索引和值，创建(1.0, 0.0, 3.0)的序列化的稀疏向量
+val sv2: Vector = Vectors.sparse(3, Seq((0, 1.0), (2, 3.0)))
+```
+
+- 读取并创建稀疏向量`val examples: RDD[LabeledPoint] = MLUtils.loadLibSVMFile(sc, “data/MLlib/sample_libsvm_data.txt”)`
 
 - 标记点
 
@@ -910,14 +931,15 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
   - 算法可以**学习特征和标签之间**的关系，并**用于预测新样本的标签**。
 
-  - ````scala
-    import org.apache.spark.mllib.linalg.Vectors
-    import org.apache.spark.mllib.regression.LabeledPoint
-    //通过一个正相关的标签和一个密集的特征向量创建一个标记点
-    val pos = LabeledPoint(1.0, Vectors.dense(1.0, 0.0, 3.0))
-    //通过一个负向标签和一个稀疏特征向量创建一个标记点
-    val neg = LabeledPoint(0.0, Vectors.sparse(3, Array(0,2), Array(1.0, 3.0)))
-    ````
+
+````scala
+import org.apache.spark.mllib.linalg.Vectors
+import org.apache.spark.mllib.regression.LabeledPoint
+//通过一个正相关的标签和一个密集的特征向量创建一个标记点
+val pos = LabeledPoint(1.0, Vectors.dense(1.0, 0.0, 3.0))
+//通过一个负向标签和一个稀疏特征向量创建一个标记点
+val neg = LabeledPoint(0.0, Vectors.sparse(3, Array(0,2), Array(1.0, 3.0)))
+````
 
 - 本地矩阵
 
@@ -925,11 +947,12 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219110243579.png" alt="image-20231219110243579" style="zoom:33%;" />
 
-  - ```scala
-    val dm: Matrix = Matrices.dense(3, 2, Array(1.0, 3.0, 5.0, 2.0, 4.0, 6.0))
-    //稀疏矩阵
-    val sm: Matrix = Matrices.sparse(3, 2, Array(0, 1, 3), Array(0, 2, 1), Array(9, 6, 8))
-    ```
+
+```scala
+val dm: Matrix = Matrices.dense(3, 2, Array(1.0, 3.0, 5.0, 2.0, 4.0, 6.0))
+//稀疏矩阵
+val sm: Matrix = Matrices.sparse(3, 2, Array(0, 1, 3), Array(0, 2, 1), Array(9, 6, 8))
+```
 
 - 分布式矩阵
 
@@ -956,23 +979,24 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
   - 先用textFile 读取数据，然后对string类型的RDD调用map操作，转换成**LabeledPoint**类型的RDD。
 
-  - ```scala
-    val rdd: RDD[String] = sc.textFile(path)
-    
-    var rddLp: RDD[LabeledPoint] = rdd.map(x => {
-        val strings: Array[String] = x.split(",")
-        regression.LabeledPoint(
-            strings(4) match {
-                case "Iris-setosa" => 0.0
-                case "Iris-versicolor" => 1.0
-                case "Iris-virginica" => 2.0
-            },
-            Vectors.dense(strings(0).toDouble, strings(1).toDouble, strings(2).toDouble, strings(3).toDouble)
-        )
-    })
-    //数据集划分
-    val Array(trainData,testData): Array[RDD[LabeledPoint]] = rddLp.randomSplit(Array(0.8,0.2))//4：1划分数据集
-    ```
+
+```scala
+val rdd: RDD[String] = sc.textFile(path)
+
+var rddLp: RDD[LabeledPoint] = rdd.map(x => {
+    val strings: Array[String] = x.split(",")
+    regression.LabeledPoint(
+        strings(4) match {
+            case "Iris-setosa" => 0.0
+            case "Iris-versicolor" => 1.0
+            case "Iris-virginica" => 2.0
+        },
+        Vectors.dense(strings(0).toDouble, strings(1).toDouble, strings(2).toDouble, strings(3).toDouble)
+    )
+})
+//数据集划分
+val Array(trainData,testData): Array[RDD[LabeledPoint]] = rddLp.randomSplit(Array(0.8,0.2))//4：1划分数据集
+```
 
 - 训练模型及模型评估
 
@@ -983,24 +1007,25 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
   - 决策树
 
-    - ```scala
-      //训练决策树模型
-      val decisonModel: DecisionTreeModel = DecisionTree.trainClassifier(trainData,3, Map[Int, Int](),"gini",8,16)
-      //评估模型（进行预测）
-      val result: RDD[(Double, Double)] = testData.map(x => {
-          val pre: Double = decisonModel.predict(x.features)
-          (x.label, pre)
-      })
-      //计算准确率
-      val acc: Double = result.filter(x=>x._1==x._2).count().toDouble /result.count()
-      ```
+
+```scala
+//训练决策树模型
+val decisonModel: DecisionTreeModel = DecisionTree.trainClassifier(trainData,3, Map[Int, Int](),"gini",8,16)
+//评估模型（进行预测）
+val result: RDD[(Double, Double)] = testData.map(x => {
+    val pre: Double = decisonModel.predict(x.features)
+    (x.label, pre)
+})
+//计算准确率
+val acc: Double = result.filter(x=>x._1==x._2).count().toDouble /result.count()
+```
 
 #### **ML**
 
 - Spark的ML库基于DataFrame提供高性能的API，帮助用户创建和优化实用的机器学习流水线**（Pipeline）**，包括特征转换独有的Pipelines API。相比较Mllib，变化主要体现在：
   - 从机器学习的library开始转向构建一个机器学习**工作流的系统**。ML把整个机器学习的过程抽象成Pipeline，一个Pipeline由多个Stage组成，每个Stage由Transformer或者Estimator组成。
   - ML框架下所有的数据源都基于DataFrame，所有模型都基于Spark的数据类型表示，ML的API操作也从RDD向DataFrame全面转变。
-  
+
 - 组成
   - Transformer：实现**一个DataFrame转换成另一个DataFrame的算法**。实现transform()方法。
   - Estimator：适配一个DataFrame，**产生另一个Transformer的算法**。实现fit()方法。
@@ -1008,7 +1033,7 @@ val dfWithoutColumn = df.drop("column_to_drop")
     - `fit` 方法是 `Estimator` 的核心。当调用一个 `Estimator` 的 `fit` 方法时，它会**尝试从提供的数据中“学习”或“训练”。**学习的**结果是一个 `Transformer`，**它封装了从数据中学到的模型。
   - Pipeline：**指定连接**多个Transformers和Estimators的ML工作流。
   - Parameter：全部的Transformers和Estimators共享一个指定Parameter的通用API。
-  
+
 - 工作流程：首先使用几个 `Transformer` 对原始数据**进行预处理**，然后使用一个 `Estimator` 来**拟合一个模型**，最后使用该模型（现在作为一个 `Transformer`）对新数据**进行预测**。
 
 - pipeline
@@ -1033,61 +1058,63 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
 - KMeans示例
 
-  - ```scala
-    import org.apache.spark.ml.clustering.Kmeans
-    val spark = SparkSession.builder.appName("CSV to DataFrame").getOrCreate()
-    val dataset = spark.read.format("libsvm").load("data/mllib/sample_kmeans_data.txt")
-    // Estimator
-    val kmeans = new KMeans().setK(2).setSeed(1L)
-    val model = kmeans.fit(dataset)
-    // Transformer得到结果
-    val predictions = model.transform(dataset)
-    // 评估
-    val evaluator = new ClusteringEvaluator()
-    val silhouette = evaluator.evaluate(predictions)
-    // 打印出聚类模型的簇中心
-    println("Cluster Centers: ")
-    model.clusterCenters.foreach(println)
-    ```
+
+```scala
+import org.apache.spark.ml.clustering.Kmeans
+val spark = SparkSession.builder.appName("CSV to DataFrame").getOrCreate()
+val dataset = spark.read.format("libsvm").load("data/mllib/sample_kmeans_data.txt")
+// Estimator
+val kmeans = new KMeans().setK(2).setSeed(1L)
+val model = kmeans.fit(dataset)
+// Transformer得到结果
+val predictions = model.transform(dataset)
+// 评估
+val evaluator = new ClusteringEvaluator()
+val silhouette = evaluator.evaluate(predictions)
+// 打印出聚类模型的簇中心
+println("Cluster Centers: ")
+model.clusterCenters.foreach(println)
+```
 
 - Iris鸢尾花示例
 
-  - ```scala
-    val df: DataFrame = sparkSession.read.format("csv")
-    .option("inferSchema", "true")//自动推断字段类型
-    .option("header", "true")//使用文件的第一行作为列名
-    .option("sep", ",")//分隔符
-    .load(path)
-    //将4个特征整合为一个特征向量
-    val assembler: VectorAssembler = new val assembler: VectorAssembler = new VectorAssembler()
-    .setInputCols(Array("sepal_length", "sepal_width", "petal_length", "petal_width"))
-    .setOutputCol("features")
-    //将特征向量附加到新的features列
-    val assemblerDf: DataFrame = assembler.transform(df)
-    //将类别型class转变为数值型
-    val stringIndex: StringIndexer = new StringIndexer()
-    .setInputCol("class")
-    .setOutputCol("label")
-    val stringIndexModel: StringIndexerModel = stringIndex.fit(assemblerDf)
-    val indexDf: DataFrame = stringIndexModel.transform(assemblerDf)
-    //将数据切分成两部分，分别为训练数据集和测试数据集
-    val Array(trainData,testData): Array[Dataset[Row]] = indexDf.randomSplit (Array(0.8,0.2))
-    // 准备计算，设置特征列和标签列
-    val classifier: DecisionTreeClassifier = new DecisionTreeClassifier()
-    .setFeaturesCol("features")
-    .setMaxBins(16)
-    .setImpurity("gini")
-    .setSeed(10)
-    val dtcModel: DecisionTreeClassificationModel = classifier.fit(trainData)
-    // 完成建模分析
-    val trainPre: DataFrame = dtcModel.transform(trainData)
-    // 预测分析
-    val testPre: DataFrame = dtcModel.transform(testData)
-    // 评估
-    val acc: Double = new MulticlassClassificationEvaluator()
-    .setMetricName("accuracy")
-    .evaluate(testPre)
-    ```
+
+```scala
+val df: DataFrame = sparkSession.read.format("csv")
+.option("inferSchema", "true")//自动推断字段类型
+.option("header", "true")//使用文件的第一行作为列名
+.option("sep", ",")//分隔符
+.load(path)
+//将4个特征整合为一个特征向量
+val assembler: VectorAssembler = new val assembler: VectorAssembler = new VectorAssembler()
+.setInputCols(Array("sepal_length", "sepal_width", "petal_length", "petal_width"))
+.setOutputCol("features")
+//将特征向量附加到新的features列
+val assemblerDf: DataFrame = assembler.transform(df)
+//将类别型class转变为数值型
+val stringIndex: StringIndexer = new StringIndexer()
+.setInputCol("class")
+.setOutputCol("label")
+val stringIndexModel: StringIndexerModel = stringIndex.fit(assemblerDf)
+val indexDf: DataFrame = stringIndexModel.transform(assemblerDf)
+//将数据切分成两部分，分别为训练数据集和测试数据集
+val Array(trainData,testData): Array[Dataset[Row]] = indexDf.randomSplit (Array(0.8,0.2))
+// 准备计算，设置特征列和标签列
+val classifier: DecisionTreeClassifier = new DecisionTreeClassifier()
+.setFeaturesCol("features")
+.setMaxBins(16)
+.setImpurity("gini")
+.setSeed(10)
+val dtcModel: DecisionTreeClassificationModel = classifier.fit(trainData)
+// 完成建模分析
+val trainPre: DataFrame = dtcModel.transform(trainData)
+// 预测分析
+val testPre: DataFrame = dtcModel.transform(testData)
+// 评估
+val acc: Double = new MulticlassClassificationEvaluator()
+.setMetricName("accuracy")
+.evaluate(testPre)
+```
 
 ### Spark Streaming
 
@@ -1131,37 +1158,38 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
 - 从**监听TCP套接字**的数据服务器获取文本数据，然后计算文本中包含的单词数。
 
-  - ```scala
-    import org.apache.spark._
-    import org.apache.spark.streaming._
-    import org.apache.spark.streaming.StreamingContext._
-    
-    object WordCount {
-      def main(args: Array[String]) {
-        // 创建一个本地的 StreamingContext，使用两个工作线程，批处理间隔设置为1秒
-        val conf = new SparkConf().setMaster("local[2]").setAppName("NetworkWordCount")
-        val ssc = new StreamingContext(conf, Seconds(1))
-    
-        // 定义监听的 TCP 源：服务器 IP 和端口
-        val lines = ssc.socketTextStream("localhost", 9999)
-    
-        // 将每行文本拆分为单词
-        val words = lines.flatMap(_.split(" "))
-    
-        // 为每个单词计数并打印结果
-        val wordCounts = words.map(word => (word, 1)).reduceByKey(_ + _)
-        wordCounts.print()
-    
-        // 开始接收数据并处理
-        ssc.start()
-    
-        // 等待处理停止（不是必须的，但如果要手动停止处理则需要）
-        ssc.awaitTermination()
-      }
-    }
-    ```
 
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221172421470.png" alt="image-20231221172421470" style="zoom:33%;" />
+```scala
+import org.apache.spark._
+import org.apache.spark.streaming._
+import org.apache.spark.streaming.StreamingContext._
+
+object WordCount {
+  def main(args: Array[String]) {
+    // 创建一个本地的 StreamingContext，使用两个工作线程，批处理间隔设置为1秒
+    val conf = new SparkConf().setMaster("local[2]").setAppName("NetworkWordCount")
+    val ssc = new StreamingContext(conf, Seconds(1))
+
+    // 定义监听的 TCP 源：服务器 IP 和端口
+    val lines = ssc.socketTextStream("localhost", 9999)
+
+    // 将每行文本拆分为单词
+    val words = lines.flatMap(_.split(" "))
+
+    // 为每个单词计数并打印结果
+    val wordCounts = words.map(word => (word, 1)).reduceByKey(_ + _)
+    wordCounts.print()
+
+    // 开始接收数据并处理
+    ssc.start()
+
+    // 等待处理停止（不是必须的，但如果要手动停止处理则需要）
+    ssc.awaitTermination()
+  }
+}
+```
+
+- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221172421470.png" alt="image-20231221172421470" style="zoom:33%;" />
 
 ##### DStream操作
 
@@ -1179,17 +1207,18 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
     - **窗口长度**：这是窗口的持续时间，意味着在这个**时间范围内的数据**会被包含在内进行处理。
 
-    - ```scala
-      val updateFunc = (values: Seq[Int], state: Option[Int]) => {
-        val currentCount = values.foldLeft(0)(_ + _)
-        val previousCount = state.getOrElse(0)
-        Some(currentCount + previousCount)
-      }
-      // 使用updateStateByKey来更新状态
-      val stateDstream = wordDstream.updateStateByKey[Int](updateFunc)
-      ```
 
-    - **滑动间隔**：这是窗口操作执行的时间间隔，意味着**每隔多长时间窗口会向前滑动**并进行一次计算。
+```scala
+val updateFunc = (values: Seq[Int], state: Option[Int]) => {
+  val currentCount = values.foldLeft(0)(_ + _)
+  val previousCount = state.getOrElse(0)
+  Some(currentCount + previousCount)
+}
+// 使用updateStateByKey来更新状态
+val stateDstream = wordDstream.updateStateByKey[Int](updateFunc)
+```
+
+- **滑动间隔**：这是窗口操作执行的时间间隔，意味着**每隔多长时间窗口会向前滑动**并进行一次计算。
 
 - 输出操作
 
@@ -1288,57 +1317,60 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
     - 创建两个RDD：一个用于顶点（Vertex RDD），另一个用于边（Edge RDD）。然后，将这两个RDD传递给`Graph`类的构造函数。
 
-    - ```scala
-      val conf = new SparkConf().setAppName("GraphXExample")
-      val sc = new SparkContext(conf)
-      
-      // 创建顶点RDD
-      val vertices: RDD[(VertexId, (String, Int))] = sc.parallelize(Array(
-          (1L, ("Alice", 28)),
-          (2L, ("Bob", 27)),
-          (3L, ("Charlie", 65)),
-          (4L, ("David", 42)),
-          (5L, ("Ed", 55))
-      ))
-      
-      // 创建边RDD
-      val relationships: RDD[Edge[String]] = sc.parallelize(Array(
-          Edge(1L, 2L, "friend"),
-          Edge(2L, 3L, "follower"),
-          Edge(3L, 4L, "friend"),
-          Edge(4L, 5L, "colleague"),
-          Edge(5L, 1L, "friend")
-      ))
-      
-      // 定义默认用户，以防有些关系没有对应的用户
-      val defaultUser = ("John Doe", 0)
-      
-      // 构建图
-      val graph = Graph(vertices, relationships, defaultUser)
-      
-      ```
 
-  - 通过Graph Builder构造图
+```scala
+val conf = new SparkConf().setAppName("GraphXExample")
+val sc = new SparkContext(conf)
 
-    - ```scala
-      val graph = GraphBuilder
-        .withEdges(relationships)
-        .withVertices(vertices)
-        .withDefaultVertexAttr(defaultUser)
-        .build()
-      ```
+// 创建顶点RDD
+val vertices: RDD[(VertexId, (String, Int))] = sc.parallelize(Array(
+    (1L, ("Alice", 28)),
+    (2L, ("Bob", 27)),
+    (3L, ("Charlie", 65)),
+    (4L, ("David", 42)),
+    (5L, ("Ed", 55))
+))
+
+// 创建边RDD
+val relationships: RDD[Edge[String]] = sc.parallelize(Array(
+    Edge(1L, 2L, "friend"),
+    Edge(2L, 3L, "follower"),
+    Edge(3L, 4L, "friend"),
+    Edge(4L, 5L, "colleague"),
+    Edge(5L, 1L, "friend")
+))
+
+// 定义默认用户，以防有些关系没有对应的用户
+val defaultUser = ("John Doe", 0)
+
+// 构建图
+val graph = Graph(vertices, relationships, defaultUser)
+
+```
+
+- 通过Graph Builder构造图
+
+
+```scala
+val graph = GraphBuilder
+  .withEdges(relationships)
+  .withVertices(vertices)
+  .withDefaultVertexAttr(defaultUser)
+  .build()
+```
 
 - 载入图
 
   - GraphLoader.edgeListFile提供了一种从磁盘上边的列表载入图的方式。
 
-  - ```scala
-    val conf = new SparkConf().setAppName("GraphXExample")
-    val sc = new SparkContext(conf)
-    
-    // 从文件中加载图(两个Int分别表示顶点和边参数的数据类型)
-    val graph: Graph[Int, Int] = GraphLoader.edgeListFile(sc, "hdfs:/path/to/edge-list-file.txt")
-    ```
+
+```scala
+val conf = new SparkConf().setAppName("GraphXExample")
+val sc = new SparkContext(conf)
+
+// 从文件中加载图(两个Int分别表示顶点和边参数的数据类型)
+val graph: Graph[Int, Int] = GraphLoader.edgeListFile(sc, "hdfs:/path/to/edge-list-file.txt")
+```
 
 - 图操作
 
@@ -1346,54 +1378,59 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
     - 转换操作用于改变图中的顶点或边的**属性**而**不改变图的结构**。
 
-    - ```scala
-      val newGraph = graph.mapVertices((id, attr) => attr * 2)
-      ```
 
-  - 结构操作
+```scala
+val newGraph = graph.mapVertices((id, attr) => attr * 2)
+```
 
-    - 结构操作用于**改变图的结构**，例如反转边、子图的生成等。
+- 结构操作
 
-    - ```scala
-      val reversedGraph = graph.reverse
-      ```
+  - 结构操作用于**改变图的结构**，例如反转边、子图的生成等。
 
-  - 关联操作
 
-    - 关联操作用于**将外部RDD数据与图的顶点或边关联**起来。
+```scala
+val reversedGraph = graph.reverse
+```
 
-    - ```scala
-      val updatedGraph = graph.joinVertices(externalVertexData) {
-        (id, oldAttr, newAttr) => newAttr
-      }
-      ```
+- 关联操作
 
-  - 聚合操作
+  - 关联操作用于**将外部RDD数据与图的顶点或边关联**起来。
 
-    - 聚合操作用于聚合图中的信息，例如计算顶点的邻居的属性的总和。
 
-    - ```scala
-      val vertexOutDegrees = graph.outDegrees
-      //计算每个顶点的出度
-      ```
+```scala
+val updatedGraph = graph.joinVertices(externalVertexData) {
+  (id, oldAttr, newAttr) => newAttr
+}
+```
 
-  - 缓存操作
+- 聚合操作
 
-    - 缓存操作用于优化图的多次遍历。GraphX中的图操作是惰性的，所以在**多次操作同一个图时使用缓存是个好主意。**
+  - 聚合操作用于聚合图中的信息，例如计算顶点的邻居的属性的总和。
 
-    - ```scala
-      graph.cache()
-      ```
 
-  - `triplets`操作：**同时访问**图中的**边**和与这些边相连的**顶点**的属性。
+```scala
+val vertexOutDegrees = graph.outDegrees
+//计算每个顶点的出度
+```
 
-    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221215319235.png" alt="image-20231221215319235" style="zoom:33%;" />
+- 缓存操作
 
-    - ```scala
-      al result = graph.triplets.filter { triplet =>
-        (triplet.srcAttr - triplet.dstAttr).abs > 10
-      }
-      ```
+  - 缓存操作用于优化图的多次遍历。GraphX中的图操作是惰性的，所以在**多次操作同一个图时使用缓存是个好主意。**
+
+
+```scala
+graph.cache()
+```
+
+- `triplets`操作：**同时访问**图中的**边**和与这些边相连的**顶点**的属性。
+
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221215319235.png" alt="image-20231221215319235" style="zoom:33%;" />
+
+  - ```scala
+    al result = graph.triplets.filter { triplet =>
+      (triplet.srcAttr - triplet.dstAttr).abs > 10
+    }
+    ```
 
 #### 常用图算法
 
@@ -1401,22 +1438,26 @@ val dfWithoutColumn = df.drop("column_to_drop")
 
   - GraphX自带PageRank的静态和动态实现，放在PageRank对象中。静态的PageRank运行固定数量的迭代，而动态的PageRank运行直到排名收敛。(搜索引擎网站排名)
 
-  - ```scala
-    val ranks = graph.pageRank(0.0001).vertices
-    ```
+
+```scala
+val ranks = graph.pageRank(0.0001).vertices
+```
 
 - 三角形计数算法
 
   - 计算通过各顶点的三角形数目，从而提供集群的度。三角形的数量**可以用来衡量网络的紧密程度。**
 
-  - ```scala
-    val triCounts = graph.triangleCount().vertices
-    ```
+
+```scala
+val triCounts = graph.triangleCount().vertices
+```
 
 - 连接分量算法
 
   - 连接分量算法标出了图中编号最低的顶点所连接的子集。
 
-  - ```scala
-    val cc = graph.connectedComponents().vertices
-    ```
+
+```scala
+val cc = graph.connectedComponents().vertices
+```
+

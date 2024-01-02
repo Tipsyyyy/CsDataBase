@@ -173,40 +173,42 @@
 
   - 按照一个或者多个列进行**分组**，然后对每个组进行**聚合操作**。
 
-  - ```sql
-    INSERT OVERWRITE TABLE events
-    SELECT a.bar, count(*)
-    FROM invites a
-    WHERE a.foo > 0
-    GROUP BY a.bar;
-    ```
 
-  - **INSERT OVERWRITE TABLE events**：指示Hive将查询结果写入到名为`events`的表中。
+```sql
+INSERT OVERWRITE TABLE events
+SELECT a.bar, count(*)
+FROM invites a
+WHERE a.foo > 0
+GROUP BY a.bar;
+```
 
-  - **SELECT a.bar, count(\*)**：这是要执行的查询。它计算了`invites`表中每个不同`bar`值的数量。`count(*)`计算了每个组的记录数(聚合函数)。
+- **INSERT OVERWRITE TABLE events**：指示Hive将查询结果写入到名为`events`的表中。
 
-  - **FROM invites a**：指定了查询的数据源表`invites`。`a`是该表的别名，用于在查询中引用表。
+- **SELECT a.bar, count(\*)**：这是要执行的查询。它计算了`invites`表中每个不同`bar`值的数量。`count(*)`计算了每个组的记录数(聚合函数)。
 
-  - **WHERE a.foo > 0**：这是查询的过滤条件。它限制了查询只考虑`foo`列值大于0的记录。
+- **FROM invites a**：指定了查询的数据源表`invites`。`a`是该表的别名，用于在查询中引用表。
 
-  - **GROUP BY a.bar**：这指定了`SELECT`语句中的聚合操作应如何分组。在这里，它按照`bar`的每个不同值进行分组。（会对每个组进行聚合函数的计算）
+- **WHERE a.foo > 0**：这是查询的过滤条件。它限制了查询只考虑`foo`列值大于0的记录。
 
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231130214134775.png" alt="image-20231130214134775" style="zoom:50%;" />
+- **GROUP BY a.bar**：这指定了`SELECT`语句中的聚合操作应如何分组。在这里，它按照`bar`的每个不同值进行分组。（会对每个组进行聚合函数的计算）
+
+- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231130214134775.png" alt="image-20231130214134775" style="zoom:50%;" />
 
 - Join
 
   - 对两个表通过两个相同的字段**进行连接**，并查询相关的结果。
 
-  - ```sql
-    SELECT t1.bar, t1.foo, t2.foo
-    FROM pokes t1 JOIN invites t2 ON t1.bar = t2.bar;
-    ```
 
-  - **SELECT t1.bar, t1.foo, t2.foo**：指定了要从`JOIN`操作的结果中选择哪些列。这里选择了`pokes`表（别名`t1`）的`bar`和`foo`列，以及`invites`表（别名`t2`）的`foo`列。
+```sql
+SELECT t1.bar, t1.foo, t2.foo
+FROM pokes t1 JOIN invites t2 ON t1.bar = t2.bar;
+```
 
-  - **FROM pokes t1 JOIN invites t2**：指明了两个表`pokes`和`invites`应该如何连接。`pokes`表被赋予了别名`t1`，而`invites`表被赋予了别名`t2`。
+- **SELECT t1.bar, t1.foo, t2.foo**：指定了要从`JOIN`操作的结果中选择哪些列。这里选择了`pokes`表（别名`t1`）的`bar`和`foo`列，以及`invites`表（别名`t2`）的`foo`列。
 
-  - **ON t1.bar = t2.bar**：`ON`子句定义了`JOIN`操作的条件。在这里，它指定了`JOIN`操作应该在`pokes`表的`bar`列的值等于`invites`表的`bar`列的值时发生。
+- **FROM pokes t1 JOIN invites t2**：指明了两个表`pokes`和`invites`应该如何连接。`pokes`表被赋予了别名`t1`，而`invites`表被赋予了别名`t2`。
+
+- **ON t1.bar = t2.bar**：`ON`子句定义了`JOIN`操作的条件。在这里，它指定了`JOIN`操作应该在`pokes`表的`bar`列的值等于`invites`表的`bar`列的值时发生。
 
 - 排序
 
@@ -220,9 +222,10 @@
 
     - **示例**：查询员工信息并按工资降序排列。
 
-      ```sql
-      SELECT * FROM emp ORDER BY sal DESC;
-      ```
+
+    ```sql
+    SELECT * FROM emp ORDER BY sal DESC;
+    ```
 
     - **限制和严格模式**：在Hive的严格模式（`set hive.mapred.mode = strict`）下，使用`ORDER BY`时必须与`LIMIT`子句一起使用，以避免对大量数据进行全局排序。在非严格模式（`set hive.mapred.mode=nonstrict`）下，这种限制不适用。
 
@@ -234,45 +237,48 @@
 
     - **示例**：根据部门编号降序查看员工信息，并设置3个reducer。
 
-      ```sql
-      SET mapreduce.job.reducers=3;
-      SELECT * FROM emp SORT BY deptno DESC;
-      ```
 
-  - distribute by
+```sql
+SET mapreduce.job.reducers=3;
+SELECT * FROM emp SORT BY deptno DESC;
+```
 
-    - **数据分配**：`DISTRIBUTE BY`子句用于控制**哪些行被发送到哪个reducer**。这在进行聚合或排序操作时特别有用，因为它可以确保具有特定键的所有行都发送到同一个reducer。
+- distribute by
 
-    - **工作原理**：`DISTRIBUTE BY`根据指定字段的哈希值来分配行到不同的reducer。具有相同哈希值的行将被分配到同一个reducer。
+  - **数据分配**：`DISTRIBUTE BY`子句用于控制**哪些行被发送到哪个reducer**。这在进行聚合或排序操作时特别有用，因为它可以确保具有特定键的所有行都发送到同一个reducer。
 
-    - **配合SORT BY使用**：通常与`SORT BY`一起使用，以便**在特定的reducer内对行进行排序**。
+  - **工作原理**：`DISTRIBUTE BY`根据指定字段的哈希值来分配行到不同的reducer。具有相同哈希值的行将被分配到同一个reducer。
 
-    - **示例**：先按部门编号进行分区，然后在每个分区内按员工编号降序排序。
+  - **配合SORT BY使用**：通常与`SORT BY`一起使用，以便**在特定的reducer内对行进行排序**。
 
-      ```sql
-      INSERT OVERWRITE LOCAL DIRECTORY '/opt/module/data/distribute-result'
-      SELECT * FROM emp
-      DISTRIBUTE BY deptno
-      SORT BY empno DESC;
-      ```
+  - **示例**：先按部门编号进行分区，然后在每个分区内按员工编号降序排序。
 
-  - cluster by
 
-    - **结合DISTRIBUTE BY和SORT BY**：当你需要在相同的字段上执行`DISTRIBUTE BY`和`SORT BY`时，可以使用`CLUSTER BY`。它实际上是这两个子句的**简写形式**。
+```sql
+INSERT OVERWRITE LOCAL DIRECTORY '/opt/module/data/distribute-result'
+SELECT * FROM emp
+DISTRIBUTE BY deptno
+SORT BY empno DESC;
+```
 
-    - **只支持升序排序**：使用`CLUSTER BY`时，只能按**升序**对数据进行排序。你不能指定`ASC`或`DESC`来改变排序顺序。
+- cluster by
 
-    - **示例**：按部门编号进行分区，并在每个分区内按部门编号升序排序。
+  - **结合DISTRIBUTE BY和SORT BY**：当你需要在相同的字段上执行`DISTRIBUTE BY`和`SORT BY`时，可以使用`CLUSTER BY`。它实际上是这两个子句的**简写形式**。
 
-      ```sql
-      SELECT * FROM emp CLUSTER BY deptno;
-      ```
+  - **只支持升序排序**：使用`CLUSTER BY`时，只能按**升序**对数据进行排序。你不能指定`ASC`或`DESC`来改变排序顺序。
 
-      这等同于：
+  - **示例**：按部门编号进行分区，并在每个分区内按部门编号升序排序。
 
-      ```sql
-      SELECT * FROM emp DISTRIBUTE BY deptno SORT BY deptno;
-      ```
+
+```sql
+SELECT * FROM emp CLUSTER BY deptno;
+```
+
+这等同于：
+
+```sql
+SELECT * FROM emp DISTRIBUTE BY deptno SORT BY deptno;
+```
 
 ### 补充
 
@@ -290,35 +296,39 @@
 
   - **增加分区**：
 
-    ```sql
-    ALTER TABLE person ADD PARTITION (dt='20180316');
-    ```
 
-    这个命令在`person`表中增加了一个新的分区，分区键`dt`的值为`20180316`。
+```sql
+ALTER TABLE person ADD PARTITION (dt='20180316');
+```
 
-  - **删除分区**：
+这个命令在`person`表中增加了一个新的分区，分区键`dt`的值为`20180316`。
 
-    ```sql
-    ALTER TABLE person DROP PARTITION (dt='20180316');
-    ```
+- **删除分区**：
 
-    这个命令删除了`person`表中`dt`为`20180316`的分区。
 
-  - **查看分区表结构**：
+```sql
+ALTER TABLE person DROP PARTITION (dt='20180316');
+```
 
-    ```sql
-    DESCRIBE FORMATTED person;
-    ```
+这个命令删除了`person`表中`dt`为`20180316`的分区。
 
-    这个命令用于查看`person`表的结构，包括它的分区信息。
+- **查看分区表结构**：
 
-  - **查看所有分区**：
 
-    ```sql
-    SHOW PARTITIONS person;
-    ```
+```sql
+DESCRIBE FORMATTED person;
+```
 
-    这个命令显示了`person`表中的所有分区。
+这个命令用于查看`person`表的结构，包括它的分区信息。
+
+- **查看所有分区**：
+
+
+```sql
+SHOW PARTITIONS person;
+```
+
+这个命令显示了`person`表中的所有分区。
 
 - 二级分区
 
@@ -326,14 +336,15 @@
 
   - 创建二级分区表示例：
 
-    ```sql
-    CREATE TABLE dept_partition2 (deptno INT, dname STRING, loc STRING)
-    PARTITIONED BY (day STRING, hour STRING)
-    ROW FORMAT DELIMITED
-    FIELDS TERMINATED BY '\t';
-    ```
 
-    这个命令创建了一个按照day和hour两个字段进行二级分区的表。
+```sql
+CREATE TABLE dept_partition2 (deptno INT, dname STRING, loc STRING)
+PARTITIONED BY (day STRING, hour STRING)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t';
+```
+
+这个命令创建了一个按照day和hour两个字段进行二级分区的表。
 
 - 动态分区
 
@@ -341,33 +352,36 @@
 
   - 设置动态分区：
 
-    ```sql
-    SET hive.exec.dynamic.partition=true;
-    SET hive.exec.dynamic.partition.mode=nonstrict;
-    ```
 
-    这些设置允许在插入数据时动态创建分区。
+```sql
+SET hive.exec.dynamic.partition=true;
+SET hive.exec.dynamic.partition.mode=nonstrict;
+```
 
-  - 动态分区示例：
+这些设置允许在插入数据时动态创建分区。
 
-    ```sql
-    INSERT INTO TABLE dept_par4 PARTITION(loc)
-    SELECT deptno, dname, loc FROM dept;
-    ```
+- 动态分区示例：
 
-    这个命令从`dept`表中选择数据，并根据`loc`字段的值动态地插入到`dept_par4`表的相应分区中。
+
+```sql
+INSERT INTO TABLE dept_par4 PARTITION(loc)
+SELECT deptno, dname, loc FROM dept;
+```
+
+这个命令从`dept`表中选择数据，并根据`loc`字段的值动态地插入到`dept_par4`表的相应分区中。
 
 #### 表的分桶
 
 - 查询某个桶里的数据
 
-  - ```sql
-    SELECT * FROM person TABLESAMPLE (BUCKET 1 OUT OF 3);
-    ```
 
-  - **TABLESAMPLE (BUCKET x OUT OF y)**：这是一个采样子句，用于从表中选择一个随机样本。在这个特定的例子中，它用于从桶化的表中选取数据。
+```sql
+SELECT * FROM person TABLESAMPLE (BUCKET 1 OUT OF 3);
+```
 
-  - **BUCKET 1 OUT OF 3**：这表示从表中所有桶中选择第一个桶的数据。如果表被分成了3个桶，这个命令将返回第一个桶的所有数据。
+- **TABLESAMPLE (BUCKET x OUT OF y)**：这是一个采样子句，用于从表中选择一个随机样本。在这个特定的例子中，它用于从桶化的表中选取数据。
+
+- **BUCKET 1 OUT OF 3**：这表示从表中所有桶中选择第一个桶的数据。如果表被分成了3个桶，这个命令将返回第一个桶的所有数据。
 
 #### 内部表和外部表
 
@@ -379,11 +393,12 @@
 
   - **使用场景**：如果数据仅在Hive内部使用，并且你希望Hive完全控制数据的生命周期，那么使用内部表是合适的。
 
-    ```sql
-    CREATE TABLE managed_table (dummy STRING);
-    LOAD DATA INPATH '/user/tom/data.txt' INTO TABLE managed_table;
-    DROP TABLE managed_table;
-    ```
+
+```sql
+CREATE TABLE managed_table (dummy STRING);
+LOAD DATA INPATH '/user/tom/data.txt' INTO TABLE managed_table;
+DROP TABLE managed_table;
+```
 
 - 外部表
 
@@ -393,15 +408,15 @@
 
   - **使用场景**：如果数据被其他应用或工具共享，或者你不希望Hive管理数据的生命周期，那么使用外部表更合适。
 
-    ```sql
-    CREATE EXTERNAL TABLE person (id INT, name STRING, age INT, fav ARRAY<STRING>, addr MAP<STRING, STRING>)
-    COMMENT 'This is the person table'
-    ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
-    COLLECTION ITEMS TERMINATED BY '-'
-    MAP KEYS TERMINATED BY ':'
-    LOCATION 'hdfs://localhost:9000/root/'
-    STORED AS TEXTFILE;
-    ```
+```sql
+CREATE EXTERNAL TABLE person (id INT, name STRING, age INT, fav ARRAY<STRING>, addr MAP<STRING, STRING>)
+COMMENT 'This is the person table'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+COLLECTION ITEMS TERMINATED BY '-'
+MAP KEYS TERMINATED BY ':'
+LOCATION 'hdfs://localhost:9000/root/'
+STORED AS TEXTFILE;
+```
 
 #### 自定义函数
 
@@ -421,29 +436,32 @@
 
   - **编写Java代码**：首先，需要使用Java编写自定义函数。例如，编写一个UDAF来计算最大值：
 
-    ```java
-    public class Maximum extends UDAF {}
-    ```
 
-  - **导出Jar包**：将编写的Java代码编译并导出为Jar包。
+```java
+public class Maximum extends UDAF {}
+```
 
-  - **在Hive中添加Jar包**：
+- **导出Jar包**：将编写的Java代码编译并导出为Jar包。
 
-    ```sql
-    ADD JAR Maximum.jar;
-    ```
+- **在Hive中添加Jar包**：
 
-  - **创建自定义函数**：使用`CREATE FUNCTION`命令在Hive中注册这个自定义函数：
 
-    ```sql
-    CREATE FUNCTION maximumtest AS 'com.firsthigh.udaf.Maximum';
-    ```
+```sql
+ADD JAR Maximum.jar;
+```
 
-  - **运行函数并检查结果**：最后，可以在Hive查询中使用这个自定义函数：
+- **创建自定义函数**：使用`CREATE FUNCTION`命令在Hive中注册这个自定义函数：
 
-    ```sql
-    SELECT maximumtest(price) FROM record_dimension;
-    ```
+
+```sql
+CREATE FUNCTION maximumtest AS 'com.firsthigh.udaf.Maximum';
+```
+
+- **运行函数并检查结果**：最后，可以在Hive查询中使用这个自定义函数：
+
+```sql
+SELECT maximumtest(price) FROM record_dimension;
+```
 
 #### Hive优化
 

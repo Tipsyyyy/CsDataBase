@@ -5,14 +5,6 @@
       "path": "课程/金融大数据/笔记/Hadoop.md"
     },
     {
-      "basename": "10 MapReduce数据挖掘基础算法 (I)",
-      "path": "课程/金融大数据/课件/10 MapReduce数据挖掘基础算法 (I).pdf"
-    },
-    {
-      "basename": "11 MapReduce数据挖掘基础算法 (II)",
-      "path": "课程/金融大数据/课件/11 MapReduce数据挖掘基础算法 (II).pdf"
-    },
-    {
       "basename": "12 MapReduce数据挖掘基础算法 (III)",
       "path": "课程/金融大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf"
     },
@@ -21,8 +13,104 @@
       "path": "课程/金融大数据/实验/p2.md"
     },
     {
+      "basename": "p4",
+      "path": "课程/金融大数据/实验/p4.md"
+    },
+    {
       "basename": "期末复习",
       "path": "课程/金融大数据/期末复习.md"
+    },
+    {
+      "basename": "p3",
+      "path": "课程/金融大数据/实验/p3.md"
+    },
+    {
+      "basename": "p10",
+      "path": "课程/金融大数据/作业/p10.md"
+    },
+    {
+      "basename": "p9",
+      "path": "课程/金融大数据/作业/p9.md"
+    },
+    {
+      "basename": "p8",
+      "path": "课程/金融大数据/作业/p8.md"
+    },
+    {
+      "basename": "p6",
+      "path": "课程/金融大数据/作业/p6.md"
+    },
+    {
+      "basename": "p7",
+      "path": "课程/金融大数据/作业/p7.md"
+    },
+    {
+      "basename": "云计算",
+      "path": "课程/金融大数据/笔记/云计算.md"
+    },
+    {
+      "basename": "p5",
+      "path": "课程/金融大数据/作业/p5.md"
+    },
+    {
+      "basename": "Spark",
+      "path": "课程/金融大数据/笔记/Spark.md"
+    },
+    {
+      "basename": "Hive",
+      "path": "课程/金融大数据/笔记/Hive.md"
+    },
+    {
+      "basename": "NoSQL",
+      "path": "课程/金融大数据/笔记/NoSQL.md"
+    },
+    {
+      "basename": "21 Cloud Computing",
+      "path": "课程/金融大数据/课件/21 Cloud Computing.pdf"
+    },
+    {
+      "basename": "HBase",
+      "path": "课程/金融大数据/笔记/HBase.md"
+    },
+    {
+      "basename": "20 Spark Advanced Programming (II)",
+      "path": "课程/金融大数据/课件/20 Spark Advanced Programming (II).pdf"
+    },
+    {
+      "basename": "19 Spark Advanced Programming (I)",
+      "path": "课程/金融大数据/课件/19 Spark Advanced Programming (I).pdf"
+    },
+    {
+      "basename": "18 Spark Basic Programming (II)",
+      "path": "课程/金融大数据/课件/18 Spark Basic Programming (II).pdf"
+    },
+    {
+      "basename": "17 Spark Basic Programming (I)",
+      "path": "课程/金融大数据/课件/17 Spark Basic Programming (I).pdf"
+    },
+    {
+      "basename": "16 Spark简介",
+      "path": "课程/金融大数据/课件/16 Spark简介.pdf"
+    },
+    {
+      "basename": "15 Hive简介",
+      "path": "课程/金融大数据/课件/15 Hive简介.pdf"
+    },
+    {
+      "basename": "14 HBase基本原理与程序设计",
+      "path": "课程/金融大数据/课件/14 HBase基本原理与程序设计.pdf"
+    },
+    {
+      "basename": "13 NoSQL数据库",
+      "path": "课程/金融大数据/课件/13 NoSQL数据库.pdf"
+    },
+    {
+      "basename": "11 MapReduce数据挖掘基础算法 (II)",
+      "path": "课程/金融大数据/课件/11 MapReduce数据挖掘基础算法 (II).pdf"
+    },
+    {
+      "basename": "10 MapReduce数据挖掘基础算法 (I)",
+      "path": "课程/金融大数据/课件/10 MapReduce数据挖掘基础算法 (I).pdf"
     },
     {
       "basename": "08 MapReduce Advanced Programming",
@@ -45,10 +133,6 @@
       "path": "Excalidraw/Drawing 2024-01-02 20.44.47.excalidraw.md"
     },
     {
-      "basename": "p5",
-      "path": "课程/金融大数据/作业/p5.md"
-    },
-    {
       "basename": "p4",
       "path": "课程/金融大数据/作业/p4.md"
     },
@@ -67,10 +151,6 @@
     {
       "basename": "03 MapReduce简介",
       "path": "课程/金融大数据/课件/03 MapReduce简介.pdf"
-    },
-    {
-      "basename": "p6",
-      "path": "课程/金融大数据/作业/p6.md"
     },
     {
       "basename": "p2",
@@ -97,28 +177,8 @@
       "path": "课程/金融大数据/课件/22 Review.pdf"
     },
     {
-      "basename": "云计算",
-      "path": "课程/金融大数据/笔记/云计算.md"
-    },
-    {
-      "basename": "HBase",
-      "path": "课程/金融大数据/笔记/HBase.md"
-    },
-    {
       "basename": "U8 中央处理器",
       "path": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md"
-    },
-    {
-      "basename": "Hive",
-      "path": "课程/金融大数据/笔记/Hive.md"
-    },
-    {
-      "basename": "Spark",
-      "path": "课程/金融大数据/笔记/Spark.md"
-    },
-    {
-      "basename": "NoSQL",
-      "path": "课程/金融大数据/笔记/NoSQL.md"
     },
     {
       "basename": "编程思想",
@@ -139,66 +199,6 @@
     {
       "basename": "Drawing 2024-01-01 22.42.06.excalidraw",
       "path": "Excalidraw/Drawing 2024-01-01 22.42.06.excalidraw.md"
-    },
-    {
-      "basename": "p8",
-      "path": "课程/数字逻辑与计算机组成/作业/p8.md"
-    },
-    {
-      "basename": "第8章 CPU5-流水线-冒险",
-      "path": "课程/数字逻辑与计算机组成/课件/第8章 CPU5-流水线-冒险.pdf"
-    },
-    {
-      "basename": "复习小结 20231229",
-      "path": "课程/数字逻辑与计算机组成/课件/复习小结 20231229.pdf"
-    },
-    {
-      "basename": "U7 指令系统",
-      "path": "课程/数字逻辑与计算机组成/笔记/U7 指令系统.md"
-    },
-    {
-      "basename": "第8章 CPU4-流水线-数据通路",
-      "path": "课程/数字逻辑与计算机组成/课件/第8章 CPU4-流水线-数据通路.pdf"
-    },
-    {
-      "basename": "第8章 CPU3-非流水线-多周期",
-      "path": "课程/数字逻辑与计算机组成/课件/第8章 CPU3-非流水线-多周期.pdf"
-    },
-    {
-      "basename": "第8章 CPU2-非流水线-单周期",
-      "path": "课程/数字逻辑与计算机组成/课件/第8章 CPU2-非流水线-单周期.pdf"
-    },
-    {
-      "basename": "第8章 CPU1-非流水线-概述",
-      "path": "课程/数字逻辑与计算机组成/课件/第8章 CPU1-非流水线-概述.pdf"
-    },
-    {
-      "basename": "第7章 指令系统 （2）",
-      "path": "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （2）.pdf"
-    },
-    {
-      "basename": "第7章 指令系统 （1）",
-      "path": "课程/数字逻辑与计算机组成/课件/第7章 指令系统 （1）.pdf"
-    },
-    {
-      "basename": "U6 运算",
-      "path": "课程/数字逻辑与计算机组成/笔记/U6 运算.md"
-    },
-    {
-      "basename": "第6章 运算（2）ALU定点",
-      "path": "课程/数字逻辑与计算机组成/课件/第6章 运算（2）ALU定点.pdf"
-    },
-    {
-      "basename": "第6章 运算（1）加法器",
-      "path": "课程/数字逻辑与计算机组成/课件/第6章 运算（1）加法器.pdf"
-    },
-    {
-      "basename": "第6章 运算（3）除法",
-      "path": "课程/数字逻辑与计算机组成/课件/第6章 运算（3）除法.pdf"
-    },
-    {
-      "basename": "U4时序逻辑电路",
-      "path": "课程/数字逻辑与计算机组成/笔记/U4时序逻辑电路.md"
     }
   ],
   "omittedPaths": [],

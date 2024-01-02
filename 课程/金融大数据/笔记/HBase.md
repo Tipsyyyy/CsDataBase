@@ -353,12 +353,13 @@
 
   - 默认的构造方式会尝试从hbase-default.xml和hbase-site.xml中读取配置。
 
-  - ```java
-    Configuration HBASE_CONFIG = new Configuration();
-    HBASE_CONFIG.set(“hbase.zookeeper.quorum”, “zkServer”);
-    HBASE_CONFIG.set(“hbase.zookeeper.property.clientPort”, “2181″);
-    HBaseConfiguration cfg= new BaseConfiguration(HBASE_CONFIG);
-    ```
+
+```java
+Configuration HBASE_CONFIG = new Configuration();
+HBASE_CONFIG.set(“hbase.zookeeper.quorum”, “zkServer”);
+HBASE_CONFIG.set(“hbase.zookeeper.property.clientPort”, “2181″);
+HBaseConfiguration cfg= new BaseConfiguration(HBASE_CONFIG);
+```
 
 - HTableDescriptor
 
@@ -380,29 +381,31 @@
 
   - 创建表是通过Admin对象来操作的。Admin负责表的META信息处理。
 
-  - ```java
-    Connection conn= ConnectionFactory.createConnection(config);
-    Admin admin= conn.getAdmin();
-    //获取表架构
-    HTableDescriptor t = new HTableDescriptor(tableName);
-    //创建并添加列架构
-    t.addFamily(new HColumnDescriptor(“f1″));
-    t.addFamily(new HColumnDescriptor(“f2″));
-    t.addFamily(new HColumnDescriptor(“f3″));
-    t.addFamily(new HColumnDescriptor(“f4″));
-    admin.createTable(t);
-    ```
+
+```java
+Connection conn= ConnectionFactory.createConnection(config);
+Admin admin= conn.getAdmin();
+//获取表架构
+HTableDescriptor t = new HTableDescriptor(tableName);
+//创建并添加列架构
+t.addFamily(new HColumnDescriptor(“f1″));
+t.addFamily(new HColumnDescriptor(“f2″));
+t.addFamily(new HColumnDescriptor(“f3″));
+t.addFamily(new HColumnDescriptor(“f4″));
+admin.createTable(t);
+```
 
 - 删除表
 
   - 删除表之前首先要disable表。这是一个非常耗时的操作，所以不建议频繁删除表。
 
-  - ```java
-    if(admin.tableExists(tableName)){
-        admin.disableTable(tableName);
-        admin.deleteTable(tableName);
-    }
-    ```
+
+```java
+if(admin.tableExists(tableName)){
+    admin.disableTable(tableName);
+    admin.deleteTable(tableName);
+}
+```
 
 - 切分表
 
@@ -413,21 +416,22 @@
 
 - 插入数据
 
-  - ```java
-    public static void addData(String tableName, String rowKey, String family, String qualifier, String value) throws Exception{
-        try{
-            Connection conn= ConnectionFactory.createConnection(config);
-            //获取表
-            Table table =conn.getTable(tableName);
-            //配置put对象
-            Put put= new Put(Bytes.toBytes(rowKey));
-            put.add(Bytes.toBytes(family), Bytes.toBytes(qualifier),Bytes.toBytes(value));
-            //将put对象put进表
-            table.put(put);
-            System.out.println(“insert record success!");
-                               } catch(IOException e) { e.printStackTrace(); }
-                               }
-    ```
+
+```java
+public static void addData(String tableName, String rowKey, String family, String qualifier, String value) throws Exception{
+    try{
+        Connection conn= ConnectionFactory.createConnection(config);
+        //获取表
+        Table table =conn.getTable(tableName);
+        //配置put对象
+        Put put= new Put(Bytes.toBytes(rowKey));
+        put.add(Bytes.toBytes(family), Bytes.toBytes(qualifier),Bytes.toBytes(value));
+        //将put对象put进表
+        table.put(put);
+        System.out.println(“insert record success!");
+                           } catch(IOException e) { e.printStackTrace(); }
+                           }
+```
 
 - 查询数据
 
@@ -435,24 +439,26 @@
 
   - 批量查询是通过制定一段row key的范围来查询。Table提供了个**getScanner方法**来完成批量查询。
 
-  - ```java
-    Scan s = new Scan();
-    s.setMaxVersions();
-    //进行批量查询
-    ResultScanner ss= table.getScanner(s);
-    for(Result r:ss){
-        //jian'c
-        System.out.println(new String(r.getRow()));
-        for(KeyValuekv:r.raw()){ System.out.println(new String(kv.getColumn()));}
-    }
-    ```
+
+```java
+Scan s = new Scan();
+s.setMaxVersions();
+//进行批量查询
+ResultScanner ss= table.getScanner(s);
+for(Result r:ss){
+    //jian'c
+    System.out.println(new String(r.getRow()));
+    for(KeyValuekv:r.raw()){ System.out.println(new String(kv.getColumn()));}
+}
+```
 
 - 删除数据
 
   - eleteFamily或deleteColumns：指定要删除的family或者column的数据。如果不调用任何这样的方法，将会删除整行
-  
-  - ```java
-    Table table = conn.getTable(“mytest”);
-    Delete d = new Delete(“row1″.getBytes());
-    table.delete(d)
-    ```
+
+
+```java
+Table table = conn.getTable(“mytest”);
+Delete d = new Delete(“row1″.getBytes());
+table.delete(d)
+```
