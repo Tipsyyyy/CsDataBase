@@ -69,18 +69,17 @@
 
 #### 失效处理
 
-- 主节点失效：节点中会周期性地设置检查点检查整个计算作业的执行情况，一旦某个任务失效，可以从最近有效的检查点开始重新执行，避免从头开始计算的时间浪费。
-- 工作节点失效：主节点会周期性地给工作节点发送检测命令，如果工作节点没有回应，这认为该工作节点失效，主节点将终止该工作节点的任务并把失效的任务重新调度到其它工作节点上重新执行。
+- **主节点失效**：节点中会周期性地设置检查点**检查整个计算作业的执行情况**，一旦某个任务失效，可以从最近有效的检查点开始重新执行，避免从头开始计算的时间浪费。如果只有一个 Master，它不太可能失败；因此，**如果 Master 失败，将中止 MapReduce 计算**。
+- **工作节点失效**：主节点会**周期性地给工作节点发送检测命令**，如果工作节点没有回应，这**认为该工作节点失效**，主节点将终止该工作节点的任务并把失效的任务重新调度到其它工作节点上重新执行。
 
 #### 优化
 
-- 带宽优化
-  - 大量的键值对数据在传送给 Reduce 节点时会引起较大的通信带宽开销：每个 Map 节点处理完成的中间键值对将由 combiner 做一个合并压缩，即把那些键名相同的键值对归并为一个键名下的一组数值。（reduce 前的结果整理）
-- 计算优化
+- **带宽优化**
+  - 每个 Map 节点处理完成的中间键值对将由 **combiner 做一个合并压缩**。（相当于预先做一个局部reduce）
+- **计算优化**
   - Reduce 节点必须要等到所有 Map 节点计算结束才能开始执行：把一个 Map 计算任务让**多个**Map 节点同时做，取**最快完成者**的计算结果
-- 数据分区解决数据相关性
-  - 一个 Reduce 节点上的计算数据可能会来自多个 Map 节点，因此，为了在进入 Reduce 节点计算之前，需要把属于一个 Reduce 节点的数据**归并**到一起。在 Map 阶段进行了 Combining 以后，可以根据一定的策略对 Map 输出的中间结果进行分区，这样即可解决以上数据相关性问题避免 Reduce 计算过程中的数据通信。
-  - 有一个巨大的数组，其最终结果需要排序，每个 Map 节点数据处理好后，为了避免在每个 Reduce 节点本地排序完成后还需要进行全局排序，我们可以使用一个分区策略如: (d%R)，d 为数据大小，R 为 Reduce 节点的个数，则可根据数据的大小将其划分到**指定数据范围**的 Reduce 节点上，每个 Reduce 将本地数据排好序后即为最终结果。
+- **数据分区解决数据相关性**
+  - 在**进入 Reduce 节点计算之前**，需要把属于一个 Reduce 节点的数据**归并**到一起。在 Map 阶段进行了 Combining 以后，可以根据一定的策略对 Map 输出的中间结果进行**分区（partition）**，这样即可解决以上数据相关性问题避免 Reduce 计算过程中的数据通信。
 
 ### 分布式文件系统 Google GFS
 
@@ -199,14 +198,13 @@
 
 - 依赖项
 
-  - java：
+  - java：版本查看`java -version`
 
-    - 版本查看`java -version`
 
-    - ```shell
-      sudo apt update
-      sudo apt install openjdk-8-jdk  # 安装OpenJDK 8
-      ```
+```shell
+sudo apt update
+sudo apt install openjdk-8-jdk  # 安装OpenJDK 8
+```
 
 #### 单机安装
 
@@ -220,12 +218,12 @@
 
 - 运行测试（grep）：
 
-  - ```bash
-    mkdir input
-    cp etc/hadoop/*.xml input
-    bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.6.jar grep input output 'dfs[a-z.]+'
-    cat output/*
-    ```
+- ```bash
+  mkdir input
+  cp etc/hadoop/*.xml input
+  bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.6.jar grep input output 'dfs[a-z.]+'
+  cat output/*
+  ```
 
 #### 伪分布式安装
 
@@ -290,56 +288,57 @@
 
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930104829438.png" style="zoom:33%;" />
 
-  - ```java
-    import java.io.BufferedReader;
-    import java.io.InputStreamReader;
-    import org.apache.hadoop.conf.Configuration;
-    import org.apache.hadoop.fs.FileSystem;
-    import org.apache.hadoop.fs.Path;
-    import org.apache.hadoop.fs.FSDataInputStream;
-    
-    public class ReadHdfsFile {
-        public static void main(String[] args) {
-            try {
-                // 创建Hadoop配置对象
-                Configuration conf = new Configuration();
-    
-                // 设置Hadoop文件系统的默认URI，连接到localhost的端口9000
-                conf.set("fs.defaultFS", "hdfs://localhost:9000");
-    
-                // 设置Hadoop文件系统的实现类为org.apache.hadoop.hdfs.DistributedFileSystem
-                conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
-    
-                // 获取Hadoop文件系统实例
-                FileSystem fs = FileSystem.get(conf);
-    
-                // 创建一个Path对象，表示要读取的HDFS文件路径（在这个示例中为名为"test"的文件）
-                Path file = new Path("test");
-    
-                // 打开HDFS文件并返回一个输入流FSDataInputStream
-                FSDataInputStream getIt = fs.open(file);
-    
-                // 创建一个BufferedReader对象，用于逐行读取文件内容
-                BufferedReader d = new BufferedReader(new InputStreamReader(getIt));
-    
-                // 读取文件的一行内容
-                String content = d.readLine();
-    
-                // 打印读取的内容到控制台
-                System.out.println(content);
-    
-                // 关闭BufferedReader
-                d.close();
-    
-                // 关闭Hadoop文件系统连接
-                fs.close();
-            } catch (Exception e) {
-                // 捕获并打印任何可能的异常
-                e.printStackTrace();
-            }
+
+```java
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.FSDataInputStream;
+
+public class ReadHdfsFile {
+    public static void main(String[] args) {
+        try {
+            // 创建Hadoop配置对象
+            Configuration conf = new Configuration();
+
+            // 设置Hadoop文件系统的默认URI，连接到localhost的端口9000
+            conf.set("fs.defaultFS", "hdfs://localhost:9000");
+
+            // 设置Hadoop文件系统的实现类为org.apache.hadoop.hdfs.DistributedFileSystem
+            conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
+
+            // 获取Hadoop文件系统实例
+            FileSystem fs = FileSystem.get(conf);
+
+            // 创建一个Path对象，表示要读取的HDFS文件路径（在这个示例中为名为"test"的文件）
+            Path file = new Path("test");
+
+            // 打开HDFS文件并返回一个输入流FSDataInputStream
+            FSDataInputStream getIt = fs.open(file);
+
+            // 创建一个BufferedReader对象，用于逐行读取文件内容
+            BufferedReader d = new BufferedReader(new InputStreamReader(getIt));
+
+            // 读取文件的一行内容
+            String content = d.readLine();
+
+            // 打印读取的内容到控制台
+            System.out.println(content);
+
+            // 关闭BufferedReader
+            d.close();
+
+            // 关闭Hadoop文件系统连接
+            fs.close();
+        } catch (Exception e) {
+            // 捕获并打印任何可能的异常
+            e.printStackTrace();
         }
     }
-    ```
+}
+```
 
 - 写过程
 
@@ -347,53 +346,54 @@
 
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930104846176.png" alt="image-20230930104846176" style="zoom:33%;" />
 
-  - ```java
-    import org.apache.hadoop.conf.Configuration;
-    import org.apache.hadoop.fs.FileSystem;
-    import org.apache.hadoop.fs.FSDataOutputStream;
-    import org.apache.hadoop.fs.Path;
-    public class WriteHdfsFile {
-        public static void main(String[] args) {
-            try {
-                // 创建Hadoop配置对象
-                Configuration conf = new Configuration();
-    
-                // 设置Hadoop文件系统的默认URI，连接到localhost的端口9000
-                conf.set("fs.defaultFS", "hdfs://localhost:9000");
-    
-                // 设置Hadoop文件系统的实现类为org.apache.hadoop.hdfs.DistributedFileSystem
-                conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
-    
-                // 获取Hadoop文件系统实例
-                FileSystem fs = FileSystem.get(conf);
-    
-                // 要写入的内容转换为字节数组
-                byte[] buff = "Hello world".getBytes();
-    
-                // 要写入的文件名
-                String filename = "test";
-    
-                // 创建一个HDFS文件并返回一个输出流FSDataOutputStream
-                FSDataOutputStream os = fs.create(new Path(filename));
-    
-                // 将字节数组写入文件
-                os.write(buff, 0, buff.length);
-    
-                // 打印创建的文件名
-                System.out.println("Create:" + filename);
-    
-                // 关闭FSDataOutputStream
-                os.close();
-    
-                // 关闭Hadoop文件系统连接
-                fs.close();
-            } catch (Exception e) {
-                // 捕获并打印任何可能的异常
-                e.printStackTrace();
-            }
+
+```java
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.Path;
+public class WriteHdfsFile {
+    public static void main(String[] args) {
+        try {
+            // 创建Hadoop配置对象
+            Configuration conf = new Configuration();
+
+            // 设置Hadoop文件系统的默认URI，连接到localhost的端口9000
+            conf.set("fs.defaultFS", "hdfs://localhost:9000");
+
+            // 设置Hadoop文件系统的实现类为org.apache.hadoop.hdfs.DistributedFileSystem
+            conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
+
+            // 获取Hadoop文件系统实例
+            FileSystem fs = FileSystem.get(conf);
+
+            // 要写入的内容转换为字节数组
+            byte[] buff = "Hello world".getBytes();
+
+            // 要写入的文件名
+            String filename = "test";
+
+            // 创建一个HDFS文件并返回一个输出流FSDataOutputStream
+            FSDataOutputStream os = fs.create(new Path(filename));
+
+            // 将字节数组写入文件
+            os.write(buff, 0, buff.length);
+
+            // 打印创建的文件名
+            System.out.println("Create:" + filename);
+
+            // 关闭FSDataOutputStream
+            os.close();
+
+            // 关闭Hadoop文件系统连接
+            fs.close();
+        } catch (Exception e) {
+            // 捕获并打印任何可能的异常
+            e.printStackTrace();
         }
     }
-    ```
+}
+```
 
 #### 错误检验
 
@@ -570,22 +570,23 @@
 
 - 结构
 
-  - ```java
-    public class WordCount {
-    
-        public static class TokenizerMapper extends Mapper<Object, Text, Text, IntWritable> {
-            // ... mapper code as before
-        }
-    
-        public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-            // ... reducer code as before
-        }
-    
-        public static void main(String[] args) throws Exception {
-            // ... driver code as before
-        }
+
+```java
+public class WordCount {
+
+    public static class TokenizerMapper extends Mapper<Object, Text, Text, IntWritable> {
+        // ... mapper code as before
     }
-    ```
+
+    public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+        // ... reducer code as before
+    }
+
+    public static void main(String[] args) throws Exception {
+        // ... driver code as before
+    }
+}
+```
 
 #### hdfs基本使用
 
@@ -667,33 +668,34 @@
 
 - 编辑`pow.xml`设置依赖项
 
-  - ```xml
-    <dependencies>
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-common</artifactId>
-                <version>2.7.3</version>
-            </dependency>
-    
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-hdfs</artifactId>
-                <version>2.7.3</version>
-            </dependency>
-    
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-mapreduce-client-common</artifactId>
-                <version>2.7.3</version>
-            </dependency>
-    
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-mapreduce-client-core</artifactId>
-                <version>2.7.3</version>
-            </dependency>
-        </dependencies>
-    ```
+
+```xml
+<dependencies>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-hdfs</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-client-common</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-client-core</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+    </dependencies>
+```
 
 - 需要为hadoop提供编译好的jar文件
 
@@ -717,16 +719,17 @@
 
   - 将输入文件放入HDFS：如果你的输入文件还没有在HDFS中，你需要首先使用`hadoop fs`命令将它们复制到HDFS。（一般放在/user/hadoop/）
 
-    - ```bash
-      hadoop fs -mkdir -p /input-dir
-      hadoop fs -put input.txt /input-dir/
-      ```
 
-  - 行MapReduce作业:`hadoop jar p2t1.jar /user/hadoop/input/ /user/hadoop/output/`
+```bash
+hadoop fs -mkdir -p /input-dir
+hadoop fs -put input.txt /input-dir/
+```
 
-    - 注意运行前输出文件夹要不存在
+- 行MapReduce作业:`hadoop jar p2t1.jar /user/hadoop/input/ /user/hadoop/output/`
 
-  - 查看输出`hadoop fs -cat /output-dir/*`
+  - 注意运行前输出文件夹要不存在
+
+- 查看输出`hadoop fs -cat /output-dir/*`
 
 #### 使用idea远程连接hadoop
 
@@ -757,87 +760,89 @@
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231018165101484.png" alt="image-20231018165101484" style="zoom: 50%;" />
   - 同时新建`log4j`配置文件
 
-    - ```properties
-      # Root logger option
-      log4j.rootLogger=INFO, stdout
-      
-      # Redirect log messages to console
-      log4j.appender.stdout=org.apache.log4j.ConsoleAppender
-      log4j.appender.stdout.Target=System.out
-      log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-      log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
-      
-      ```
+
+```properties
+# Root logger option
+log4j.rootLogger=INFO, stdout
+
+# Redirect log messages to console
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.Target=System.out
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+
+```
 
 - 更改`pom.xml`（仅供参考,我使用的jdk11）
 
-  - ```xml
-    <?xml version="1.0" encoding="UTF-8"?>
-    <project xmlns="http://maven.apache.org/POM/4.0.0"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-        <modelVersion>4.0.0</modelVersion>
-    
-        <groupId>cn.lg</groupId>
-        <artifactId>MergeFiles</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    
-        <dependencies>
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-common</artifactId>
-                <version>2.7.3</version>
-            </dependency>
-    
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-hdfs</artifactId>
-                <version>2.7.3</version>
-            </dependency>
-    
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-mapreduce-client-common</artifactId>
-                <version>2.7.3</version>
-            </dependency>
-    
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-mapreduce-client-core</artifactId>
-                <version>2.7.3</version>
-            </dependency>
-    
-            <dependency>
-                <groupId>xalan</groupId>
-                <artifactId>xalan</artifactId>
-                <version>2.7.2</version>
-            </dependency>
-    
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.17</version>
-            </dependency>
-    
-        </dependencies>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
-                    <configuration>
-                        <source>11</source>
-                        <target>11</target>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </build>
-    </project>
-    
-    ```
 
-    - 修改后要重新加载
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.lg</groupId>
+    <artifactId>MergeFiles</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-hdfs</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-client-common</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-client-core</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>xalan</groupId>
+            <artifactId>xalan</artifactId>
+            <version>2.7.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+```
+
+- 修改后要重新加载
 
 - 配置运行文件（运行-编辑配置-创建maven）
 
@@ -910,40 +915,41 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 
 - 在 Hadoop 中一次计算任务称之为一个 Job，main函数主要**负责新建一个Job对象**并为之**设定相应的Mapper和Reducer类，以及输入、输出路径等**。
 
-- ```java
-  public static void main(String[] args) throws Exception{
-      //为任务设定配置文件
-      Configuration conf = new Configuration();
-      //命令行参数
-      String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();//处理命令行参数。它将处理Hadoop的标准参数，并返回其他剩余的参数。
-      if (otherArgs.length != 2){//限制参数的数目（可以提供几种不同的模式）
-          System.err.println("Usage: wordcount <in> <out>");
-          System.exit(2);
-      }//检查是否提供了正确数量的命令行参数。
-      Job job = new Job(conf, “word count”);
-      //新建一个用户定义的Job
-      job.setJarByClass(WordCount.class);//指定包含该作业的JAR文件。
-      //设置执行任务的jar
-      job.setMapperClass(TokenizerMapper.class); //设置Mapper类
-      job.setCombinerClass(IntSumReducer.class);
-      //设置Combine类
-      job.setReducerClass(IntSumReducer.class);
-      //设置Reducer类
-      //设置map的输出类型
-      job.setMapOutputKeyClass(IntWritable.class);
-      job.setMapOutputValueClass(DoubleWritable.class);
-      //设置reduce（结果）的输出类型
-      job.setOutputKeyClass(IntWritable.class);
-      job.setOutputValueClass(Text.class);
-      //设置输入文件的路径
-      FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
-      //设置输出文件的路径
-      FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));
-      //提交任务并等待任务完成
-      System.exit(job.waitForCompletion(true) ? 0 : 1);
-  }
-  ```
-  
+
+```java
+public static void main(String[] args) throws Exception{
+    //为任务设定配置文件
+    Configuration conf = new Configuration();
+    //命令行参数
+    String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();//处理命令行参数。它将处理Hadoop的标准参数，并返回其他剩余的参数。
+    if (otherArgs.length != 2){//限制参数的数目（可以提供几种不同的模式）
+        System.err.println("Usage: wordcount <in> <out>");
+        System.exit(2);
+    }//检查是否提供了正确数量的命令行参数。
+    Job job = new Job(conf, “word count”);
+    //新建一个用户定义的Job
+    job.setJarByClass(WordCount.class);//指定包含该作业的JAR文件。
+    //设置执行任务的jar
+    job.setMapperClass(TokenizerMapper.class); //设置Mapper类
+    job.setCombinerClass(IntSumReducer.class);
+    //设置Combine类
+    job.setReducerClass(IntSumReducer.class);
+    //设置Reducer类
+    //设置map的输出类型
+    job.setMapOutputKeyClass(IntWritable.class);
+    job.setMapOutputValueClass(DoubleWritable.class);
+    //设置reduce（结果）的输出类型
+    job.setOutputKeyClass(IntWritable.class);
+    job.setOutputValueClass(Text.class);
+    //设置输入文件的路径
+    FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
+    //设置输出文件的路径
+    FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));
+    //提交任务并等待任务完成
+    System.exit(job.waitForCompletion(true) ? 0 : 1);
+}
+```
+
 - `job.setJarByClass(WordCount.class);`会根据类自动去寻找包含指定类的jar文件，jar文件包含了程序运行需要的所有资源，会被拷贝到各个节点上并执行
 
 - 设置mapper和reducer则是通过.class取寻找对应的类
@@ -967,7 +973,7 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231114001559040.png" alt="image-20231114001559040" style="zoom:50%;" />
 
   - setStrings方法将把一组字符串转换为用“,”隔开的一个长字符串，然后getStrings时自动再根据“,”split成一组字符串，因此，在该组中的每个字符串都不能包含“,”，否则会出错。
-  
+
 - 传递文件
 
   - 传递`job.addCacheFile(new Path("/path/to/myfile.txt").toUri());`
@@ -978,39 +984,41 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 
     - 从文件列表中获取文件
 
-      - ```java
-        //使用文件名
-        for (Path localFile : localFiles) {
-            if (localFile.getName().equals("myfile.txt")) {
-                // 这是我们要查找的文件!
-            }
-        }
-        ```
 
-      - ```java
-        //缓存文件时记录下表
-        job.getConfiguration().set("fileA.index", "0");
-        job.getConfiguration().set("fileB.index", "1");
-        ...
-        int fileAIndex = context.getConfiguration().getInt("fileA.index", -1);//-1给出获取失败时的一个默认值
-        ```
+```java
+//使用文件名
+for (Path localFile : localFiles) {
+    if (localFile.getName().equals("myfile.txt")) {
+        // 这是我们要查找的文件!
+    }
+}
+```
 
-    - 直接根据文件名获取`context.getLocalCacheFiles(name)`
+```java
+//缓存文件时记录下表
+job.getConfiguration().set("fileA.index", "0");
+job.getConfiguration().set("fileB.index", "1");
+...
+int fileAIndex = context.getConfiguration().getInt("fileA.index", -1);//-1给出获取失败时的一个默认值
+```
 
-  - 读取文件
+- 直接根据文件名获取`context.getLocalCacheFiles(name)`
 
-    - ```java
-      BufferedReader br = new BufferedReader(new FileReader(localFiles[0].toString()));
-      String line;
-      while ((line = br.readLine()) != null) {
-          // 处理每一行
-      }
-      br.close();
-      ```
+- 读取文件
 
-  - 例：获取并存储-skip对应的文件
 
-    - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017134051358.png" alt="image-20231017134051358" style="zoom: 50%;" />
+```java
+BufferedReader br = new BufferedReader(new FileReader(localFiles[0].toString()));
+String line;
+while ((line = br.readLine()) != null) {
+    // 处理每一行
+}
+br.close();
+```
+
+- 例：获取并存储-skip对应的文件
+
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017134051358.png" alt="image-20231017134051358" style="zoom: 50%;" />
 
 #### 自定义数据类型
 
@@ -1020,32 +1028,33 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 
 - WritableComparable接口的实现示例
 
-  - ```java
-    public class Point3D implements WritableComparable <Point3D>{
-        //数据存储
-        private int x, y, z;
-        public int getX() { return x; }
-        public int getY() { return y; }
-        public int getZ() { return z; }
-        //文件存储方式
-        public void write(DataOutput out) throws IOException{
-            out.writeFloat(x);
-            out.writeFloat(y);
-            out.writeFloat(z);
-        }
-        //从文件存储
-        public void readFields(DataInput in) throws IOException{
-            x = in.readFloat();
-            y = in.readFloat();
-            z = in.readFloat();
-        }
-        //比较函数
-        public int compareTo(Point3D p){
-            //compares this(x, y, z) with p(x, y, z) and
-            //outputs -1(小于), 0(等于), 1(大于)
-        }
+
+```java
+public class Point3D implements WritableComparable <Point3D>{
+    //数据存储
+    private int x, y, z;
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public int getZ() { return z; }
+    //文件存储方式
+    public void write(DataOutput out) throws IOException{
+        out.writeFloat(x);
+        out.writeFloat(y);
+        out.writeFloat(z);
     }
-    ```
+    //从文件存储
+    public void readFields(DataInput in) throws IOException{
+        x = in.readFloat();
+        y = in.readFloat();
+        z = in.readFloat();
+    }
+    //比较函数
+    public int compareTo(Point3D p){
+        //compares this(x, y, z) with p(x, y, z) and
+        //outputs -1(小于), 0(等于), 1(大于)
+    }
+}
+```
 
 - `write(DataOutput out)`：序列化方法，用于将数据**写入到输出流**。
 
@@ -1069,112 +1078,113 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 
   - 使用复合键`<item,docId>`
 
-  - ```java
-    //复合键
-    import org.apache.hadoop.io.Text;
-    import org.apache.hadoop.io.WritableComparable;
-    import java.io.DataInput;
-    import java.io.DataOutput;
-    import java.io.IOException;
-    
-    public class CompositeKey implements WritableComparable<CompositeKey> {
-        private Text word;
-        private Text docId;
-    
-        public CompositeKey() {
-            this.word = new Text();
-            this.docId = new Text();
-        }
-    
-        public void setWord(String word) {
-            this.word.set(word);
-        }
-    
-        public void setDocId(String docId) {
-            this.docId.set(docId);
-        }
-    
-        @Override
-        public void write(DataOutput out) throws IOException {
-            word.write(out);
-            docId.write(out);
-        }
-    
-        @Override
-        public void readFields(DataInput in) throws IOException {
-            word.readFields(in);
-            docId.readFields(in);
-        }
-    
-        @Override
-        public int compareTo(CompositeKey other) {
-            int result = word.compareTo(other.word);
-            if (result == 0) {
-                result = docId.compareTo(other.docId);
-            }
-            return result;
-        }
-    }
-    ```
 
-  - ```java
-    //Partitioner
-    //确保相同单词的所有键值对被分配到同一个 Reducer。
-    import org.apache.hadoop.mapreduce.Partitioner;
-    
-    public class WordPartitioner extends Partitioner<CompositeKey, IntWritable> {
-        @Override
-        public int getPartition(CompositeKey key, IntWritable value, int numReduceTasks) {
-            return (key.getWord().hashCode() & Integer.MAX_VALUE) % numReduceTasks;
-        }
-    }
-    ```
+```java
+//复合键
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.WritableComparable;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 
-  - ```java
-    //Mapper
-    import org.apache.hadoop.io.IntWritable;
-    import org.apache.hadoop.io.Text;
-    import org.apache.hadoop.mapreduce.Mapper;
-    
-    public class InvertedIndexMapper extends Mapper<Object, Text, CompositeKey, IntWritable> {
-        private final static IntWritable one = new IntWritable(1);
-        private CompositeKey compositeKey = new CompositeKey();
-    
-        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-            // 假设文档ID和内容由制表符分隔
-            String[] parts = value.toString().split("\t");
-            String docId = parts[0];
-            String[] words = parts[1].split("\\s+");
-    
-            for (String word : words) {
-                compositeKey.setWord(word);
-                compositeKey.setDocId(docId);
-                context.write(compositeKey, one);
-            }
-        }
-    }
-    
-    ```
+public class CompositeKey implements WritableComparable<CompositeKey> {
+    private Text word;
+    private Text docId;
 
-  - ```java
-    //Reducer
-    import org.apache.hadoop.io.IntWritable;
-    import org.apache.hadoop.mapreduce.Reducer;
-    
-    public class InvertedIndexReducer extends Reducer<CompositeKey, IntWritable, CompositeKey, IntWritable> {
-        private IntWritable result = new IntWritable();
-    
-        public void reduce(CompositeKey key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-            int sum = 0;
-            for (IntWritable val : values) {
-                sum += val.get();
-            }
-            result.set(sum);
-            context.write(key, result);
+    public CompositeKey() {
+        this.word = new Text();
+        this.docId = new Text();
+    }
+
+    public void setWord(String word) {
+        this.word.set(word);
+    }
+
+    public void setDocId(String docId) {
+        this.docId.set(docId);
+    }
+
+    @Override
+    public void write(DataOutput out) throws IOException {
+        word.write(out);
+        docId.write(out);
+    }
+
+    @Override
+    public void readFields(DataInput in) throws IOException {
+        word.readFields(in);
+        docId.readFields(in);
+    }
+
+    @Override
+    public int compareTo(CompositeKey other) {
+        int result = word.compareTo(other.word);
+        if (result == 0) {
+            result = docId.compareTo(other.docId);
+        }
+        return result;
+    }
+}
+```
+
+```java
+//Partitioner
+//确保相同单词的所有键值对被分配到同一个 Reducer。
+import org.apache.hadoop.mapreduce.Partitioner;
+
+public class WordPartitioner extends Partitioner<CompositeKey, IntWritable> {
+    @Override
+    public int getPartition(CompositeKey key, IntWritable value, int numReduceTasks) {
+        return (key.getWord().hashCode() & Integer.MAX_VALUE) % numReduceTasks;
+    }
+}
+```
+
+```java
+//Mapper
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class InvertedIndexMapper extends Mapper<Object, Text, CompositeKey, IntWritable> {
+    private final static IntWritable one = new IntWritable(1);
+    private CompositeKey compositeKey = new CompositeKey();
+
+    public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+        // 假设文档ID和内容由制表符分隔
+        String[] parts = value.toString().split("\t");
+        String docId = parts[0];
+        String[] words = parts[1].split("\\s+");
+
+        for (String word : words) {
+            compositeKey.setWord(word);
+            compositeKey.setDocId(docId);
+            context.write(compositeKey, one);
         }
     }
-    
-    ```
+}
+
+```
+
+```java
+//Reducer
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class InvertedIndexReducer extends Reducer<CompositeKey, IntWritable, CompositeKey, IntWritable> {
+    private IntWritable result = new IntWritable();
+
+    public void reduce(CompositeKey key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+        int sum = 0;
+        for (IntWritable val : values) {
+            sum += val.get();
+        }
+        result.set(sum);
+        context.write(key, result);
+    }
+}
+
+```
 
 #### 自定义输入输出类型
 
@@ -1194,73 +1204,74 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
     - `getCurrentKey()` 和 `getCurrentValue()`：返回当前读取的键和值。
     - `getProgress()`：记录读取的进度。
 
-  - ```java
-    public class CustomInputFormat extends FileInputFormat<LongWritable, Text> {
-    
-        @Override
-        public RecordReader<LongWritable, Text> createRecordReader(InputSplit split, TaskAttemptContext context) {
-            return new CustomRecordReader();
-    }
-    
-    public class CustomRecordReader extends RecordReader<Text, Text> {
-        private Text key = new Text();
-        private Text value = new Text();
-        private boolean processed = false;
-    	//会被自动调用
-        @Override
-        public void initialize(InputSplit split, TaskAttemptContext context) throws IOException {
-            FileSplit fileSplit = (FileSplit) split;
-            Path filePath = fileSplit.getPath();
-            key.set(filePath.getName());
-    
-            Configuration conf = context.getConfiguration();
-            FileSystem fs = filePath.getFileSystem(conf);
-            BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(filePath)));
-    
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-            value.set(sb.toString());
-            br.close();
-        }
-    	//下面不恰当，key一致时一个，但value应该返回一个单词
-        @Override
-        public boolean nextKeyValue() {
-            if (!processed) {
-                processed = true;
-                return true;
-            }
-            return false;
-        }
-    
-        @Override
-        public Text getCurrentKey() {
-            return key;
-        }
-    
-        @Override
-        public Text getCurrentValue() {
-            return value;
-        }
-    
-        @Override
-        public float getProgress() {
-            return processed ? 1.0f : 0.0f;
-        }
-    
-        @Override
-        public void close() {
-            // 通常用于关闭打开的资源，这里不需要实现
-        }
-    }
-    
-    ```
 
-  - 还需要在job指定类进行配置
+```java
+public class CustomInputFormat extends FileInputFormat<LongWritable, Text> {
 
-    - `job.setInputFormatClass(FileNameLocInputFormat.class);`
+    @Override
+    public RecordReader<LongWritable, Text> createRecordReader(InputSplit split, TaskAttemptContext context) {
+        return new CustomRecordReader();
+}
+
+public class CustomRecordReader extends RecordReader<Text, Text> {
+    private Text key = new Text();
+    private Text value = new Text();
+    private boolean processed = false;
+	//会被自动调用
+    @Override
+    public void initialize(InputSplit split, TaskAttemptContext context) throws IOException {
+        FileSplit fileSplit = (FileSplit) split;
+        Path filePath = fileSplit.getPath();
+        key.set(filePath.getName());
+
+        Configuration conf = context.getConfiguration();
+        FileSystem fs = filePath.getFileSystem(conf);
+        BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(filePath)));
+
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        value.set(sb.toString());
+        br.close();
+    }
+	//下面不恰当，key一致时一个，但value应该返回一个单词
+    @Override
+    public boolean nextKeyValue() {
+        if (!processed) {
+            processed = true;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Text getCurrentKey() {
+        return key;
+    }
+
+    @Override
+    public Text getCurrentValue() {
+        return value;
+    }
+
+    @Override
+    public float getProgress() {
+        return processed ? 1.0f : 0.0f;
+    }
+
+    @Override
+    public void close() {
+        // 通常用于关闭打开的资源，这里不需要实现
+    }
+}
+
+```
+
+- 还需要在job指定类进行配置
+
+  - `job.setInputFormatClass(FileNameLocInputFormat.class);`
 
 - 自定义输出
 
@@ -1270,129 +1281,136 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 
     - 确定如何写入输出数据。确保输出目录的正确设置（例如，创建或清理输出目录）和实例化适当的 `RecordWriter`。
 
-    - ```java
-      import org.apache.hadoop.mapreduce.RecordWriter;
-      import org.apache.hadoop.mapreduce.TaskAttemptContext;
-      import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-      import java.io.IOException;
-      
-      public class MyCustomOutputFormat extends FileOutputFormat<KeyType, ValueType> {
-          @Override
-          public RecordWriter<KeyType, ValueType> getRecordWriter(TaskAttemptContext context) 
-              throws IOException, InterruptedException {
-              // 创建并返回自定义 RecordWriter
-              return new...
-          }
-      }
-      
-      ```
 
-  - RecordWriter
+```java
+import org.apache.hadoop.mapreduce.RecordWriter;
+import org.apache.hadoop.mapreduce.TaskAttemptContext;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import java.io.IOException;
 
-    - 将 `Reducer` 的输出写入到输出文件。在自定义 `RecordWriter` 类时，你需要实现 `write` 方法来定义如何处理输出键值对，以及 `close` 方法来定义清理过程。
+public class MyCustomOutputFormat extends FileOutputFormat<KeyType, ValueType> {
+    @Override
+    public RecordWriter<KeyType, ValueType> getRecordWriter(TaskAttemptContext context) 
+        throws IOException, InterruptedException {
+        // 创建并返回自定义 RecordWriter
+        return new...
+    }
+}
 
-    - ```java
-      import org.apache.hadoop.mapreduce.RecordWriter;
-      import org.apache.hadoop.mapreduce.TaskAttemptContext;
-      import java.io.IOException;
-      
-      public class MyCustomRecordWriter extends RecordWriter<KeyType, ValueType> {
-          public MyCustomRecordWriter(/* 你的构造器参数 */) {
-              // 初始化代码
-          }
-      
-          @Override
-          public void write(KeyType key, ValueType value) throws IOException, InterruptedException {
-              // 定义如何输出键值对
-          }
-      
-          @Override
-          public void close(TaskAttemptContext context) throws IOException, InterruptedException {
-              // 清理资源，如关闭文件流
-          }
-      }
-      
-      ```
+```
 
-  - MultipleOutputs
+- RecordWriter
 
-    - 在传统的 MapReduce 作业中，无论 Map 或 Reduce 阶段的输出都只能被写入到**一个指定**的输出目录。
-    - 使用 `MultipleOutputs`，可以根据需要将数据**写入多个文件或目录**，甚至可以对每个输出记录使用不同的 `OutputFormat`。
-    - ```java
-      public static class CreateReducer extends Reducer<Text, Text, Text, Text> {
-              static MultipleOutputs<Text, Text> multipleOutputs;
-          //创建
-              @Override
-              protected void setup(Context context) throws IOException, InterruptedException {
-                  multipleOutputs = new MultipleOutputs<>(context);
-              }
-              @Override
-              protected void reduce(Text key, Iterable<Text> values, Context context)
-                      throws IOException, InterruptedException {
-                  //key,val,name
-                  for(Text value : values) {
-                      multipleOutputs.write(value, new Text(), key.toString());
-                  }
-              }
-          //关闭
-              @Override
-              protected void cleanup(Context context) throws IOException, InterruptedException {
-                  multipleOutputs.close();
-              }
-          }
-      ```
-    - 
-  
-  - MultipleOutputFormat
-  
-    - 允许为每个Reducer任务定义一个**不同的OutputFormat**。这意味着你可以为每个Reducer任务指定不同的输出目录和输出文件格式。
-  
-  - 在job中绑定`job.setOutputFormatClass(MyCustomOutputFormat.class);`
+  - 将 `Reducer` 的输出写入到输出文件。在自定义 `RecordWriter` 类时，你需要实现 `write` 方法来定义如何处理输出键值对，以及 `close` 方法来定义清理过程。
+
+
+```java
+import org.apache.hadoop.mapreduce.RecordWriter;
+import org.apache.hadoop.mapreduce.TaskAttemptContext;
+import java.io.IOException;
+
+public class MyCustomRecordWriter extends RecordWriter<KeyType, ValueType> {
+    public MyCustomRecordWriter(/* 你的构造器参数 */) {
+        // 初始化代码
+    }
+
+    @Override
+    public void write(KeyType key, ValueType value) throws IOException, InterruptedException {
+        // 定义如何输出键值对
+    }
+
+    @Override
+    public void close(TaskAttemptContext context) throws IOException, InterruptedException {
+        // 清理资源，如关闭文件流
+    }
+}
+
+```
+
+- MultipleOutputs
+
+  - 在传统的 MapReduce 作业中，无论 Map 或 Reduce 阶段的输出都只能被写入到**一个指定**的输出目录。
+  - 使用 `MultipleOutputs`，可以根据需要将数据**写入多个文件或目录**，甚至可以对每个输出记录使用不同的 `OutputFormat`。
+
+
+```java
+public static class CreateReducer extends Reducer<Text, Text, Text, Text> {
+        static MultipleOutputs<Text, Text> multipleOutputs;
+    //创建
+        @Override
+        protected void setup(Context context) throws IOException, InterruptedException {
+            multipleOutputs = new MultipleOutputs<>(context);
+        }
+        @Override
+        protected void reduce(Text key, Iterable<Text> values, Context context)
+                throws IOException, InterruptedException {
+            //key,val,name
+            for(Text value : values) {
+                multipleOutputs.write(value, new Text(), key.toString());
+            }
+        }
+    //关闭
+        @Override
+        protected void cleanup(Context context) throws IOException, InterruptedException {
+            multipleOutputs.close();
+        }
+    }
+```
+
+- 
+
+- MultipleOutputFormat
+
+  - 允许为每个Reducer任务定义一个**不同的OutputFormat**。这意味着你可以为每个Reducer任务指定不同的输出目录和输出文件格式。
+
+- 在job中绑定`job.setOutputFormatClass(MyCustomOutputFormat.class);`
 
 #### 自定义Partitioner和Combiner
 
 - Partitioner
 
-  - ```java
-    public class WordPartitioner extends Partitioner<CompositeKey, IntWritable> {
-        @Override
-        public int getPartition(CompositeKey key, IntWritable value, int numReduceTasks) {
-            return (key.getWord().hashCode() & Integer.MAX_VALUE) % numReduceTasks;
-        }
+
+```java
+public class WordPartitioner extends Partitioner<CompositeKey, IntWritable> {
+    @Override
+    public int getPartition(CompositeKey key, IntWritable value, int numReduceTasks) {
+        return (key.getWord().hashCode() & Integer.MAX_VALUE) % numReduceTasks;
     }
-    ```
+}
+```
 
-  - 改变Map中间结果到Reduce节点的分区方式
+- 改变Map中间结果到Reduce节点的分区方式
 
-  - 在job中设置`Job. setPartitionerClass(NewPartitioner)`
+- 在job中设置`Job. setPartitionerClass(NewPartitioner)`
 
 - Combiner
 
   - Combiner是一种用于在Map任务输出数据传递给Reduce任务之前进行**本地聚合**的机制。它可以减少数据传输到Reduce任务的数据量，从而**提高性能**。
 
-  - ```java
-    public static class NewCombiner extends Reducer
-        < Text, IntWritable, Text, IntWritable >
+
+```java
+public static class NewCombiner extends Reducer
+    < Text, IntWritable, Text, IntWritable >
+{
+    public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException,
+    InterruptedException
     {
-        public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException,
-        InterruptedException
-        {
-            //去除重复项
-            context.write(key, new IntWritable(1));
-        } 
-    }
-    ```
+        //去除重复项
+        context.write(key, new IntWritable(1));
+    } 
+}
+```
 
-  - 在MapReduce中，**Combiner类实际上应该与Reducer类有相同的签名**，因为Combiner和Reducer都执行聚合操作。
+- 在MapReduce中，**Combiner类实际上应该与Reducer类有相同的签名**，因为Combiner和Reducer都执行聚合操作。
 
-  - 设置`job.setCombinerClass(IntSumCombiner.class);`
-  
+- 设置`job.setCombinerClass(IntSumCombiner.class);`
+
 - 重写Combiner主要是为了性能的提升，即在Map之后Reduce之前执行一个局部的Reduce
 
   - **减少网络传输**：在 K-Means 算法中，每个 Mapper 为每个数据点生成键值对。如果不使用 Combiner，所有这些键值对将被发送到 Reducer，这可能导致大量的网络传输。通过使用 Combiner，可以在 Map 阶段的节点上对数据进行局部聚合，从而减少需要传输的数据量。
   - **减轻 Reducer 负担**：Combiner 在每个 Map 任务所在的节点上预处理数据，只将每个簇的局部汇总信息传输给 Reducer。这意味着 Reducer 需要处理的数据量更小，从而减轻了其负担。
   - **提高总体处理速度**：通过减少网络传输和 Reducer 的数据处理量，Combiner 有助于提高整个 MapReduce 作业的处理速度。
-  
+
 - Combiner**不应该改变Map的键值格式**
 
 #### 迭代MapReduce
@@ -1423,40 +1441,41 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 
 - 具有两个结果的链
 
-  - ```java
-    public static void main(String[] args) throws Exception {
-            Configuration conf1 = new Configuration();
-            Job job1 = Job.getInstance(conf1, "First MapReduce");
-            // 配置第一个MapReduce任务的输入路径、输出路径、Mapper类、Reducer类等
-    
-            Configuration conf2 = new Configuration();
-            Job job2 = Job.getInstance(conf2, "Second MapReduce");
-            // 配置第二个MapReduce任务的输入路径、输出路径、Mapper类、Reducer类等
-    
-            // 连接任务
-            ControlledJob firstJob = new ControlledJob(conf1);
-            firstJob.setJob(job1);
-    
-            ControlledJob secondJob = new ControlledJob(conf2);
-            secondJob.setJob(job2);
-            secondJob.addDependingJob(firstJob); // 第二个任务依赖于第一个任务的完成
-    
-            // 驱动程序中执行任务
-            JobControl jobControl = new JobControl("Chained MapReduce");
-            jobControl.addJob(firstJob);
-            jobControl.addJob(secondJob);
-    
-            Thread jobControlThread = new Thread(jobControl);
-            jobControlThread.start();
-    
-            while (!jobControl.allFinished()) {
-                Thread.sleep(1000);
-            }
-    
-        }
-    ```
 
-  - 这种方法可以并行执行，对于较为简单的重序直接按顺序执行mapreduce任务即可
+```java
+public static void main(String[] args) throws Exception {
+        Configuration conf1 = new Configuration();
+        Job job1 = Job.getInstance(conf1, "First MapReduce");
+        // 配置第一个MapReduce任务的输入路径、输出路径、Mapper类、Reducer类等
+
+        Configuration conf2 = new Configuration();
+        Job job2 = Job.getInstance(conf2, "Second MapReduce");
+        // 配置第二个MapReduce任务的输入路径、输出路径、Mapper类、Reducer类等
+
+        // 连接任务
+        ControlledJob firstJob = new ControlledJob(conf1);
+        firstJob.setJob(job1);
+
+        ControlledJob secondJob = new ControlledJob(conf2);
+        secondJob.setJob(job2);
+        secondJob.addDependingJob(firstJob); // 第二个任务依赖于第一个任务的完成
+
+        // 驱动程序中执行任务
+        JobControl jobControl = new JobControl("Chained MapReduce");
+        jobControl.addJob(firstJob);
+        jobControl.addJob(secondJob);
+
+        Thread jobControlThread = new Thread(jobControl);
+        jobControlThread.start();
+
+        while (!jobControl.allFinished()) {
+            Thread.sleep(1000);
+        }
+
+    }
+```
+
+- 这种方法可以并行执行，对于较为简单的重序直接按顺序执行mapreduce任务即可
 
 - 链式执行map/reduce
 
@@ -1474,60 +1493,62 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
       - 创建 Mapper 链：使用 `ChainMapper` 创建 Mapper 任务链，并指定每个 Mapper 类的**顺序**。
       - 配置作业：在驱动程序中配置 MapReduce 作业，并将 `ChainMapper` 对象设置为作业的 Mapper。
 
-    - ```java
-      import org.apache.hadoop.conf.Configuration;
-      import org.apache.hadoop.fs.Path;
-      import org.apache.hadoop.io.*;
-      import org.apache.hadoop.mapreduce.*;
-      import org.apache.hadoop.mapreduce.lib.chain.ChainMapper;
-      
-      public class ChainedMapExample {
-          public static class Mapper1 extends Mapper<LongWritable, Text, Text, IntWritable> {
-              // Mapper 1 的实现
-              // ...
-          }
-      
-          public static class Mapper2 extends Mapper<Text, IntWritable, Text, IntWritable> {
-              // Mapper 2 的实现
-              // ...
-          }
-      
-          public static void main(String[] args) throws Exception {
-              Configuration conf = new Configuration();
-              Job job = Job.getInstance(conf, "Chained Map Example");
-              // 创建 ChainMapper，并指定 Mapper 1 和 Mapper 2 的顺序
-              ChainMapper.addMapper(job, Mapper1.class, LongWritable.class, Text.class, Text.class, IntWritable.class, conf);
-              ChainMapper.addMapper(job, Mapper2.class, Text.class, IntWritable.class, Text.class, IntWritable.class, conf);
-      
-              // 配置作业的输入路径、输出路径、Reducer 类等
-              job.setJarByClass(ChainedMapExample.class);
-              job.setInputFormatClass(TextInputFormat.class);
-              job.setOutputFormatClass(TextOutputFormat.class);
-              FileInputFormat.setInputPaths(job, new Path(args[0]));
-              FileOutputFormat.setOutputPath(job, new Path(args[1]));
-              job.setReducerClass(Reducer.class); // 如果没有 Reduce 阶段，则设置为 Reducer.class
-      
-              System.exit(job.waitForCompletion(true) ? 0 : 1);
-          }
-      }
-      ```
 
-  - 整个Job中只能有一个Reducer，在Reducer前面可以有一个或者多个Mapper，在Reducer的后面可以有0个或者多个Mapper。
+```java
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.*;
+import org.apache.hadoop.mapreduce.*;
+import org.apache.hadoop.mapreduce.lib.chain.ChainMapper;
 
-  - 在reduce之后添加map
+public class ChainedMapExample {
+    public static class Mapper1 extends Mapper<LongWritable, Text, Text, IntWritable> {
+        // Mapper 1 的实现
+        // ...
+    }
 
-    - ```java
-      JobConf reduceConf = new JobConf(false);
-      ChainReducer.setReducer(job, Reduce.class, LongWritable.class, Text.class,
-                              Text.class, Text.class, true, reduceConf);
-      JobConf map3Conf = new JobConf(false);
-      ChainReducer.addMapper(job, Map3.class, Text.class, Text.class,
-                             LongWritable.class, Text.class, true, map3Conf);
-      JobConf map4Conf = new JobConf(false);
-      ChainReducer.addMapper(job, Map4.class, LongWritable.class, Text.class,
-                             LongWritable.class, Text.class, true, map4Conf);
-      JobClient.runJob(job);
-      ```
+    public static class Mapper2 extends Mapper<Text, IntWritable, Text, IntWritable> {
+        // Mapper 2 的实现
+        // ...
+    }
+
+    public static void main(String[] args) throws Exception {
+        Configuration conf = new Configuration();
+        Job job = Job.getInstance(conf, "Chained Map Example");
+        // 创建 ChainMapper，并指定 Mapper 1 和 Mapper 2 的顺序
+        ChainMapper.addMapper(job, Mapper1.class, LongWritable.class, Text.class, Text.class, IntWritable.class, conf);
+        ChainMapper.addMapper(job, Mapper2.class, Text.class, IntWritable.class, Text.class, IntWritable.class, conf);
+
+        // 配置作业的输入路径、输出路径、Reducer 类等
+        job.setJarByClass(ChainedMapExample.class);
+        job.setInputFormatClass(TextInputFormat.class);
+        job.setOutputFormatClass(TextOutputFormat.class);
+        FileInputFormat.setInputPaths(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        job.setReducerClass(Reducer.class); // 如果没有 Reduce 阶段，则设置为 Reducer.class
+
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
+    }
+}
+```
+
+- 整个Job中只能有一个Reducer，在Reducer前面可以有一个或者多个Mapper，在Reducer的后面可以有0个或者多个Mapper。
+
+- 在reduce之后添加map
+
+
+```java
+JobConf reduceConf = new JobConf(false);
+ChainReducer.setReducer(job, Reduce.class, LongWritable.class, Text.class,
+                        Text.class, Text.class, true, reduceConf);
+JobConf map3Conf = new JobConf(false);
+ChainReducer.addMapper(job, Map3.class, Text.class, Text.class,
+                       LongWritable.class, Text.class, true, map3Conf);
+JobConf map4Conf = new JobConf(false);
+ChainReducer.addMapper(job, Map4.class, LongWritable.class, Text.class,
+                       LongWritable.class, Text.class, true, map4Conf);
+JobClient.runJob(job);
+```
 
 #### 补充
 
@@ -1546,18 +1567,19 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 
 - 数据输入：
 
-  - ```java
-    A	1	1	1
-    A	1	2	2
-    A	2	1	3
-    A	2	2	4
-    B	1	1	5
-    B	1	2	6
-    B	2	1	7
-    B	2	2	8
-    ```
 
-  - 可以直接使用TextInputFormat读取并获取每一个元素
+```java
+A	1	1	1
+A	1	2	2
+A	2	1	3
+A	2	2	4
+B	1	1	5
+B	1	2	6
+B	2	1	7
+B	2	2	8
+```
+
+- 可以直接使用TextInputFormat读取并获取每一个元素
 
 - map：
 
@@ -1682,59 +1704,60 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 
   - **Reduce 阶段**：合并所有单词的文档列表，并输出 `<(word), (list of documentIds)>`。
 
-  - ```java
-    public class InvertedIndexMapper extends Mapper<Object, Text, Text, Text> {
-    
-        private Text documentId;
-        private Text word = new Text();
-    
-        @Override
-        protected void setup(Context context) throws IOException, InterruptedException {
-            //从当前分片中获取文件名信息
-            String filename = ((FileSplit) context.getInputSplit()).getPath().getName();
-            documentId = new Text(filename);
-        }
-    
-        @Override
-        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-            String[] tokens = value.toString().split("\\s+");
-            for (String token : tokens) {
-                word.set(token);
-                context.write(word, documentId);
-            }
+
+```java
+public class InvertedIndexMapper extends Mapper<Object, Text, Text, Text> {
+
+    private Text documentId;
+    private Text word = new Text();
+
+    @Override
+    protected void setup(Context context) throws IOException, InterruptedException {
+        //从当前分片中获取文件名信息
+        String filename = ((FileSplit) context.getInputSplit()).getPath().getName();
+        documentId = new Text(filename);
+    }
+
+    @Override
+    public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+        String[] tokens = value.toString().split("\\s+");
+        for (String token : tokens) {
+            word.set(token);
+            context.write(word, documentId);
         }
     }
-    
-    public class InvertedIndexReducer extends Reducer<Text, Text, Text, Text> {
-    
-        @Override
-        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-            //对文档列表去重
-            Set<String> documentIds = new HashSet<>();
-            for (Text value : values) {
-                documentIds.add(value.toString());
-            }
-            context.write(key, new Text(String.join(", ", documentIds)));
+}
+
+public class InvertedIndexReducer extends Reducer<Text, Text, Text, Text> {
+
+    @Override
+    public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+        //对文档列表去重
+        Set<String> documentIds = new HashSet<>();
+        for (Text value : values) {
+            documentIds.add(value.toString());
         }
+        context.write(key, new Text(String.join(", ", documentIds)));
     }
-    
-    public class InvertedIndexDriver {
-    
-        public static void main(String[] args) throws Exception {
-            Configuration conf = new Configuration();
-            Job job = Job.getInstance(conf, "Inverted Index");
-            job.setJarByClass(InvertedIndexDriver.class);
-            job.setMapperClass(InvertedIndexMapper.class);
-            job.setReducerClass(InvertedIndexReducer.class);
-            job.setOutputKeyClass(Text.class);
-            job.setOutputValueClass(Text.class);
-            FileInputFormat.addInputPath(job, new Path(args[0]));
-            FileOutputFormat.setOutputPath(job, new Path(args[1]));
-    
-            System.exit(job.waitForCompletion(true) ? 0 : 1);
-        }
+}
+
+public class InvertedIndexDriver {
+
+    public static void main(String[] args) throws Exception {
+        Configuration conf = new Configuration();
+        Job job = Job.getInstance(conf, "Inverted Index");
+        job.setJarByClass(InvertedIndexDriver.class);
+        job.setMapperClass(InvertedIndexMapper.class);
+        job.setReducerClass(InvertedIndexReducer.class);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(Text.class);
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
-    ```
+}
+```
 
 ##### 带有词频等属性的文档倒排算法
 
@@ -1753,32 +1776,33 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 
 - 专利被引用统计
 
-  - ```java
-    public static class MapClass extends Mapper<LongWritable, Text, Text, Text>
+
+```java
+public static class MapClass extends Mapper<LongWritable, Text, Text, Text>
+{
+    public void map(LongWritable key, Text value, Context context)
+        throws IOException, InterruptedException
+        // 输入key: 行偏移值；value: “citing专利号, cited专利号” 数据对
     {
-        public void map(LongWritable key, Text value, Context context)
-            throws IOException, InterruptedException
-            // 输入key: 行偏移值；value: “citing专利号, cited专利号” 数据对
-        {
-            String[] citation = value.toString().split(“,”);
-            context.write(new Text(citation[1]), new Text(citation[0]));
-        } // 输出key: cited 专利号；value: citing专利号
-    }
-    
-    public static class ReduceClass extends Reducer<Text, Text, Text, Text>
+        String[] citation = value.toString().split(“,”);
+        context.write(new Text(citation[1]), new Text(citation[0]));
+    } // 输出key: cited 专利号；value: citing专利号
+}
+
+public static class ReduceClass extends Reducer<Text, Text, Text, Text>
+{
+    public void reduce(Text key, Iterable<Text> values, Context context)
+        throws IOException, InterruptedException
     {
-        public void reduce(Text key, Iterable<Text> values, Context context)
-            throws IOException, InterruptedException
-        {
-            String csv = “”;
-            for (Text val:values)
-            { if (csv.length() > 0) csv += “,”;
-             csv += val.toString();
-            }
-            context.write(key, new Text(csv));
-        } // 输出key: cited专利号；value: “citing专利号1, cited专利号2,…”
-    }
-    ```
+        String csv = “”;
+        for (Text val:values)
+        { if (csv.length() > 0) csv += “,”;
+         csv += val.toString();
+        }
+        context.write(key, new Text(csv));
+    } // 输出key: cited专利号；value: “citing专利号1, cited专利号2,…”
+}
+```
 
 ### 综合：搜索引擎算法
 
@@ -1847,24 +1871,25 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
   - 从最后一次迭代的结果读出文件，并将文件名和其PR值读出，并以PR值为key，网页名为value，并且以PR值从大到小的顺序输出
   - 可以继承FloatWritable创建自定义类型并重写比较函数实现倒排
 
-- ```java
-  public class PageRankDriver {
-      private static int times = 10;
-      public static void main(String args[]) throws Exception{
-          String[] forGB = {"", args[1]+"/Data0"};
-          forGB[0] = args[0];
-          GraphBuilder.main(forGB);
-          String[] forItr = {"Data","Data"};
-          for (int i=0; i<times; i++) {
-              forItr[0] = args[1]+"/Data"+(i);
-              forItr[1] = args[1]+"/Data"+(i+1);
-              PageRankIter.main(forItr);
-          }
-          String[] forRV = {args[1]+"/Data"+times, args[1]+"/FinalRank"};
-          PageRankViewer.main(forRV);
-      }
-  }
-  ```
+
+```java
+public class PageRankDriver {
+    private static int times = 10;
+    public static void main(String args[]) throws Exception{
+        String[] forGB = {"", args[1]+"/Data0"};
+        forGB[0] = args[0];
+        GraphBuilder.main(forGB);
+        String[] forItr = {"Data","Data"};
+        for (int i=0; i<times; i++) {
+            forItr[0] = args[1]+"/Data"+(i);
+            forItr[1] = args[1]+"/Data"+(i+1);
+            PageRankIter.main(forItr);
+        }
+        String[] forRV = {args[1]+"/Data"+times, args[1]+"/FinalRank"};
+        PageRankViewer.main(forRV);
+    }
+}
+```
 
 ## MapReduce数据挖掘基础算法
 
@@ -1934,101 +1959,104 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 
 - Mapper
 
-  - ````java
-    import org.apache.hadoop.io.IntWritable;
-    import org.apache.hadoop.io.Text;
-    import org.apache.hadoop.mapreduce.Mapper;
-    import java.io.IOException;
-    
-    public class KMeansMapper extends Mapper<Object, Text, IntWritable, Text> {
-        private IntWritable clusterId = new IntWritable();
-        private Text pointAndCount = new Text();
-    
-        @Override
-        protected void setup(Context context) throws IOException, InterruptedException {
-            // 读取簇中心数据，可以从 HDFS、配置或其他地方加载
-            // Centers = ...
-        }
-    
-        @Override
-        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-            String[] point = value.toString().split(",");
-            double minDis = Double.MAX_VALUE;
-            int index = -1;
-    
-            for (int i = 0; i < Centers.length; i++) {
-                double dis = computeDist(point, Centers[i]);
-                if (dis < minDis) {
-                    minDis = dis;
-                    index = i;
-                }
-            }
-    
-            clusterId.set(index);
-            pointAndCount.set(value.toString() + ",1");
-            context.write(clusterId, pointAndCount);
-        }
-    
-        private double computeDist(String[] point, Center center) {
-            // 实现计算距离的逻辑
-        }
+
+````java
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+import java.io.IOException;
+
+public class KMeansMapper extends Mapper<Object, Text, IntWritable, Text> {
+    private IntWritable clusterId = new IntWritable();
+    private Text pointAndCount = new Text();
+
+    @Override
+    protected void setup(Context context) throws IOException, InterruptedException {
+        // 读取簇中心数据，可以从 HDFS、配置或其他地方加载
+        // Centers = ...
     }
-    
-    ````
 
-  - 使用\<id,(p,1)>而不仅仅是\<id,p>是因为计算中心点时需要节点数目求均值即中心点，这样现实的表示更加直观，并且也方便扩展（如有权重的版本）
+    @Override
+    public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+        String[] point = value.toString().split(",");
+        double minDis = Double.MAX_VALUE;
+        int index = -1;
 
-    - 如果不这样，就不能使用combine提上速度了（不然不知道是有几个点的局部结果）
+        for (int i = 0; i < Centers.length; i++) {
+            double dis = computeDist(point, Centers[i]);
+            if (dis < minDis) {
+                minDis = dis;
+                index = i;
+            }
+        }
+
+        clusterId.set(index);
+        pointAndCount.set(value.toString() + ",1");
+        context.write(clusterId, pointAndCount);
+    }
+
+    private double computeDist(String[] point, Center center) {
+        // 实现计算距离的逻辑
+    }
+}
+
+````
+
+- 使用\<id,(p,1)>而不仅仅是\<id,p>是因为计算中心点时需要节点数目求均值即中心点，这样现实的表示更加直观，并且也方便扩展（如有权重的版本）
+
+  - 如果不这样，就不能使用combine提上速度了（不然不知道是有几个点的局部结果）
 
 - Combiner
 
-  - ```java
-    import org.apache.hadoop.io.IntWritable;
-    import org.apache.hadoop.io.Text;
-    import org.apache.hadoop.mapreduce.Reducer;
-    import java.io.IOException;
-    
-    public class KMeansCombiner extends Reducer<IntWritable, Text, IntWritable, Text> {
-        private Text result = new Text();
-    
-        @Override
-        public void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-            pm = 0.0；
-                n = 数据点列表[(p1,1), (p2,1), …]中数据点的总个数;
-            for i=0 to n
-                pm += p[i];
-            pm = pm / n; // 求得这些数据点的平均值
-            emit(ClusterID, (pm, n));
-        }
-    }
-    
-    ```
 
-  - 计算局部结果，可以提升性能
+```java
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+import java.io.IOException;
+
+public class KMeansCombiner extends Reducer<IntWritable, Text, IntWritable, Text> {
+    private Text result = new Text();
+
+    @Override
+    public void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+        pm = 0.0；
+            n = 数据点列表[(p1,1), (p2,1), …]中数据点的总个数;
+        for i=0 to n
+            pm += p[i];
+        pm = pm / n; // 求得这些数据点的平均值
+        emit(ClusterID, (pm, n));
+    }
+}
+
+```
+
+- 计算局部结果，可以提升性能
 
 - Reducer
 
-  - ```java
-    import org.apache.hadoop.io.IntWritable;
-    import org.apache.hadoop.io.Text;
-    import org.apache.hadoop.mapreduce.Reducer;
-    import java.io.IOException;
-    
-    public class KMeansReducer extends Reducer<IntWritable, Text, IntWritable, Text> {
-        private Text result = new Text();
-    
-        @Override
-        public void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-            // 实现聚类中心的全局计算
-            pm = 0.0； n=0;
-            k = 数据点列表中数据项的总个数;
-            for i=0 to k
-            { pm += pm[i]*n[i]; n+= n[i]; }
-            pm = pm / n; // 求得所有属于ClusterID的数据点的均值
-            emit(ClusterID, (pm,n)); // 输出新的聚类中心的数据值
-        }
+
+```java
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+import java.io.IOException;
+
+public class KMeansReducer extends Reducer<IntWritable, Text, IntWritable, Text> {
+    private Text result = new Text();
+
+    @Override
+    public void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+        // 实现聚类中心的全局计算
+        pm = 0.0； n=0;
+        k = 数据点列表中数据项的总个数;
+        for i=0 to k
+        { pm += pm[i]*n[i]; n+= n[i]; }
+        pm = pm / n; // 求得所有属于ClusterID的数据点的均值
+        emit(ClusterID, (pm,n)); // 输出新的聚类中心的数据值
     }
-    ```
+}
+```
 
 - 在第i次迭代后，已经生成了K个聚类。如果满足了终止条件，即可停止迭代，输出K个聚类
 
@@ -2072,117 +2100,120 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 
   - map
 
-    - ```java
-      import org.apache.hadoop.io.IntWritable;
-      import org.apache.hadoop.io.Text;
-      import org.apache.hadoop.mapreduce.Mapper;
-      import java.io.IOException;
-      
-      public class NaiveBayesTrainMapper extends Mapper<Object, Text, Text, IntWritable> {
-          private final static IntWritable one = new IntWritable(1);
-          private Text word = new Text();
-      
-          public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-              String[] fields = value.toString().split(",");
-              String y = fields[fields.length - 1]; // 假设最后一个字段是类别
-      
-              // 统计类别的频度
-              word.set(y);
-              context.write(word, one);
-      
-              // 统计类别和特征的联合频度（出现次数）
-              for (int j = 0; j < fields.length - 1; j++) {
-                  word.set(y + "," + "x" + j + "," + fields[j]);
-                  context.write(word, one);
-              }
-          }
-      }
-      
-      ```
 
-    - 对每个类别及特征的频度进行处理
+```java
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+import java.io.IOException;
 
-  - reduce
+public class NaiveBayesTrainMapper extends Mapper<Object, Text, Text, IntWritable> {
+    private final static IntWritable one = new IntWritable(1);
+    private Text word = new Text();
 
-    - ```java
-      import org.apache.hadoop.io.IntWritable;
-      import org.apache.hadoop.io.Text;
-      import org.apache.hadoop.mapreduce.Reducer;
-      import java.io.IOException;
-      
-      public class NaiveBayesTrainReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-          private IntWritable result = new IntWritable();
-      
-          public void reduce(Text key, Iterable<IntWritable> values, Context context) 
-                  throws IOException, InterruptedException {
-              int sum = 0;
-              for (IntWritable val : values) {
-                  sum += val.get();
-              }
-              result.set(sum);
-              context.write(key, result);
-          }
-      }
-      //以字符串的形式统一处理了P(X|Yi)和P(Yi)
-      ```
+    public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+        String[] fields = value.toString().split(",");
+        String y = fields[fields.length - 1]; // 假设最后一个字段是类别
 
-    - 汇总频度
+        // 统计类别的频度
+        word.set(y);
+        context.write(word, one);
+
+        // 统计类别和特征的联合频度（出现次数）
+        for (int j = 0; j < fields.length - 1; j++) {
+            word.set(y + "," + "x" + j + "," + fields[j]);
+            context.write(word, one);
+        }
+    }
+}
+
+```
+
+- 对每个类别及特征的频度进行处理
+
+- reduce
+
+
+```java
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+import java.io.IOException;
+
+public class NaiveBayesTrainReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+    private IntWritable result = new IntWritable();
+
+    public void reduce(Text key, Iterable<IntWritable> values, Context context) 
+            throws IOException, InterruptedException {
+        int sum = 0;
+        for (IntWritable val : values) {
+            sum += val.get();
+        }
+        result.set(sum);
+        context.write(key, result);
+    }
+}
+//以字符串的形式统一处理了P(X|Yi)和P(Yi)
+```
+
+- 汇总频度
 
 - 预测阶段
 
   - map
 
-    - ```java
-      import org.apache.hadoop.io.Text;
-      import org.apache.hadoop.mapreduce.Mapper;
-      import java.io.IOException;
-      import java.util.HashMap;
-      import java.util.Map;
-      
-      public class NaiveBayesTestMapper extends Mapper<Object, Text, Text, Text> {
-          private Map<String, Integer> FY = new HashMap<>(); // 类别频率
-          private Map<String, Integer> FxY = new HashMap<>(); // 属性频率
-      
-          @Override
-          protected void setup(Context context) throws IOException, InterruptedException {
-              // 初始化，读取数据 FY 和 FxY
-              // FY = ...
-              // FxY = ...
-          }
-      
-          @Override
-          public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-              String[] fields = value.toString().split(",");
-              String tsId = fields[0]; // 假设第一个字段是测试样本的ID
-              double MaxF = Double.MIN_VALUE;
-              String bestYi = null;
-      
-              for (String Yi : FY.keySet()) {
-                  double FXYi = 1.0;
-                  int FYi = FY.get(Yi);
-      
-                  for (int j = 1; j < fields.length; j++) {
-                      String xnj = "x" + (j - 1);
-                      String xvj = fields[j];
-                      String keyFxY = Yi + "," + xnj + "," + xvj;
-                      Integer FxYij = FxY.getOrDefault(keyFxY, 0);
-                      FXYi *= FxYij;
-                  }
-      
-                  if (FXYi * FYi > MaxF) {
-                      MaxF = FXYi * FYi;//实际上不乘这个FYi才更符合公式
-                      bestYi = Yi;
-                  }
-              }
-      
-              context.write(new Text(tsId), new Text(bestYi));
-          }
-      }
-      ```
 
-  - reduce
+```java
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-    - 只需要简单记录数据，甚至不需要
+public class NaiveBayesTestMapper extends Mapper<Object, Text, Text, Text> {
+    private Map<String, Integer> FY = new HashMap<>(); // 类别频率
+    private Map<String, Integer> FxY = new HashMap<>(); // 属性频率
+
+    @Override
+    protected void setup(Context context) throws IOException, InterruptedException {
+        // 初始化，读取数据 FY 和 FxY
+        // FY = ...
+        // FxY = ...
+    }
+
+    @Override
+    public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+        String[] fields = value.toString().split(",");
+        String tsId = fields[0]; // 假设第一个字段是测试样本的ID
+        double MaxF = Double.MIN_VALUE;
+        String bestYi = null;
+
+        for (String Yi : FY.keySet()) {
+            double FXYi = 1.0;
+            int FYi = FY.get(Yi);
+
+            for (int j = 1; j < fields.length; j++) {
+                String xnj = "x" + (j - 1);
+                String xvj = fields[j];
+                String keyFxY = Yi + "," + xnj + "," + xvj;
+                Integer FxYij = FxY.getOrDefault(keyFxY, 0);
+                FXYi *= FxYij;
+            }
+
+            if (FXYi * FYi > MaxF) {
+                MaxF = FXYi * FYi;//实际上不乘这个FYi才更符合公式
+                bestYi = Yi;
+            }
+        }
+
+        context.write(new Text(tsId), new Text(bestYi));
+    }
+}
+```
+
+- reduce
+
+  - 只需要简单记录数据，甚至不需要
 
 ### 决策树分类算法
 
