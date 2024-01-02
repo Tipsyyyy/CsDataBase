@@ -992,19 +992,12 @@ public class Point3D implements WritableComparable <Point3D>{
 
 #### 复合键值对
 
-- 进入Reduce的key会被自动排序，但是valueken'enkenen给bu'shbushi有序的
-- 有时value的量较大无法在本地内存完成排序，可以将value中要排序的部分**加入key构成复合键**
+- 有时value的量较大**无法在本地内存完成排序**，可以将value中要排序的部分**加入key构成复合键**
 - 需要**自己实现Partitioner**，保证**相同key**的键值要被分配到**相同**的Reduce结点
 - 例子：带频率的倒排索
   - 使用复合键`<item,docId>`
 ```java
-//复合键
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.WritableComparable;
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-
+//符合键
 public class CompositeKey implements WritableComparable<CompositeKey> {
     private Text word;
     private Text docId;
@@ -1013,15 +1006,6 @@ public class CompositeKey implements WritableComparable<CompositeKey> {
         this.word = new Text();
         this.docId = new Text();
     }
-
-    public void setWord(String word) {
-        this.word.set(word);
-    }
-
-    public void setDocId(String docId) {
-        this.docId.set(docId);
-    }
-
     @Override
     public void write(DataOutput out) throws IOException {
         word.write(out);
@@ -1048,8 +1032,6 @@ public class CompositeKey implements WritableComparable<CompositeKey> {
 ```java
 //Partitioner
 //确保相同单词的所有键值对被分配到同一个 Reducer。
-import org.apache.hadoop.mapreduce.Partitioner;
-
 public class WordPartitioner extends Partitioner<CompositeKey, IntWritable> {
     @Override
     public int getPartition(CompositeKey key, IntWritable value, int numReduceTasks) {
@@ -1060,10 +1042,6 @@ public class WordPartitioner extends Partitioner<CompositeKey, IntWritable> {
 
 ```java
 //Mapper
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Mapper;
-
 public class InvertedIndexMapper extends Mapper<Object, Text, CompositeKey, IntWritable> {
     private final static IntWritable one = new IntWritable(1);
     private CompositeKey compositeKey = new CompositeKey();
@@ -1086,9 +1064,6 @@ public class InvertedIndexMapper extends Mapper<Object, Text, CompositeKey, IntW
 
 ```java
 //Reducer
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.mapreduce.Reducer;
-
 public class InvertedIndexReducer extends Reducer<CompositeKey, IntWritable, CompositeKey, IntWritable> {
     private IntWritable result = new IntWritable();
 
@@ -1107,7 +1082,7 @@ public class InvertedIndexReducer extends Reducer<CompositeKey, IntWritable, Com
 #### 自定义输入输出类型
 
 - 自定义输入
-  - 输入格式完成输入规范检查（比如输入文件目录的检查）、对数据文件进行输入**分片**，以及提供从输入分块中将数据记录逐一读出，并转换为Map过程的输入键值对等功能。
+  - 输入格式完成**输入规范检查**（比如输入文件目录的检查）、对数据文件进行输入**分片**，以及提供从输入分块中将**数据记录逐一读出**，并**转换为Map过程的输入**键值对等功能。
 
   - InputFormat
     - 定义了输入数据被划分成 InputSplits（输入分片）的方式，以及用于读取这些分片的 `RecordReader` 实例。每个 `InputSplit` 由一个单独的 Mapper 处理。
@@ -1263,7 +1238,7 @@ public static class CreateReducer extends Reducer<Text, Text, Text, Text> {
   - 允许为每个Reducer任务定义一个**不同的OutputFormat**。这意味着你可以为每个Reducer任务指定不同的输出目录和输出文件格式。
 - 在job中绑定`job.setOutputFormatClass(MyCustomOutputFormat.class);`
 
-#### **自定义Partitioner和Combiner**
+#### 自定义Partitioner和Combiner
 
 - Partitioner
 ```java
@@ -2043,6 +2018,7 @@ public class NaiveBayesTestMapper extends Mapper<Object, Text, Text, Text> {
   - 当前结点包含的样本**全属于同一类别**，无需划分；
   - 前属性集为空，或是所有样本**在所有属性上取值相同，无法划分；**
   - 当前结点包含的**样本集合为空**，不能划分。
+
 - 决策树的构造
   - **生成节点 node**：创建一个新的决策树节点。
   - **检查是否所有样本同属一类**：如果数据集 D 中的所有样本都属于同一类别 C，则：
@@ -2064,15 +2040,17 @@ public class NaiveBayesTestMapper extends Mapper<Object, Text, Text, Text> {
     - 如果 D'不为空，则递归地应用 TreeGenerate 函数，即 TreeGenerate( D',A{a})。
     - 这意味着对于每个分支，我们都**基于剩余的属性**（A 中除去a）和**相应的子数据集** D'构建子树。
   - **以 node 为根节点的一棵决策树**：最终输出的是一个决策树，其中每个非叶节点表示一个属性测试，每个分支代表测试的一个可能结果，每个叶节点代表一个预测的类别。
+
 - 最佳划分属性的选择
   - 信息增益：
     - 信息熵是度量样本集合“纯度”最常用的一种指标。信息增益直接以信息熵为基础，**计算当前划分对 信息熵所造成的变化**。
     - 比较划分前后信息熵变化，进而得到信息增益，进行选择
   - 基尼指数：
     - 选取那个**使划分后基尼指数最小的属性**
+
 - 决策树并行算法
   - 属性的选择（信息增益率）的计算是决策树生成中耗费资源最大的阶段
-  - 使用MapReduce并行地统计计算增益率所需要的各个属性的相关信息。最后在构造决策树的主程序中利用这些统计好的信息**快速地计算出属性的增益率**，并选取最佳分裂属性。
+  - 使用 MapReduce 并行地统计计算增益率所需要的各个属性的相关信息。最后在构造决策树的主程序中利用这些统计好的信息**快速地计算出属性的增益率**，并选取最佳分裂属性。
   - 主构造程序设计：
     - 在决策树构造算法需要计算信息增益率时，调用MapReduce过程 在大规模的训练样本上进行统计，获得各个属性的统计信息，然后 利用这些信息计算出属性的信息增益率。
     - 决策树路径的构造方法基于层次切分数据的广度优先策略。
@@ -2084,23 +2062,31 @@ public class NaiveBayesTestMapper extends Mapper<Object, Text, Text, Text> {
       - 对输入的训练样本按照划分条件进行切分的处理，中间结果发射到Reduce端。
     - DecisionTreeReducer
       - 对Map端发射过来的各个属性下的零散信息，按照相同key值进行累加统计，并将最后统计的结果写入HDFS中，供主控程序计算信息增益率使用。
+### 频繁项集挖掘算法
+
+
 
 ### 分类算法评估
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231114095953883.png" alt="image-20231114095953883" style="zoom: 50%;" />
+
 - Accuracy准确率（正确率）
   - 对于给定的测试数据集，分类器正确分类的样本数与总样本数之比
   - $Accuracy =\frac{TP+Tn}{sum}$
+
 - Precision精确率(预测为true中正确的比率)
   - 预测结果中符合实际值的比例，可以理解为没有“误报”的情形
   - $Precision = \frac{TP}{TP+FP}$
+
 - Recall召回率
   - 正确的数量与应该被正确分类的数量（漏报）
   - $Recall = \frac{TP}{TP+FN}$
+
 - F1 Score
   - 精确率和召回率的调和均值
   - $\frac2{F1}=\frac1P+\frac1R$
   - $F1 = \frac{2TP}{2TP+FP+FN}$
+
 - 训练集与测试集
   - 对m个样本的数据集拆分为训练集S和测试集T
   - 留出法：
