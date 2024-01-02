@@ -483,45 +483,40 @@ public class WriteHdfsFile {
 #### Combiner
 
 - Combiner是一个**可选**的组件，用于作为Mapper的**本地Reduce操作**，以减少从Mapper到Reducer的数据传输量。
-- Combiner 的功能与 Reducer 相似，但操作在 Mapper 的局部输出上，并产生一个**汇总后的中间键值对**。
+- Combiner 的功能与 Reducer 相似，但操作在 Mapper 的局部输出上，并产生一个** 汇总后的中间键值对**。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017100742039.png" alt="image-20231017100742039" style="zoom: 80%;" />
 
 #### Partitioner & Shuffle
 
-- 在Map工作完成之后，每一个 Map函数会将结果传到对应的Reducer所在的节点，此时，用户可以提供一个Partitioner类，用来决定一个给定的(key,value)对传输的具体位置。
+- 在 Map 工作完成之后，每一个 Map 函数会将结果传到对应的 Reducer 所在的节点，此时，可以提供一个**Partitioner**类，用来决定一个给定的(key,value)对**传输的具体位置（传输到哪一个 reduce ）。**
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017101011143.png" alt="image-20231017101011143" style="zoom: 80%;" />
-- Partitioner 负责确定中间键值对应该**发送到哪个 Reduce 任务**。
-- 默认的 `HashPartitioner` 使用中间键的哈希值对 Reduce 任务数量进行取模运算，以决定该键值对应该发送到哪个 Reducer。
-- `Shuffle` 过程**实际执行这个数据传输工作**，将 Mapper 的输出按照 `Partitioner` 的决策传输到合适的 Reducer。
 
+- `Shuffle` 过程**实际执行这个数据传输工作**，将 Mapper 的输出按照 `Partitioner` 的决策传输到合适的 Reducer。
 - Shuffle过程
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017101453272.png" alt="image-20231017101453272" style="zoom:80%;" />
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113151251074.png" alt="image-20231113151251074" style="zoom:33%;" />
 
 - Shutter在map端
   - **写缓存**:
-    - 当 Map 任务开始处理数据并产生输出（即中间键值对）时，它们首先被写入一个**内存缓存**中，这通常被称为“缓冲区”或“缓存”。
+    - 当 Map 任务开始处理数据并产生输出（即中间键值对）时，它们首先被写入一个**内存缓存**中。
   - **溢出到磁盘**:
-    - 当缓存快要满时，数据会被**溢出写入磁盘**。在写入磁盘之前，数据会**按键进行排序**，并可能被 Combiner（如果设置了的话）进行**局部合并**。（由于数据已经知道最终要发送到哪个 Reducer（基于 Partitioner），因此写入磁盘时，数据会被分成**多个分区文件**，每个对应一个 Reducer。）
-    - 即在发生溢出时会自动进行**排序合并**，并依据partion（哈希）**写入到磁盘**不同分区，**并清空缓存，位继续map提供空间**
+    - 当缓存快要满时，数据会被**溢出写入磁盘**，并且自动进行**排序合并**，依据 partion（哈希）**写入到磁盘**不同分区，**清空缓存，为继续 map 提供空间**
   - **归并**:
-    - 如果一个 Map 任务多次溢出，那么为一个特定的 Reducer 写入的数据**可能分散在多个文件或段中**。这是因为每次溢出都可能产生一个新的文件或段。因此，当 Map 任务完成所有的数据处理后，为了提高效率，Hadoop 将为每个 Reducer **归并**这些多个文件或段。这样，每个 Reducer 可以从每个 Map 任务拉取一个**连续的、有序的数据块**，而不是多个小文件或数据块。
+    - 如果一个 Map 任务多次溢出，那么为一个特定的 Reducer 写入的数据**可能分散在多个文件或段中**。因此，当 Map 任务完成所有的数据处理后，Hadoop 将为每个 Reducer **归并**这些多个文件或段。
     - 文件归并时，如果溢写文件数量大于预定值（默认是3）则可以再次启动Combiner
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017103422022.png" alt="image-20231017103422022" style="zoom:67%;" />
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017103445825.png" alt="image-20231017103445825" style="zoom: 67%;" />
 
 - Shutter在reduce端
   - **拉取阶段:**
-    - 当 Map 任务完成后，Reducer 开始了其工作。首先，它需要**从每个 Map 任务节点上拉取为其生成的数据分区**。这是通过 HTTP 或其他数据传输机制完成的。
+    - Reduce 向 JobTracker 询问任务**是否完成**，如果完成则**从每个 Map 任务节点上拉取为其生成的数据分区**。
   - **合并阶段:**
     - Reduce领取数据先放入缓存，来自不同Map机器，**先归并，再合并**，写入磁盘
-    - 多个溢写文件归并成一个或多个大文件，文件中的键值对是排序的
+    - 多个溢写文件归并成一个或多个大文件，文件中的**键值对是排序的**
     - 当数据很少时，不需要溢写到磁盘，直接在缓存中归并，然后输出给Reduce
-  - **排序:**
-    - 在合并阶段中，来自 Mappers 的数据会再次按键进行排序。这确保了当 Reducer 开始处理数据时，具有相同键的所有值都是连续的。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017103849640.png" alt="image-20231017103849640" style="zoom: 67%;" />
 
-#### Sort
+##### Sort
 
 - 传输到每一个节点上的所有的Reduce函数接收到的(key,value)都会被Hadoop**自动排序**
 - 该阶段确保中间键值对按键排序。这意味着当 Reducer 开始处理数据时，**相同的键的所有值都是连续的**。
@@ -533,16 +528,15 @@ public class WriteHdfsFile {
 
 #### OutputFormat
 
-- **记录写入方式**：决定如何为每条记录**分配存储位置和格式**。例如，如果数据是文本，你可能想为每条记录添加一个换行符。
-- 每一个Reducer都写一个文件到一个共同的输出目录，文件名是part-nnnnn，其中nnnnn是与每一个reducer相关的一个号
+- **记录写入方式**：决定如何为每条记录**分配存储位置和格式**。
+- **每一个Reducer**都**写一个文件到一个共同的输出目录**，文件名是part-nnnnn，其中nnnnn是与每一个reducer相关的一个号
 
 - Hadoop 提供了多种预定义的 `OutputFormat` 实现，包括：
   - **TextOutputFormat**：这是默认的 OutputFormat，它为每个键值对生成一行文本。键和值可以用制表符分隔。
   - **SequenceFileOutputFormat**：输出的是 SequenceFile 格式的文件，适合于键值对的二进制表示。
   - **MultipleOutputs**：这允许 Reducer 为多个输出文件生成不同的格式。这对于多种输出类型的任务特别有用。
 
-- 如果预定义的 `OutputFormat` 不满足你的需求，你也可以自定义 `OutputFormat`。为此，你需要继承 `OutputFormat` 类并实现其方法，如 `getRecordWriter`、`checkOutputSpecs` 等。
-- TextOutputFormat实现了缺省的LineRecordWriter，以”key\t value”形式输出一行结果
+- 如果预定义的 `OutputFormat` 不满足需求，也可以自定义 `OutputFormat`。为此，需要继承 `OutputFormat` 类并实现其方法，如 `getRecordWriter`、`checkOutputSpecs` 等。
 
 ### 程序设计
 
@@ -789,7 +783,7 @@ log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231018165405067.png" alt="image-20231018165405067" style="zoom:50%;" />
   - 运行参数`compile exec:java -Dexec.mainClass=org.example.MergeFiles "-Dexec.args=/user/hadoop/input /user/hadoop/output"`
     - 指出主类和输入输出路径
-#### 基本框架
+#### 基本框架 
 
 - 主要需要实现 Map、Reduce 以及 main（负责运行 job）
 - 数据类型
@@ -797,7 +791,6 @@ log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1
   - LongWritable, IntWritable, Text 均是 Hadoop 中实现的用于封装 Java 数据类型的类，这些类都能够被串行化从而便于在分布式环境中进行数据交换，可以将它们分别视为 long, int, String 的替代。
   - 使用 `set get` 进行赋值和读取
 
-- 结构
 ```java
 public class WordCount {
 
@@ -815,7 +808,7 @@ public class WordCount {
 }
 ```
 
-#### Map实现
+##### Map实现
 
 ```java
 public static class TokenizerMapper
@@ -848,7 +841,7 @@ public static class TokenizerMapper
 - 实现（重写）map函数`public void map(Object key, Text value, Context context)`
   - **每次获取一个键值对并将处理后的中间结果存储**`context.write(键, 值);`
 
-#### Reduce实现
+##### Reduce实现
 
 ```java
 public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
@@ -868,14 +861,14 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
   - 输入参数中的(key,values) 是由 Map 任务输出的中间结果，values 是一个Iterator，遍历这个 Iterator，就可以得到属于同一个 key的所有value。（这是由归并造成的）
   - reduce就是负责把这样的多个结果进行合并
 
-#### 生命周期函数
+##### 生命周期函数
 
 - `setup(Context context)`，这个方法在 `Mapper` 或 `Reducer` **任务开始**之前执行，它只执行一次。
   - 它常用于一次性的初始化工作，如读取配置、设置计数器或从分布式缓存中读取文件。
   - `context` 参数允许你访问任务的配置。
 - `cleanup(Context context)`这个方法在 `Mapper` 或 `Reducer` **任务结束**时执行，也只执行一次。
 
-#### Main实现
+##### Main实现
 
 - 在 Hadoop 中一次计算任务称之为一个 Job，main函数主要**负责新建一个Job对象**并为之**设定相应的Mapper和Reducer类，以及输入、输出路径等**。
 

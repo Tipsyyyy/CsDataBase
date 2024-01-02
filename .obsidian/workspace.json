@@ -192,7 +192,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/金融大数据/笔记/Hadoop.md",
+                "file": "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -209,7 +209,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/金融大数据/笔记/Hadoop.md",
+                "file": "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -232,7 +232,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/金融大数据/笔记/Hadoop.md"
+                "file": "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf"
               }
             }
           },
@@ -312,15 +312,15 @@
       }
     ]
   },
-  "active": "d3bbe201a2f68ff5",
+  "active": "2af6e2c3652d6e96",
   "lastOpenFiles": [
-    "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
-    "课程/金融大数据/笔记/Hadoop.md",
-    "课程/金融大数据/期末复习.md",
-    "课程/金融大数据/课件/10 MapReduce数据挖掘基础算法 (I).pdf",
     "课程/金融大数据/课件/09 基于MapReduce的搜索引擎算法.pdf",
     "课程/金融大数据/课件/08 MapReduce Advanced Programming.pdf",
     "课程/金融大数据/课件/07 MapReduce Basic Programming (II).pdf",
+    "课程/金融大数据/期末复习.md",
+    "课程/金融大数据/笔记/Hadoop.md",
+    "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
+    "课程/金融大数据/课件/10 MapReduce数据挖掘基础算法 (I).pdf",
     "课程/金融大数据/实验/p2.md",
     "课程/金融大数据/作业/p5.md",
     "课程/金融大数据/作业/p4.md",
