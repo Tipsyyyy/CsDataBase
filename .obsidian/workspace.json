@@ -9,16 +9,6 @@
         "dimension": 34.10852713178294,
         "children": [
           {
-            "id": "3a9106a20945344d",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/金融大数据/课件/01 Big Data.pdf"
-              }
-            }
-          },
-          {
             "id": "6cb1a8b1bdd8937d",
             "type": "leaf",
             "state": {
@@ -226,7 +216,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "d615b65a4ccf8a6a",
@@ -242,7 +233,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/金融大数据/笔记/概述.md",
+                "file": "课程/金融大数据/期末复习.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -259,7 +250,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/金融大数据/笔记/概述.md",
+                "file": "课程/金融大数据/期末复习.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -282,7 +273,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/金融大数据/笔记/概述.md"
+                "file": "课程/金融大数据/期末复习.md"
               }
             }
           },
@@ -410,8 +401,9 @@
       }
     ]
   },
-  "active": "56fab8fba4807e0d",
+  "active": "649468bdb1fdb6a7",
   "lastOpenFiles": [
+    "课程/金融大数据/课件/02 Parallel Computing.pdf",
     "课程/金融大数据/期末复习.md",
     "课程/金融大数据/笔记/概述.md",
     "课程/金融大数据/课件/01 Big Data.pdf",
@@ -424,7 +416,6 @@
     "课程/金融大数据/课件/07 MapReduce Basic Programming (II).pdf",
     "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
     "课程/金融大数据/课件/05 Hadoop基本架构.pdf",
-    "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf",
     "课程/金融大数据/笔记/Hadoop.md",
     "课程/金融大数据/作业/p5.md",
     "课程/金融大数据/作业/p6.md",

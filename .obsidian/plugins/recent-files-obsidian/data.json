@@ -1,12 +1,16 @@
 {
   "recentFiles": [
     {
-      "basename": "概述",
-      "path": "课程/金融大数据/笔记/概述.md"
-    },
-    {
       "basename": "期末复习",
       "path": "课程/金融大数据/期末复习.md"
+    },
+    {
+      "basename": "02 Parallel Computing",
+      "path": "课程/金融大数据/课件/02 Parallel Computing.pdf"
+    },
+    {
+      "basename": "概述",
+      "path": "课程/金融大数据/笔记/概述.md"
     },
     {
       "basename": "01 Big Data",
@@ -75,10 +79,6 @@
     {
       "basename": "p2",
       "path": "课程/金融大数据/作业/p2.md"
-    },
-    {
-      "basename": "02 Parallel Computing",
-      "path": "课程/金融大数据/课件/02 Parallel Computing.pdf"
     },
     {
       "basename": "22 Review",
