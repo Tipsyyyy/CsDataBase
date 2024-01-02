@@ -1434,6 +1434,7 @@ JobClient.runJob(job);
 
 ### 案例应用
 
+#难点 
 #### 矩阵乘法
 
 - 数据输入：
@@ -1459,44 +1460,13 @@ B	2	2	8
 
 - reduce：
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113162806750.png" alt="image-20231113162806750" style="zoom:50%;" />
-  - 合并时对键相同的排序相乘、相加就可以得到结果
+  - 合并时对键相同的排序，（j 相同的）相乘、相加就可以得到结果
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017163110187.png" alt="image-20231017163110187" style="zoom:33%;" />
 
 #### 关系代数运算
 
-
-使用 Java 描述上述关系代数运算的 MapReduce 实现涉及更多的代码，因为 Java 语言本身是冗长的，特别是当与 Hadoop 的 API 交互时。以下是一些关系代数运算的基础 Java MapReduce 代码概述，基于 Hadoop 的 API：
-
-1. **选择 (Selection)**
-
-   **目标**：选择满足某些条件的元组。
-
-   ```java
-   public static class SelectionMapper extends Mapper<Object, Text, Text, Text> {
-       public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-           if (condition(value.toString())) {
-               context.write(key, value);
-           }
-       }
-   }
-   ```
-
-2. **投影 (Projection)**
-
-   **目标**：选择某些属性/列。
-
-   ```java
-   public static class ProjectionMapper extends Mapper<Object, Text, Text, Text> {
-       public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-           context.write(key, selectColumns(value.toString()));
-       }
-   }
-   ```
-
 3. **并集 (Union)**
-
-   **目标**：合并两个关系的元组，消除重复。
-
+   **目标**：合并两个关系的元组，**消除重复**。
    ```java
    public static class UnionMapper extends Mapper<Object, Text, Text, NullWritable> {
        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
@@ -1512,24 +1482,19 @@ B	2	2	8
    ```
 
 4. **差集 (Difference)**
-
    **目标**：从一个关系中选择不在另一个关系中的元组。
 
 5. **笛卡尔积 (Cartesian Product)**
-
 ​	<img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017164959081.png" alt="image-20231017164959081" style="zoom: 50%;" />
 
 6. **连接（Join）**
-
    ![image-20231017165035321](https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017165035321.png)
 
 #### 排序算法
 
 - TeraSort 是一种专为 MapReduce 框架优化的排序算法，用于高效地对极**大规模的数据集进行排序**。
 - TeraSort 在 Map 阶段开始之前进行**采样**操作，以确定数据的分布情况。根据采样结果，TeraSort 创建分区。每个 Reducer 负责一个分区的排序，确保数据在 Reducers 之间**均匀分布**。（TotalOrderPartitioner）
-  - 预读一小部分**数据采样**，对采样数据排序后**均分**，假设有N个reducer，则取得N-1个分割点
-    - 设reduce数目为3，采到9条记录：1,22,55,60,62,66,68,70,90
-    - 取两个分割点60,68；划分区间为：[\*,60), [60, 68), [68,\*)
+  - 假设有N个reducer，则取得N-1个分割点
   - **高效的划分模型**：对可以逐字节比较的元素（数字、字符串）可以使用字典树进行快速划分
 - Map 阶段的任务是读取输入数据并根据**分区规则**输出键值对。
 - Reduce 阶段的任务是对每个分区进行**局部排序**并输出结果。
@@ -1541,32 +1506,28 @@ B	2	2	8
 
 #### 单词同现分析算法
 
-- 如有N个单词，则同现矩阵是一个N*N矩阵
+- 如有 N 个单词，则同现矩阵是一个 N\*N 矩阵
 - $M[i,j]$表示$W[i]$与单词$W[j]$在一定范围内同现的次数
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113170924175.png" alt="image-20231113170924175" style="zoom: 33%;" />、
-- 可以使用WordPair自定义键，表示单词对，在reduce统计求和即可
-- 根据同现关系的要求（段落、句子）需要使用不同的FileInputFormat和RecordReader
+- 可以使用WordPai**r自定义键，表示单词对**，在reduce统计求和即可
+- 根据同现关系的要求（段落、句子）需要使用不同的 FileInputFormat 和 RecordReader(一次读取一行、一段...)
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113171845334.png" style="zoom:33%;" /><img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113171902813.png" alt="image-20231113171902813" style="zoom:33%;" /><img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113171913091.png" alt="image-20231113171913091" style="zoom:33%;" />
 
 #### 文档倒排索引算法
 
-- 给出一个词，取得含有词的文档列表
+- 给出一个词，取得**含有词的文档列表**
 
 - 离线处理
-
   - 爬网（Crawling）：收集数据内容
   - 索引（Indexing）：创建一个**反向索引**的过程，这个索引允许快速查找包含特定词汇的文档。提取关键词或短语，并构建一个数据结构（通常是反向索引），使得给定一个查询词，可以快速找到包含该词的所有文档。
 
 - 在线查找
-
   - 检索（Retrieval）：当用户输入一个查询时，检索系统会查找索引，找到所有相关的文档，并根据一定的排名算法对这些文档进行排序。
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113172727783.png" alt="image-20231113172727783" style="zoom:33%;" />
 
 - 简单实现
-
   - **Map 阶段**：读取文档，对每个单词输出 `<(word), (documentId)>`。
-
   - **Reduce 阶段**：合并所有单词的文档列表，并输出 `<(word), (list of documentIds)>`。
 
 
@@ -1640,8 +1601,6 @@ public class InvertedIndexDriver {
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113175348991.png" alt="image-20231113175348991" style="zoom:33%;" />
 
 - 专利被引用统计
-
-
 ```java
 public static class MapClass extends Mapper<LongWritable, Text, Text, Text>
 {
@@ -1669,9 +1628,9 @@ public static class ReduceClass extends Reducer<Text, Text, Text, Text>
 }
 ```
 
-### 综合：搜索引擎算法
+#### 综合：搜索引擎算法
 
-#### PageRank
+##### PageRank
 
 - 由搜索引擎根据网页之间相互的超链接计算的网页排名技术。PR值越高说明该网页越受欢迎
 - 基本思想：
@@ -1702,7 +1661,7 @@ public static class ReduceClass extends Reducer<Text, Text, Text, Text>
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231114005128501.png" alt="image-20231114005128501" style="zoom:33%;" />
 - 随机浏览模型的PageRank公式$R(P_i)=\frac{1-d}N+d\sum_{P_j\in B_i}\frac{R(P_j)}{L_j}$，收敛存在唯一解
 
-#### 使用MapReduce实现
+##### 使用MapReduce实现
 
 - 基本步骤
 
