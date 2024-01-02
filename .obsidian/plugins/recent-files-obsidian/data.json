@@ -5,12 +5,24 @@
       "path": "课程/金融大数据/期末复习.md"
     },
     {
+      "basename": "概述",
+      "path": "课程/金融大数据/笔记/概述.md"
+    },
+    {
       "basename": "02 Parallel Computing",
       "path": "课程/金融大数据/课件/02 Parallel Computing.pdf"
     },
     {
-      "basename": "概述",
-      "path": "课程/金融大数据/笔记/概述.md"
+      "basename": "p2",
+      "path": "课程/金融大数据/作业/p2.md"
+    },
+    {
+      "basename": "p3",
+      "path": "课程/金融大数据/作业/p3.md"
+    },
+    {
+      "basename": "p1",
+      "path": "课程/金融大数据/作业/p1.md"
     },
     {
       "basename": "01 Big Data",
@@ -19,10 +31,6 @@
     {
       "basename": "11 MapReduce数据挖掘基础算法 (II)",
       "path": "课程/金融大数据/课件/11 MapReduce数据挖掘基础算法 (II).pdf"
-    },
-    {
-      "basename": "p1",
-      "path": "课程/金融大数据/作业/p1.md"
     },
     {
       "basename": "10 MapReduce数据挖掘基础算法 (I)",
@@ -71,14 +79,6 @@
     {
       "basename": "p4",
       "path": "课程/金融大数据/作业/p4.md"
-    },
-    {
-      "basename": "p3",
-      "path": "课程/金融大数据/作业/p3.md"
-    },
-    {
-      "basename": "p2",
-      "path": "课程/金融大数据/作业/p2.md"
     },
     {
       "basename": "22 Review",
