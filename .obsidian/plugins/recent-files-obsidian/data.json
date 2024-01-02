@@ -1,8 +1,76 @@
 {
   "recentFiles": [
     {
+      "basename": "11 MapReduce数据挖掘基础算法 (II)",
+      "path": "课程/金融大数据/课件/11 MapReduce数据挖掘基础算法 (II).pdf"
+    },
+    {
+      "basename": "p1",
+      "path": "课程/金融大数据/作业/p1.md"
+    },
+    {
+      "basename": "10 MapReduce数据挖掘基础算法 (I)",
+      "path": "课程/金融大数据/课件/10 MapReduce数据挖掘基础算法 (I).pdf"
+    },
+    {
+      "basename": "09 基于MapReduce的搜索引擎算法",
+      "path": "课程/金融大数据/课件/09 基于MapReduce的搜索引擎算法.pdf"
+    },
+    {
+      "basename": "08 MapReduce Advanced Programming",
+      "path": "课程/金融大数据/课件/08 MapReduce Advanced Programming.pdf"
+    },
+    {
+      "basename": "07 MapReduce Basic Programming (II)",
+      "path": "课程/金融大数据/课件/07 MapReduce Basic Programming (II).pdf"
+    },
+    {
+      "basename": "06 MapReduce Basic Programming (I)",
+      "path": "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf"
+    },
+    {
+      "basename": "05 Hadoop基本架构",
+      "path": "课程/金融大数据/课件/05 Hadoop基本架构.pdf"
+    },
+    {
+      "basename": "04 Google MapReduce基本架构",
+      "path": "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf"
+    },
+    {
+      "basename": "03 MapReduce简介",
+      "path": "课程/金融大数据/课件/03 MapReduce简介.pdf"
+    },
+    {
       "basename": "01 Big Data",
       "path": "课程/金融大数据/课件/01 Big Data.pdf"
+    },
+    {
+      "basename": "概述",
+      "path": "课程/金融大数据/笔记/概述.md"
+    },
+    {
+      "basename": "Hadoop",
+      "path": "课程/金融大数据/笔记/Hadoop.md"
+    },
+    {
+      "basename": "p5",
+      "path": "课程/金融大数据/作业/p5.md"
+    },
+    {
+      "basename": "p6",
+      "path": "课程/金融大数据/作业/p6.md"
+    },
+    {
+      "basename": "p4",
+      "path": "课程/金融大数据/作业/p4.md"
+    },
+    {
+      "basename": "p3",
+      "path": "课程/金融大数据/作业/p3.md"
+    },
+    {
+      "basename": "p2",
+      "path": "课程/金融大数据/作业/p2.md"
     },
     {
       "basename": "02 Parallel Computing",
@@ -21,24 +89,8 @@
       "path": "课程/金融大数据/笔记/云计算.md"
     },
     {
-      "basename": "概述",
-      "path": "课程/金融大数据/笔记/概述.md"
-    },
-    {
-      "basename": "p1",
-      "path": "课程/金融大数据/作业/p1.md"
-    },
-    {
-      "basename": "p2",
-      "path": "课程/金融大数据/作业/p2.md"
-    },
-    {
       "basename": "HBase",
       "path": "课程/金融大数据/笔记/HBase.md"
-    },
-    {
-      "basename": "p4",
-      "path": "课程/金融大数据/作业/p4.md"
     },
     {
       "basename": "U8 中央处理器",
@@ -49,36 +101,12 @@
       "path": "课程/金融大数据/笔记/Hive.md"
     },
     {
-      "basename": "p3",
-      "path": "课程/金融大数据/作业/p3.md"
-    },
-    {
       "basename": "Spark",
       "path": "课程/金融大数据/笔记/Spark.md"
     },
     {
       "basename": "NoSQL",
       "path": "课程/金融大数据/笔记/NoSQL.md"
-    },
-    {
-      "basename": "Hadoop",
-      "path": "课程/金融大数据/笔记/Hadoop.md"
-    },
-    {
-      "basename": "05 Hadoop基本架构",
-      "path": "课程/金融大数据/课件/05 Hadoop基本架构.pdf"
-    },
-    {
-      "basename": "06 MapReduce Basic Programming (I)",
-      "path": "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf"
-    },
-    {
-      "basename": "04 Google MapReduce基本架构",
-      "path": "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf"
-    },
-    {
-      "basename": "03 MapReduce简介",
-      "path": "课程/金融大数据/课件/03 MapReduce简介.pdf"
     },
     {
       "basename": "编程思想",
@@ -171,34 +199,6 @@
     {
       "basename": "第4章 时序逻辑电路（2）",
       "path": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（2）.pdf"
-    },
-    {
-      "basename": "第4章 时序逻辑电路（1）",
-      "path": "课程/数字逻辑与计算机组成/课件/第4章 时序逻辑电路（1）.pdf"
-    },
-    {
-      "basename": "ps1",
-      "path": "课程/software construction/实验/ps1.md"
-    },
-    {
-      "basename": "并发编程",
-      "path": "课程/software construction/并发编程.md"
-    },
-    {
-      "basename": "正则表达式",
-      "path": "杂项/杂项/正则表达式.md"
-    },
-    {
-      "basename": "时间类",
-      "path": "java/java基础/Util/时间类.md"
-    },
-    {
-      "basename": "文档",
-      "path": "课程/software construction/文档.md"
-    },
-    {
-      "basename": "测试",
-      "path": "课程/software construction/测试.md"
     }
   ],
   "omittedPaths": [],
