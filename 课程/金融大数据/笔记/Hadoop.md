@@ -276,25 +276,14 @@ sudo apt install openjdk-8-jdk  # 安装OpenJDK 8
 
 ### 工作框架
 
-- HDFS命名空间管理
-
-  - 在HDFS1.0体系结构中，在整个HDFS集群中只有一个命名空间，并且只有唯一一个名称节点
-  - HDFS使用的是传统的分级文件体系，因此，用户可以像使用普通文件系统一样，创建、删除目录和文件，在目录间转移文件，重命名文件等。
-
 - 所有的HDFS通信协议都是构建在TCP/IP协议基础之上的
-
   - 客户端通过一个可配置的端口向名称节点主动发起TCP连接，并使用客户端协议与**名称节点**进行交互。
   - 名称节点和数据节点之间则使用数据节点协议进行交互。
 
 - 读过程
-
   - 当客户端读取数据时，从名称节点获得数据块不同副本的存放位置列表，列表中包含了副本所在的数据节点，可以调用API来确定客户端和这些数据节点所属的机架ID，当发现某个数据块副本对应的机架ID和客户端对应的机架ID相同时，就优先选择该副本读取数据，如果没有发现，就随机选择一个副本读取数据
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930104252216.png" alt="image-20230930104252216" style="zoom:33%;" />
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930104829438.png" style="zoom:33%;" />
-
-
 ```java
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -347,12 +336,8 @@ public class ReadHdfsFile {
 ```
 
 - 写过程
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930104814380.png" alt="image-20230930104814380" style="zoom:33%;" />
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930104846176.png" alt="image-20230930104846176" style="zoom:33%;" />
-
-
 ```java
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -419,9 +404,9 @@ public class WriteHdfsFile {
 
 ##### HDFS EC
 
-- 它通过对数据进行分块，然后计算出校验数据，使得各个部分的数据产生关联性。当一部分数据块丢失时，可以通过剩余的数据块和校验块计算出丢失的数据块。
+- 通过对数据进行**分块**，然后计算出校验数据，使得各个部分的数据产生关联性。当**一部分数据块丢失时**，可以通过剩余的数据块和校验块**计算出丢失的数据块**。
 - 
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930122711939.png" alt="image-20230930122711939" style="zoom:33%;" />
+- 
 - RS(k，m)表示向量由k个数据块和m个校验块构成，最多可容忍m个块（包括数据块和校验块）丢失。
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930123813153.png" alt="image-20230930123813153" style="zoom:33%;" />
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930123821527.png" alt="image-20230930123821527" style="zoom:33%;" />
