@@ -1,8 +1,24 @@
 {
   "recentFiles": [
     {
+      "basename": "Hadoop",
+      "path": "课程/金融大数据/笔记/Hadoop.md"
+    },
+    {
       "basename": "p4",
       "path": "课程/金融大数据/作业/p4.md"
+    },
+    {
+      "basename": "期末复习",
+      "path": "课程/金融大数据/期末复习.md"
+    },
+    {
+      "basename": "p5",
+      "path": "课程/金融大数据/作业/p5.md"
+    },
+    {
+      "basename": "p2",
+      "path": "课程/金融大数据/实验/p2.md"
     },
     {
       "basename": "05 Hadoop基本架构",
@@ -13,16 +29,8 @@
       "path": "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf"
     },
     {
-      "basename": "Hadoop",
-      "path": "课程/金融大数据/笔记/Hadoop.md"
-    },
-    {
       "basename": "p3",
       "path": "课程/金融大数据/作业/p3.md"
-    },
-    {
-      "basename": "期末复习",
-      "path": "课程/金融大数据/期末复习.md"
     },
     {
       "basename": "04 Google MapReduce基本架构",
@@ -37,16 +45,8 @@
       "path": "课程/金融大数据/课件/03 MapReduce简介.pdf"
     },
     {
-      "basename": "p2",
-      "path": "课程/金融大数据/实验/p2.md"
-    },
-    {
       "basename": "p6",
       "path": "课程/金融大数据/作业/p6.md"
-    },
-    {
-      "basename": "p5",
-      "path": "课程/金融大数据/作业/p5.md"
     },
     {
       "basename": "p2",

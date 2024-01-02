@@ -254,6 +254,7 @@ sudo apt install openjdk-8-jdk  # 安装OpenJDK 8
 #### 主要组件
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230929225400255.png" alt="image-20230929225400255" style="zoom:33%;" />
+
 - NameNode
   - 负责管理分布式文件系统的命名空间：
     - FsImage用于维护**文件系统树以及文件树中所有的文件和文件夹的元数据；**
@@ -263,9 +264,11 @@ sudo apt install openjdk-8-jdk  # 安装OpenJDK 8
     - 在名称节点启动的时候，它会将FsImage文件中的内容加载到内存中，之后再执行EditLog文件中的各项操作，使得内存中的元数据和实际的同步。一旦在内存中成功建立文件系统元数据的映射，则创建一个新的FsImage文件和一个空的EditLog文件。之后的更新操作会重新写到EditLog文件中。
     - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930095028690.png" alt="image-20230930095028690" style="zoom:33%;" />
   - 名称节点记录了每个文件中各个块所在的数据节点的位置信息
+
 - SecondaryNameNode
   - 用来保存名称节点中对HDFS 元数据信息的备份，并减少名称节点重启的时间。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930100758887.png" alt="image-20230930100758887" style="zoom:33%;" />
+
 - DataNode
   - 数据节点是分布式文件系统HDFS的工作节点，负责数据的存储和读取，会根据客户端或者是名称节点的调度来进行数据的存储和检索，并且向名称节点定期发送自己所存储的块的列表。
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930103603340.png" alt="image-20230930103603340" style="zoom:33%;" />
