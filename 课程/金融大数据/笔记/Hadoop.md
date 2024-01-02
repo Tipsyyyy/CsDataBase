@@ -559,8 +559,6 @@ public class WriteHdfsFile {
   - 使用`set get`进行赋值和读取
 
 - 结构
-
-
 ```java
 public class WordCount {
 
@@ -657,8 +655,6 @@ public class WordCount {
 #### 编译和运行
 
 - 编辑`pow.xml`设置依赖项
-
-
 ```xml
 <dependencies>
         <dependency>
@@ -688,37 +684,27 @@ public class WordCount {
 ```
 
 - 需要为hadoop提供编译好的jar文件
-
 - 编译并打包
-
-  - ```bash
+```bash
     javac src/*.java
     jar cvfe HelloWorld.jar HelloWorld src/*.class
     java -jar HelloWorld.jar
-    ```
-
+ ```
   - 使用idea[windows下用idea编写wordcount单词计数项目并打jar包上传到hadoop执行_wordcount 打jar-CSDN博客](https://blog.csdn.net/weixin_42370346/article/details/88688693)
 
 - 使用hadoop运行
-
   - 启动hadoop
-
     - 启动服务`start-all.sh`
     - 关闭`stop-all.sh`
     - 查看服务运行状态`jps`
-
   - 将输入文件放入HDFS：如果你的输入文件还没有在HDFS中，你需要首先使用`hadoop fs`命令将它们复制到HDFS。（一般放在/user/hadoop/）
-
-
 ```bash
 hadoop fs -mkdir -p /input-dir
 hadoop fs -put input.txt /input-dir/
 ```
 
 - 行MapReduce作业:`hadoop jar p2t1.jar /user/hadoop/input/ /user/hadoop/output/`
-
   - 注意运行前输出文件夹要不存在
-
 - 查看输出`hadoop fs -cat /output-dir/*`
 
 #### 使用idea远程连接hadoop
@@ -833,9 +819,7 @@ log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1
 ```
 
 - 修改后要重新加载
-
 - 配置运行文件（运行-编辑配置-创建maven）
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231018165405067.png" alt="image-20231018165405067" style="zoom:50%;" />
   - 运行参数`compile exec:java -Dexec.mainClass=org.example.MergeFiles "-Dexec.args=/user/hadoop/input /user/hadoop/output"`
     - 指出主类和输入输出路径
@@ -965,16 +949,10 @@ public static void main(String[] args) throws Exception{
   - setStrings方法将把一组字符串转换为用“,”隔开的一个长字符串，然后getStrings时自动再根据“,”split成一组字符串，因此，在该组中的每个字符串都不能包含“,”，否则会出错。
 
 - 传递文件
-
   - 传递`job.addCacheFile(new Path("/path/to/myfile.txt").toUri());`
-
   - 获取
-
     - 获取文件列表`Path[] localFiles = DistributedCache.getLocalCacheFiles(context.getConfiguration());`
-
     - 从文件列表中获取文件
-
-
 ```java
 //使用文件名
 for (Path localFile : localFiles) {
@@ -993,10 +971,7 @@ int fileAIndex = context.getConfiguration().getInt("fileA.index", -1);//-1给出
 ```
 
 - 直接根据文件名获取`context.getLocalCacheFiles(name)`
-
 - 读取文件
-
-
 ```java
 BufferedReader br = new BufferedReader(new FileReader(localFiles[0].toString()));
 String line;
@@ -1007,18 +982,14 @@ br.close();
 ```
 
 - 例：获取并存储-skip对应的文件
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017134051358.png" alt="image-20231017134051358" style="zoom: 50%;" />
 
 #### 自定义数据类型
 
 - 必须实现WritableComparable接口
-
   - 实现网络传输和文件存储以及进行大小比较
 
 - WritableComparable接口的实现示例
-
-
 ```java
 public class Point3D implements WritableComparable <Point3D>{
     //数据存储
@@ -1045,30 +1016,20 @@ public class Point3D implements WritableComparable <Point3D>{
     }
 }
 ```
-
 - `write(DataOutput out)`：序列化方法，用于将数据**写入到输出流**。
-
 - `readFields(DataInput in)`：反序列化方法，从输入流**读取数据**。
-
 - `compareTo(Object o)`：比较方法，用于比较两个键。
 
 - 可选
-
   - 重写 `hashCode()` 和 `equals()` 方法
 
 #### 复合键值对
 
 - 进入Reduce的key会被自动排序，但是valueken'enkenen给bu'shbushi有序的
-
 - 有时value的量较大无法在本地内存完成排序，可以将value中要排序的部分**加入key构成复合键**
-
 - 需要**自己实现Partitioner**，保证**相同key**的键值要被分配到**相同**的Reduce结点
-
 - 例子：带频率的倒排索
-
   - 使用复合键`<item,docId>`
-
-
 ```java
 //复合键
 import org.apache.hadoop.io.Text;
@@ -1179,15 +1140,12 @@ public class InvertedIndexReducer extends Reducer<CompositeKey, IntWritable, Com
 #### 自定义输入输出类型
 
 - 自定义输入
-
   - 输入格式完成输入规范检查（比如输入文件目录的检查）、对数据文件进行输入**分片**，以及提供从输入分块中将数据记录逐一读出，并转换为Map过程的输入键值对等功能。
 
   - InputFormat
-
     - 定义了输入数据被划分成 InputSplits（输入分片）的方式，以及用于读取这些分片的 `RecordReader` 实例。每个 `InputSplit` 由一个单独的 Mapper 处理。
 
   - RecordReader
-
     - 从 `InputSplit` 中提取输入记录。`RecordReader` 的实现取决于 `InputFormat`。例如，`TextInputFormat` 的 `RecordReader` 会将输入数据划分为行，每行作为一个记录。
     - `initialize(InputSplit split, TaskAttemptContext context)`：初始化 `RecordReader`。
     - `nextKeyValue()`：读取下一个键值对。
@@ -1260,18 +1218,12 @@ public class CustomRecordReader extends RecordReader<Text, Text> {
 ```
 
 - 还需要在job指定类进行配置
-
   - `job.setInputFormatClass(FileNameLocInputFormat.class);`
 
 - 自定义输出
-
   - 数据输出格式用于描述MapReduce作业的数据输出规范。
-
   - OutputFormat
-
     - 确定如何写入输出数据。确保输出目录的正确设置（例如，创建或清理输出目录）和实例化适当的 `RecordWriter`。
-
-
 ```java
 import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
@@ -1290,10 +1242,7 @@ public class MyCustomOutputFormat extends FileOutputFormat<KeyType, ValueType> {
 ```
 
 - RecordWriter
-
   - 将 `Reducer` 的输出写入到输出文件。在自定义 `RecordWriter` 类时，你需要实现 `write` 方法来定义如何处理输出键值对，以及 `close` 方法来定义清理过程。
-
-
 ```java
 import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
@@ -1318,11 +1267,8 @@ public class MyCustomRecordWriter extends RecordWriter<KeyType, ValueType> {
 ```
 
 - MultipleOutputs
-
   - 在传统的 MapReduce 作业中，无论 Map 或 Reduce 阶段的输出都只能被写入到**一个指定**的输出目录。
   - 使用 `MultipleOutputs`，可以根据需要将数据**写入多个文件或目录**，甚至可以对每个输出记录使用不同的 `OutputFormat`。
-
-
 ```java
 public static class CreateReducer extends Reducer<Text, Text, Text, Text> {
         static MultipleOutputs<Text, Text> multipleOutputs;
@@ -1347,10 +1293,7 @@ public static class CreateReducer extends Reducer<Text, Text, Text, Text> {
     }
 ```
 
-- 
-
 - MultipleOutputFormat
-
   - 允许为每个Reducer任务定义一个**不同的OutputFormat**。这意味着你可以为每个Reducer任务指定不同的输出目录和输出文件格式。
 
 - 在job中绑定`job.setOutputFormatClass(MyCustomOutputFormat.class);`

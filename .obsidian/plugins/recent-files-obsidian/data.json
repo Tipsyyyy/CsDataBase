@@ -1,36 +1,16 @@
 {
   "recentFiles": [
     {
-      "basename": "p2",
-      "path": "课程/金融大数据/实验/p2.md"
-    },
-    {
-      "basename": "p5",
-      "path": "课程/金融大数据/作业/p5.md"
-    },
-    {
-      "basename": "p4",
-      "path": "课程/金融大数据/作业/p4.md"
+      "basename": "Hadoop",
+      "path": "课程/金融大数据/笔记/Hadoop.md"
     },
     {
       "basename": "期末复习",
       "path": "课程/金融大数据/期末复习.md"
     },
     {
-      "basename": "Hadoop",
-      "path": "课程/金融大数据/笔记/Hadoop.md"
-    },
-    {
       "basename": "06 MapReduce Basic Programming (I)",
       "path": "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf"
-    },
-    {
-      "basename": "12 MapReduce数据挖掘基础算法 (III)",
-      "path": "课程/金融大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf"
-    },
-    {
-      "basename": "11 MapReduce数据挖掘基础算法 (II)",
-      "path": "课程/金融大数据/课件/11 MapReduce数据挖掘基础算法 (II).pdf"
     },
     {
       "basename": "10 MapReduce数据挖掘基础算法 (I)",
@@ -47,6 +27,26 @@
     {
       "basename": "07 MapReduce Basic Programming (II)",
       "path": "课程/金融大数据/课件/07 MapReduce Basic Programming (II).pdf"
+    },
+    {
+      "basename": "p2",
+      "path": "课程/金融大数据/实验/p2.md"
+    },
+    {
+      "basename": "p5",
+      "path": "课程/金融大数据/作业/p5.md"
+    },
+    {
+      "basename": "p4",
+      "path": "课程/金融大数据/作业/p4.md"
+    },
+    {
+      "basename": "12 MapReduce数据挖掘基础算法 (III)",
+      "path": "课程/金融大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf"
+    },
+    {
+      "basename": "11 MapReduce数据挖掘基础算法 (II)",
+      "path": "课程/金融大数据/课件/11 MapReduce数据挖掘基础算法 (II).pdf"
     },
     {
       "basename": "05 Hadoop基本架构",
