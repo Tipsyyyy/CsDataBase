@@ -833,11 +833,7 @@ public static class TokenizerMapper
 ```
 
 - 首先继承`public static class TokenizerMapper extends Mapper<LongWritable, Text, Text, IntWritable>`
-  - 这里的泛型参数表示输入输出的键-值类型
-  - **LongWritable**：这是输入键的数据类型。在处理文本文件时，它通常用于表示文件中行的位置或偏移量。
-  - **Text**：这是输入值的数据类型。当处理文本文件时，它用于表示文件中的一行文本。
-  - **Text**：这是输出键的数据类型。在许多 MapReduce 任务中，特别是“词频”之类的任务，输出键可能是单词或其他文本形式。
-  - **IntWritable**：这是输出值的数据类型。例如，在一个简单的词频统计任务中，这可能表示单词的出现次数。
+  - 这里的泛型参数表示输入输出的键-值类
 - 实现（重写）map函数`public void map(Object key, Text value, Context context)`
   - **每次获取一个键值对并将处理后的中间结果存储**`context.write(键, 值);`
 
@@ -858,21 +854,18 @@ public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWr
 ```
 
 - 实现reduce
-  - 输入参数中的(key,values) 是由 Map 任务输出的中间结果，values 是一个Iterator，遍历这个 Iterator，就可以得到属于同一个 key的所有value。（这是由归并造成的）
+  - 输入参数中的(key,values) 是由 Map 任务输出的**中间结果**，values 是一个Iterator，遍历这个 Iterator，就可以得到属于同一个 key的所有value。（这是由归并造成的）
   - reduce就是负责把这样的多个结果进行合并
 
 ##### 生命周期函数
 
 - `setup(Context context)`，这个方法在 `Mapper` 或 `Reducer` **任务开始**之前执行，它只执行一次。
-  - 它常用于一次性的初始化工作，如读取配置、设置计数器或从分布式缓存中读取文件。
-  - `context` 参数允许你访问任务的配置。
+  - 它常用于一次性的初始化工作，如**读取配置、设置计数器或从分布式缓存中读取文件。**
 - `cleanup(Context context)`这个方法在 `Mapper` 或 `Reducer` **任务结束**时执行，也只执行一次。
 
 ##### Main实现
 
 - 在 Hadoop 中一次计算任务称之为一个 Job，main函数主要**负责新建一个Job对象**并为之**设定相应的Mapper和Reducer类，以及输入、输出路径等**。
-
-
 ```java
 public static void main(String[] args) throws Exception{
     //为任务设定配置文件
@@ -907,28 +900,21 @@ public static void main(String[] args) throws Exception{
 }
 ```
 
-- `job.setJarByClass(WordCount.class);`会根据类自动去寻找包含指定类的jar文件，jar文件包含了程序运行需要的所有资源，会被拷贝到各个节点上并执行
-
-- 设置mapper和reducer则是通过.class取寻找对应的类
-
 #### 全局数据传递
 
 - 分布式缓存原先是 Hadoop 的一个特性，允许用户在作业启动之前将文件、归档和符号链接有效地传播到**每台机器的本地文件系统**，以供 MapReduce 任务使用。
 
 - 应用
-
   - **数据本地化**：确保任务可以快速访问其需要的数据而无需跨网络传输，提高了执行效率。
   - **少量的、频繁使用的数据**：如果你的 MapReduce 任务需要访问一个小而常用的查找表或字典，那么将这个文件放入分布式缓存是一个很好的选择。
   - **代码或库的共享**：如果你的任务依赖于某些动态链接库，你可以将其放入分布式缓存中以供所有任务使用。
 
 - 传递键值对
-
   - 传递`job.getConfiguration().setBoolean("wordcount.skip.patterns", true);`
   - 获取`boolean skipPatterns = context.getConfiguration().getBoolean("wordcount.skip.patterns", false);`
     - 通常在setup中进行读取
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231114001559040.png" alt="image-20231114001559040" style="zoom:50%;" />
-
   - setStrings方法将把一组字符串转换为用“,”隔开的一个长字符串，然后getStrings时自动再根据“,”split成一组字符串，因此，在该组中的每个字符串都不能包含“,”，否则会出错。
 
 - 传递文件
@@ -936,6 +922,7 @@ public static void main(String[] args) throws Exception{
   - 获取
     - 获取文件列表`Path[] localFiles = DistributedCache.getLocalCacheFiles(context.getConfiguration());`
     - 从文件列表中获取文件
+
 ```java
 //使用文件名
 for (Path localFile : localFiles) {
@@ -943,9 +930,6 @@ for (Path localFile : localFiles) {
         // 这是我们要查找的文件!
     }
 }
-```
-
-```java
 //缓存文件时记录下表
 job.getConfiguration().set("fileA.index", "0");
 job.getConfiguration().set("fileB.index", "1");
@@ -1135,7 +1119,6 @@ public class InvertedIndexReducer extends Reducer<CompositeKey, IntWritable, Com
     - `getCurrentKey()` 和 `getCurrentValue()`：返回当前读取的键和值。
     - `getProgress()`：记录读取的进度。
 
-
 ```java
 public class CustomInputFormat extends FileInputFormat<LongWritable, Text> {
 
@@ -1280,7 +1263,7 @@ public static class CreateReducer extends Reducer<Text, Text, Text, Text> {
   - 允许为每个Reducer任务定义一个**不同的OutputFormat**。这意味着你可以为每个Reducer任务指定不同的输出目录和输出文件格式。
 - 在job中绑定`job.setOutputFormatClass(MyCustomOutputFormat.class);`
 
-#### 自定义Partitioner和Combiner
+#### **自定义Partitioner和Combiner**
 
 - Partitioner
 ```java
