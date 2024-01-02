@@ -1084,11 +1084,12 @@ public class InvertedIndexReducer extends Reducer<CompositeKey, IntWritable, Com
 - 自定义输入
   - 输入格式完成**输入规范检查**（比如输入文件目录的检查）、对数据文件进行输入**分片**，以及提供从输入分块中将**数据记录逐一读出**，并**转换为Map过程的输入**键值对等功能。
 
-  - InputFormat
-    - 定义了输入数据被划分成 InputSplits（输入分片）的方式，以及用于读取这些分片的 `RecordReader` 实例。每个 `InputSplit` 由一个单独的 Mapper 处理。
+  - **InputFormat**
+    - 定义了输入数据被**划分**成 InputSplits（输入分片）的**方式**，以及用于**读取这些分片**的 `RecordReader` **实例**。每个 `InputSplit` 由一个单独的 Mapper 处理。
 
-  - RecordReader
-    - 从 `InputSplit` 中提取输入记录。`RecordReader` 的实现取决于 `InputFormat`。例如，`TextInputFormat` 的 `RecordReader` 会将输入数据划分为行，每行作为一个记录。
+  - **RecordReader**
+	  - ![image.png](https://thdlrt.oss-cn-beijing.aliyuncs.com/20240102225043.png)
+    - 从 `InputSplit` 中**提取输入记录**。`RecordReader` 的实现取决于 `InputFormat`。例如，`TextInputFormat` 的 `RecordReader` 会将输入数据划分为行，每行作为一个记录。
     - `initialize(InputSplit split, TaskAttemptContext context)`：初始化 `RecordReader`。
     - `nextKeyValue()`：读取下一个键值对。
     - `getCurrentKey()` 和 `getCurrentValue()`：返回当前读取的键和值。
@@ -1100,6 +1101,7 @@ public class CustomInputFormat extends FileInputFormat<LongWritable, Text> {
     @Override
     public RecordReader<LongWritable, Text> createRecordReader(InputSplit split, TaskAttemptContext context) {
         return new CustomRecordReader();
+	 }
 }
 
 public class CustomRecordReader extends RecordReader<Text, Text> {
@@ -1163,7 +1165,7 @@ public class CustomRecordReader extends RecordReader<Text, Text> {
 
 - 自定义输出
   - 数据输出格式用于描述MapReduce作业的数据输出规范。
-  - OutputFormat
+  - **OutputFormat**
     - 确定如何写入输出数据。确保输出目录的正确设置（例如，创建或清理输出目录）和实例化适当的 `RecordWriter`。
 ```java
 import org.apache.hadoop.mapreduce.RecordWriter;
@@ -1182,8 +1184,8 @@ public class MyCustomOutputFormat extends FileOutputFormat<KeyType, ValueType> {
 
 ```
 
-- RecordWriter
-  - 将 `Reducer` 的输出写入到输出文件。在自定义 `RecordWriter` 类时，你需要实现 `write` 方法来定义如何处理输出键值对，以及 `close` 方法来定义清理过程。
+- **RecordWriter**
+  - 将 `Reducer` 的输出**写入到输出文件**。在自定义 `RecordWriter` 类时，你需要实现 `write` 方法来定义如何处理输出键值对，以及 `close` 方法来定义清理过程。
 ```java
 import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
@@ -1207,7 +1209,7 @@ public class MyCustomRecordWriter extends RecordWriter<KeyType, ValueType> {
 
 ```
 
-- MultipleOutputs
+- **MultipleOutputs**
   - 在传统的 MapReduce 作业中，无论 Map 或 Reduce 阶段的输出都只能被写入到**一个指定**的输出目录。
   - 使用 `MultipleOutputs`，可以根据需要将数据**写入多个文件或目录**，甚至可以对每个输出记录使用不同的 `OutputFormat`。
 ```java
@@ -1221,7 +1223,7 @@ public static class CreateReducer extends Reducer<Text, Text, Text, Text> {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context)
                 throws IOException, InterruptedException {
-            //key,val,name
+            //key,val,name(输出路径)
             for(Text value : values) {
                 multipleOutputs.write(value, new Text(), key.toString());
             }
