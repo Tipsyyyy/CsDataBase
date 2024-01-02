@@ -242,7 +242,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/金融大数据/课件/01 Big Data.pdf",
+                "file": "课程/金融大数据/笔记/概述.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -259,7 +259,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/金融大数据/课件/01 Big Data.pdf",
+                "file": "课程/金融大数据/笔记/概述.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -282,7 +282,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/金融大数据/课件/01 Big Data.pdf"
+                "file": "课程/金融大数据/笔记/概述.md"
               }
             }
           },
@@ -410,11 +410,11 @@
       }
     ]
   },
-  "active": "3a9106a20945344d",
+  "active": "56fab8fba4807e0d",
   "lastOpenFiles": [
+    "课程/金融大数据/期末复习.md",
     "课程/金融大数据/笔记/概述.md",
     "课程/金融大数据/课件/01 Big Data.pdf",
-    "课程/金融大数据/期末复习.md",
     "211275022田昊东.pdf",
     "课程/金融大数据/课件/11 MapReduce数据挖掘基础算法 (II).pdf",
     "课程/金融大数据/作业/p1.md",
