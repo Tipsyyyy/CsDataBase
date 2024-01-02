@@ -211,7 +211,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/金融大数据/课件/03 MapReduce简介.pdf",
+                "file": "课程/金融大数据/期末复习.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -228,7 +228,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/金融大数据/课件/03 MapReduce简介.pdf",
+                "file": "课程/金融大数据/期末复习.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -251,7 +251,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/金融大数据/课件/03 MapReduce简介.pdf"
+                "file": "课程/金融大数据/期末复习.md"
               }
             }
           },
@@ -341,6 +341,18 @@
                     "source": false
                   }
                 }
+              },
+              {
+                "id": "09a88d84fea41553",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "课程/金融大数据/实验/p2.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
               }
             ]
           }
@@ -355,27 +367,28 @@
       }
     ]
   },
-  "active": "6b28b54a7622fcf8",
+  "active": "649468bdb1fdb6a7",
   "lastOpenFiles": [
-    "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf",
+    "课程/金融大数据/笔记/Hadoop.md",
     "课程/金融大数据/期末复习.md",
-    "课程/金融大数据/课件/03 MapReduce简介.pdf",
     "课程/金融大数据/作业/p3.md",
+    "课程/金融大数据/作业/p4.md",
+    "课程/金融大数据/课件/03 MapReduce简介.pdf",
+    "课程/金融大数据/课件/05 Hadoop基本架构.pdf",
+    "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
+    "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf",
+    "课程/金融大数据/实验/p2.md",
+    "课程/金融大数据/作业/p6.md",
+    "课程/金融大数据/作业/p5.md",
     "课程/金融大数据/作业/p2.md",
     "课程/金融大数据/课件/02 Parallel Computing.pdf",
     "课程/金融大数据/笔记/概述.md",
-    "课程/金融大数据/笔记/Hadoop.md",
     "课程/金融大数据/作业/p1.md",
     "课程/金融大数据/课件/01 Big Data.pdf",
     "211275022田昊东.pdf",
     "课程/金融大数据/课件/11 MapReduce数据挖掘基础算法 (II).pdf",
     "课程/金融大数据/课件/10 MapReduce数据挖掘基础算法 (I).pdf",
     "课程/金融大数据/课件/09 基于MapReduce的搜索引擎算法.pdf",
-    "课程/金融大数据/课件/08 MapReduce Advanced Programming.pdf",
-    "课程/金融大数据/课件/07 MapReduce Basic Programming (II).pdf",
-    "课程/金融大数据/作业/p5.md",
-    "课程/金融大数据/作业/p6.md",
-    "课程/金融大数据/作业/p4.md",
     "课程/金融大数据/笔记/云计算.md",
     "课程/金融大数据/笔记/HBase.md",
     "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
@@ -391,7 +404,6 @@
     "Blog/配置 LDAP 用户连接 Oracle-CSDN 博客.md",
     "Excalidraw/Drawing 2024-01-01 19.10.54.excalidraw.md",
     "Excalidraw/Drawing 2023-12-30 17.05.45.excalidraw.md",
-    "Excalidraw/Drawing 2023-12-26 17.46.55.excalidraw.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
