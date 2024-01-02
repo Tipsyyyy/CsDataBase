@@ -1632,23 +1632,26 @@ public static class ReduceClass extends Reducer<Text, Text, Text, Text>
 
 ##### PageRank
 
-- 由搜索引擎根据网页之间相互的超链接计算的网页排名技术。PR值越高说明该网页越受欢迎
+- 由搜索引擎根据网页之间相互的超链接计算的**网页排名**技术。PR 值越高说明该网页越受欢迎
+
 - 基本思想：
   - 一个网页要想拥有较高的PR值的条件：
-    - 有**很多**网页链接到它
-    - 有**高质量**的网页链接到它
-  - 如果网页T存在一个指向网页A的连接，则表明T的所有者认为A比较重要，从而把T的**一部分重要性**得分赋予A。$PR(T)/L(T)$
-    - T的PR值除以出链数
+    - 有**很多**网页链接到它 (数量假设)
+    - 有**高质量**的网页链接到它（质量假设）
+  - 如果网页T存在一个指向网页A的连接，则把T的**一部分重要性**得分赋予A。$R(T)/L(T)$
+    - 即T 的 PR 值除以出链数
     - 即$R(P_i)=\sum_{P_j\in B_i}\frac{R(P_j)}{L_j}$
     - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231114003830007.png" alt="image-20231114003830007" style="zoom:33%;" />
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231114004308346.png" alt="image-20231114004308346" style="zoom:33%;" />
+
 - 问题
   - 排名泄露（Rank leak）
     - 一个独立的网页如果没有外出的链接就产生排名泄漏（多次迭代后，**所有网页的PR值都趋向于0**）。
-    - 将无出度的节点递归地**从图中去掉**，待其他节点计算完毕后再添加。
-    - 对无出度的节点添加一条边，**指向那些指向它的顶点**。
+    - 将无出度的节点递归地**从图中去掉**，待其他节点**计算完毕后再添加**。
+    - 或对无出度的节点添加一条边，**指向那些指向它的顶点**。
     - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231114005118234.png" alt="image-20231114005118234" style="zoom:33%;" />
   - 排名下沉（Rank sink）
+    - ![image.png|400](https://thdlrt.oss-cn-beijing.aliyuncs.com/20240102215310.png)
     - 若网页**没有入度链接**，其PR多次迭代后趋向于0
     - 引入随机浏览模型
 
@@ -1659,40 +1662,36 @@ public static class ReduceClass extends Reducer<Text, Text, Text, Text>
   - 随机上网者**访问一个新网页的概率就等于这个网页的PageRank值**。因此这个模型更加接近于用户的行为。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231114004728108.png" alt="image-20231114004728108" style="zoom:33%;" />
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231114005128501.png" alt="image-20231114005128501" style="zoom:33%;" />
-- 随机浏览模型的PageRank公式$R(P_i)=\frac{1-d}N+d\sum_{P_j\in B_i}\frac{R(P_j)}{L_j}$，收敛存在唯一解
+- 随机浏览模型的 PageRank 公式 $R(P_i)=\frac{1-d}N+d\sum_{P_j\in B_i}\frac{R(P_j)}{L_j}$，收敛存在唯一解（有 $d-1$ 的概率随机访问一个网站）
 
 ##### 使用MapReduce实现
 
 - 基本步骤
-
-  - 建立网页之间的超链接图
-  - 迭代计算各个网页的PageRank值
-  - 按PageRank值从大到小输出
+  - 建立网页之间的**超链接图**
+  - **迭代计算**各个网页的PageRank值
+  - 按PageRank值**从大到小输出**
 
 - Phase1：GraphBuilder
-
   - 原始数据集：每行包含一个网页名，及其所链接的全部网页名。
   - Map：逐行分析原始数据, 输出<URL, (PR_init, link_list)>
   - 其中网页的URL作为key，PageRank初始值(PR_init)和网页的出度列表一起作为value
   - 该阶段的Reduce不需要做任何处理
 
 - Phase2：PageRankIter
-
   - 迭代计算PR值，直到PR值收敛或迭代预定次数。
   - Map对上阶段的 <URL, (cur_rank, link_list)>产生两种<key, value>对：
     - For each u in link_list, 输出 <u, cur_rank/|link_list|>即u得到的PR贡献值
-    - 同时在迭代过程中，传递每个网页的链接信息<URL, link_list>以维护图的结构。
+    - 同时在迭代过程中，传递每个网页的链接信息<URL, link_list>以**维护图的结构**。
   - Reduce 对 Map输出的<URL, link_list> 和多个 <u, cur_rank/|link_list|>进行合并：
     - 其中<URL, link_list> 为当前URL的链出信息；
     - <u, cur_rank/|link_list|>为每个链入网页对当前网页u所贡献的PageRank值，把这些**贡献值按公式相加**即可得到当前网页u的新的PageRank值。
-      - u和URL相同的会被分配到相同的reduce进行处理，因而可以得到一个网站的完整信息
+      - u和URL相同的会被分配到相同的reduce进行处理，因而可以**得到一个网站的完整信息**
     - 计算所有val的和，并乘上d，再加上常数(1-d) /N得到new_rank。
     - 输出 (u, (new_rank, link_list))。
 
 - Phase3：PageRankViewer
-
   - 将最终结果排序输出。
-  - 从最后一次迭代的结果读出文件，并将文件名和其PR值读出，并以PR值为key，网页名为value，并且以PR值从大到小的顺序输出
+  - 从最后一次迭代的结果读出文件，并将文件名和其PR值读出，并以**PR值为key**，网页名为value，并且以PR值从大到小的顺序输出
   - 可以继承FloatWritable创建自定义类型并重写比较函数实现倒排
 
 
@@ -1921,10 +1920,7 @@ public class KMeansReducer extends Reducer<IntWritable, Text, IntWritable, Text>
 - 本质上是统计$Yi$和$xj$在$Yi$中出现的概率
 
 - 训练阶段
-
   - map
-
-
 ```java
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -1954,10 +1950,7 @@ public class NaiveBayesTrainMapper extends Mapper<Object, Text, Text, IntWritabl
 ```
 
 - 对每个类别及特征的频度进行处理
-
 - reduce
-
-
 ```java
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -1979,14 +1972,10 @@ public class NaiveBayesTrainReducer extends Reducer<Text, IntWritable, Text, Int
 }
 //以字符串的形式统一处理了P(X|Yi)和P(Yi)
 ```
-
 - 汇总频度
 
 - 预测阶段
-
   - map
-
-
 ```java
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -2034,9 +2023,7 @@ public class NaiveBayesTestMapper extends Mapper<Object, Text, Text, Text> {
     }
 }
 ```
-
 - reduce
-
   - 只需要简单记录数据，甚至不需要
 
 ### 决策树分类算法

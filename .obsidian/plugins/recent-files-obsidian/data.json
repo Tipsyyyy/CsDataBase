@@ -1,12 +1,16 @@
 {
   "recentFiles": [
     {
-      "basename": "09 基于MapReduce的搜索引擎算法",
-      "path": "课程/金融大数据/课件/09 基于MapReduce的搜索引擎算法.pdf"
-    },
-    {
       "basename": "Hadoop",
       "path": "课程/金融大数据/笔记/Hadoop.md"
+    },
+    {
+      "basename": "期末复习",
+      "path": "课程/金融大数据/期末复习.md"
+    },
+    {
+      "basename": "09 基于MapReduce的搜索引擎算法",
+      "path": "课程/金融大数据/课件/09 基于MapReduce的搜索引擎算法.pdf"
     },
     {
       "basename": "07 MapReduce Basic Programming (II)",
@@ -19,10 +23,6 @@
     {
       "basename": "08 MapReduce Advanced Programming",
       "path": "课程/金融大数据/课件/08 MapReduce Advanced Programming.pdf"
-    },
-    {
-      "basename": "期末复习",
-      "path": "课程/金融大数据/期末复习.md"
     },
     {
       "basename": "Drawing 2024-01-02 20.44.47.excalidraw",
