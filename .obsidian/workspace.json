@@ -9,16 +9,6 @@
         "dimension": 34.10852713178294,
         "children": [
           {
-            "id": "85e8071c312252d6",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf"
-              }
-            }
-          },
-          {
             "id": "c40d09e4b488b38c",
             "type": "leaf",
             "state": {
@@ -212,7 +202,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/金融大数据/作业/p3.md",
+                "file": "课程/金融大数据/作业/p4.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -229,7 +219,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/金融大数据/作业/p3.md",
+                "file": "课程/金融大数据/作业/p4.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -252,7 +242,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/金融大数据/作业/p3.md"
+                "file": "课程/金融大数据/作业/p4.md"
               }
             }
           },
@@ -308,18 +298,6 @@
             "type": "tabs",
             "children": [
               {
-                "id": "e66911a6489b17bf",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/金融大数据/作业/p3.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
-              },
-              {
                 "id": "ab6e9d07d324c0e2",
                 "type": "leaf",
                 "state": {
@@ -368,18 +346,18 @@
       }
     ]
   },
-  "active": "e66911a6489b17bf",
+  "active": "ab6e9d07d324c0e2",
   "lastOpenFiles": [
-    "课程/金融大数据/期末复习.md",
-    "课程/金融大数据/笔记/Hadoop.md",
-    "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf",
-    "课程/金融大数据/作业/p3.md",
     "课程/金融大数据/课件/05 Hadoop基本架构.pdf",
+    "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
+    "课程/金融大数据/笔记/Hadoop.md",
+    "课程/金融大数据/作业/p4.md",
+    "课程/金融大数据/作业/p3.md",
+    "课程/金融大数据/期末复习.md",
+    "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf",
     "课程/金融大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf",
     "课程/金融大数据/课件/03 MapReduce简介.pdf",
     "课程/金融大数据/课件/实验4.pdf",
-    "课程/金融大数据/作业/p4.md",
-    "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf",
     "课程/金融大数据/实验/p2.md",
     "课程/金融大数据/作业/p6.md",
     "课程/金融大数据/作业/p5.md",
