@@ -5,12 +5,12 @@
       "path": "课程/金融大数据/笔记/Hadoop.md"
     },
     {
-      "basename": "期末复习",
-      "path": "课程/金融大数据/期末复习.md"
-    },
-    {
       "basename": "06 MapReduce Basic Programming (I)",
       "path": "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf"
+    },
+    {
+      "basename": "期末复习",
+      "path": "课程/金融大数据/期末复习.md"
     },
     {
       "basename": "10 MapReduce数据挖掘基础算法 (I)",

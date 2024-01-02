@@ -450,58 +450,54 @@ public class WriteHdfsFile {
 
 ## MapReduce编程
 
-### 主要组件
+### MapReduce 流水线
 
 #### InputFormat
 
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017095556467.png" alt="image-20231017095556467" style="zoom:80%;" />
+- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017095556467.png" alt="image-20231017095556467" style="zoom:67%;" />
 
 1. **数据分片（Splitting）**:
+   - 定义数据如何**分割和读取**
    - `InputFormat` 通常会将输入**数据切分成多个块**，称为 `InputSplit`。每个 `InputSplit` 都会被**分配给一个 Map 任务**进行处理。
-   - 分片的目的是并行处理，允许多个 Map 任务同时处理不同的数据块。
-   - InputSplit定义了**输入到单个Map任务的输入数据**（一个MapReduce程序被统称为一个Job，可能有上百个任务构成）
-     - HDFS 以固定大小的block 为基本单位存储数据，而对于MapReduce 而言，其**处理单位是split**。
-     - Hadoop为每个split创建一个Map任务，**split 的多少决定了Map任务的数目**。mapred.tasktracker.map.task.maximum用来控制某一个节点上所有map任务的最大数目。
-     - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017095524070.png" alt="image-20231017095524070" style="zoom: 50%;" />
-   - InputSplit将文件分为64MB的大小：配置文件hadoop-site.xml中的
-     mapred.min.split.size参数控制这个大小
-   - 最优的Reduce任务个数取决于集群中可用的**reduce任务槽(slot)的数目**。通常设置比reduce任务槽数目**稍微小一些**的Reduce任务个数（这样可以预留一些系统资源处理可能发生的错误）
-2. **记录读取器（Record Reader）**:
+   - InputSplit定义了**输入到单个Map任务的输入数据**
+     - HDFS 以固定大小的 block 为基本单位存储数据，而对于 MapReduce 而言，其**处理单位是 split**。（但是理想的 split 大小是 HDFS 的一个block）
+     - Hadoop为每个split创建一个Map任务，**split 的多少决定了Map任务的数目**。
+
+1. **记录读取器（Record Reader）**:
    - `InputFormat` 提供了一个 `RecordReader` 实现，用于从 `InputSplit` 中读取数据，并将数据**转换为键值对**，输出到Mapper类中。
-   - 每个 Map 任务都会有其自己的 `RecordReader` 实例。
-3. **预定义的 InputFormat 类型**:
+
+1. **预定义的 InputFormat 类型**:
    - Hadoop 提供了一些预定义的 InputFormat实现，这些实现可以处理常见的数据格式。
      - `TextInputFormat`：默认的 `InputFormat`，每行文本都被视为一个记录。键是行的字节偏移量，值是整行文本。
      - `KeyValueTextInputFormat`：每行都被视为一个键值对，键和值之间由制表符分隔。
      - `SequenceFileInputFormat`：用于读取 SequenceFiles，这是一种特殊的二进制格式，适用于 Hadoop 的数据存储。
-     - 还有很多其他的，如 `DBInputFormat`、`FixedLengthInputFormat` 等，用于处理特定类型的数据。
-4. **自定义 InputFormat**:
-   - 如果内置的 `InputFormat` 不能满足特定的数据格式需求，开发者可以实现自己的 `InputFormat`。为此，需要扩展 `InputFormat` 类，并实现相应的方法，如切分数据和生成 `RecordReader` 等。
 
+1. **自定义 InputFormat**:
+   - 如果内置的 `InputFormat` 不能满足特定的数据格式需求，开发者可以实现自己的 `InputFormat`。为此，需要扩展 `InputFormat` 类，并实现相应的方法，如切分数据和生成 `RecordReader` 等。
 #### Mapper
 
-- **功能**: Mapper的主要任务是处理输入数据并**产生中间键值对**。
-- **输入**: Mapper处理由InputFormat产生的键值对。
-- **处理**: 对于输入的每一对键值，Mapper都会产生**一或多个**中间键值对。
-- **输出**: Mapper的输出（中间键值对）被存储在本地磁盘上，等待进一步的Shuffle和Sort阶段，然后传输给Reducer。
+- Mapper 处理由 InputFormat 产生的键值对，并**生成中间键值对**。
+- 每一个 Mapper 类的实例生成了一个 Java **进程** 
+- Mapper的输出（中间键值对）被存储在本地磁盘上，等待进一步的Shuffle和Sort阶段，然后传输给Reducer。
 
 #### Combiner
 
-- **功能**: Combiner是一个可选的组件，用于作为Mapper的**本地Reduce操作**，以减少从Mapper到Reducer的数据传输量。
-- **行为**: Combiner的功能与Reducer相似，但操作在Mapper的输出上，并产生一个汇**总后的中间键值对**。
-- 是一个可选的步骤
+- Combiner是一个**可选**的组件，用于作为Mapper的**本地Reduce操作**，以减少从Mapper到Reducer的数据传输量。
+- Combiner 的功能与 Reducer 相似，但操作在 Mapper 的局部输出上，并产生一个**汇总后的中间键值对**。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017100742039.png" alt="image-20231017100742039" style="zoom: 80%;" />
 
 #### Partitioner & Shuffle
 
 - 在Map工作完成之后，每一个 Map函数会将结果传到对应的Reducer所在的节点，此时，用户可以提供一个Partitioner类，用来决定一个给定的(key,value)对传输的具体位置。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017101011143.png" alt="image-20231017101011143" style="zoom: 80%;" />
-- **功能**: Partitioner 负责确定中间键值对应该**发送到哪个 Reduce 任务**。
-- **默认行为**: 默认的 `HashPartitioner` 使用中间键的哈希值对 Reduce 任务数量进行取模运算，以决定该键值对应该发送到哪个 Reducer。
+- Partitioner 负责确定中间键值对应该**发送到哪个 Reduce 任务**。
+- 默认的 `HashPartitioner` 使用中间键的哈希值对 Reduce 任务数量进行取模运算，以决定该键值对应该发送到哪个 Reducer。
 - `Shuffle` 过程**实际执行这个数据传输工作**，将 Mapper 的输出按照 `Partitioner` 的决策传输到合适的 Reducer。
+
 - Shuffle过程
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017101453272.png" alt="image-20231017101453272" style="zoom:80%;" />
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113151251074.png" alt="image-20231113151251074" style="zoom:33%;" />
+
 - Shutter在map端
   - **写缓存**:
     - 当 Map 任务开始处理数据并产生输出（即中间键值对）时，它们首先被写入一个**内存缓存**中，这通常被称为“缓冲区”或“缓存”。
@@ -513,6 +509,7 @@ public class WriteHdfsFile {
     - 文件归并时，如果溢写文件数量大于预定值（默认是3）则可以再次启动Combiner
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017103422022.png" alt="image-20231017103422022" style="zoom:67%;" />
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017103445825.png" alt="image-20231017103445825" style="zoom: 67%;" />
+
 - Shutter在reduce端
   - **拉取阶段:**
     - 当 Map 任务完成后，Reducer 开始了其工作。首先，它需要**从每个 Map 任务节点上拉取为其生成的数据分区**。这是通过 HTTP 或其他数据传输机制完成的。
@@ -540,41 +537,14 @@ public class WriteHdfsFile {
 - 每一个Reducer都写一个文件到一个共同的输出目录，文件名是part-nnnnn，其中nnnnn是与每一个reducer相关的一个号
 
 - Hadoop 提供了多种预定义的 `OutputFormat` 实现，包括：
-
   - **TextOutputFormat**：这是默认的 OutputFormat，它为每个键值对生成一行文本。键和值可以用制表符分隔。
-
   - **SequenceFileOutputFormat**：输出的是 SequenceFile 格式的文件，适合于键值对的二进制表示。
-
   - **MultipleOutputs**：这允许 Reducer 为多个输出文件生成不同的格式。这对于多种输出类型的任务特别有用。
 
 - 如果预定义的 `OutputFormat` 不满足你的需求，你也可以自定义 `OutputFormat`。为此，你需要继承 `OutputFormat` 类并实现其方法，如 `getRecordWriter`、`checkOutputSpecs` 等。
 - TextOutputFormat实现了缺省的LineRecordWriter，以”key\t value”形式输出一行结果
 
 ### 程序设计
-
-- 主要需要实现Map、Reduce以及main（负责运行job）
-- 数据类型
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017105205309.png" alt="image-20231017105205309" style="zoom:50%;" />
-  - LongWritable, IntWritable, Text 均是 Hadoop 中实现的用于封装 Java 数据类型的类，这些类都能够被串行化从而便于在分布式环境中进行数据交换，可以将它们分别视为 long, int, String 的替代。
-  - 使用`set get`进行赋值和读取
-
-- 结构
-```java
-public class WordCount {
-
-    public static class TokenizerMapper extends Mapper<Object, Text, Text, IntWritable> {
-        // ... mapper code as before
-    }
-
-    public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-        // ... reducer code as before
-    }
-
-    public static void main(String[] args) throws Exception {
-        // ... driver code as before
-    }
-}
-```
 
 #### hdfs基本使用
 
@@ -732,10 +702,8 @@ hadoop fs -put input.txt /input-dir/
     - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231018154705592.png" alt="image-20231018154705592" style="zoom:50%;" />
 
 - 将hadoop的两个xml文件拷贝到resources文件夹
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231018165101484.png" alt="image-20231018165101484" style="zoom: 50%;" />
   - 同时新建`log4j`配置文件
-
 
 ```properties
 # Root logger option
@@ -748,9 +716,7 @@ log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
 log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
 
 ```
-
 - 更改`pom.xml`（仅供参考,我使用的jdk11）
-
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -823,7 +789,31 @@ log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231018165405067.png" alt="image-20231018165405067" style="zoom:50%;" />
   - 运行参数`compile exec:java -Dexec.mainClass=org.example.MergeFiles "-Dexec.args=/user/hadoop/input /user/hadoop/output"`
     - 指出主类和输入输出路径
+#### 基本框架
 
+- 主要需要实现 Map、Reduce 以及 main（负责运行 job）
+- 数据类型
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017105205309.png" alt="image-20231017105205309" style="zoom:50%;" />
+  - LongWritable, IntWritable, Text 均是 Hadoop 中实现的用于封装 Java 数据类型的类，这些类都能够被串行化从而便于在分布式环境中进行数据交换，可以将它们分别视为 long, int, String 的替代。
+  - 使用 `set get` 进行赋值和读取
+
+- 结构
+```java
+public class WordCount {
+
+    public static class TokenizerMapper extends Mapper<Object, Text, Text, IntWritable> {
+        // ... mapper code as before
+    }
+
+    public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+        // ... reducer code as before
+    }
+
+    public static void main(String[] args) throws Exception {
+        // ... driver code as before
+    }
+}
+```
 
 #### Map实现
 
@@ -1295,14 +1285,11 @@ public static class CreateReducer extends Reducer<Text, Text, Text, Text> {
 
 - MultipleOutputFormat
   - 允许为每个Reducer任务定义一个**不同的OutputFormat**。这意味着你可以为每个Reducer任务指定不同的输出目录和输出文件格式。
-
 - 在job中绑定`job.setOutputFormatClass(MyCustomOutputFormat.class);`
 
 #### 自定义Partitioner和Combiner
 
 - Partitioner
-
-
 ```java
 public class WordPartitioner extends Partitioner<CompositeKey, IntWritable> {
     @Override
@@ -1311,16 +1298,11 @@ public class WordPartitioner extends Partitioner<CompositeKey, IntWritable> {
     }
 }
 ```
-
 - 改变Map中间结果到Reduce节点的分区方式
-
 - 在job中设置`Job. setPartitionerClass(NewPartitioner)`
 
 - Combiner
-
   - Combiner是一种用于在Map任务输出数据传递给Reduce任务之前进行**本地聚合**的机制。它可以减少数据传输到Reduce任务的数据量，从而**提高性能**。
-
-
 ```java
 public static class NewCombiner extends Reducer
     < Text, IntWritable, Text, IntWritable >
@@ -1333,17 +1315,12 @@ public static class NewCombiner extends Reducer
     } 
 }
 ```
-
 - 在MapReduce中，**Combiner类实际上应该与Reducer类有相同的签名**，因为Combiner和Reducer都执行聚合操作。
-
 - 设置`job.setCombinerClass(IntSumCombiner.class);`
-
 - 重写Combiner主要是为了性能的提升，即在Map之后Reduce之前执行一个局部的Reduce
-
   - **减少网络传输**：在 K-Means 算法中，每个 Mapper 为每个数据点生成键值对。如果不使用 Combiner，所有这些键值对将被发送到 Reducer，这可能导致大量的网络传输。通过使用 Combiner，可以在 Map 阶段的节点上对数据进行局部聚合，从而减少需要传输的数据量。
   - **减轻 Reducer 负担**：Combiner 在每个 Map 任务所在的节点上预处理数据，只将每个簇的局部汇总信息传输给 Reducer。这意味着 Reducer 需要处理的数据量更小，从而减轻了其负担。
   - **提高总体处理速度**：通过减少网络传输和 Reducer 的数据处理量，Combiner 有助于提高整个 MapReduce 作业的处理速度。
-
 - Combiner**不应该改变Map的键值格式**
 
 #### 迭代MapReduce
@@ -1367,14 +1344,10 @@ public static class NewCombiner extends Reducer
 #### 链式MapReduce任务
 
 - 一些复杂任务难以用一趟MapReduce处理过程来完成，需要将其分为多趟简单些的MapReduce子任务完成。
-
 - 将这些子任务穿起来，前**面MapReduce任务的输出作为后面MapReduce的输入**，自动地完成顺序化的执行
-
 - 链式MapReduce中的每个子任务需要独立的jobconf，并按照前后子任务间的输入输出关系设置输入输出路径，而任务完成后所有中间过程的输出结果路径都可以删除掉
 
 - 具有两个结果的链
-
-
 ```java
 public static void main(String[] args) throws Exception {
         Configuration conf1 = new Configuration();
@@ -1407,25 +1380,17 @@ public static void main(String[] args) throws Exception {
 
     }
 ```
-
-- 这种方法可以并行执行，对于较为简单的重序直接按顺序执行mapreduce任务即可
+- 这种方法可以并行执行，对于较为简单的重序直接按顺序执行 mapreduce 任务即可
 
 - 链式执行map/reduce
-
   - 把这些前后处理步骤实现为一些辅助的Map和Reduce过程
-
   - 效率更高
-
   - ChainMapper
-
     - 连接多个 Mapper 任务，以便它们按照指定的顺序依次执行。每个 Mapper 可以接受上一个 Mapper 的输出作为输入，并将其处理后的输出传递给下一个 Mapper，从而**创建一个 Mapper 任务链。**
-
     - 配置：
-
       - 创建各个 Mapper 类：定义每个 Mapper 类，实现 `Mapper` 接口中的 `map` 方法，以完成数据处理逻辑。
       - 创建 Mapper 链：使用 `ChainMapper` 创建 Mapper 任务链，并指定每个 Mapper 类的**顺序**。
       - 配置作业：在驱动程序中配置 MapReduce 作业，并将 `ChainMapper` 对象设置为作业的 Mapper。
-
 
 ```java
 import org.apache.hadoop.conf.Configuration;
@@ -1464,12 +1429,9 @@ public class ChainedMapExample {
     }
 }
 ```
-
 - 整个Job中只能有一个Reducer，在Reducer前面可以有一个或者多个Mapper，在Reducer的后面可以有0个或者多个Mapper。
 
 - 在reduce之后添加map
-
-
 ```java
 JobConf reduceConf = new JobConf(false);
 ChainReducer.setReducer(job, Reduce.class, LongWritable.class, Text.class,
@@ -1499,8 +1461,6 @@ JobClient.runJob(job);
 #### 矩阵乘法
 
 - 数据输入：
-
-
 ```java
 A	1	1	1
 A	1	2	2
@@ -1511,11 +1471,9 @@ B	1	2	6
 B	2	1	7
 B	2	2	8
 ```
-
 - 可以直接使用TextInputFormat读取并获取每一个元素
 
 - map：
-
   - 输入格式`(matrixID,i,j,value)`
     - `matrixID` 是 'A' 或 'B'，用于区分两个矩阵。
     - `i` 和 `j` 是行号和列号。
@@ -1524,10 +1482,8 @@ B	2	2	8
     - 如 中的每一个元素 (i, j, value) 会为每个可能的 k 产生一个中间键值对`<(i,k),(A,j,value)>`
 
 - reduce：
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113162806750.png" alt="image-20231113162806750" style="zoom:50%;" />
   - 合并时对键相同的排序相乘、相加就可以得到结果
-
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017163110187.png" alt="image-20231017163110187" style="zoom:33%;" />
 
 #### 关系代数运算
