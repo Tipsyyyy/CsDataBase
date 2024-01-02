@@ -909,7 +909,7 @@ public static void main(String[] args) throws Exception{
   - **少量的、频繁使用的数据**：如果你的 MapReduce 任务需要访问一个小而常用的查找表或字典，那么将这个文件放入分布式缓存是一个很好的选择。
   - **代码或库的共享**：如果你的任务依赖于某些动态链接库，你可以将其放入分布式缓存中以供所有任务使用。
 
-- 传递键值对
+- 传递键值对（通过配置文件进行传递）
   - 传递`job.getConfiguration().setBoolean("wordcount.skip.patterns", true);`
   - 获取`boolean skipPatterns = context.getConfiguration().getBoolean("wordcount.skip.patterns", false);`
     - 通常在setup中进行读取
@@ -922,7 +922,6 @@ public static void main(String[] args) throws Exception{
   - 获取
     - 获取文件列表`Path[] localFiles = DistributedCache.getLocalCacheFiles(context.getConfiguration());`
     - 从文件列表中获取文件
-
 ```java
 //使用文件名
 for (Path localFile : localFiles) {
@@ -947,9 +946,6 @@ while ((line = br.readLine()) != null) {
 }
 br.close();
 ```
-
-- 例：获取并存储-skip对应的文件
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231017134051358.png" alt="image-20231017134051358" style="zoom: 50%;" />
 
 #### 自定义数据类型
 
@@ -1271,34 +1267,38 @@ public static class NewCombiner extends Reducer
 - 在MapReduce中，**Combiner类实际上应该与Reducer类有相同的签名**，因为Combiner和Reducer都执行聚合操作。
 - 设置`job.setCombinerClass(IntSumCombiner.class);`
 - 重写Combiner主要是为了性能的提升，即在Map之后Reduce之前执行一个局部的Reduce
-  - **减少网络传输**：在 K-Means 算法中，每个 Mapper 为每个数据点生成键值对。如果不使用 Combiner，所有这些键值对将被发送到 Reducer，这可能导致大量的网络传输。通过使用 Combiner，可以在 Map 阶段的节点上对数据进行局部聚合，从而减少需要传输的数据量。
-  - **减轻 Reducer 负担**：Combiner 在每个 Map 任务所在的节点上预处理数据，只将每个簇的局部汇总信息传输给 Reducer。这意味着 Reducer 需要处理的数据量更小，从而减轻了其负担。
+  - **减少网络传输**：通过使用 Combiner，可以在 Map 阶段的节点上对数据进行**局部聚合**，从而减少需要传输的数据量。
+  - **减轻 Reducer 负担**： Reducer 需要处理的数据量更小，从而减轻了其负担。
   - **提高总体处理速度**：通过减少网络传输和 Reducer 的数据处理量，Combiner 有助于提高整个 MapReduce 作业的处理速度。
 - Combiner**不应该改变Map的键值格式**
 
 #### 迭代MapReduce
 
-- 一些求解计算需要用迭代方法**求得逼近结果**（求解计算必须是收敛性的）。当用MapReduce进行这样的问题求解时，运行一趟MapReduce过程无法完成整个求解过程，因此，需要采用迭代方法循环运行该MapReduce过程，直到达到一个逼近结果。
+- 一些求解计算需要用迭代方法**求得逼近结果**（求解计算必须是收敛性的）。
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231113234901851.png" alt="image-20231113234901851" style="zoom:33%;" />
   - 这是一个递归式，无法直接进行计算
-  - 可以先给为止的 $PR(p_j)$ 一个假定的值如 $0.5$ 用求出的PR值反复进行迭代计算时，会越来越趋近于最终的准确结果。
-  - 需要用**迭代方法**循环运行MapReduce过程，直至第n次迭代后的结果与第n-1次的结果小于某个指定的阈值时结束，或者通过经验控制循环固定的次数。
+  - 可以先给未知未知的 $PR(p_j)$ 一个假定的值如 $0.5$ 用求出的 PR 值反复进行迭代计算时，会 **越来越趋近于最终的准确结果。**
+  - 需要用**迭代方法**循环运行 MapReduce 过程，直至第 n 次迭代后的结果与第 n-1次的结果小于某个指定的阈值时结束，或者通过经验控制循环固定的次数。
+
 - **第一次迭代**：
   - 编写一个MapReduce程序，用于执行算法的第一次迭代。这个程序包括Map和Reduce阶段，负责处理输入数据并生成中间结果。
-  - 在驱动程序中配置MapReduce任务，设置输入路径和输出路径。
+  - 在驱动程序中配置 MapReduce 任务，设置输入路径和输出路径。
+
 - **迭代阶段**：
   - 在每次迭代中，**使用前一次迭代的输出作为下一次迭代的输入**。
-  - 在每次迭代中，执行与前一次迭代不同的MapReduce任务，以便进行下一轮的处理。这些MapReduce任务可以包括Map、Reduce和Combiner等。
+  - 在每次迭代中，执行与前一次迭代不同的 MapReduce 任务，以便进行下一轮的处理。这些 MapReduce 任务可以包括 Map、Reduce 和 Combiner 等。
+
 - **控制迭代次数**：
-  - 为了控制迭代次数，以在驱动程序中设置一个循环，直到满足停止条件为止。停止条件通常是根据算法的需求来定义的，例如达到一定的收敛性或达到预定的迭代次数。
+  - 为了控制迭代次数，以在驱动程序中设置一个**循环，直到满足停止条件为止**。
+
 - **输出结果**：
-  - 在最后一轮迭代后，输出结果将包含算法的最终结果。
+  - 在最后一轮迭代后，**输出**结果将包含算法的最终结果。
 
 #### 链式MapReduce任务
 
-- 一些复杂任务难以用一趟MapReduce处理过程来完成，需要将其分为多趟简单些的MapReduce子任务完成。
-- 将这些子任务穿起来，前**面MapReduce任务的输出作为后面MapReduce的输入**，自动地完成顺序化的执行
-- 链式MapReduce中的每个子任务需要独立的jobconf，并按照前后子任务间的输入输出关系设置输入输出路径，而任务完成后所有中间过程的输出结果路径都可以删除掉
+- 一些复杂任务难以用一趟MapReduce处理过程来完成，需要将其分为多趟简单些的MapReduce**子任务**完成。
+- 将这些子任务串起来，前**面 MapReduce 任务的输出作为后面 MapReduce 的输入**，自动地完成顺序化的执行
+- 链式MapReduce中的每个子任务需要独立的jobconf，并按照前**后子任务间的输入输出关系设置输入输出路径**，而任务完成后所有中间过程的输出结果路径都可以删除掉
 
 - 具有两个结果的链
 ```java
@@ -1333,13 +1333,13 @@ public static void main(String[] args) throws Exception {
 
     }
 ```
-- 这种方法可以并行执行，对于较为简单的重序直接按顺序执行 mapreduce 任务即可
+- 这种方法**可以并行执行**，对于较为简单的程序直接按顺序执行 mapreduce 任务即
 
 - 链式执行map/reduce
   - 把这些前后处理步骤实现为一些辅助的Map和Reduce过程
   - 效率更高
   - ChainMapper
-    - 连接多个 Mapper 任务，以便它们按照指定的顺序依次执行。每个 Mapper 可以接受上一个 Mapper 的输出作为输入，并将其处理后的输出传递给下一个 Mapper，从而**创建一个 Mapper 任务链。**
+    - 连接多个 Mapper 任务，以便它们按照指定的顺序依次执行。**每个 Mapper 可以接受上一个 Mapper 的输出作为输入**，并将其处理后的输出传递给下一个 Mapper，从而**创建一个 Mapper 任务链。**
     - 配置：
       - 创建各个 Mapper 类：定义每个 Mapper 类，实现 `Mapper` 接口中的 `map` 方法，以完成数据处理逻辑。
       - 创建 Mapper 链：使用 `ChainMapper` 创建 Mapper 任务链，并指定每个 Mapper 类的**顺序**。
