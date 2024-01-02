@@ -405,16 +405,15 @@ public class WriteHdfsFile {
 ##### HDFS EC
 
 - 通过对数据进行**分块**，然后计算出校验数据，使得各个部分的数据产生关联性。当**一部分数据块丢失时**，可以通过剩余的数据块和校验块**计算出丢失的数据块**。
-- 
-- 
+- 节约存储空间，但是消耗网络带宽（获取其它数据块），消耗 CPU 资源
 - RS(k，m)表示向量由k个数据块和m个校验块构成，最多可容忍m个块（包括数据块和校验块）丢失。
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930123813153.png" alt="image-20230930123813153" style="zoom:33%;" />
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930123821527.png" alt="image-20230930123821527" style="zoom:33%;" />
 
 ##### HDFS HA
 
-- 为了解决单点故障问题，HA集群设置两个名称节点，“活跃（Active）”和“待命（Standby）”
-- 一旦活跃名称节点出现故障，就可以立即切换到待命名称节点，Zookeeper确保一个名称节点在对外服务，名称节点维护映射信息，数据节点同时向两个名称节点汇报信息
+- 为了解决单点故障问题，HA集群设置两个名称节点，**“活跃”和“待命”**
+- 一旦活跃名称节点出现故障，就可以**立即切换到待命名称节点**，Zookeeper**确保一个名称节点在对外服务**，名称节点维护映射信息，数据节点**同时**向两个名称节点汇报信息
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20230930124115543.png" alt="image-20230930124115543" style="zoom:33%;" />
 
 ### Hadoop MapReduce的基本工作原理
