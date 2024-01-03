@@ -5,6 +5,10 @@
       "path": "课程/大数据/期末复习.md"
     },
     {
+      "basename": "14 HBase基本原理与程序设计",
+      "path": "课程/大数据/课件/14 HBase基本原理与程序设计.pdf"
+    },
+    {
       "basename": "p7",
       "path": "课程/大数据/作业/p7.md"
     },
@@ -27,10 +31,6 @@
     {
       "basename": "p6",
       "path": "课程/大数据/作业/p6.md"
-    },
-    {
-      "basename": "14 HBase基本原理与程序设计",
-      "path": "课程/大数据/课件/14 HBase基本原理与程序设计.pdf"
     },
     {
       "basename": "15 Hive简介",
