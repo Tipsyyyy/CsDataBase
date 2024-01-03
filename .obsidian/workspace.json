@@ -9,16 +9,6 @@
         "dimension": 35.39445628997868,
         "children": [
           {
-            "id": "1df1d2054df92d4a",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/大数据/课件/15 Hive简介.pdf"
-              }
-            }
-          },
-          {
             "id": "bbe9c0a64583ce30",
             "type": "leaf",
             "state": {
@@ -95,18 +85,6 @@
         "dimension": 31.823027718550108,
         "children": [
           {
-            "id": "7af51db6853fa334",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "课程/大数据/笔记/Hive.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "90f459fda4b22bfd",
             "type": "leaf",
             "state": {
@@ -172,12 +150,12 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "d615b65a4ccf8a6a",
@@ -193,7 +171,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/大数据/笔记/Hive.md",
+                "file": "课程/大数据/作业/p9.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -210,7 +188,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/大数据/笔记/Hive.md",
+                "file": "课程/大数据/作业/p9.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -233,7 +211,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/大数据/笔记/Hive.md"
+                "file": "课程/大数据/作业/p9.md"
               }
             }
           },
@@ -289,18 +267,6 @@
             "type": "tabs",
             "children": [
               {
-                "id": "c42505566c71379f",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/大数据/作业/p8.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
-              },
-              {
                 "id": "ef0ca06082b3e807",
                 "type": "leaf",
                 "state": {
@@ -349,11 +315,14 @@
       }
     ]
   },
-  "active": "7af51db6853fa334",
+  "active": "ef0ca06082b3e807",
   "lastOpenFiles": [
     "课程/大数据/期末复习.md",
-    "课程/大数据/笔记/Hive.md",
+    "课程/大数据/实验/p4.md",
+    "课程/大数据/作业/p9.md",
     "课程/大数据/作业/p8.md",
+    "课程/大数据/笔记/Spark.md",
+    "课程/大数据/笔记/Hive.md",
     "课程/大数据/课件/15 Hive简介.pdf",
     "课程/大数据/课件/20 Spark Advanced Programming (II).pdf",
     "课程/大数据/课件/19 Spark Advanced Programming (I).pdf",
@@ -367,12 +336,9 @@
     "课程/大数据/笔记/NoSQL.md",
     "课程/大数据/作业/p6.md",
     "课程/大数据/课件/13 NoSQL数据库.pdf",
-    "课程/大数据/笔记/Spark.md",
     "课程/大数据/笔记/云计算.md",
     "课程/大数据/课件/21 Cloud Computing.pdf",
-    "课程/大数据/实验/p4.md",
     "课程/大数据/作业/p10.md",
-    "课程/大数据/作业/p9.md",
     "课程/大数据/笔记/Hadoop.md",
     "课程/大数据/实验/p2.md",
     "课程/大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf",

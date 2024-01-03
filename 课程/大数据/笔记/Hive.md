@@ -146,39 +146,20 @@
     - 如果之前表中存在这些列，则它们的定义将被**更新为新的类型**（如果指定了新的类型）。
     - 如果表中原本还有其他列，那么这些列将被**移除**，与这些列相关的数据也会丢失。
 
-- 数据装载 LOAD DATA
-  - 从本地路径加入数据`LOAD DATA LOCAL INPATH './examples/files/kv1.txt' OVERWRITE INTO TABLE pokes;`
-    - **本地文件**：`LOCAL`关键字指明了`kv1.txt`文件位于Hive服务所在的**本地文件系统中**，而不是在HDFS中。
-    - **文件路径**：`INPATH`后面跟着的是文件在本地文件系统中的路径。
-    - **覆盖数据**：`OVERWRITE`关键字指示Hive在将数据装入表之前，先清空表中现有的数据。如果省略此关键字，新数据将被追加到表中现有的数据**之后**。
-    - **装入表**：最后指定了目标表名`pokes`，这是数据将要装入的表。
+- **数据装载** LOAD DATA
+  - **从本地路径加入数据**`LOAD DATA LOCAL INPATH './examples/files/kv1.txt' OVERWRITE INTO TABLE pokes;`
     - 装入数据时**不会验证**数据是否符合表的模式
-  - 分区(装载到指定的分区)
-    - `LOAD DATA LOCAL INPATH './examples/files/kv2.txt' OVERWRITE INTO TABLE invites PARTITION (ds='2008-08-15');`
-    - 将本地文件系统中的`kv2.txt`文件装入到`invites`表中，并且覆盖`ds`分区为`2008-08-15`的数据。
-    - 即分区`ds='2008-08-15'`将**只包含**`kv2.txt`文件中的数据。**任何之前存在于该分区的数据都将被删除**。
-  - 从HDFS装入数据`LOAD DATA INPATH '/user/myname/kv2.txt' OVERWRITE INTO TABLE invites PARTITION (ds='2008-08-15');`
-    - 将**HDFS**中的`/user/myname/kv2.txt`文件装入
-  - 当执行`LOAD DATA`命令时，Hive**不会解析或处理数据**。它只是**简单地将文件移动**到与Hive表关联的HDFS路径下。数据在查询执行期间被解析，这是根据表定义的`ROW FORMAT`和`FIELDS TERMINATED BY`等属性来进行的。
-- 
+    - 如果是从 HDFS 装入则**移除 LOCAL 关键字**。
+  - 当执行 `LOAD DATA` 命令时，Hive**不会解析或处理数据**。它只是**简单地将文件移动**到与 Hive 表关联的 HDFS 路径下，数据在**查询执行期间被解析**。
 
-- INSERT
-
-  - `INSERT OVERWRITE DIRECTORY '/tmp/hdfs_out' SELECT a.*`写入到本地文件
-  - `INSERT OVERWRITE TABLE events`写入到表
-
-- SELECTS and FILTERS
-
-  - `SELECT a.foo FROM invites a WHERE a.ds='2008-08-15';`
-    - 这个查询从`invites`表中选择`foo`列的所有值，但仅限于分区`ds`等于`2008-08-15`的记录。这里的`a`是表`invites`的别名。
+- **SELECTS and FILTERS**
   - `SELECT a.foo FROM invites a WHERE a.ds='2008-08-15' sort by a.foo asc limit 10;`
     - 添加了一个排序和限制条件。它选择分区`ds`等于`2008-08-15`的`foo`列，然后按`foo`的值升序排序，只返回前10条记录。
   - `INSERT OVERWRITE DIRECTORY '/tmp/hdfs_out' SELECT a.* FROM invites a WHERE a.ds='2008-08-15';`
-    - 这个命令将`invites`表中分区`ds`等于`2008-08-15`的所有列的数据写入HDFS的`/tmp/hdfs_out`目录中。如果目标目录中已经有数据，`OVERWRITE`关键字会导致现有数据被替换。
-  - `INSERT OVERWRITE LOCAL DIRECTORY '/tmp/local_out' SELECT a.* FROM pokes a;`
-    - 这个命令将`pokes`表中的**所有列和记录**写入本地文件系统的`/tmp/local_out`目录中，不论它们的分区。与上一个命令类似，如果目标目录中已经有数据，它也会被替换。
+    - 这个命令将`invites`表中分区`ds`等于`2008-08-15`的所有列的数据**写入**HDFS的`/tmp/hdfs_out`目录中。如果目标目录中已经有数据，`OVERWRITE`关键字会导致现有数据被替换。
 
-- Group By
+#难点 
+- **Group By**
   - 按照一个或者多个列进行**分组**，然后对每个组进行**聚合操作**。
 ```sql
 INSERT OVERWRITE TABLE events
@@ -187,51 +168,30 @@ FROM invites a
 WHERE a.foo > 0
 GROUP BY a.bar;
 ```
-- **INSERT OVERWRITE TABLE events**：指示Hive将查询结果写入到名为`events`的表中。
-- **SELECT a.bar, count(\*)**：这是要执行的查询。它计算了`invites`表中每个不同`bar`值的数量。`count(*)`计算了每个组的记录数(聚合函数)。
-- **FROM invites a**：指定了查询的数据源表`invites`。`a`是该表的别名，用于在查询中引用表。
-- **WHERE a.foo > 0**：这是查询的过滤条件。它限制了查询只考虑`foo`列值大于0的记录。
-- **GROUP BY a.bar**：这指定了`SELECT`语句中的聚合操作应如何分组。在这里，它按照`bar`的每个不同值进行分组。（会对每个组进行聚合函数的计算）
-
+- **SELECT a.bar, count(\*)**：这是要执行的查询。它计算了 `invites` 表中每个不同 `bar` 值的数量。`count(*)` 计算了每个组的记录数(**聚合函数**)。
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231130214134775.png" alt="image-20231130214134775" style="zoom:50%;" />
 
-- Join
-  - 对两个表通过两个相同的字段**进行连接**，并查询相关的结果。
+- **Join**
+  - 对两个表通过两个**相同的字段进行连接**，并查询相关的结果。
 ```sql
 SELECT t1.bar, t1.foo, t2.foo
 FROM pokes t1 JOIN invites t2 ON t1.bar = t2.bar;
 ```
-- **SELECT t1.bar, t1.foo, t2.foo**：指定了要从`JOIN`操作的结果中选择哪些列。这里选择了`pokes`表（别名`t1`）的`bar`和`foo`列，以及`invites`表（别名`t2`）的`foo`列。
-- **FROM pokes t1 JOIN invites t2**：指明了两个表`pokes`和`invites`应该如何连接。`pokes`表被赋予了别名`t1`，而`invites`表被赋予了别名`t2`。
-- **ON t1.bar = t2.bar**：`ON`子句定义了`JOIN`操作的条件。在这里，它指定了`JOIN`操作应该在`pokes`表的`bar`列的值等于`invites`表的`bar`列的值时发生。
 
-- 排序
+- **排序**
   - order by
-    - **全局排序**：`ORDER BY`确保**整个数据集全局排序**。不管数据有多少个分区或是在多少个reducer中处理，最终的输出都是有序的。
-    - **单个Reducer**：由于需要全局排序，`ORDER BY`通常会使所有数据通过一个reducer流过，这意味着它可能会成为查询的**性能瓶颈**。
-    - **默认升序**：默认情况下，`ORDER BY`是按升序（ASC）排列的，但可以通过明确指定`DESC`来实现降序排序。
-    - **示例**：查询员工信息并按工资降序排列。
-
-    ```sql
-    SELECT * FROM emp ORDER BY sal DESC;
-    ```
-
-    - **限制和严格模式**：在Hive的严格模式（`set hive.mapred.mode = strict`）下，使用`ORDER BY`时必须与`LIMIT`子句一起使用，以避免对大量数据进行全局排序。在非严格模式（`set hive.mapred.mode=nonstrict`）下，这种限制不适用。
+    - **全局排序**：`ORDER BY` 确保**整个数据集全局排序**。
+      - 使用**单个** Reducer 因此保证全局有序，不过效率较低
+    - `SELECT * FROM emp ORDER BY sal DESC;`（默认ASC）
 
   - sort by
     - **局部排序**：`SORT BY`为**每个reducer产生一个有序的输出文件**。它只保证每个reducer的输出是有序的，但**整个数据集**不一定全局有序。
     - **多个Reducer**：可以通过设置多个reducer来提高`SORT BY`的处理速度。这样做可以使得排序操作在多个reducer上并行执行。
-    - **示例**：根据部门编号降序查看员工信息，并设置3个reducer。
-```sql
-SET mapreduce.job.reducers=3;
-SELECT * FROM emp SORT BY deptno DESC;
-```
 
 - distribute by
   - **数据分配**：`DISTRIBUTE BY`子句用于控制**哪些行被发送到哪个reducer**。这在进行聚合或排序操作时特别有用，因为它可以确保具有特定键的所有行都发送到同一个reducer。
   - **工作原理**：`DISTRIBUTE BY`根据指定字段的哈希值来分配行到不同的reducer。具有相同哈希值的行将被分配到同一个reducer。
   - **配合SORT BY使用**：通常与`SORT BY`一起使用，以便**在特定的reducer内对行进行排序**。
-  - **示例**：先按部门编号进行分区，然后在每个分区内按员工编号降序排序。
 ```sql
 INSERT OVERWRITE LOCAL DIRECTORY '/opt/module/data/distribute-result'
 SELECT * FROM emp
@@ -240,18 +200,41 @@ SORT BY empno DESC;
 ```
 
 - cluster by
-  - **结合DISTRIBUTE BY和SORT BY**：当你需要在相同的字段上执行`DISTRIBUTE BY`和`SORT BY`时，可以使用`CLUSTER BY`。它实际上是这两个子句的**简写形式**。
+  - **结合DISTRIBUTE BY和SORT BY**：当你需要在**相同的字段**上执行`DISTRIBUTE BY`和`SORT BY`时，可以使用`CLUSTER BY`。它实际上是这两个子句的**简写形式**。
   - **只支持升序排序**：使用`CLUSTER BY`时，只能按**升序**对数据进行排序。你不能指定`ASC`或`DESC`来改变排序顺序。
   - **示例**：按部门编号进行分区，并在每个分区内按部门编号升序排序。
 ```sql
 SELECT * FROM emp CLUSTER BY deptno;
-```
-这等同于：
-```sql
+//等同于
 SELECT * FROM emp DISTRIBUTE BY deptno SORT BY deptno;
 ```
 
-### 补充
+#### Hive 优化
+
+- 数据倾斜：
+  - **Key 分布不均匀**：
+    - 使用**随机值打散 key（加盐）**，尤其是在 join 或 group by 操作时，可以将数据更均匀地分布到各个 reducer 上。
+  - **业务数据本身的原因**：
+    - 分析数据分布，可能需要调整业务逻辑或数据模型来缓解倾斜。
+  - **建表考虑不周**：
+    - 在建表时考虑数据的分布和查询模式，合理使用分区和分桶策略。
+  - **SQL 本身导致的数据倾斜**：
+    - 在进行 join 操作时，选择 key 分布**最均匀**的表作为**驱动表**。
+    - 当大小表 join 时，让小表（维度较小的表）先进内存。
+    - 对于大表 join，可以通过把空值的 key 或倾斜的数据改变成一个字符串加上一个随机数，分散到不同的 reducer 上。
+
+- 优化策略
+  - **MapReduce 优化**：
+    - 尽量减少 MapReduce 作业的数量，合理安排作业的执行流程。
+  - **配置优化**：
+    - **列裁剪**：仅处理**需要的列**，避免读取不必要的数据。
+    - **分区裁剪**：只查询必要的分区，减少数据扫描量。
+    - 调整 Hive 参数，如启用 map 端聚合 `hive.map.aggr=true`，处理倾斜数据的 `hive.groupby.skewindata=true`。
+  - **程序优化**：
+    - 在 Join 操作中，遵循**小表驱动原则**，将小表或子查询放在 join 操作符的左边。
+    - 在 GROUP BY 操作中，利用 Map 端的部分聚合，以及在出现数据倾斜时进行负载均衡。
+
+### 高级操作
 
 #### 表的分区
 
@@ -382,29 +365,3 @@ CREATE FUNCTION maximumtest AS 'com.firsthigh.udaf.Maximum';
 ```sql
 SELECT maximumtest(price) FROM record_dimension;
 ```
-
-#### Hive优化
-
-- 数据倾斜：
-  - **Key分布不均匀**：
-    - 使用随机值打散key（加盐），尤其是在join或group by操作时，可以将数据更均匀地分布到各个reducer上。
-  - **业务数据本身的原因**：
-    - 分析数据分布，可能需要调整业务逻辑或数据模型来缓解倾斜。
-  - **建表考虑不周**：
-    - 在建表时考虑数据的分布和查询模式，合理使用分区和分桶策略。
-  - **SQL本身导致的数据倾斜**：
-    - 在进行join操作时，选择key分布最均匀的表作为**驱动表**。
-    - 当大小表join时，让小表（维度较小的表）先进内存。
-    - 对于大表join，可以通过把空值的key或倾斜的数据改变成一个字符串加上一个随机数，分散到不同的reducer上。
-  - **处理count distinct大量相同特殊值**：
-    - 通过添加随机数或使用其他技术来改变这些值，从而减少特定值的聚集。
-- 优化策略
-  - **MapReduce优化**：
-    - 尽量减少MapReduce作业的数量，合理安排作业的执行流程。
-  - **配置优化**：
-    - **列裁剪**：仅处理需要的列，避免读取不必要的数据。
-    - **分区裁剪**：只查询必要的分区，减少数据扫描量。
-    - 调整Hive参数，如启用map端聚合`hive.map.aggr=true`，处理倾斜数据的`hive.groupby.skewindata=true`。
-  - **程序优化**：
-    - 在Join操作中，遵循**小表驱动原则**，将小表或子查询放在join操作符的左边。
-    - 在GROUP BY操作中，利用Map端的部分聚合，以及在出现数据倾斜时进行负载均衡。

@@ -1,16 +1,28 @@
 {
   "recentFiles": [
     {
-      "basename": "Hive",
-      "path": "课程/大数据/笔记/Hive.md"
+      "basename": "p9",
+      "path": "课程/大数据/作业/p9.md"
     },
     {
       "basename": "期末复习",
       "path": "课程/大数据/期末复习.md"
     },
     {
+      "basename": "p4",
+      "path": "课程/大数据/实验/p4.md"
+    },
+    {
       "basename": "p8",
       "path": "课程/大数据/作业/p8.md"
+    },
+    {
+      "basename": "Spark",
+      "path": "课程/大数据/笔记/Spark.md"
+    },
+    {
+      "basename": "Hive",
+      "path": "课程/大数据/笔记/Hive.md"
     },
     {
       "basename": "15 Hive简介",
@@ -65,10 +77,6 @@
       "path": "课程/大数据/课件/13 NoSQL数据库.pdf"
     },
     {
-      "basename": "Spark",
-      "path": "课程/大数据/笔记/Spark.md"
-    },
-    {
       "basename": "云计算",
       "path": "课程/大数据/笔记/云计算.md"
     },
@@ -77,16 +85,8 @@
       "path": "课程/大数据/课件/21 Cloud Computing.pdf"
     },
     {
-      "basename": "p4",
-      "path": "课程/大数据/实验/p4.md"
-    },
-    {
       "basename": "p10",
       "path": "课程/大数据/作业/p10.md"
-    },
-    {
-      "basename": "p9",
-      "path": "课程/大数据/作业/p9.md"
     },
     {
       "basename": "Hadoop",
