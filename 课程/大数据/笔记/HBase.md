@@ -137,17 +137,16 @@
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231123223021342.png" alt="image-20231123223021342" style="zoom:50%;" />
   - **客户端**：包含访问HBase的接口，同时在缓存中维护着已经访问过的Region位置信息，用来加快后续数据访问过程
   - **Zookeeper**：可以帮助选举出一个Master作为集群的总管，并保证在任何时刻总有唯一一个Master在运行，这就避免了Master的“单点失效”问题
-  - **Master：**主服务器Master主要负责**表和Region的管理工作**：
+  - **Master：** 主服务器 Master 主要负责表和 Region 的管理工作：
     - 管理用户对表的增加、删除、修改、查询等操作
     - 实现不同Region服务器之间的**负载均衡**
     - 在Region分裂或合并后，负责重新调整Region的分布
     - 对发生故障失效的Region服务器上的Region进行迁移
-
   - **RegionServer**：服务器是HBase中最核心的模块，负责维护分配给自己的Region，并响应用户的读写请求
 
 #### HBase数据存储管理方法
 
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231123225658399.png" alt="image-20231123225658399" style="zoom:33%;" /><img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231123225704179.png" alt="image-20231123225704179" style="zoom:33%;" />
+- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231123225704179.png" alt="image-20231123225704179" style="zoom:33%;" />
   - Region Server cluster->Region server->Region->memStore+StoreFile
 
 - region：
@@ -177,6 +176,8 @@
   - 根子表->用户表的元数据表->用户表
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231123231111940.png" alt="image-20231123231111940" style="zoom:33%;" />
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124000340457.png" alt="image-20231124000340457" style="zoom:50%;" />
+
+####  HBase
 
 - HLog
   - HBase采用HLog保证系统恢复
