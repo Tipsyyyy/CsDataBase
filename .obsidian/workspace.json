@@ -9,16 +9,6 @@
         "dimension": 35.39445628997868,
         "children": [
           {
-            "id": "fc8a2bc6c7579d8c",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/大数据/课件/14 HBase基本原理与程序设计.pdf"
-              }
-            }
-          },
-          {
             "id": "1df1d2054df92d4a",
             "type": "leaf",
             "state": {
@@ -198,8 +188,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "d615b65a4ccf8a6a",
@@ -311,18 +300,6 @@
             "type": "tabs",
             "children": [
               {
-                "id": "9a0c575c40d31a48",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/大数据/作业/p7.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
-              },
-              {
                 "id": "c42505566c71379f",
                 "type": "leaf",
                 "state": {
@@ -382,7 +359,8 @@
                   }
                 }
               }
-            ]
+            ],
+            "currentTab": 3
           }
         ],
         "direction": "vertical",
@@ -397,14 +375,14 @@
   },
   "active": "e286d01b5b4e5222",
   "lastOpenFiles": [
-    "课程/大数据/作业/p7.md",
     "课程/大数据/课件/14 HBase基本原理与程序设计.pdf",
-    "课程/大数据/期末复习.md",
     "课程/大数据/笔记/HBase.md",
     "课程/大数据/实验/p3.md",
+    "课程/大数据/期末复习.md",
+    "课程/大数据/作业/p8.md",
+    "课程/大数据/作业/p7.md",
     "课程/大数据/笔记/Hive.md",
     "课程/大数据/笔记/NoSQL.md",
-    "课程/大数据/作业/p8.md",
     "课程/大数据/作业/p6.md",
     "课程/大数据/课件/15 Hive简介.pdf",
     "课程/大数据/课件/16 Spark简介.pdf",

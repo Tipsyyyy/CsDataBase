@@ -177,23 +177,23 @@
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231123231111940.png" alt="image-20231123231111940" style="zoom:33%;" />
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124000340457.png" alt="image-20231124000340457" style="zoom:50%;" />
 
-####  HBase
+####  HBase 数据工作原理
 
 - HLog
-  - HBase采用HLog保证系统恢复
-  - HBase系统为每个Region服务器配置了一个HLog文件，它是一种预写式日志
-  - 用户更新数据必须首**先写入日志后**，才能写入MemStore缓存，并且，直到MemStore缓存内容对应的**日志已经写入磁盘**，该缓存内容才能被刷写到磁盘
+  - HBase采用HLog保证**系统恢复**
+  - HBase系统为**每个Region服务器**配置了一个HLog文件，它是一种**预写式日志**
+  - 用户更新数据必须首**先写入日志后**，才能写入MemStore缓存，直到MemStore缓存内容对应的**日志已经写入磁盘**，该缓存内容才能被刷写到磁盘
   - 故障恢复
     - **故障检测**：当Region服务器发生故障，Zookeeper检测到并通知HBase Master。
     - **HLog处理**：Master处理故障Region服务器的HLog文件。由于HLog包含**来自多个Region**的日志记录，这些记录必须被处理以恢复数据。
     - **HLog拆分**：Master根据HLog中的记录属于哪个Region，将日志数据**拆分**，把它们放入对应的Region目录下。
     - **Region重新分配**：Master将**失效的Region**重新分配到健康的Region服务器，并将**相关的HLog**记录发送给这些服务器。
     - **数据恢复**：接收新Region和HLog的Region服务器会重放日志记录中的操作，将数据写入MemStore，并最终刷新到磁盘上的StoreFile文件中，从而完成数据的恢复。
-  - 共用日志：提高对表的写操作性能；缺点：恢复时需要分拆日志
+  - 一个节点上不同Region共用日志：提高对表的写操作性能；缺点：恢复时需要分拆日志
 
 - 用户读写数据
   - 用户写入数据时，被分配到相应**Region服务器**去执行
-  - 用户数据首先被写入到MemStore和**Hlog中**
+  - 用户数据首先被写入到**MemStore**和**Hlog中**
   - 只有当**操作写入Hlog**之后，**commit()调用**才会将其返回给客户端
     - 这意味着只有写操作**安全地存储在HLog中**之后，用户才会收到写入成功的通知。
   - 当用户读取数据时，Region 服务器会**首先访问 MemStore 缓存**，如果找不到，再去磁盘上面的 StoreFile 中寻找
@@ -203,16 +203,12 @@
   - **每次刷写都生成一个新的StoreFile文件**，因此，每个Store包含多个StoreFile文件
   - 每个 Region 服务器都有一个自己的 HLog 文件，每次启动都检查该文件，确认最近一次执行缓存刷新操作之后**是否发生新的写入操作**；如果发现更新，则先写入 MemStore，再刷写到 StoreFile，最后删除旧 Hlog 文件，开始为用户提供服务
 
-- StoreFile的合并
+- **StoreFile的合并**
   - 每次刷写都生成一个新的StoreFile，数量太多，影响查找速度
   - 调用Store.compact()把多个合并成一个
   - 合并操作比较耗费资源，只有数量达到一个阈值才启动合并
   - 单个StoreFile过大时，又触发分裂操作，1个父Region被分裂成两个子Region
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124001033932.png" alt="image-20231124001033932" style="zoom:33%;" />
-
-- HBase存储格式：
-  - HFile，HBase中KeyValue数据的存储格式，HFile是Hadoop的二进制格式文件，实际上StoreFile就是对HFile做了轻量级包装，即StoreFile底层就是HFile
-  - HLogFile，HBase中WAL（Write Ahead Log）的存储格式，物理上是Hadoop的Sequence File
 
 ### 配置和安装
 
@@ -230,8 +226,8 @@
 
 - 查看有哪些表：`list`
 - 创建表：` create <table>, {NAME => <family>[, VERSIONS => <VERSIONS>]}`
-  - `create<table>,<colume cluster name>`
-  - 如`create 'myTable', {NAME => 'myFamily', VERSIONS => 3}`
+  - 如 `create 'myTable', {NAME => 'myFamily', VERSIONS => 3}`
+  - 创建时指定列族 `create 'student', 'stuInfo'`
   - `VERSIONS => <VERSIONS>`：这是一个可选配置，用来指定列族中保留的数据版本数量。
 
 - 删除表：`disable <table>`
@@ -241,21 +237,12 @@
   - `{NAME => 'f2', METHOD => 'delete'}`：第二个修改操作，它指定了删除名为`f2`的列族。这里`METHOD => 'delete'`明确指出了操作类型是删除。
 
 - disable与enable
-  - disable和enable都是HBase中比较常见的操作，很多对table的修改都需要表在disable的状态下才能进行
-  - disable ′students′将表students的状态更改为disable的时候，HBase会zookeeper中的table结点下做记录
-  - 在zookeeper记录下该表的同时，还会将表的region全部下线，region为offline状
-    态
-  - enable的过程和disable相反，会把表的所有region上线，并删除zookeeper下的标志。如果在enable前，META中有region的server信息，那么此时会在该server上将该region 上线；如果没有server的信息，那么此时还要随机选择一台机器作为该region的server
+  - disable和enable都是HBase中比较常见的操作，很多对table的修改**都需要表在disable的状态下才能进行**
 
 ##### 数据增删查改：
 
 - 添加数据：`put <table>,<rowkey>,<family:column>,<value>,<timestamp>`
-  - `<table>`: 表名
-  - `<rowkey>`: 行键
-  - `<family:column>`: 列族和列名
-  - `<value>`: 要插入的值
-  - `<timestamp>`: （可选）时间戳，用于版本控制
-- 查询某行记录（获取行）：`put <table>,<rowkey>,<family:column>,<value>,<timestamp>`
+- 查询某行记录（获取行）：`get <table>,<rowkey>[,<family:column>,<value>,<timestamp>]`
   - 可以指定列族和列名来查询特定的列，或者省略来获取整行的数据。
 
 - 扫描表(获取列)：`scan <table>, {COLUMNS => [ <family:column>,.... ], LIMIT => num}`
@@ -269,22 +256,16 @@
 - 删除行中的某个列值：`delete <table>, <rowkey>, <family:column> , <timestamp>`
 - 删除行：`deleteall '<table>', '<rowkey>'`
   - 这将删除指定行键的所有列数据
-
 - 删除表中的所有数据：`truncate <table>`
 
-##### 例子p
-
+##### 例子
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124003735850.png" alt="image-20231124003735850" style="zoom:50%;" />
-
 - 创建表
-
   - `create 'Student', 'StuInfo', 'Grades’`
 - 查看表
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124081149406.png" alt="image-20231124081149406" style="zoom: 50%;" />
   - 查看表中的数据`scan 'name'`
-
 - 修改列族
     - `alter 'Student', {NAME => 'Grades', VERSIONS => 3}`
     - 修改已有数据的列族属性时，HBase需要对列族里**所有数据**进行修改，如果数据量较大，则修改可能要占用很长时间
