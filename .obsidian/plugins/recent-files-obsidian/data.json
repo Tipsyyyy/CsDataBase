@@ -1,20 +1,20 @@
 {
   "recentFiles": [
     {
-      "basename": "期末复习",
-      "path": "课程/大数据/期末复习.md"
-    },
-    {
-      "basename": "14 HBase基本原理与程序设计",
-      "path": "课程/大数据/课件/14 HBase基本原理与程序设计.pdf"
-    },
-    {
       "basename": "p7",
       "path": "课程/大数据/作业/p7.md"
     },
     {
       "basename": "HBase",
       "path": "课程/大数据/笔记/HBase.md"
+    },
+    {
+      "basename": "14 HBase基本原理与程序设计",
+      "path": "课程/大数据/课件/14 HBase基本原理与程序设计.pdf"
+    },
+    {
+      "basename": "期末复习",
+      "path": "课程/大数据/期末复习.md"
     },
     {
       "basename": "Hive",
