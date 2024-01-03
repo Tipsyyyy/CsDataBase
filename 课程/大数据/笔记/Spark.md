@@ -10,7 +10,7 @@
   - 基于RDD之间的依赖关系组成lineage，通过重计算以及checkpoint等机制来保证整个分布式计算的容错性。
   - 只读、可分区，这个数据集的**全部或部分可以缓存在内存中**，在多次计算间重用，弹性是指内**存不够时可以与磁盘进行交换**。
 
-### Spark的生态圈
+### *Spark 的生态圈
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231209230052099.png" alt="image-20231209230052099" style="zoom:33%;" />
 
@@ -78,8 +78,6 @@
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231209232926604.png" alt="image-20231209232926604" style="zoom: 50%;" />
 
-  
-
   <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231209233409206.png" alt="image-20231209233409206" style="zoom:50%;" />
 
   - **Master Node（主节点）**：在集群部署时，Master Node充当**控制器**的角色，负责管理整个集群的正常运行，以及Worker Nodes的管理。
@@ -90,16 +88,13 @@
   - **Driver Program（驱动程序）**：运行Application main()函数并**创建SparkContext的进程**，负责提交Job，转化为Task，并协调各Executor间的Task调度。Driver Program可以运行在集群内或集群外。
   - **Application（应用程序）**：用户编写的基于Spark的程序，通过调用Spark API来实现数据处理的应用程序，**由一个Driver程序和多个Executor程序组成，以用户定义的main方法作为入口**。
   - **SparkContext**：Spark的**所有功能的主要入口点**，是用户逻辑与Spark集群交互的主要接口。通过SparkContext，**用户可以连接到Cluster Manager，申请计算资源，以及将应用程序依赖发送到Executors。**
-
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231209234619885.png" alt="image-20231209234619885" style="zoom:33%;" />
 
-- Application
-
+- Spark 应用程序的组成结构
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231209234814232.png" alt="image-20231209234814232" style="zoom:50%;" />
   - Job：包含**多个Task的并行计算**，由SparkAction催生
   - Stage：**Job拆分成多组Task**，每组任务被称为Stage，也可称为TaskSet
   - Task：基本程序执行单元，在一个Executor上执行
-
 - SparkContext：SparkContext由用户程序启动，是Spark运行的核心模块，它对一个Spark程序进行了必要的初始化过程：
   - 创建SparkConf类的实例：这个类中包含了用户自定义的**参数信息和Spark配置文件**中的一些信息等等(用户名、程序名、Spark版本等)
   - 创建SparkEnv类的实例：这个类中包含了Spark执行时所需要的**许多环境对象**，例如底层任务通讯的Akka Actor System、block manager、serializer等

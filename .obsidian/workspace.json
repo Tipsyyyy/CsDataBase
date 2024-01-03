@@ -155,7 +155,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "d615b65a4ccf8a6a",
@@ -171,7 +172,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/大数据/期末复习.md",
+                "file": "课程/大数据/课件/16 Spark简介.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -188,7 +189,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/大数据/期末复习.md",
+                "file": "课程/大数据/课件/16 Spark简介.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -211,7 +212,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/大数据/期末复习.md"
+                "file": "课程/大数据/课件/16 Spark简介.pdf"
               }
             }
           },
@@ -315,13 +316,13 @@
       }
     ]
   },
-  "active": "649468bdb1fdb6a7",
+  "active": "bbe9c0a64583ce30",
   "lastOpenFiles": [
+    "课程/大数据/笔记/Spark.md",
     "课程/大数据/作业/p9.md",
-    "课程/大数据/作业/p10.md",
     "课程/大数据/课件/16 Spark简介.pdf",
     "课程/大数据/期末复习.md",
-    "课程/大数据/笔记/Spark.md",
+    "课程/大数据/作业/p10.md",
     "课程/大数据/课件/17 Spark Basic Programming (I).pdf",
     "课程/大数据/实验/p4.md",
     "课程/大数据/作业/p8.md",
