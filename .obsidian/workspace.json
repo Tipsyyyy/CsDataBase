@@ -249,7 +249,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/金融大数据/课件/21 Cloud Computing.pdf",
+                "file": "课程/金融大数据/笔记/云计算.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -266,7 +266,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/金融大数据/课件/21 Cloud Computing.pdf",
+                "file": "课程/金融大数据/笔记/云计算.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -289,7 +289,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/金融大数据/课件/21 Cloud Computing.pdf"
+                "file": "课程/金融大数据/笔记/云计算.md"
               }
             }
           },
@@ -332,8 +332,9 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "afcafba5826a2306",
+  "active": "a76db53055341cce",
   "lastOpenFiles": [
+    "课程/金融大数据/课件/21 Cloud Computing.pdf",
     "课程/金融大数据/笔记/云计算.md",
     "课程/金融大数据/期末复习.md",
     "课程/金融大数据/笔记/Hadoop.md",
@@ -350,7 +351,6 @@
     "课程/金融大数据/作业/p5.md",
     "课程/金融大数据/笔记/Spark.md",
     "课程/金融大数据/笔记/Hive.md",
-    "课程/金融大数据/课件/21 Cloud Computing.pdf",
     "课程/金融大数据/笔记/HBase.md",
     "课程/金融大数据/课件/20 Spark Advanced Programming (II).pdf",
     "课程/金融大数据/课件/19 Spark Advanced Programming (I).pdf",
