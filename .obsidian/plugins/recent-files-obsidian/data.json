@@ -1,132 +1,132 @@
 {
   "recentFiles": [
     {
-      "basename": "云计算",
-      "path": "课程/金融大数据/笔记/云计算.md"
-    },
-    {
-      "basename": "21 Cloud Computing",
-      "path": "课程/金融大数据/课件/21 Cloud Computing.pdf"
+      "basename": "NoSQL",
+      "path": "课程/大数据/笔记/NoSQL.md"
     },
     {
       "basename": "期末复习",
-      "path": "课程/金融大数据/期末复习.md"
-    },
-    {
-      "basename": "20 Spark Advanced Programming (II)",
-      "path": "课程/金融大数据/课件/20 Spark Advanced Programming (II).pdf"
-    },
-    {
-      "basename": "p6",
-      "path": "课程/金融大数据/作业/p6.md"
-    },
-    {
-      "basename": "p4",
-      "path": "课程/金融大数据/实验/p4.md"
-    },
-    {
-      "basename": "p3",
-      "path": "课程/金融大数据/实验/p3.md"
-    },
-    {
-      "basename": "p10",
-      "path": "课程/金融大数据/作业/p10.md"
-    },
-    {
-      "basename": "p9",
-      "path": "课程/金融大数据/作业/p9.md"
-    },
-    {
-      "basename": "p8",
-      "path": "课程/金融大数据/作业/p8.md"
-    },
-    {
-      "basename": "p7",
-      "path": "课程/金融大数据/作业/p7.md"
-    },
-    {
-      "basename": "16 Spark简介",
-      "path": "课程/金融大数据/课件/16 Spark简介.pdf"
-    },
-    {
-      "basename": "15 Hive简介",
-      "path": "课程/金融大数据/课件/15 Hive简介.pdf"
-    },
-    {
-      "basename": "14 HBase基本原理与程序设计",
-      "path": "课程/金融大数据/课件/14 HBase基本原理与程序设计.pdf"
-    },
-    {
-      "basename": "17 Spark Basic Programming (I)",
-      "path": "课程/金融大数据/课件/17 Spark Basic Programming (I).pdf"
-    },
-    {
-      "basename": "Hadoop",
-      "path": "课程/金融大数据/笔记/Hadoop.md"
-    },
-    {
-      "basename": "NoSQL",
-      "path": "课程/金融大数据/笔记/NoSQL.md"
-    },
-    {
-      "basename": "p2",
-      "path": "课程/金融大数据/实验/p2.md"
-    },
-    {
-      "basename": "12 MapReduce数据挖掘基础算法 (III)",
-      "path": "课程/金融大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf"
-    },
-    {
-      "basename": "p5",
-      "path": "课程/金融大数据/作业/p5.md"
+      "path": "课程/大数据/期末复习.md"
     },
     {
       "basename": "Spark",
-      "path": "课程/金融大数据/笔记/Spark.md"
-    },
-    {
-      "basename": "Hive",
-      "path": "课程/金融大数据/笔记/Hive.md"
-    },
-    {
-      "basename": "HBase",
-      "path": "课程/金融大数据/笔记/HBase.md"
-    },
-    {
-      "basename": "19 Spark Advanced Programming (I)",
-      "path": "课程/金融大数据/课件/19 Spark Advanced Programming (I).pdf"
-    },
-    {
-      "basename": "18 Spark Basic Programming (II)",
-      "path": "课程/金融大数据/课件/18 Spark Basic Programming (II).pdf"
+      "path": "课程/大数据/笔记/Spark.md"
     },
     {
       "basename": "13 NoSQL数据库",
-      "path": "课程/金融大数据/课件/13 NoSQL数据库.pdf"
+      "path": "课程/大数据/课件/13 NoSQL数据库.pdf"
+    },
+    {
+      "basename": "17 Spark Basic Programming (I)",
+      "path": "课程/大数据/课件/17 Spark Basic Programming (I).pdf"
+    },
+    {
+      "basename": "云计算",
+      "path": "课程/大数据/笔记/云计算.md"
+    },
+    {
+      "basename": "21 Cloud Computing",
+      "path": "课程/大数据/课件/21 Cloud Computing.pdf"
+    },
+    {
+      "basename": "20 Spark Advanced Programming (II)",
+      "path": "课程/大数据/课件/20 Spark Advanced Programming (II).pdf"
+    },
+    {
+      "basename": "p6",
+      "path": "课程/大数据/作业/p6.md"
+    },
+    {
+      "basename": "p4",
+      "path": "课程/大数据/实验/p4.md"
+    },
+    {
+      "basename": "p3",
+      "path": "课程/大数据/实验/p3.md"
+    },
+    {
+      "basename": "p10",
+      "path": "课程/大数据/作业/p10.md"
+    },
+    {
+      "basename": "p9",
+      "path": "课程/大数据/作业/p9.md"
+    },
+    {
+      "basename": "p8",
+      "path": "课程/大数据/作业/p8.md"
+    },
+    {
+      "basename": "p7",
+      "path": "课程/大数据/作业/p7.md"
+    },
+    {
+      "basename": "16 Spark简介",
+      "path": "课程/大数据/课件/16 Spark简介.pdf"
+    },
+    {
+      "basename": "15 Hive简介",
+      "path": "课程/大数据/课件/15 Hive简介.pdf"
+    },
+    {
+      "basename": "14 HBase基本原理与程序设计",
+      "path": "课程/大数据/课件/14 HBase基本原理与程序设计.pdf"
+    },
+    {
+      "basename": "Hadoop",
+      "path": "课程/大数据/笔记/Hadoop.md"
+    },
+    {
+      "basename": "p2",
+      "path": "课程/大数据/实验/p2.md"
+    },
+    {
+      "basename": "12 MapReduce数据挖掘基础算法 (III)",
+      "path": "课程/大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf"
+    },
+    {
+      "basename": "p5",
+      "path": "课程/大数据/作业/p5.md"
+    },
+    {
+      "basename": "Hive",
+      "path": "课程/大数据/笔记/Hive.md"
+    },
+    {
+      "basename": "HBase",
+      "path": "课程/大数据/笔记/HBase.md"
+    },
+    {
+      "basename": "19 Spark Advanced Programming (I)",
+      "path": "课程/大数据/课件/19 Spark Advanced Programming (I).pdf"
+    },
+    {
+      "basename": "18 Spark Basic Programming (II)",
+      "path": "课程/大数据/课件/18 Spark Basic Programming (II).pdf"
     },
     {
       "basename": "11 MapReduce数据挖掘基础算法 (II)",
-      "path": "课程/金融大数据/课件/11 MapReduce数据挖掘基础算法 (II).pdf"
+      "path": "课程/大数据/课件/11 MapReduce数据挖掘基础算法 (II).pdf"
     },
     {
       "basename": "10 MapReduce数据挖掘基础算法 (I)",
-      "path": "课程/金融大数据/课件/10 MapReduce数据挖掘基础算法 (I).pdf"
+      "path": "课程/大数据/课件/10 MapReduce数据挖掘基础算法 (I).pdf"
     },
     {
       "basename": "08 MapReduce Advanced Programming",
-      "path": "课程/金融大数据/课件/08 MapReduce Advanced Programming.pdf"
+      "path": "课程/大数据/课件/08 MapReduce Advanced Programming.pdf"
     },
     {
       "basename": "09 基于MapReduce的搜索引擎算法",
-      "path": "课程/金融大数据/课件/09 基于MapReduce的搜索引擎算法.pdf"
+      "path": "课程/大数据/课件/09 基于MapReduce的搜索引擎算法.pdf"
     },
     {
       "basename": "07 MapReduce Basic Programming (II)",
-      "path": "课程/金融大数据/课件/07 MapReduce Basic Programming (II).pdf"
+      "path": "课程/大数据/课件/07 MapReduce Basic Programming (II).pdf"
     },
     {
       "basename": "06 MapReduce Basic Programming (I)",
-      "path": "课程/金融大数据/课件/06 MapReduce Basic Programming (I).pdf"
+      "path": "课程/大数据/课件/06 MapReduce Basic Programming (I).pdf"
     },
     {
       "basename": "Drawing 2024-01-02 20.44.47.excalidraw",
@@ -134,47 +134,47 @@
     },
     {
       "basename": "p4",
-      "path": "课程/金融大数据/作业/p4.md"
+      "path": "课程/大数据/作业/p4.md"
     },
     {
       "basename": "05 Hadoop基本架构",
-      "path": "课程/金融大数据/课件/05 Hadoop基本架构.pdf"
+      "path": "课程/大数据/课件/05 Hadoop基本架构.pdf"
     },
     {
       "basename": "p3",
-      "path": "课程/金融大数据/作业/p3.md"
+      "path": "课程/大数据/作业/p3.md"
     },
     {
       "basename": "04 Google MapReduce基本架构",
-      "path": "课程/金融大数据/课件/04 Google MapReduce基本架构.pdf"
+      "path": "课程/大数据/课件/04 Google MapReduce基本架构.pdf"
     },
     {
       "basename": "03 MapReduce简介",
-      "path": "课程/金融大数据/课件/03 MapReduce简介.pdf"
+      "path": "课程/大数据/课件/03 MapReduce简介.pdf"
     },
     {
       "basename": "p2",
-      "path": "课程/金融大数据/作业/p2.md"
+      "path": "课程/大数据/作业/p2.md"
     },
     {
       "basename": "02 Parallel Computing",
-      "path": "课程/金融大数据/课件/02 Parallel Computing.pdf"
+      "path": "课程/大数据/课件/02 Parallel Computing.pdf"
     },
     {
       "basename": "概述",
-      "path": "课程/金融大数据/笔记/概述.md"
+      "path": "课程/大数据/笔记/概述.md"
     },
     {
       "basename": "p1",
-      "path": "课程/金融大数据/作业/p1.md"
+      "path": "课程/大数据/作业/p1.md"
     },
     {
       "basename": "01 Big Data",
-      "path": "课程/金融大数据/课件/01 Big Data.pdf"
+      "path": "课程/大数据/课件/01 Big Data.pdf"
     },
     {
       "basename": "22 Review",
-      "path": "课程/金融大数据/课件/22 Review.pdf"
+      "path": "课程/大数据/课件/22 Review.pdf"
     },
     {
       "basename": "U8 中央处理器",
