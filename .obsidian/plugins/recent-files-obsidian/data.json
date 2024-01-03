@@ -1,12 +1,40 @@
 {
   "recentFiles": [
     {
+      "basename": "期末复习",
+      "path": "课程/大数据/期末复习.md"
+    },
+    {
+      "basename": "p7",
+      "path": "课程/大数据/作业/p7.md"
+    },
+    {
+      "basename": "HBase",
+      "path": "课程/大数据/笔记/HBase.md"
+    },
+    {
+      "basename": "Hive",
+      "path": "课程/大数据/笔记/Hive.md"
+    },
+    {
       "basename": "NoSQL",
       "path": "课程/大数据/笔记/NoSQL.md"
     },
     {
+      "basename": "p8",
+      "path": "课程/大数据/作业/p8.md"
+    },
+    {
+      "basename": "p6",
+      "path": "课程/大数据/作业/p6.md"
+    },
+    {
       "basename": "14 HBase基本原理与程序设计",
       "path": "课程/大数据/课件/14 HBase基本原理与程序设计.pdf"
+    },
+    {
+      "basename": "15 Hive简介",
+      "path": "课程/大数据/课件/15 Hive简介.pdf"
     },
     {
       "basename": "16 Spark简介",
@@ -23,26 +51,6 @@
     {
       "basename": "17 Spark Basic Programming (I)",
       "path": "课程/大数据/课件/17 Spark Basic Programming (I).pdf"
-    },
-    {
-      "basename": "15 Hive简介",
-      "path": "课程/大数据/课件/15 Hive简介.pdf"
-    },
-    {
-      "basename": "期末复习",
-      "path": "课程/大数据/期末复习.md"
-    },
-    {
-      "basename": "p6",
-      "path": "课程/大数据/作业/p6.md"
-    },
-    {
-      "basename": "p8",
-      "path": "课程/大数据/作业/p8.md"
-    },
-    {
-      "basename": "p7",
-      "path": "课程/大数据/作业/p7.md"
     },
     {
       "basename": "13 NoSQL数据库",
@@ -95,14 +103,6 @@
     {
       "basename": "p5",
       "path": "课程/大数据/作业/p5.md"
-    },
-    {
-      "basename": "Hive",
-      "path": "课程/大数据/笔记/Hive.md"
-    },
-    {
-      "basename": "HBase",
-      "path": "课程/大数据/笔记/HBase.md"
     },
     {
       "basename": "11 MapReduce数据挖掘基础算法 (II)",
