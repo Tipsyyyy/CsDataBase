@@ -5,6 +5,18 @@
       "path": "课程/金融大数据/笔记/云计算.md"
     },
     {
+      "basename": "21 Cloud Computing",
+      "path": "课程/金融大数据/课件/21 Cloud Computing.pdf"
+    },
+    {
+      "basename": "期末复习",
+      "path": "课程/金融大数据/期末复习.md"
+    },
+    {
+      "basename": "20 Spark Advanced Programming (II)",
+      "path": "课程/金融大数据/课件/20 Spark Advanced Programming (II).pdf"
+    },
+    {
       "basename": "p6",
       "path": "课程/金融大数据/作业/p6.md"
     },
@@ -33,10 +45,6 @@
       "path": "课程/金融大数据/作业/p7.md"
     },
     {
-      "basename": "21 Cloud Computing",
-      "path": "课程/金融大数据/课件/21 Cloud Computing.pdf"
-    },
-    {
       "basename": "16 Spark简介",
       "path": "课程/金融大数据/课件/16 Spark简介.pdf"
     },
@@ -51,10 +59,6 @@
     {
       "basename": "17 Spark Basic Programming (I)",
       "path": "课程/金融大数据/课件/17 Spark Basic Programming (I).pdf"
-    },
-    {
-      "basename": "期末复习",
-      "path": "课程/金融大数据/期末复习.md"
     },
     {
       "basename": "Hadoop",
@@ -87,10 +91,6 @@
     {
       "basename": "HBase",
       "path": "课程/金融大数据/笔记/HBase.md"
-    },
-    {
-      "basename": "20 Spark Advanced Programming (II)",
-      "path": "课程/金融大数据/课件/20 Spark Advanced Programming (II).pdf"
     },
     {
       "basename": "19 Spark Advanced Programming (I)",
