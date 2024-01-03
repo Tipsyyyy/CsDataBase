@@ -289,16 +289,20 @@
     - get 命令必须设置表名和行键名，同时可以选择指明列族名称、时间戳范围、数据版本等参数。`get 'Student', '0001'`
 - 查询全表数据scan
     - `scan 'Student`
-    - 条件输出`scan 'Student', {COLUMNS =>'Grades'}`
+    - 条件输出 `scan 'Student', {COLUMNS =>'Grades'}`
+      
 
+#难点 
 ##### 过滤器
 
 - 所有的过滤器都在**服务端**生效，即谓词下推。这样可以保证过滤掉的数据不会被传送到客户端，从而减轻网络传输和客户端处理的压力。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124084051034.png" alt="image-20231124084051034" style="zoom:33%;" />
 - get 和 scan 操作都可以使用过滤器来设置输出的范围
 - 如 `scan 'course', {COLUMNS => ['couInfo:C_No', 'couInfo:C_Name'], FILTER => "SingleColumnValueFilter('couInfo', 'C_Name', =, 'binary:BigData')"}`
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124084202730.png" alt="image-20231124084202730" style="zoom: 50%;" />
-  - 使用`比较器:zhi`如`substring:xx`
+
+- 使用比较器实现高级比较
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124084202730.png" alt="image-20231124084202730" style="zoom: 50%;" />
+  -  使用 `比较器:text` 如 `substring:xx`
 
 - **行键过滤器RowFilter**
   - 配合比较器和运算符，实现行键字符串的比较和过滤

@@ -3,28 +3,37 @@
 - Hive包括一个高层语言的执行引擎，类似于SQL的执行引擎
   - 支持使用类似于SQL的语句进行查询等操作（会自动翻译为对应的MapReduce序列执行）
 - Hive建立在Hadoop的其它组成部分之上，包括Hive依赖于HDFS进行数据保存，依赖于MapReduce完成查询操作。
-- Hive目的：对于大量的数据，使得数据汇总、查询和分析更加简单。它提供了SQL，允许用户简单地进行查询、汇总和数据分析。
+- Hive 目的：对于大量的数据，使得数据汇总、查询和分析更加简单。它提供了 SQL，允许用户简单地进行查询、汇总和数据分析。
+
 - 优点
   - 可扩展性：**横向扩展**，Hive 可以自由的扩展集群的规模，一般情况下不需要重启服务。
   - 延展性：Hive 支持**自定义函数**，用户可以根据自己的需求来实现自己的函数。
   - 良好的**容错性**：可以保障即使有节点出现问题，SQL 语句仍可完成执行。
+
 - 缺点
   - Hive 不支持记录级别的增删改操作，但是用户可以通过查询生成新表或者将查询结果导入到文件中（新版本支持记录级别的插入操作）
   - Hive 的**查询延时很严重**，因为 MapReduce Job的启动过程消耗很长时间，所以**不能用在交互查询系统中**。
-  - Hive不是为在线事务处理而设计，所以主要用来做 OLAP（**联机分析处理**），而不是 OLTP（**联机事务处理**）。它最适合用于传统的数据仓库任务。
-- Hive本身不存储数据，是逻辑表：通过**元数据来**描述Hdfs上的结构化文本数据，通俗点来说，就是定义一张表来描述HDFS上的结构化文本，包括各列数据名称，数据类型是什么等。
+  - Hive 不是为在线事务处理而设计，所以主要用来做 OLAP（**联机分析处理**），而不是 OLTP（**联机事务处理**）。它最适合用于传统的数据仓库任务。
+    - OLTP 是一种面向事务的数据处理方式。它主要用于管理日常事务和操作，如银行交易、零售销售等。
+    - OLAP是一种面向分析的数据处理方式。它主要用于复杂的数据分析和查询，包括趋势分析、报告生成等
+
+- Hive 本身不存储数据，是逻辑表：通过**元数据来**描述 Hdfs 上的结构化文本数据，通俗点来说，就是定义一张表来描述 HDFS 上的结构化文本，包括各列数据名称，数据类型是什么等。
+
+
 - 应用
   - 日志分析
   - 数据挖掘
   - 文档索引
   - 商业智能信息处理
   - 即时查询以及数据验证
+
 - RDBMS与Hive
   - Hive虽然使用SQL类似的语句进行查询，但是并不是RDBMS（关系型数据库）
     - HiveQL：这是Hive的数据查询语言，与SQL非常类似。Hive提供了这个数据查询语言与用户的接口，包括一个shell的接口，可以进行用户的交互以及网络接口与JDBC接口。JDBC接口可以用于编程，与传统的数据库编程类似，使得程序可以直接使用Hive功能而无需更改。
   - Hive使用的是Hadoop的HDFS，关系数据库则是服务器本地的文件系统；
   - Hive使用的计算模型是MapReduce，而关系数据库则是自己设计的计算模型；
-  - 关系数据库都是为**实时查询**的业务进行设计的，而Hive则是为**海量数据**做数据挖掘设计的，**实时性**很差
+  - 关系数据库都是为**实时查询**的业务进行设计的，而 Hive 则是为**海量数据**做数据挖掘设计的，**实时性**很差
+
 - HBase与Hive
   - HBase与Hive通常是配合使用的，HBase针对OLTP（联机事务处理），Hive针对OLAP（联机分析处理）
   - HBase是基于Hadoop的NoSQL的数据库，而Hive严格上来说不是数据库，主要目的是为了让开发人员能够通过SQL来计算和处理HDFS上的结构化数据，适用于离线的批量数据计算。
@@ -32,7 +41,8 @@
   - Hive是基于行模式，而HBase基于列模式，适合海量数据随机访问
   - HBase的表是疏松的存储的，因此用户可以给行定义各种不同的列；而Hive表是稠密型，即定义多少列，每一行有存储固定列数的数据。
   - Hive不能保证处理的低迟延问题；而HBase是近实时系统，支持实时查询。
-  - Hive提供完整的SQL实现，通常被用来做一些基于历史数据的挖掘、分析。而HBase不适用于有join，多级索引，表关系复杂的应用场景。
+  - Hive 提供完整的 SQL 实现，通常被用来做一些基于历史数据的挖掘、分析。而 HBase 不适用于有 join，多级索引，表关系复杂的应用场景。
+
 - 常见工作模式
   - 数据源抽取到HDFS存储->通过Hive清洗、处理和计算原始数据->可存入HBase->数据应用从HBase查询数据
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231130134907999.png" alt="image-20231130134907999" style="zoom:33%;" />
@@ -121,14 +131,16 @@
   - DML：数据操作语句，包括LOAD DATA, INSERT。
   - QUERY：数据查询语句，主要是SELECT语句。
 - 显示所有的数据表`show tables;`
-- 显示所创建的数据表的描述(建时候对于数据表的定义)`DESCRIBE invites；`
+- 显示所创建的数据表的描述(建时候对于数据表的定义) `DESCRIBE invites；`
+
 - 创建表
   - `CREATE TABLE pokes (foo INT, bar STRING);`
     - 创建了一个名为`pokes`的简单表，其中包含两个字段：`foo`是一个整数类型的字段，`bar`是一个字符串类型的字段。
   - `CREATE TABLE invites (foo INT, bar STRING) PARTITIONED BY (ds STRING);`
     - 有两个普通字段`foo`和`bar`，**和一个额外的分区键**`ds`。分区键`ds`通常用于按日期分区数据，但可以是任何字符串值。当这个表的数据被加载时，每个不同的`ds`值都将产生一个新的分区，这些分区对应于HDFS中的不同目录，**有助于优化查询性能**，因为查询可以仅限于特定的分区。
   - `CREATE TABLE Shakespeare (freq int, word string) row format delimited fields terminated by '\t' stored as textfile;`
-    - 该表指定了行格式为定界符分隔的字段，字段之间用制表符（`\t`）分隔。这意味着当Hive读取存储为文本文件的数据时，它将预期字段是由制表符分隔的。`stored as textfile`指定这个表的数据将以纯文本形式存储，这是Hive最常用的存储数据的方式之一。
+    - 该表指定了行格式为定界符分隔的字段，字段之间用制表符（`\t`）分隔。这意味着当 Hive 读取存储为文本文件的数据时，它将预期字段是由制表符分隔的。`stored as textfile` 指定这个表的数据将以纯文本形式存储，这是 Hive 最常用的存储数据的方式之一。
+
 - 修改表
   - `ALTER TABLE pokes ADD COLUMNS (new_col INT);`
     - 向`pokes`表添加了一个新的整数类型列`new_col`。在这个操作之后，`pokes`表将有三个列：`foo`，`bar`，以及新的`new_col`。
@@ -138,7 +150,6 @@
     - 这条语句将`invites`表现有的列**替换为新的列集合**。此操作将表的列定义更改为仅包含`foo`，`bar`，以及新添加的`baz`。`baz`列带有一个注释，说明它替换了之前的`new_col2`。需要注意的是，`REPLACE COLUMNS`操作会**删除除了指定列之外的所有其他列**，如果在替换列之前表中存在额外的列，这些列将被删除。
 
 - 数据装载
-
   - 从本地路径加入数据`LOAD DATA LOCAL INPATH './examples/files/kv1.txt' OVERWRITE INTO TABLE pokes;`
     - **本地文件**：`LOCAL`关键字指明了`kv1.txt`文件位于Hive服务所在的**本地文件系统中**，而不是在HDFS中。
     - **文件路径**：`INPATH`后面跟着的是文件在本地文件系统中的路径。
@@ -170,10 +181,7 @@
     - 这个命令将`pokes`表中的**所有列和记录**写入本地文件系统的`/tmp/local_out`目录中，不论它们的分区。与上一个命令类似，如果目标目录中已经有数据，它也会被替换。
 
 - Group By
-
   - 按照一个或者多个列进行**分组**，然后对每个组进行**聚合操作**。
-
-
 ```sql
 INSERT OVERWRITE TABLE events
 SELECT a.bar, count(*)
@@ -195,10 +203,7 @@ GROUP BY a.bar;
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231130214134775.png" alt="image-20231130214134775" style="zoom:50%;" />
 
 - Join
-
   - 对两个表通过两个相同的字段**进行连接**，并查询相关的结果。
-
-
 ```sql
 SELECT t1.bar, t1.foo, t2.foo
 FROM pokes t1 JOIN invites t2 ON t1.bar = t2.bar;
@@ -211,17 +216,11 @@ FROM pokes t1 JOIN invites t2 ON t1.bar = t2.bar;
 - **ON t1.bar = t2.bar**：`ON`子句定义了`JOIN`操作的条件。在这里，它指定了`JOIN`操作应该在`pokes`表的`bar`列的值等于`invites`表的`bar`列的值时发生。
 
 - 排序
-
   - order by
-
     - **全局排序**：`ORDER BY`确保**整个数据集全局排序**。不管数据有多少个分区或是在多少个reducer中处理，最终的输出都是有序的。
-
     - **单个Reducer**：由于需要全局排序，`ORDER BY`通常会使所有数据通过一个reducer流过，这意味着它可能会成为查询的**性能瓶颈**。
-
     - **默认升序**：默认情况下，`ORDER BY`是按升序（ASC）排列的，但可以通过明确指定`DESC`来实现降序排序。
-
     - **示例**：查询员工信息并按工资降序排列。
-
 
     ```sql
     SELECT * FROM emp ORDER BY sal DESC;
@@ -230,30 +229,19 @@ FROM pokes t1 JOIN invites t2 ON t1.bar = t2.bar;
     - **限制和严格模式**：在Hive的严格模式（`set hive.mapred.mode = strict`）下，使用`ORDER BY`时必须与`LIMIT`子句一起使用，以避免对大量数据进行全局排序。在非严格模式（`set hive.mapred.mode=nonstrict`）下，这种限制不适用。
 
   - sort by
-
     - **局部排序**：`SORT BY`为**每个reducer产生一个有序的输出文件**。它只保证每个reducer的输出是有序的，但**整个数据集**不一定全局有序。
-
     - **多个Reducer**：可以通过设置多个reducer来提高`SORT BY`的处理速度。这样做可以使得排序操作在多个reducer上并行执行。
-
     - **示例**：根据部门编号降序查看员工信息，并设置3个reducer。
-
-
 ```sql
 SET mapreduce.job.reducers=3;
 SELECT * FROM emp SORT BY deptno DESC;
 ```
 
 - distribute by
-
   - **数据分配**：`DISTRIBUTE BY`子句用于控制**哪些行被发送到哪个reducer**。这在进行聚合或排序操作时特别有用，因为它可以确保具有特定键的所有行都发送到同一个reducer。
-
   - **工作原理**：`DISTRIBUTE BY`根据指定字段的哈希值来分配行到不同的reducer。具有相同哈希值的行将被分配到同一个reducer。
-
   - **配合SORT BY使用**：通常与`SORT BY`一起使用，以便**在特定的reducer内对行进行排序**。
-
   - **示例**：先按部门编号进行分区，然后在每个分区内按员工编号降序排序。
-
-
 ```sql
 INSERT OVERWRITE LOCAL DIRECTORY '/opt/module/data/distribute-result'
 SELECT * FROM emp
@@ -262,20 +250,13 @@ SORT BY empno DESC;
 ```
 
 - cluster by
-
   - **结合DISTRIBUTE BY和SORT BY**：当你需要在相同的字段上执行`DISTRIBUTE BY`和`SORT BY`时，可以使用`CLUSTER BY`。它实际上是这两个子句的**简写形式**。
-
   - **只支持升序排序**：使用`CLUSTER BY`时，只能按**升序**对数据进行排序。你不能指定`ASC`或`DESC`来改变排序顺序。
-
   - **示例**：按部门编号进行分区，并在每个分区内按部门编号升序排序。
-
-
 ```sql
 SELECT * FROM emp CLUSTER BY deptno;
 ```
-
 这等同于：
-
 ```sql
 SELECT * FROM emp DISTRIBUTE BY deptno SORT BY deptno;
 ```
@@ -287,25 +268,18 @@ SELECT * FROM emp DISTRIBUTE BY deptno SORT BY deptno;
 - 可以把数据依照单个或多个列进行分区，通常按照时间、地域进行分区。为了达到性能表现的一致性，对不同列的划分应该让数据尽可能均匀分布。分区应当**在建表时设置**。
 
 - 分区本质
-
   - Hive中的分区实质上是对应于HDFS文件系统上的**独立文件夹。**
   - 分区是按照特定的**列**（分区键）来组织的，这可以是日期、地区等。
   - 在查询时，可以通过`WHERE`子句中的条件来选择特定的分区，这样只需扫描相关分区的数据，而不是整个表，从而提高查询效率。
 
 - 分区操作
-
   - **增加分区**：
-
-
 ```sql
 ALTER TABLE person ADD PARTITION (dt='20180316');
 ```
-
 这个命令在`person`表中增加了一个新的分区，分区键`dt`的值为`20180316`。
 
 - **删除分区**：
-
-
 ```sql
 ALTER TABLE person DROP PARTITION (dt='20180316');
 ```
@@ -313,87 +287,59 @@ ALTER TABLE person DROP PARTITION (dt='20180316');
 这个命令删除了`person`表中`dt`为`20180316`的分区。
 
 - **查看分区表结构**：
-
-
 ```sql
 DESCRIBE FORMATTED person;
 ```
-
 这个命令用于查看`person`表的结构，包括它的分区信息。
 
 - **查看所有分区**：
-
-
 ```sql
 SHOW PARTITIONS person;
 ```
-
 这个命令显示了`person`表中的所有分区。
 
 - 二级分区
-
   - Hive也支持**多级分区**（如二级分区），这允许你按照**多个键**来组织数据。
-
   - 创建二级分区表示例：
-
-
 ```sql
 CREATE TABLE dept_partition2 (deptno INT, dname STRING, loc STRING)
 PARTITIONED BY (day STRING, hour STRING)
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t';
 ```
-
 这个命令创建了一个按照day和hour两个字段进行二级分区的表。
 
 - 动态分区
-
   - 动态分区允许在插入数据时动态地创建分区，而不是预先定义分区。
-
   - 设置动态分区：
-
-
 ```sql
 SET hive.exec.dynamic.partition=true;
 SET hive.exec.dynamic.partition.mode=nonstrict;
 ```
-
 这些设置允许在插入数据时动态创建分区。
 
 - 动态分区示例：
-
-
 ```sql
 INSERT INTO TABLE dept_par4 PARTITION(loc)
 SELECT deptno, dname, loc FROM dept;
 ```
-
 这个命令从`dept`表中选择数据，并根据`loc`字段的值动态地插入到`dept_par4`表的相应分区中。
 
 #### 表的分桶
 
 - 查询某个桶里的数据
-
-
 ```sql
 SELECT * FROM person TABLESAMPLE (BUCKET 1 OUT OF 3);
 ```
-
 - **TABLESAMPLE (BUCKET x OUT OF y)**：这是一个采样子句，用于从表中选择一个随机样本。在这个特定的例子中，它用于从桶化的表中选取数据。
-
 - **BUCKET 1 OUT OF 3**：这表示从表中所有桶中选择第一个桶的数据。如果表被分成了3个桶，这个命令将返回第一个桶的所有数据。
 
 #### 内部表和外部表
 
 - 内部表
-
   - **数据和元数据管理**：当创建内部表时，Hive将对数据进行管理。如果数据被加载到内部表中，它会移动到Hive的数据仓库目录（通常是`/user/hive/warehouse`）。
-
   - **生命周期**：删除内部表时，Hive会删除表的元数据和存储在数据仓库中的数据。这意味着删除操作是不可逆的，表和表中的数据都将被永久删除。
-
-  - **使用场景**：如果数据仅在Hive内部使用，并且你希望Hive完全控制数据的生命周期，那么使用内部表是合适的。
-
-
+  - **使用场景**：如果数据仅在 Hive 内部使用，并且你希望 Hive 完全控制数据的生命周期，那么使用内部表是合适的。
 ```sql
 CREATE TABLE managed_table (dummy STRING);
 LOAD DATA INPATH '/user/tom/data.txt' INTO TABLE managed_table;
@@ -401,13 +347,9 @@ DROP TABLE managed_table;
 ```
 
 - 外部表
-
   - **独立的数据和元数据管理**：创建外部表时，Hive仅记录数据所在的位置。数据实际存储在Hive外部指定的路径上，Hive不会移动或管理这些数据。
-
   - **生命周期**：删除外部表时，Hive只会删除表的元数据，而不会删除实际的数据。这意味着即使表在Hive中被删除，原始数据仍然保留在其存储位置。
-
   - **使用场景**：如果数据被其他应用或工具共享，或者你不希望Hive管理数据的生命周期，那么使用外部表更合适。
-
 ```sql
 CREATE EXTERNAL TABLE person (id INT, name STRING, age INT, fav ARRAY<STRING>, addr MAP<STRING, STRING>)
 COMMENT 'This is the person table'
@@ -421,44 +363,32 @@ STORED AS TEXTFILE;
 #### 自定义函数
 
 - User Defined Function (UDF)
-
   - UDF用于对**单条数据**进行操作**，输出一个数据行**。例如，可以创建一个UDF来转换字符串格式或计算日期。
 
 - User Defined Aggregate Function (UDAF)
-
   - UDAF接受**多个数据输入并输出一个数据行**。这些函数用于执行**聚合操作**，例如计算平均值、最小值、最大值等。
 
 - User Defined Table-Generating Function (UDTF)
-
   - UDTF作用于**单个数据行，同时产生多个输出数据行**。例如，一个UDTF可能接受一个字符串，并将其拆分为多个单词，每个单词作为一个输出行。
 
 - 创建和使用自定义函数
-
   - **编写Java代码**：首先，需要使用Java编写自定义函数。例如，编写一个UDAF来计算最大值：
-
-
 ```java
 public class Maximum extends UDAF {}
 ```
-
-- **导出Jar包**：将编写的Java代码编译并导出为Jar包。
+- **导出 Jar 包**：将编写的 Java 代码编译并导出为 Jar 包。
 
 - **在Hive中添加Jar包**：
-
-
 ```sql
 ADD JAR Maximum.jar;
 ```
 
 - **创建自定义函数**：使用`CREATE FUNCTION`命令在Hive中注册这个自定义函数：
-
-
 ```sql
 CREATE FUNCTION maximumtest AS 'com.firsthigh.udaf.Maximum';
 ```
 
 - **运行函数并检查结果**：最后，可以在Hive查询中使用这个自定义函数：
-
 ```sql
 SELECT maximumtest(price) FROM record_dimension;
 ```
