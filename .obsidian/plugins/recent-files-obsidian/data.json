@@ -9,12 +9,32 @@
       "path": "课程/大数据/笔记/Hive.md"
     },
     {
+      "basename": "p8",
+      "path": "课程/大数据/作业/p8.md"
+    },
+    {
       "basename": "15 Hive简介",
       "path": "课程/大数据/课件/15 Hive简介.pdf"
     },
     {
-      "basename": "p8",
-      "path": "课程/大数据/作业/p8.md"
+      "basename": "20 Spark Advanced Programming (II)",
+      "path": "课程/大数据/课件/20 Spark Advanced Programming (II).pdf"
+    },
+    {
+      "basename": "19 Spark Advanced Programming (I)",
+      "path": "课程/大数据/课件/19 Spark Advanced Programming (I).pdf"
+    },
+    {
+      "basename": "18 Spark Basic Programming (II)",
+      "path": "课程/大数据/课件/18 Spark Basic Programming (II).pdf"
+    },
+    {
+      "basename": "16 Spark简介",
+      "path": "课程/大数据/课件/16 Spark简介.pdf"
+    },
+    {
+      "basename": "17 Spark Basic Programming (I)",
+      "path": "课程/大数据/课件/17 Spark Basic Programming (I).pdf"
     },
     {
       "basename": "HBase",
@@ -41,22 +61,6 @@
       "path": "课程/大数据/作业/p6.md"
     },
     {
-      "basename": "16 Spark简介",
-      "path": "课程/大数据/课件/16 Spark简介.pdf"
-    },
-    {
-      "basename": "19 Spark Advanced Programming (I)",
-      "path": "课程/大数据/课件/19 Spark Advanced Programming (I).pdf"
-    },
-    {
-      "basename": "18 Spark Basic Programming (II)",
-      "path": "课程/大数据/课件/18 Spark Basic Programming (II).pdf"
-    },
-    {
-      "basename": "17 Spark Basic Programming (I)",
-      "path": "课程/大数据/课件/17 Spark Basic Programming (I).pdf"
-    },
-    {
       "basename": "13 NoSQL数据库",
       "path": "课程/大数据/课件/13 NoSQL数据库.pdf"
     },
@@ -71,10 +75,6 @@
     {
       "basename": "21 Cloud Computing",
       "path": "课程/大数据/课件/21 Cloud Computing.pdf"
-    },
-    {
-      "basename": "20 Spark Advanced Programming (II)",
-      "path": "课程/大数据/课件/20 Spark Advanced Programming (II).pdf"
     },
     {
       "basename": "p4",

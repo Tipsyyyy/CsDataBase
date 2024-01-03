@@ -53,12 +53,13 @@
 - Driver组件：核心组件，整个Hive的核心。该组件包括**Complier、 Optimizer和Executor**，它的作用是将我们写的HQL语句进行**解析、编译优化，生成执行计划**，然后调用底层的MapReduce计算框架。
   - Compiler：Hive需要一个**编译器**，将HiveQL语言编译成中间表示，包括对于HiveQL语言的分析，执行计划的生成等工作
   - Optimizer：**进行优化**
-  -  Executor：执行引擎，在Driver的驱动下，具体完成执行操作，包括MapReduce执行，或者HDFS操作，或者元数据操作
-- Metastore组件：**数据服务**组件，用以**存储**Hive的**元数据**：存储操作的数据对象的格式信息，在HDFS中的存储位置的信息以及其他的用于数据转换的信息SerDe等。
+  -  Executor：执行引擎，在 Driver 的驱动下，具体完成执行操作，包括 MapReduce 执行，或者 HDFS 操作，或者元数据操作
+
+- Metastore 组件：**数据服务**组件，用以**存储**Hive 的**元数据**：存储操作的数据对象的格式信息，在 HDFS 中的存储位置的信息以及其他的用于数据转换的信息 SerDe 等。
+
 - CLI组件：Command Line Interface，**命令行接口**。
 - ThriftServers：提供J**DBC和ODBC**接入的能力，它用来进行可扩展且跨语言的服务的开发，Hive集成了该服务，能让不同的编程语言调用Hive的接口。
 - Hive WEB Interface（HWI）：Hive客户端提供了一种通过**网页的方式访问**hive所提供的服务。这个接口对应Hive的HWI组件（hive web interface）
-
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231130163939919.png" alt="image-20231130163939919" style="zoom: 50%;" />
   - Hive 将通过CLI接入，JDBC/ODBC**接入**，或者HWI接入的**相关查询**，通过Driver(Complier、Optimizer和Executor)，进行**编译，分析优化**，最后变成**可执行的MapReduce**。
 
@@ -75,11 +76,12 @@
 
 - Tables（表）：Hive的数据模型**由数据表组成**。数据表中的列是有类型的（int,float, string, data, boolean）也可以是复合的类型，如list, map （类似于JSON形式的数据）
   - **逻辑上**，数据是存储在 Hive表里面的，而表的元数据描述了数据的布局。我们可以对表执行过滤，关联，合并等操作。在 Hadoop 里面，**物理数据一般是存储在 HDFS 的，而元数据是存储在关系型数据库的。**
-  - 
+
 - Partitions（分区）：数据表可以**按照一定的规则对表进行划分**Partition。例如，通过日期的方式将数据表进行划分。
   - Hive根据分区键进行分区，提高了查询数据的效率
   - 在查询某一个分区的数据的时候，只需要查询相对应目录下的数据，而不会执行全表扫描，也就是说， Hive在查询的时候会进行分区剪裁。
   - 每个表可以有一个或多个分区键。
+
 - Buckets（桶）：**数据存储的桶**。在一定范围内的数据按照Hash的方式进行划分（对分区进一步划分）
   - 桶是更为细粒度的数据范围划分,在桶内数据以行的形式存储，提高查询数据的效率。
   - Hive是针对表的某一列进行分桶。Hive采用对表的列值进行哈希计算，然后除以桶的个数求余的方式**决定该条记录存放在哪个桶中**。分桶的好处是可以**获得更高的查询处理效率，使取样更高效。**
@@ -91,7 +93,7 @@
   - metastore运行模式
     - 内嵌Metastore：Hive的默认设置。在这种模式下，Hive会使用一个内嵌的Derby数据库实例来存储元数据，每次**只能被一个Hive会话打开。**
     - 本地Metastore：在本地Metastore配置中，元数据服务作为Hive服务的一部分运行在**同一个JVM进程中**。但使用一个独立的数据库来存储元数据，这个数据库可以是MySQL、PostgreSQL等，通过JDBC连接。这样配置**允许多个Hive客户端同时访问Metastore**，因此比内嵌Metastore更适合于生产环境。
-    - 远程Metastore：在远程Metastore配置中，Metastore服务在独立于Hive服务的不同进程中运行。**这意味着一个或多个Metastore服务器可以服务于多个Hive实例。**由于Metastore服务是独立运行的，因此提供了更好的可扩展性和容错性。这是一个对于大型集群和多用户环境更加健壮和灵活的配置。
+    - 远程Metastore：在远程Metastore配置中，Metastore服务在独立于Hive服务的不同进程中运行。这意味着一个或多个Metastore服务器可以服务于多个Hive实例。由于Metastore服务是独立运行的，因此提供了更好的可扩展性和容错性。这是一个对于大型集群和多用户环境更加健壮和灵活的配置。
     - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231130171824996.png" alt="image-20231130171824996" style="zoom:50%;" />
 
 ### Hive3.x*
