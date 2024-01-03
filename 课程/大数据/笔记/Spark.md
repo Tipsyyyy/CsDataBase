@@ -122,26 +122,26 @@
 ### Spark的程序执行过程
 
 - 基本过程：
-  - **程序提交**：用户编写的Spark程序提交到相应的Spark运行框架中
-  - **创建SparkContext**：Spark程序启动时，首先会创建一个SparkContext对象为本次程序的运行环境，这个对象是程序与Spark集群交互的主要接口。
-  - **集群资源连接**：SparkContext会与集群管理器（例如YARN、Mesos或Spark自身的集群管理器）进行通信，以获取执行程序所需的资源。
-  - **获取Executor节点**：一旦资源分配完成，SparkContext会在集群中可用的节点上启动Executor进程。这些进程是执行具体计算任务的实体。
-  - **代码分发**：SparkContext将用户程序中的任务代码和函数序列化后发送到各个Executor。
-  - **任务执行**：最后，SparkContext 根据数据的分区和任务的依赖关系，将任务分发到不同的 Executor 执行。
+  - **程序提交**：用户编写的 Spark 程序提交到相应的 Spark 运行框架中 
+  - **创建 SparkContext**：Spark 程序启动时，首先会创建一个 SparkContext 对象为本次程序的**运行环境**，这个对象是程序与 Spark 集群交互的主要接口。 
+  - **集群资源连接**：SparkContext 会与集群管理器进行通信，以获取执行程序所需的资源。 
+  - **获取 Executor 节点**：一旦资源分配完成，SparkContext 会在集群中可用的节点上**启动 Executor 进程**。
+  - **代码分发**：SparkContext 将用户程序中的任**务代码和函数序列化后发送**到各个 Executor。 
+  - **任务执行**：最后，SparkContext 根据数据的分区和任务的依赖关系，将任务分发到不同的 Executor **执行。** 
 
 - **作业（Job）**：
   - 在Spark中，一个Job对应于一个**action操作触发的一系列计算任务**。每次调用action操作时，Spark会**提交一个新的Job**。
-  - Job 由**一系列转换操作**（transformations）构成，这些转换定义了从输入数据到获取最终结果所需的计算步骤。
+  - Job 由**一系列转换操作**（transformations）构成，这些转换定义了**从输入数据到获取最终结果**所需的计算步骤。
 
 - **阶段（Stage）**：
-  - Stage是Job的中间计算过程。Spark会根据transformation操作之间的依赖关系（窄依赖或宽依赖）将Job划分为多个Stage。
+  - Stage是Job的中间计算过程。Spark会根据transformation操作之间的**依赖关系**（窄依赖或宽依赖）将Job划分为多个Stage。
   - **Shuffle Stage**：在宽依赖的情况下会触发Shuffle Stage。宽依赖意味着数据需要重新组织，如通过网络在不同节点的Executors之间进行交换（shuffle）。
   - **Final Stage**：每个Job至少有一个Final Stage，这是Job中最后一个Stage，它产生action操作的最终结果。
 - **Shuffle操作**：
   - Shuffle 是**宽依赖**操作的结果，它涉及**跨越不同**Executor 的数据重新分布，以满足特定的 transformation 需求（例如，`reduceByKey`、`groupBy` 等）。
 
 - **任务（Task）**：
-  - Task是在Executor上执行的最小工作单元。每个Stage被划分为多个Task，这些Task根据RDD的分区来划分，每个Task处理一个分区的数据。
+  - Task是在Executor上执行的**最小工作单元**。每个Stage被划分为多个Task，这些Task根据RDD的分区来划分，每个Task处理一个分区的数据。
   - Task是Stage的**具体执行实体**，当一个Stage中的所有Task执行完毕，就意味着该Stage的计算完成。
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231210002800278.png" alt="image-20231210002800278" style="zoom:33%;" />
 

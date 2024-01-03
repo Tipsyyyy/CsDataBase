@@ -1,10 +1,6 @@
 {
   "recentFiles": [
     {
-      "basename": "16 Spark简介",
-      "path": "课程/大数据/课件/16 Spark简介.pdf"
-    },
-    {
       "basename": "Spark",
       "path": "课程/大数据/笔记/Spark.md"
     },
@@ -17,12 +13,28 @@
       "path": "课程/大数据/期末复习.md"
     },
     {
-      "basename": "p10",
-      "path": "课程/大数据/作业/p10.md"
-    },
-    {
       "basename": "17 Spark Basic Programming (I)",
       "path": "课程/大数据/课件/17 Spark Basic Programming (I).pdf"
+    },
+    {
+      "basename": "16 Spark简介",
+      "path": "课程/大数据/课件/16 Spark简介.pdf"
+    },
+    {
+      "basename": "20 Spark Advanced Programming (II)",
+      "path": "课程/大数据/课件/20 Spark Advanced Programming (II).pdf"
+    },
+    {
+      "basename": "19 Spark Advanced Programming (I)",
+      "path": "课程/大数据/课件/19 Spark Advanced Programming (I).pdf"
+    },
+    {
+      "basename": "18 Spark Basic Programming (II)",
+      "path": "课程/大数据/课件/18 Spark Basic Programming (II).pdf"
+    },
+    {
+      "basename": "p10",
+      "path": "课程/大数据/作业/p10.md"
     },
     {
       "basename": "p4",
@@ -39,18 +51,6 @@
     {
       "basename": "15 Hive简介",
       "path": "课程/大数据/课件/15 Hive简介.pdf"
-    },
-    {
-      "basename": "20 Spark Advanced Programming (II)",
-      "path": "课程/大数据/课件/20 Spark Advanced Programming (II).pdf"
-    },
-    {
-      "basename": "19 Spark Advanced Programming (I)",
-      "path": "课程/大数据/课件/19 Spark Advanced Programming (I).pdf"
-    },
-    {
-      "basename": "18 Spark Basic Programming (II)",
-      "path": "课程/大数据/课件/18 Spark Basic Programming (II).pdf"
     },
     {
       "basename": "HBase",
