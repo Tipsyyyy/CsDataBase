@@ -128,30 +128,25 @@
 
 ### Hive QL
 
-- 分类
-  -  DDL：数据定义语句，包括CREATE, ALTER, SHOW, DESCRIBE, DROP等
-  - DML：数据操作语句，包括LOAD DATA, INSERT。
-  - QUERY：数据查询语句，主要是SELECT语句。
+- **DDL**：数据定义语句，包括 CREATE, ALTER, SHOW, DESCRIBE, DROP 等
+- **DML**：数据操作语句，包括 LOAD DATA, INSERT。
+- **QUERY**：数据查询语句，主要是 SELECT 语句。
+
 - 显示所有的数据表`show tables;`
 - 显示所创建的数据表的描述(建时候对于数据表的定义) `DESCRIBE invites；`
 
-- 创建表
-  - `CREATE TABLE pokes (foo INT, bar STRING);`
-    - 创建了一个名为`pokes`的简单表，其中包含两个字段：`foo`是一个整数类型的字段，`bar`是一个字符串类型的字段。
+- **创建表**CREATE
+  - `CREATE TABLE tablename (foo INT, bar STRING);`
   - `CREATE TABLE invites (foo INT, bar STRING) PARTITIONED BY (ds STRING);`
-    - 有两个普通字段`foo`和`bar`，**和一个额外的分区键**`ds`。分区键`ds`通常用于按日期分区数据，但可以是任何字符串值。当这个表的数据被加载时，每个不同的`ds`值都将产生一个新的分区，这些分区对应于HDFS中的不同目录，**有助于优化查询性能**，因为查询可以仅限于特定的分区。
-  - `CREATE TABLE Shakespeare (freq int, word string) row format delimited fields terminated by '\t' stored as textfile;`
-    - 该表指定了行格式为定界符分隔的字段，字段之间用制表符（`\t`）分隔。这意味着当 Hive 读取存储为文本文件的数据时，它将预期字段是由制表符分隔的。`stored as textfile` 指定这个表的数据将以纯文本形式存储，这是 Hive 最常用的存储数据的方式之一。
+    - 一个额外的**分区键**`ds`
 
-- 修改表
+- **修改表**ALTER
   - `ALTER TABLE pokes ADD COLUMNS (new_col INT);`
-    - 向`pokes`表添加了一个新的整数类型列`new_col`。在这个操作之后，`pokes`表将有三个列：`foo`，`bar`，以及新的`new_col`。
-  - `ALTER TABLE invites ADD COLUMNS (new_col2 INT COMMENT 'a comment');`
-    - 这条语句向`invites`表添加了一个新的整数类型列`new_col2`，并为这个新列**添加了一个注释说明**`'a comment'`。注释有助于解释或记录列的用途或其他重要信息。添加此列后，`invites`表现在有三个普通列和一个分区列。
-  - `ALTER TABLE invites REPLACE COLUMNS (foo INT, bar STRING, baz INT COMMENT 'baz replaces new_col2');`
-    - 这条语句将`invites`表现有的列**替换为新的列集合**。此操作将表的列定义更改为仅包含`foo`，`bar`，以及新添加的`baz`。`baz`列带有一个注释，说明它替换了之前的`new_col2`。需要注意的是，`REPLACE COLUMNS`操作会**删除除了指定列之外的所有其他列**，如果在替换列之前表中存在额外的列，这些列将被删除。
+  - `ALTER TABLE invites REPLACE COLUMNS (foo INT, bar STRING, baz INT );`
+    - 如果之前表中存在这些列，则它们的定义将被**更新为新的类型**（如果指定了新的类型）。
+    - 如果表中原本还有其他列，那么这些列将被**移除**，与这些列相关的数据也会丢失。
 
-- 数据装载
+- 数据装载 LOAD DATA
   - 从本地路径加入数据`LOAD DATA LOCAL INPATH './examples/files/kv1.txt' OVERWRITE INTO TABLE pokes;`
     - **本地文件**：`LOCAL`关键字指明了`kv1.txt`文件位于Hive服务所在的**本地文件系统中**，而不是在HDFS中。
     - **文件路径**：`INPATH`后面跟着的是文件在本地文件系统中的路径。
@@ -165,6 +160,7 @@
   - 从HDFS装入数据`LOAD DATA INPATH '/user/myname/kv2.txt' OVERWRITE INTO TABLE invites PARTITION (ds='2008-08-15');`
     - 将**HDFS**中的`/user/myname/kv2.txt`文件装入
   - 当执行`LOAD DATA`命令时，Hive**不会解析或处理数据**。它只是**简单地将文件移动**到与Hive表关联的HDFS路径下。数据在查询执行期间被解析，这是根据表定义的`ROW FORMAT`和`FIELDS TERMINATED BY`等属性来进行的。
+- 
 
 - INSERT
 
@@ -191,15 +187,10 @@ FROM invites a
 WHERE a.foo > 0
 GROUP BY a.bar;
 ```
-
 - **INSERT OVERWRITE TABLE events**：指示Hive将查询结果写入到名为`events`的表中。
-
 - **SELECT a.bar, count(\*)**：这是要执行的查询。它计算了`invites`表中每个不同`bar`值的数量。`count(*)`计算了每个组的记录数(聚合函数)。
-
 - **FROM invites a**：指定了查询的数据源表`invites`。`a`是该表的别名，用于在查询中引用表。
-
 - **WHERE a.foo > 0**：这是查询的过滤条件。它限制了查询只考虑`foo`列值大于0的记录。
-
 - **GROUP BY a.bar**：这指定了`SELECT`语句中的聚合操作应如何分组。在这里，它按照`bar`的每个不同值进行分组。（会对每个组进行聚合函数的计算）
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231130214134775.png" alt="image-20231130214134775" style="zoom:50%;" />
@@ -210,11 +201,8 @@ GROUP BY a.bar;
 SELECT t1.bar, t1.foo, t2.foo
 FROM pokes t1 JOIN invites t2 ON t1.bar = t2.bar;
 ```
-
 - **SELECT t1.bar, t1.foo, t2.foo**：指定了要从`JOIN`操作的结果中选择哪些列。这里选择了`pokes`表（别名`t1`）的`bar`和`foo`列，以及`invites`表（别名`t2`）的`foo`列。
-
 - **FROM pokes t1 JOIN invites t2**：指明了两个表`pokes`和`invites`应该如何连接。`pokes`表被赋予了别名`t1`，而`invites`表被赋予了别名`t2`。
-
 - **ON t1.bar = t2.bar**：`ON`子句定义了`JOIN`操作的条件。在这里，它指定了`JOIN`操作应该在`pokes`表的`bar`列的值等于`invites`表的`bar`列的值时发生。
 
 - 排序

@@ -193,7 +193,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/大数据/期末复习.md",
+                "file": "课程/大数据/笔记/Hive.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -210,7 +210,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/大数据/期末复习.md",
+                "file": "课程/大数据/笔记/Hive.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -233,7 +233,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/大数据/期末复习.md"
+                "file": "课程/大数据/笔记/Hive.md"
               }
             }
           },
@@ -349,11 +349,11 @@
       }
     ]
   },
-  "active": "649468bdb1fdb6a7",
+  "active": "7af51db6853fa334",
   "lastOpenFiles": [
+    "课程/大数据/期末复习.md",
     "课程/大数据/笔记/Hive.md",
     "课程/大数据/作业/p8.md",
-    "课程/大数据/期末复习.md",
     "课程/大数据/课件/15 Hive简介.pdf",
     "课程/大数据/课件/20 Spark Advanced Programming (II).pdf",
     "课程/大数据/课件/19 Spark Advanced Programming (I).pdf",
