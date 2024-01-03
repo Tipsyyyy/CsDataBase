@@ -3,14 +3,11 @@
 - MapReduce计算模式的缺陷：2阶段固定模式，磁盘计算大量I/O性能低下
 
 - Spark**基于内存计算**思想提高计算性能
-
   - Spark提出了一种基于内存的弹性分布式数据集(RDD)，通过对RDD的一系列操作完成计算任务，可以大大提高性能
   - Spark的主要抽象是提供一个弹性分布式数据集(RDD)，RDD 是指能横跨集群 所有节点进行并行计算的分区元素集合。RDD可以从Hadoop的文件系统中 的一个文件中创建而来(或其他 Hadoop支持的文件系统)，或者从一个已有 的Scala集合转换得到。
 
 - RDDs
-
   - 基于RDD之间的依赖关系组成lineage，通过重计算以及checkpoint等机制来保证整个分布式计算的容错性。
-
   - 只读、可分区，这个数据集的**全部或部分可以缓存在内存中**，在多次计算间重用，弹性是指内**存不够时可以与磁盘进行交换**。
 
 ### Spark的生态圈
@@ -25,7 +22,8 @@
   - Hadoop设计用于批处理，通过在多个节点上分布数据和计算来处理大量数据。
   - Hadoop中的**数据通常存储在磁盘上**，这种方式成本效益高，但与内存解决方案**相比可能较慢**。
   - Hadoop的MapReduce不适合迭代工作负载，如机器学习和图处理中常见的。
-  - Hadoop生态系统包括Hive（用于SQL查询）、Mahout（用于机器学习）等工具，用于各种大数据管理和分析任务。
+  - Hadoop 生态系统包括 Hive（用于 SQL 查询）、Mahout（用于机器学习）等工具，用于各种大数据管理和分析任务。
+
 - spark
   - Spark是一个主要**执行分布式处理的计算引擎**，但它本身不附带存储系统。
   - 它提供**内存数据处理**，与基于磁盘的处理相比，特别是对于迭代和交互式计算，可以**显著加快速度**。
@@ -33,6 +31,7 @@
   - Spark支持**多种开发语言**，如Scala、Python和Java，并以易用性著称。
   - Spark拥有**强大的流处理能力**，具有Spark Streaming、机器学习库MLlib和图处理GraphX。
   - **它可以处理批处理、实时流处理、机器学习等多种任务，经常在同一应用程序中。**
+
 - spark融入hadoop
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231209230952826.png" alt="image-20231209230952826" style="zoom: 33%;" />
 
@@ -51,8 +50,6 @@
 
 #### Spark SQL
 
--  Shark（早期），即Hive on Spark，本质上是**通过Hive的HQL解析**，把HQL翻译成**Spark上的RDD操作**，然后通过Hive的metadata获取数据库里的表信息，实际HDFS上的数据和文件，会由Shark获取并放到Spark上
-  运算。与Hive完全兼容
 - **Spark SQL**（新），与Spark程序无缝对接**允许直接处理RDD**，同时也可查询例如在Hive上存在的外部数据。统一数据访问接口**能够统一处理关系表和RDD**，使得开发人员可以轻松地使用SQL命令进行外部查询，同时进行更复杂的数据分析。与Hive高度兼容，使用标准链接。
 - 性能提升原因
   - **内存列存储：** Spark SQL的表数据在**内存中存储**不是采用原生态的JVM对象存储方式，而是采用内存列存储；
@@ -99,21 +96,16 @@
 - Application
 
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231209234814232.png" alt="image-20231209234814232" style="zoom:50%;" />
-
   - Job：包含**多个Task的并行计算**，由SparkAction催生
-
   - Stage：**Job拆分成多组Task**，每组任务被称为Stage，也可称为TaskSet
-
   - Task：基本程序执行单元，在一个Executor上执行
 
 - SparkContext：SparkContext由用户程序启动，是Spark运行的核心模块，它对一个Spark程序进行了必要的初始化过程：
-
   - 创建SparkConf类的实例：这个类中包含了用户自定义的**参数信息和Spark配置文件**中的一些信息等等(用户名、程序名、Spark版本等)
   - 创建SparkEnv类的实例：这个类中包含了Spark执行时所需要的**许多环境对象**，例如底层任务通讯的Akka Actor System、block manager、serializer等
   - 创建**调度类**的实例：Spark中的调度分为TaskScheduler和DAGScheduler两种，而它们的创建都在SparkContext的初始化过程中。
 
 - Spark Driver
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231209235538136.png" alt="image-20231209235538136" style="zoom: 50%;" />
 
 - Worker node
@@ -126,7 +118,8 @@
     - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231210000029930.png" alt="image-20231210000029930" style="zoom:33%;" />
   - TaskScheduler 负责对**每个具体的 Task 进行调度**。
     - 一个 TaskSet 交给 TaskScheduler 后，TaskScheduler会为每个 TaskSet 进行任务调度，Spark 中的任务调度分为两种：FIFO（先进先出）调度和 FAIR（公平调度）调度。
-    - FAIR调度：在多个作业间“公平”地分配计算资源，尤其是在有多个Spark作业同时运行时。FAIR调度器允许每个作业获取**相等的资源份额**，确保没有单个作业会饿死，即长时间得不到足够资源。
+    - FAIR 调度：在多个作业间“公平”地分配计算资源，尤其是在有多个 Spark 作业同时运行时。FAIR 调度器允许每个作业获取**相等的资源份额**，确保没有单个作业会饿死，即长时间得不到足够资源。
+
 - 调度过程
   - 创建 RDD 并生成 **DAG**，由 DAGScheduler 分解DAG 为包含多个 Task（即 TaskSet）的 **Stages**，再将 TaskSet 发送至TaskScheduler，由 TaskScheduler **来调度每个 Task**，并分配到 Worker 节点上执行，最后得到计算结果。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231209235912117.png" alt="image-20231209235912117" style="zoom:33%;" />
@@ -139,16 +132,19 @@
   - **集群资源连接**：SparkContext会与集群管理器（例如YARN、Mesos或Spark自身的集群管理器）进行通信，以获取执行程序所需的资源。
   - **获取Executor节点**：一旦资源分配完成，SparkContext会在集群中可用的节点上启动Executor进程。这些进程是执行具体计算任务的实体。
   - **代码分发**：SparkContext将用户程序中的任务代码和函数序列化后发送到各个Executor。
-  - **任务执行**：最后，SparkContext根据数据的分区和任务的依赖关系，将任务分发到不同的Executor执行。
+  - **任务执行**：最后，SparkContext 根据数据的分区和任务的依赖关系，将任务分发到不同的 Executor 执行。
+
 - **作业（Job）**：
   - 在Spark中，一个Job对应于一个**action操作触发的一系列计算任务**。每次调用action操作时，Spark会**提交一个新的Job**。
-  - Job由**一系列转换操作**（transformations）构成，这些转换定义了从输入数据到获取最终结果所需的计算步骤。
+  - Job 由**一系列转换操作**（transformations）构成，这些转换定义了从输入数据到获取最终结果所需的计算步骤。
+
 - **阶段（Stage）**：
   - Stage是Job的中间计算过程。Spark会根据transformation操作之间的依赖关系（窄依赖或宽依赖）将Job划分为多个Stage。
   - **Shuffle Stage**：在宽依赖的情况下会触发Shuffle Stage。宽依赖意味着数据需要重新组织，如通过网络在不同节点的Executors之间进行交换（shuffle）。
   - **Final Stage**：每个Job至少有一个Final Stage，这是Job中最后一个Stage，它产生action操作的最终结果。
 - **Shuffle操作**：
-  - Shuffle是**宽依赖**操作的结果，它涉及**跨越不同**Executor的数据重新分布，以满足特定的transformation需求（例如，`reduceByKey`、`groupBy`等）。
+  - Shuffle 是**宽依赖**操作的结果，它涉及**跨越不同**Executor 的数据重新分布，以满足特定的 transformation 需求（例如，`reduceByKey`、`groupBy` 等）。
+
 - **任务（Task）**：
   - Task是在Executor上执行的最小工作单元。每个Stage被划分为多个Task，这些Task根据RDD的分区来划分，每个Task处理一个分区的数据。
   - Task是Stage的**具体执行实体**，当一个Stage中的所有Task执行完毕，就意味着该Stage的计算完成。
@@ -189,64 +185,18 @@
   - Spark 自带的一种集群管理模式，即独立模式，自带完整的服务，可单独部署到一个集群中，无需依赖任何其他资源管理系统。
 - Spark on YARN
 - Spark on Kubernetes
-
-#### Spark与集群管理工具（Yarn）
-
-- 不同计算引擎各有所长，真实应用中往往需要同时使用不同的计算框架；不同框架和应用**会争抢资源**，互相影响，使得管理难度和成本增加；
-- **统一的资源管理平台**将资源独立管理：YARN，Kubernetes
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218124127235.png" alt="image-20231218124127235" style="zoom:33%;" />、
-  - 通过资源管理可在同一个集群平台上部署不同的计算框架和应用，从而实现多租户资源共享
-- Spark和集群管理工具的结合
-  - 资源**管理**：所有接入的框架要先向它申请资源，申请成功之后，再由平台自身的调度器决定资源交由哪个任务使用
-  - 资源**共享**：通过资源管理可在同一集群平台上部署不同的计算框架和应用，实现**多租户资源共享**
-  - 资源**隔离**：不同的框架中的不同任务往往需要的资源（内存，CPU，网络IO等）不同，它们运行在同一个集群中，会**相互干扰**。所以需要实现资源隔离以免任务之间由资源争用导致效率下降
-  - **提高资源利用效率**：当将各种框架部署到同一个大的集群中，进行统一管理和调度后，由于各种作业交错且作业提交频率大幅度升高，则为资源利用率的提升增加了机会
-  - 扩展和容错：统一资源管理平台不能影响到上层框架的可扩展性和容错，同时自身也应具备良好的可扩展性和容错性
-- Yarn
-  - ResourceManager是一个中心的服务，它负责作业与资源的调度，负责调度、启动每一个Job 所属的ApplicationMaster，监控ApplicationMaster的存在情况。接收JobSubmitter提交的作业，按照作业的上下文环境(Context) 信息，以及从NodeManager收集来的状态信息，启动调度过程，分配一个Container 作为ApplicationMaster
-  - ApplicationMaster负责一个Job 生命周期内的所有工作，类似老的框架中的JobTracker。但注意每一个Job（不是每一种）都有一个ApplicationMaster，它可以运行在ResourceManager以外的机器上
-  - NodeManager功能比较专一，就是负责Container 状态的维护，并向ResourceManager保持心跳
-
-#### Spark on YARN
-
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218124726237.png" alt="image-20231218124726237" style="zoom:33%;" />
-- <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218125557311.png" alt="image-20231218125557311" style="zoom:33%;" />
-- Client 模式
-  - 在Client模式下，驱动程序**运行在提交应用程序的客户端机器上**，通过客户端向YARN资源管理器（ResourceManager）请求资源，并启动执行器（Executor）进程。**客户端可以更灵活地控制应用程序的执行**，并及时获取执行结果。但是，如果客户端机器发生故障，应用程序可能会中断。
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218125448947.png" alt="image-20231218125448947" style="zoom:33%;" />
-- Cluster 模式
-  - 在Cluster模式下，驱动程序运行**在集群中的某个节点上**，**由YARN资源管理器**来管理和监控。驱动程序向资源管理器请求资源，并由资源管理器负责启动Executor进程。资源管理和任务调度完全由YARN负责，适合大规模的分布式计算。但是，如果驱动程序所在的节点发生故障，整个应用程序可能会失败。
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218125459103.png" alt="image-20231218125459103" style="zoom:33%;" />
-
-#### Spark on Kubernetes
-
-- Kubernetes是Google基于Borg开源的容器编排调度引擎，支持自动化部署、大规模可伸缩、应用容器化管理。在生产环境中部署一个应用程序时，通常要部署该应用的多个实例以便对应用请求进行负载均衡。
-- 在Kubernetes中，我们可以**创建多个容器**，每个容器里面运行一个应用实例，然后**通过内置的负载均衡策略，实现对这一组应用实例的管理、发现、访问**，而这些细节都不需要运维人员去进行复杂的手工配置和处理。
-- 与yarn相比：更高效地获取资源、更有效率地获取资源！
-  - **Kubernetes原生调度**：不再需要二层调度，直接使用Kubernetes的资源调度功能，跟其他应用共用整个Kubernetes管理的资源池；
-  - **资源隔离，粒度更细**：原先Yarn中的queue在Spark on Kubernetes中已不存在，取而代之的是Kubernetes中原生的namespace，可以为每个用户分别指定一个namespace，限制用户的资源quota
-  - **细粒度的资源分配**：可以给每个spark任务指定资源限制，实际指定多少资源就使用多少资源，因为没有了像Yarn那样的二层调度（圈地式的），所以可以更高效和细粒度的使用资源；
-  - **监控的变革**：因为做到了细粒度的资源分配，所以可以对用户提交的每一个任务做到资源使用的监控，从而判断用户的资源使用情况，所有的metric都记录在数据库中，甚至可以为每个用户的每次任务提交计量；
-  - **日志的变革**：用户不再通过Yarn的web页面来查看任务状态，而是通过pod的log来查看，可将所有的Kubernetes中的应用的日志等同看待收集起来，然后可以根据标签查看对应应用的日志；
-
 #### 本地运行（使用idea+java）
 
 - 无需配置spark环境，先下载spark压缩包后解压
-
 - 在idea创建新项目（可以不使用maven）
-
 - 导入spark下的jars文件夹
-
   - file/项目结构选项
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218121237201.png" alt="image-20231218121237201" style="zoom: 25%;" />
 
 - 由于程序运行后会自动结束，就看不到web界面了，可以添加`Thread.sleep(100000);`
-
   - webui在4040端口
 
 - 程序示例
-
-
 ```java
 package org.example;
 
@@ -287,17 +237,13 @@ public class Main {
 ### Spark编程模型
 
 - 以RDD为核心
-
 - **RDD**弹性分布式数据集
-
   - 是一种分布式的内存抽象，允许在大型集群上执行基于内存的计算
   - RDD**只读、可分区**，这个数据集的全部或部分可以缓存在内存中，在多次计算间重用
     - 一旦创建，RDD 的数据就不能被修改。任何对 RDD 的转换操作都会生成一个新的 RDD。
     - RDD 能够在节点失败的情况下恢复数据。
 
 - scala spark程序示例
-
-
 ```scala
 import org.apache.spark.{SparkConf, SparkContext}
 
@@ -330,12 +276,15 @@ object Main {
   - 从文件读取`val file=sc.textFile(“hdfs:///root/Log”)`
     - 对文件进行一些处理`val filterRDD=file.filter(line=>line.contains(“ERROR”))`
   - 生成数据`val rdd= sc.parallelize(1 to 100, 2)`生成一个1到100的数组，并行化成RDD
-  - 从数组获取`val max5RDD = sc.parallelize(max5) `
+  - 从数组获取 `val max5RDD = sc.parallelize(max5) `
+
 - 转换：**懒惰操作**，先只定义一个新的RDD，等到使用时再具体计算内部的值
   - `val filterRDD=fileRDD.filter(line=>line.contains(“ERROR”))`
+
 - 动作：**立即计算**这个RDD的值，并返回结果给程序，或者将结果写入到外存储中。
   - `val result = filterRDD.count()`
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218152409698.png" alt="image-20231218152409698" style="zoom:33%;" />
+
 - RDD之间地依赖关系
   - 窄依赖：窄依赖指的是每个父（上游）RDD 分区最多被一个子（下游）RDD 分区使用的情况。这意味着对于窄依赖，子 RDD 分区的计算**只依赖于父 RDD 中的一个分区**，因此计算可以在不同的节点上**局部进行**，而不需要跨节点的数据混洗（如`map()` 或 `filter()` 操作）
   - 宽依赖：宽依赖是指父 RDD 的**多个分区被多个子 RDD 分区使用的情况**。在宽依赖中，子 RDD 分区的计算依赖于父 RDD 中的**多个分区**。通常在需要进行数据**混洗**的操作中会出现宽依赖，例如 `groupBy()` 或 `reduceByKey()` 操作。
@@ -343,7 +292,7 @@ object Main {
   - 把一个DAG图划分成多个“阶段”以后，每个阶段都代表了一组关联的、相互之间没有Shuffle依赖关系的任务组成的任务集合。每个任务集合会被提交给任务调度器（TaskScheduler）进行处理，由任务调度器将任务分发给Executor运行
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218154202385.png" alt="image-20231218154202385" style="zoom:50%;" />
 
-- RDD地运行
+- RDD 的运行
   - Spark 采用**惰性机制**，Transformation算子的代码不会被立即执行，只有当**遇到第一个Action算子**时，会生成一个Job，并执行前面的一系列Transformation操作。一个Job包含N个Transformation和 1 个Action。
     - 每个Job会分解成一系列可并行处理的Task，然后将Task分发到不同的Executor上运行。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218154414684.png" alt="image-20231218154414684" style="zoom:50%;" />
@@ -351,15 +300,19 @@ object Main {
   - **Stage** 是一系列**宽依赖边界之间的 Task 集合**，通常它们可以通过窄依赖串行执行。
   - **ShuffleMapTask**：在 Stage 的计算结果**需要被后续 Stage 使用时**，这些 Stage 会执行 ShuffleMapTask。ShuffleMapTask 的输出**会被写入磁盘（或内存）**，以便其他 Stage 的 Task 可以进行 Shuffle 读取。
   - **ResultTask**：在执行流程中的**最后一个 Stage**，即结果 Stage，会执行 ResultTask。ResultTask 通常负责计算最终结果，这可能涉及返回数据给驱动程序或将数据写入外部存储系统。
+
 - RDD的容错实现
   - Lineage（血统系统、依赖系统）：RDD提供一种基于粗粒度变换的接口，这使得RDD**可以通过记录RDD之间的变换**，而不需要存储实际的数据就可以完成数据的恢复，使得Spark具有高效的容错性。
   - CheckPoint（检查点）：对于很长的lineage的RDD来说，通过lineage来恢复耗时较长。因此，在对包含宽依赖的长血统的RDD设置检查点操作非常有必要。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218161610450.png" alt="image-20231218161610450" style="zoom:33%;" />
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218161618388.png" alt="image-20231218161618388" style="zoom:33%;" />
+
 - RDD持久化
   - **未序列化的Java对象**，存在内存中：性能表现最优，可以直接访问在JAVA虚拟机内存里的RDD对象。
   - **序列化的数据**，存于内存中：取消JVM中的RDD对象，**将对象的状态信息转换为可存储形式**，减小RDD的存储开销，但使用时需要反序列化恢复。在内存空间有限的情况下，这种方式可以让用户更有效的使用内存，但是这么做的代价是降低了性能。
-  - **磁盘存储**：适用于RDD太大难以在内存中存储的情形，但每次重新计算该RDD都会带来巨大的额外开销。
+  - **磁盘存储**：适用于 RDD 太大难以在内存中存储的情形，但每次重新计算该 RDD 都会带来巨大的额外开销。
+
+
 - RDD内部设计
   - 每个RDD都包含：
     - 一组RDD分区（partition），即数据集的原子组成部分
@@ -368,7 +321,8 @@ object Main {
     - 元数据，描述分区模式和数据存放的位置
   - 分区
     - RDD是弹性分布式数据集，通常RDD很大，会被分成很多个分区，分别保存在不同的节点上。RDD分区的一个分区原则是使得**分区的个数尽量等于集群中的CPU核心**（core）数目。
-    - partition是RDD的最小单元，RDD是由分布在各个节点上的partition 组成的。partition的数量决定了task的数量，**每个task对应着一个partition**。
+    - partition 是 RDD 的最小单元，RDD 是由分布在各个节点上的 partition 组成的。partition 的数量决定了 task 的数量，**每个 task 对应着一个 partition**。
+
 - Spark支持的一些常用transformation操作
   - rdd: {1,2,3,3}
     - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218232455689.png" alt="image-20231218232455689" style="zoom:33%;" />
@@ -433,7 +387,6 @@ object Main {
 - `persist()` 方法在 Spark 中用于持久化 RDD 的数据。当你对一个 RDD 应用了 `partitionBy()` 或其他影响数据分区的操作后，应该使用 `persist()` **来避免重复计算**。
 
 - **不是所有 Spark 操作都会保留父 RDD 的分区信息**。一些操作会创建具有特定分区器的新 RDD，而其他操作则会导致结果 RDD 不具有分区器。例如：
-
   - `cogroup()`, `groupWith()`, `join()`, `leftOuterJoin()`, `rightOuterJoin()`, `groupByKey()`, `reduceByKey()`, `combineByKey()`, `partitionBy()` 会产生带有分区器的 RDD。
   - 如果父 RDD 具有分区器，则 `sort()`, `mapValues()`, `flatMapValues()`, `filter()` 等操作也会生成带有分区器的 RDD。
   - 对于多个 RDD 的操作，如果其中一个父 RDD 有分区器，结果 RDD 通常会采用这个分区方式；如果多个父 RDD 都有分区器，结果 RDD 会采用第一个父 RDD 的分区器。
@@ -444,16 +397,10 @@ object Main {
   - **RangePartitioner**：在需要按照键的顺序排序数据时使用。它将键空间划分为不同的区间，每个区间对应一个分区。这种分区器在执行 `sortByKey` 操作时非常有用。
 
 - 自定义分区
-
   - 继承 `org.apache.spark.Partitioner` 类并实现以下方法：
-
   - **numPartitions**: 这个方法需要返回分区的总数。这通常是一个固定的值，决定了数据将被分散到多少个分区中。
-
   - **getPartition(key: Any)**: 这个方法需要根据提供的键来返回一个分区编号（从 0 到 `numPartitions-1`）。这是分区逻辑的核心，你可以在这里实现自定义的分区规则。
-
   - **equals()**: 这个方法用于检查当前的分区器实例是否和另一个分区器实例相同。这在确定是否可以重用现有的分区数据时很有用。
-
-
 ```scala
 class CustomPartitioner(partitions: Int) extends org.apache.spark.Partitioner {
     //返回分区的数目
@@ -477,12 +424,9 @@ class CustomPartitioner(partitions: Int) extends org.apache.spark.Partitioner {
 #### 数据读取与保存
 
 - 文件格式
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219001708049.png" alt="image-20231219001708049" style="zoom:33%;" />
 
   - **文本文件**：输入的每一行都会成为RDD的一个元素；也可以将多个完整的文本文件一次性读取为一个Pair RDD，键是文件名，值是文件内容。
-
-
 ```scala
 val input = sc.textFile(“file:///home/spark/README.MD”)
 input.saveAsTextFile(outputFile)
@@ -490,10 +434,7 @@ val input = sc.wholeTextFiles(“file:///home/spark/salefiles”)
 ```
 
 - **JSON**：将数据作为文本文件读取，然后使用JSON解析器来对RDD的值进行映射操作。
-
 - **CSV**：**当作普通文本文件读取**，再对数据进行处理。每条记录都没有相关联的字段名，**只能得到对应的序号**。常规做法是使用第一行中每列的值作为字段名。
-
-
 ```scala
 import Java.io.StringReader
 import au.com.bytecode.opencsv.CSVReader
@@ -508,14 +449,10 @@ reader.readNext();
 - SequenceFile：由没有相对关系结构的键值对文件组成的常用Hadoop格式。有同步标记，Spark可以用它来定位到文件中的某个点，然后再与记录的边界对齐。由实现Hadoop的Writable接口的元素组成。
 
 - 文件系统
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219002408868.png" alt="image-20231219002408868" style="zoom:33%;" />
 
 - Spark SQL中的结构化数据源*
-
   - Hive：Spark SQL可以**读取Hive支持的任何表**
-
-
 ```scala
 import org.apache.spark.sql.hive.HiveContext
 val hiveCtx = new org.apache.spark.sql.hive.HiveContext(sc)
@@ -523,7 +460,6 @@ val rows = hiveCtx.sql(“SELECT name, age FROM users”)
 val firstRow = rows.first()
 println(firstRow.getString(0))
 ```
-
 JSON：Spark SQL可以自动推断出JSON数据的结构信息
 
 ```scala
@@ -533,9 +469,7 @@ val tweets = hiveCtx.jsonFile(“tweets.json”)
 tweets.registerTempTable(“tweets”)
 val results = hiveCtx.sql(“SELECT user.name, text FROM tweets”)
 ```
-
 - Java**数据库连接**：org.apache.spark.rdd.JdbcRDD
-
 
 ```scala
 def createConnection() = {
@@ -550,24 +484,18 @@ val data = new JdbcRDD(sc, createConnection, ”SELECT * FROM panda
                        extractValues)
 println(data.collect().toList)
 ```
-
 - Spark可以通过Hadoop输入格式访问HBase，这个输入格式会返回键值对数据，其中键的类型为org.apache.hadoop.hbase.io.ImmutableBytesWritable，值的类型为
   org.apache.hadoop.hbase.client.Result.
 
 #### 共享变量
 
 - 广播变量和累加器
-
   - 广播变量用来把变量在**所有节点**的内存之间**进行共享**
   - 累加器则支持在所有**不同节点**之间进行**累加计算**
 
 - 广播变量
-
   - 在分布式计算中，当同一个数据需要在多个节点上**重复使用时**，如果每次都通过网络传输这些数据，会造成**大量的网络通信开销**。为了优化这个过程，Spark 提供了广播变量，允许程序员将大型只读值**高效地分发**到所有工作节点，而**不是在每个任务中发送**这些数据。
-
   - 可以通过调用SparkContext.broadcast(v)来从一个普通变量v中**创建一个广播变量**。这个广播变量就是对普通变量v的一个包装器，通过调用value方法就可以获得这个广播变量的值
-
-
 ```scala
 val broadcastVar = sc.broadcast(Array(1, 2, 3))
  broadcastVar.value//变量值的获取
@@ -576,12 +504,8 @@ val broadcastVar = sc.broadcast(Array(1, 2, 3))
 - 这个广播变量被创建以后，那么在集群中的任何函数中，**都应该使用广播变量**broadcastVar的值，而不是使用v的值，这样就不会把v重复分发到这些节点上。此外，一旦广播变量创建后，**普通变量v的值就不能再发生修改**（有人不应该修改广播变量的值），从而确保所有节点**都获得这个广播变量的相同的值**。
 
 - 累加器
-
   - 累加器是**仅仅被相关操作累加的变量**，通常可以被用来实现计数器（counter）和求和（sum）。Spark原生地支持数值型（numeric）的累加器，程序开发人员可以编写对新类型的支持。
-
   - 一个数值型的累加器，可以通过调用SparkContext.longAccumulator()或者SparkContext.doubleAccumulator()来创建。运行在集群中的任务，就可以使用**add方法**来把数值累加到累加器上，但是，这些任务**只能做累加操作，不能读取累加器的值**，只有任务**控制节点可以使用value来读取累加器的值**
-
-
 ```scala
 al accum = sc.longAccumulator("My Accumulator")
 sc.parallelize(Array(1, 2, 3, 4)).foreach(x => accum.add(x))
@@ -615,7 +539,6 @@ counts.saveAsTextFile ("hdfs://...")
   - Spark的大部分操作都是在**内存中完成**的，相比于MapReduce每次从分布式文件系统中获取数据要高效
   - Spark的所有迭代操作都在**一个Job中**完成，相比于MapReduce没有重启多次Job带来的开销
   - Spark任务执行结束直接退出，**不需要另外一个Job**来检测迭代终止条件
-
 
 ```scala
 //读取数据初始化聚类
@@ -685,16 +608,15 @@ Map[Int, Array[Double]] = Map(
   - 不仅支持在Spark程序内使用SQL语句进行数据查询，也支持从外部工具中通过JDBC/ODBC连接Spark SQL进行查询；
   - 支持SQL与常规的Python/Java/Scala代码高度整合，包括连接RDD与SQL表、公开的自定义SQL函数接口等。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219090508331.png" alt="image-20231219090508331" style="zoom:50%;" />
+
 - 特点
   - **数据兼容**：兼容Hive，还可以从RDD、Parquet文件、JSON文件中获取数据，可以在Scala代码里访问Hive元数据，执行Hive语句，并且把结果取回作为RDD使用。支持Parquet文件读写。
   - **组件扩展**：语法解析器、分析器、优化器
   - **性能优化**：内存列存储、动态字节码生成、内存缓存数据
   - **支持多种语言**
-
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219103454507.png" alt="image-20231219103454507" style="zoom:50%;" />
 
 - `SparkContext` 是 Spark 的**早期编程接口**，主要用于 RDD 操作。而 `SparkSession` 是 Spark 2.0 之后引入的新接口，是 DataFrame 和 DataSet API 的主要入口点。
-
 
 ```scala
 val conf = new SparkConf().setAppName("Spark Pi").setMaster("local")
@@ -852,14 +774,11 @@ df.write.format("json").save("path/to/output")
 ### Spark MLBase（机器学习）
 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219104846923.png" alt="image-20231219104846923" style="zoom:50%;" />
-
   - MLlib是常用机器学习算法的实现库
   - MLI是进行特征抽取和高级ML编程抽象的算法实现的API
   - ML Optimizer优化器**会选择最合适的，已经实现好了**的机器学习算法和相关参数
 
 - 分类器训练示例
-
-
 ```scala
 //构造一个10行10列的数组
 val data = Array.ofDim[Int](10,10)
@@ -877,8 +796,6 @@ model = do_classify(y,x)
 ```
 
 - KMeans示例
-
-
 ```scala
 mport org.apache.spark.mllib.clustering.{KMeans, KMeansModel}
 import org.apache.spark.mllib.linalg.Vectors
@@ -906,11 +823,8 @@ val sameModel = KMeansModel.load(sc, "target/org/apache/spark/KMeansExample/KMea
 ##### 数据类型
 
 - 本地向量
-
   - 本地向量存储在单机上，由从0开始的Int型的索引和Double型的值组成，存储在单机上。
-
   - MLlib支持两种类型的本地向量：**密集向量和稀疏向量**。密集向量的值由Double型的数据表示，而稀疏向量由**两个并列的索引和值表示**。
-
 
 ```scala
 //导入MLlib
@@ -922,16 +836,11 @@ val sv1: Vector = Vectors.sparse(3, Array(0,2), Array(1.0, 3.0))
 //通过指定非零向量的索引和值，创建(1.0, 0.0, 3.0)的序列化的稀疏向量
 val sv2: Vector = Vectors.sparse(3, Seq((0, 1.0), (2, 3.0)))
 ```
-
 - 读取并创建稀疏向量`val examples: RDD[LabeledPoint] = MLUtils.loadLibSVMFile(sc, “data/MLlib/sample_libsvm_data.txt”)`
 
 - 标记点
-
   - 标记点是由一个本地向量（密集或稀疏）和一个标签（Int型或Double型）组成。在MLlib中，标记点主要被应用于回归和分类这样的监督学习算法中。标签通常采用Int型或Double型的数据存储格式
-
   - 算法可以**学习特征和标签之间**的关系，并**用于预测新样本的标签**。
-
-
 ````scala
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.LabeledPoint
@@ -942,12 +851,8 @@ val neg = LabeledPoint(0.0, Vectors.sparse(3, Array(0,2), Array(1.0, 3.0)))
 ````
 
 - 本地矩阵
-
   - Mllib支持密集矩阵，密集矩阵的值以列**优先方式**存储在一个Double类型的数组中
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219110243579.png" alt="image-20231219110243579" style="zoom:33%;" />
-
-
 ```scala
 val dm: Matrix = Matrices.dense(3, 2, Array(1.0, 3.0, 5.0, 2.0, 4.0, 6.0))
 //稀疏矩阵
@@ -955,7 +860,6 @@ val sm: Matrix = Matrices.sparse(3, 2, Array(0, 1, 3), Array(0, 2, 1), Array(9, 
 ```
 
 - 分布式矩阵
-
   - 分布式矩阵由（Long类型行索引，Long类型列索引，Double类型值）组成，分布存储在一个或多个RDD中。因为要缓存矩阵的大小，所以分布式矩阵底层的RDD必须是确定的，选择正确的格式来存储巨大的分布式矩阵是非常重要的，否则会导致错误的出现。MLlib已实现了四种分布式矩阵：
   - 行矩阵 RowMatrix
   - 行索引矩阵 IndexedRowMatrix
@@ -965,21 +869,14 @@ val sm: Matrix = Matrices.sparse(3, 2, Array(0, 1, 3), Array(0, 2, 1), Array(9, 
 ##### 工作流程
 
 - 如果要用MLlib来完成文本分类的任务，只需如下操作：
-
   - 首先用字符串RDD来表示你的消息
   - 运行MLlib的一个特征提取算法来把文本数据转换为数值特征，该操作会返回一个向量RDD
   - 对向量RDD调用分类算法（比如逻辑回归），这步会返回一个模型对象，可以使用该对象对新的数据点进行分
   - 使用MLlib的评估函数在测试数据集上评估模型
 
 - Iris数据集（花的三个属性，实现分类）为例
-
-- 数据处理
-
   - 首先需要将Iris-setosa，Iris-versicolour，Iris-virginica转化成0，1，2来表示。生成LabeledPoint类型RDD
-
   - 先用textFile 读取数据，然后对string类型的RDD调用map操作，转换成**LabeledPoint**类型的RDD。
-
-
 ```scala
 val rdd: RDD[String] = sc.textFile(path)
 
@@ -999,15 +896,11 @@ val Array(trainData,testData): Array[RDD[LabeledPoint]] = rddLp.randomSplit(Arra
 ```
 
 - 训练模型及模型评估
-
   - 对于分类问题可以使用：朴素贝叶斯，决策树，随机森林，支持向量机，logistics
     回归等算法
-
     - 支持向量机（SVM），logistics回归是二分类的算法，由于本数据集有多个类别，所以**可以利用多个二分类分类器来实现多分类目标。**
 
   - 决策树
-
-
 ```scala
 //训练决策树模型
 val decisonModel: DecisionTreeModel = DecisionTree.trainClassifier(trainData,3, Map[Int, Int](),"gini",8,16)
@@ -1031,13 +924,12 @@ val acc: Double = result.filter(x=>x._1==x._2).count().toDouble /result.count()
   - Estimator：适配一个DataFrame，**产生另一个Transformer的算法**。实现fit()方法。
     - 一个 `Estimator` 是一个算法，用于**从数据中“学习”或“拟合”出一个模型**。换言之，`Estimator` 是一个可以根据输入数据生成模型的算法。例如，在 Spark 中，一个**机器学习算法**（如逻辑回归）被实现为一个 `Estimator`。
     - `fit` 方法是 `Estimator` 的核心。当调用一个 `Estimator` 的 `fit` 方法时，它会**尝试从提供的数据中“学习”或“训练”。**学习的**结果是一个 `Transformer`，**它封装了从数据中学到的模型。
-  - Pipeline：**指定连接**多个Transformers和Estimators的ML工作流。
+  - Pipeline：**指定连接**多个 Transformers 和 Estimators 的 ML 工作流。
   - Parameter：全部的Transformers和Estimators共享一个指定Parameter的通用API。
 
 - 工作流程：首先使用几个 `Transformer` 对原始数据**进行预处理**，然后使用一个 `Estimator` 来**拟合一个模型**，最后使用该模型（现在作为一个 `Transformer`）对新数据**进行预测**。
 
 - pipeline
-
   - Pipeline 表示了一个完整的数据处理和机器学习工作流。在 Spark MLlib 中，一个 Pipeline 由**多个阶段**组成，这些阶段依次运行。
   - 一个流水线被指定为一系列**由Transformer或Estimator组成的阶段**（Stage）。这些阶段按照顺序运行，输入的DataFrame在运行的每个阶段进行转换
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219114515721.png" alt="image-20231219114515721" style="zoom: 50%;" />
@@ -1053,12 +945,9 @@ val acc: Double = result.filter(x=>x._1==x._2).count().toDouble /result.count()
   - 一个流水线被指定为一系列由Transformer或Estimator组成的阶段（Stage）。这些阶段按照顺序运行，输入的DataFrame在运行的每个阶段进行转换
 
 - 对比
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219114247309.png" alt="image-20231219114247309" style="zoom:33%;" />
 
 - KMeans示例
-
-
 ```scala
 import org.apache.spark.ml.clustering.Kmeans
 val spark = SparkSession.builder.appName("CSV to DataFrame").getOrCreate()
@@ -1077,8 +966,6 @@ model.clusterCenters.foreach(println)
 ```
 
 - Iris鸢尾花示例
-
-
 ```scala
 val df: DataFrame = sparkSession.read.format("csv")
 .option("inferSchema", "true")//自动推断字段类型
@@ -1140,12 +1027,10 @@ val acc: Double = new MulticlassClassificationEvaluator()
 - 操作：生成一个新的DStream；把数据写入外部系统中
 
 - 输入源：
-
   - 每一个输入流DStream**和一个Receiver对象关联**，这个Receiver**从源中获取数据**，并将数据存入内存中进行处理。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221172320633.png" alt="image-20231221172320633" style="zoom: 50%;" />
 
 - 基本流程
-
   - 首先**创建StreamingContext**
   - 通过创建输入DStream来创建**输入数据源。**
     - 一个SparkContext可以创建多个StreamingContext，只要上一个先用stop(false)停止，再创建下一个即可。(一个JVM同时只能有一个StreamingContext启动)
@@ -1157,8 +1042,6 @@ val acc: Double = new MulticlassClassificationEvaluator()
     - 调用stop()方法时，会同时停止内部的SparkContext，如果不希望如此，还希望后面继续使用SparkContext创建其他类型的Context，比如SQLContext，那么就用stop(false)。
 
 - 从**监听TCP套接字**的数据服务器获取文本数据，然后计算文本中包含的单词数。
-
-
 ```scala
 import org.apache.spark._
 import org.apache.spark.streaming._
@@ -1196,17 +1079,12 @@ object WordCount {
 - 转换操作：允许在DStream运行任何RDD-to-RDD函数，比如map,flatMap, filter, reduce, join等
 
 - 状态操作：
-
   - **`updateStateByKey`**:允许对 DStream 中的数据保持跨批次的状态。这种方法可以让你追踪例如每个键的运行计数或其他状态。
-
     - 该操作会为**每个键维护一个状态**，并不断用**新的数据来更新**这个状态。这是通过提供一个函数实现的，该函数会接收两个参数：一个是当前批次该键的新值，另一个是该键的旧状态（如果存在的话）。
     - 这个函数的输出是键的新状态，会被 Spark Streaming 保存下来，以便在下一个批次中使用。
     - 这允许开发者在整个数据流的生命周期内维护和更新状态信息，如总计数器或者窗口内的平均值。
-
   - **`window`**:允许对**指定时间范围内**的数据进行转换处理，而不是仅仅对单个批次的数据进行操作。
-
     - **窗口长度**：这是窗口的持续时间，意味着在这个**时间范围内的数据**会被包含在内进行处理。
-
 
 ```scala
 val updateFunc = (values: Seq[Int], state: Option[Int]) => {
@@ -1219,15 +1097,11 @@ val stateDstream = wordDstream.updateStateByKey[Int](updateFunc)
 ```
 
 - **滑动间隔**：这是窗口操作执行的时间间隔，意味着**每隔多长时间窗口会向前滑动**并进行一次计算。
-
 - 输出操作
-
 - 缓存及持久化：
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221173114284.png" alt="image-20231221173114284" style="zoom:33%;" />
 
 - 检查点：
-
   - Metadata checkpointing：保存流计算的定义信息到容错存储系统如HDFS中。这用来恢复应用程序中运行worker的节点的故障。
     - Configuration
     - DStream operations
@@ -1261,8 +1135,10 @@ val stateDstream = wordDstream.updateStateByKey[Int](updateFunc)
   - **任务类型**:
     - **批量计算**：任务通常是一次性的，也就是说，每个任务在处理完分配给它的数据块后就会结束。批量作业通常有明确的开始和结束。
     - **流式计算**：任务通常是持久运行的，也称为长任务。这些任务不停地从数据源接收数据，处理后即时产出结果。流式计算的任务可能永远不会结束，除非显式停止。
+
 - 离线=批量？实时=流式？
-  - 离线和实时应该指的是：数据处理的延迟；批量和流式指的是：数据处理的方式。两者并没有必然的关系。事实上Spark streaming就是采用小批量（batch）的方式来实现实时计算。
+  - 离线和实时应该指的是：数据处理的延迟；批量和流式指的是：数据处理的方式。两者并没有必然的关系。事实上 Spark streaming 就是采用小批量（batch）的方式来实现实时计算。
+
 - 流式计算框架
   - Apache Storm
   - Apache Spark Streaming
@@ -1274,6 +1150,7 @@ val stateDstream = wordDstream.updateStateByKey[Int](updateFunc)
   - **Spark Streaming** 是Spark最初的流处理框架，使用微批处理的方法。提供了基于RDDs的Dstream API，每个时间间隔内的数据为一个RDD，源源不断对RDD进行处理来实现流计算.
   - **Structured Streaming** 把实时数据流看作是一个无界表，每个数据项的到来就像是向表中追加新行。它构建在 Spark SQL 引擎之上，提供了使用 DataFrame 和 DataSet API 处理数据流的能力。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221211418419.png" alt="image-20231221211418419" style="zoom:33%;" />
+
 - **编程接口**:
   - **Spark Streaming** 提供的是基于 RDD 的 DStream API。
   - **Structured Streaming** 使用 DataFrame 和 DataSet API，允许使用 Spark SQL 的功能来处理数据，使得转换和输出变得更简单。
@@ -1283,13 +1160,16 @@ val stateDstream = wordDstream.updateStateByKey[Int](updateFunc)
   - **Spark Streaming** 主要基于处理时间，即数据到达处理引擎的时间。它没有直接支持事件时间的处理，也就是数据实际发生的时间。
   - **Structured Streaming** 支持基于事件时间的数据处理，允许开发者根据数据中包含的时间戳字段来处理数据，这对于处理乱序数据或实现窗口计算非常重要。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221211624493.png" alt="image-20231221211624493" style="zoom:33%;" />
+
 - **可靠性保障**:
   - **Spark Streaming** 和 **Structured Streaming** 都使用了 checkpoint 机制来提供可靠性保证，通过设置检查点将数据保存到文件系统，并在出现故障时恢复数据。
   - 在 **Spark Streaming** 中，如果修改了流程序的代码，从 checkpoint 恢复时可能会出现兼容性问题，因为 Spark 可能无法识别修改后的程序。
   - 在 **Structured Streaming** 中，对于指定的代码更改，通常可以从 checkpoint 中恢复数据而不受影响。
+
 - **输出 Sink**:
   - **Spark Streaming** 提供了 `foreachRDD` 方法，允许开发者自行编程来将每个批次的数据写出。
-  - **Structured Streaming** 提供了内置的 sink（如 Console Sink、File Sink、Kafka Sink等），并通过 `DataStreamWriter` 提供了一个简单的配置接口。对于自定义 sink，它提供了 `ForeachWriter` 接口。
+  - **Structured Streaming** 提供了内置的 sink（如 Console Sink、File Sink、Kafka Sink 等），并通过 `DataStreamWriter` 提供了一个简单的配置接口。对于自定义 sink，它提供了 `ForeachWriter` 接口。
+
 - **总结**:
   - **Structured Streaming** 提供了更简洁的 API、更完善的流功能，并且更适合于流处理的场景。
   - **Spark Streaming** 可能更适合于处理时间不是非常敏感的场景，它已经成为了一个遗留项目，不再更新，Apache Spark 社区推荐使用 Structured Streaming。
@@ -1301,6 +1181,7 @@ val stateDstream = wordDstream.updateStateByKey[Int](updateFunc)
 - GraphX公开了一系列基本运算，以及一个优化后的Pregel API的变形。包括越来越多的图形计算和builder构造器，以简化图形分析任务。
 - 在Spark之上提供了一站式解决方案，可以方便且高效地**完成图计算的一整套流水作业**。
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221212242694.png" alt="image-20231221212242694" style="zoom:33%;" />
+
 - 弹性分布式属性图
   - 弹性分布式属性图，一**种点和边都带属性的有向多重图**。它扩展了Spark RDD的抽象，有**Table和Graph两种视图**，而只需要一份物理存储。两种视图都有自己独有的操作符（适应不同的操作），从而获得了灵活操作和执行效率。
   - 对Graph视图的所有操作，**最终都会转换成**其关联的Table视图的**RDD操作**来完成。这样对一个图的计算，最终在逻辑上，等价于一系列RDD的转换过程。因此，Graph最终具备了RDD的3个关键特性：Immutable、Distributed和Fault-Tolerant，其中最关键的是Immutable（不变性）。**逻辑上**，所有图的转换和操作都**产生了一个新图**；**物理上**，GraphX会有一定程度的不变顶点和边的**复用优化**，对用户透明。
@@ -1312,12 +1193,8 @@ val stateDstream = wordDstream.updateStateByKey[Int](updateFunc)
 #### GraphX编程与图操作
 
 - 构造图
-
   - 通过Graph对象构造图
-
     - 创建两个RDD：一个用于顶点（Vertex RDD），另一个用于边（Edge RDD）。然后，将这两个RDD传递给`Graph`类的构造函数。
-
-
 ```scala
 val conf = new SparkConf().setAppName("GraphXExample")
 val sc = new SparkContext(conf)
@@ -1349,8 +1226,6 @@ val graph = Graph(vertices, relationships, defaultUser)
 ```
 
 - 通过Graph Builder构造图
-
-
 ```scala
 val graph = GraphBuilder
   .withEdges(relationships)
@@ -1360,10 +1235,7 @@ val graph = GraphBuilder
 ```
 
 - 载入图
-
   - GraphLoader.edgeListFile提供了一种从磁盘上边的列表载入图的方式。
-
-
 ```scala
 val conf = new SparkConf().setAppName("GraphXExample")
 val sc = new SparkContext(conf)
@@ -1373,30 +1245,20 @@ val graph: Graph[Int, Int] = GraphLoader.edgeListFile(sc, "hdfs:/path/to/edge-li
 ```
 
 - 图操作
-
   - 转换操作
-
     - 转换操作用于改变图中的顶点或边的**属性**而**不改变图的结构**。
-
-
 ```scala
 val newGraph = graph.mapVertices((id, attr) => attr * 2)
 ```
 
 - 结构操作
-
   - 结构操作用于**改变图的结构**，例如反转边、子图的生成等。
-
-
 ```scala
 val reversedGraph = graph.reverse
 ```
 
 - 关联操作
-
   - 关联操作用于**将外部RDD数据与图的顶点或边关联**起来。
-
-
 ```scala
 val updatedGraph = graph.joinVertices(externalVertexData) {
   (id, oldAttr, newAttr) => newAttr
@@ -1404,59 +1266,42 @@ val updatedGraph = graph.joinVertices(externalVertexData) {
 ```
 
 - 聚合操作
-
   - 聚合操作用于聚合图中的信息，例如计算顶点的邻居的属性的总和。
-
-
 ```scala
 val vertexOutDegrees = graph.outDegrees
 //计算每个顶点的出度
 ```
 
 - 缓存操作
-
   - 缓存操作用于优化图的多次遍历。GraphX中的图操作是惰性的，所以在**多次操作同一个图时使用缓存是个好主意。**
-
-
 ```scala
 graph.cache()
 ```
 
 - `triplets`操作：**同时访问**图中的**边**和与这些边相连的**顶点**的属性。
-
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221215319235.png" alt="image-20231221215319235" style="zoom:33%;" />
-
-  - ```scala
+```scala
     al result = graph.triplets.filter { triplet =>
       (triplet.srcAttr - triplet.dstAttr).abs > 10
     }
-    ```
+ ```
 
 #### 常用图算法
 
 - PageRank算法
-
   - GraphX自带PageRank的静态和动态实现，放在PageRank对象中。静态的PageRank运行固定数量的迭代，而动态的PageRank运行直到排名收敛。(搜索引擎网站排名)
-
-
 ```scala
 val ranks = graph.pageRank(0.0001).vertices
 ```
 
 - 三角形计数算法
-
   - 计算通过各顶点的三角形数目，从而提供集群的度。三角形的数量**可以用来衡量网络的紧密程度。**
-
-
 ```scala
 val triCounts = graph.triangleCount().vertices
 ```
 
 - 连接分量算法
-
   - 连接分量算法标出了图中编号最低的顶点所连接的子集。
-
-
 ```scala
 val cc = graph.connectedComponents().vertices
 ```
