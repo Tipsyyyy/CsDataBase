@@ -6,18 +6,8 @@
       {
         "id": "48250b3e7d4025a8",
         "type": "tabs",
-        "dimension": 34.12887828162291,
+        "dimension": 34.11513859275053,
         "children": [
-          {
-            "id": "1de5ed3048aaecf1",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/大数据/课件/13 NoSQL数据库.pdf"
-              }
-            }
-          },
           {
             "id": "fc8a2bc6c7579d8c",
             "type": "leaf",
@@ -93,7 +83,7 @@
       {
         "id": "ab9d111c4271ed1f",
         "type": "tabs",
-        "dimension": 31.443914081145586,
+        "dimension": 32.356076759061835,
         "children": [
           {
             "id": "649468bdb1fdb6a7",
@@ -112,7 +102,7 @@
       {
         "id": "2a1160213c0e25f6",
         "type": "tabs",
-        "dimension": 34.427207637231504,
+        "dimension": 33.52878464818763,
         "children": [
           {
             "id": "ad544b4cf1f161bf",
@@ -408,10 +398,10 @@
           }
         ],
         "direction": "vertical",
-        "x": 1787,
-        "y": 504,
-        "width": 600,
-        "height": 992,
+        "x": 1647,
+        "y": 289,
+        "width": 301,
+        "height": 497,
         "maximize": true,
         "zoom": 0
       }
@@ -419,15 +409,19 @@
   },
   "active": "ad544b4cf1f161bf",
   "lastOpenFiles": [
+    "课程/大数据/课件/14 HBase基本原理与程序设计.pdf",
+    "课程/大数据/课件/16 Spark简介.pdf",
+    "课程/大数据/课件/19 Spark Advanced Programming (I).pdf",
+    "课程/大数据/课件/18 Spark Basic Programming (II).pdf",
+    "课程/大数据/课件/17 Spark Basic Programming (I).pdf",
+    "课程/大数据/课件/15 Hive简介.pdf",
     "课程/大数据/期末复习.md",
     "课程/大数据/笔记/NoSQL.md",
-    "课程/大数据/课件/13 NoSQL数据库.pdf",
-    "课程/大数据/课件/16 Spark简介.pdf",
-    "课程/大数据/课件/15 Hive简介.pdf",
-    "课程/大数据/课件/14 HBase基本原理与程序设计.pdf",
     "课程/大数据/作业/p6.md",
+    "课程/大数据/作业/p8.md",
+    "课程/大数据/作业/p7.md",
+    "课程/大数据/课件/13 NoSQL数据库.pdf",
     "课程/大数据/笔记/Spark.md",
-    "课程/大数据/课件/17 Spark Basic Programming (I).pdf",
     "课程/大数据/笔记/云计算.md",
     "课程/大数据/课件/21 Cloud Computing.pdf",
     "课程/大数据/课件/20 Spark Advanced Programming (II).pdf",
@@ -435,16 +429,12 @@
     "课程/大数据/实验/p3.md",
     "课程/大数据/作业/p10.md",
     "课程/大数据/作业/p9.md",
-    "课程/大数据/作业/p8.md",
-    "课程/大数据/作业/p7.md",
     "课程/大数据/笔记/Hadoop.md",
     "课程/大数据/实验/p2.md",
     "课程/大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf",
     "课程/大数据/作业/p5.md",
     "课程/大数据/笔记/Hive.md",
     "课程/大数据/笔记/HBase.md",
-    "课程/大数据/课件/19 Spark Advanced Programming (I).pdf",
-    "课程/大数据/课件/18 Spark Basic Programming (II).pdf",
     "Excalidraw/Drawing 2024-01-02 20.44.47.excalidraw.md",
     "课程/大数据/作业/p4.md",
     "课程/大数据/作业/p3.md",
