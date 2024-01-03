@@ -5,28 +5,8 @@
       "path": "课程/金融大数据/笔记/云计算.md"
     },
     {
-      "basename": "21 Cloud Computing",
-      "path": "课程/金融大数据/课件/21 Cloud Computing.pdf"
-    },
-    {
-      "basename": "期末复习",
-      "path": "课程/金融大数据/期末复习.md"
-    },
-    {
-      "basename": "Hadoop",
-      "path": "课程/金融大数据/笔记/Hadoop.md"
-    },
-    {
-      "basename": "NoSQL",
-      "path": "课程/金融大数据/笔记/NoSQL.md"
-    },
-    {
-      "basename": "p2",
-      "path": "课程/金融大数据/实验/p2.md"
-    },
-    {
-      "basename": "12 MapReduce数据挖掘基础算法 (III)",
-      "path": "课程/金融大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf"
+      "basename": "p6",
+      "path": "课程/金融大数据/作业/p6.md"
     },
     {
       "basename": "p4",
@@ -49,12 +29,48 @@
       "path": "课程/金融大数据/作业/p8.md"
     },
     {
-      "basename": "p6",
-      "path": "课程/金融大数据/作业/p6.md"
-    },
-    {
       "basename": "p7",
       "path": "课程/金融大数据/作业/p7.md"
+    },
+    {
+      "basename": "21 Cloud Computing",
+      "path": "课程/金融大数据/课件/21 Cloud Computing.pdf"
+    },
+    {
+      "basename": "16 Spark简介",
+      "path": "课程/金融大数据/课件/16 Spark简介.pdf"
+    },
+    {
+      "basename": "15 Hive简介",
+      "path": "课程/金融大数据/课件/15 Hive简介.pdf"
+    },
+    {
+      "basename": "14 HBase基本原理与程序设计",
+      "path": "课程/金融大数据/课件/14 HBase基本原理与程序设计.pdf"
+    },
+    {
+      "basename": "17 Spark Basic Programming (I)",
+      "path": "课程/金融大数据/课件/17 Spark Basic Programming (I).pdf"
+    },
+    {
+      "basename": "期末复习",
+      "path": "课程/金融大数据/期末复习.md"
+    },
+    {
+      "basename": "Hadoop",
+      "path": "课程/金融大数据/笔记/Hadoop.md"
+    },
+    {
+      "basename": "NoSQL",
+      "path": "课程/金融大数据/笔记/NoSQL.md"
+    },
+    {
+      "basename": "p2",
+      "path": "课程/金融大数据/实验/p2.md"
+    },
+    {
+      "basename": "12 MapReduce数据挖掘基础算法 (III)",
+      "path": "课程/金融大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf"
     },
     {
       "basename": "p5",
@@ -83,22 +99,6 @@
     {
       "basename": "18 Spark Basic Programming (II)",
       "path": "课程/金融大数据/课件/18 Spark Basic Programming (II).pdf"
-    },
-    {
-      "basename": "17 Spark Basic Programming (I)",
-      "path": "课程/金融大数据/课件/17 Spark Basic Programming (I).pdf"
-    },
-    {
-      "basename": "16 Spark简介",
-      "path": "课程/金融大数据/课件/16 Spark简介.pdf"
-    },
-    {
-      "basename": "15 Hive简介",
-      "path": "课程/金融大数据/课件/15 Hive简介.pdf"
-    },
-    {
-      "basename": "14 HBase基本原理与程序设计",
-      "path": "课程/金融大数据/课件/14 HBase基本原理与程序设计.pdf"
     },
     {
       "basename": "13 NoSQL数据库",

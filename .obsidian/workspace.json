@@ -232,8 +232,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "d615b65a4ccf8a6a",
@@ -332,22 +331,135 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
+  "floating": {
+    "id": "9167a8e78d27abaf",
+    "type": "floating",
+    "children": [
+      {
+        "id": "bc28e4a44a8589bf",
+        "type": "window",
+        "children": [
+          {
+            "id": "21fa267ad61da27f",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "fdeade778f5a90ad",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "课程/金融大数据/作业/p6.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "9a0c575c40d31a48",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "课程/金融大数据/作业/p7.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "c42505566c71379f",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "课程/金融大数据/作业/p8.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "ef0ca06082b3e807",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "课程/金融大数据/作业/p9.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "f1b9daeaeeeb726d",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "课程/金融大数据/作业/p10.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "69caf1062f43f481",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "课程/金融大数据/实验/p3.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "75f6723dd7c7fd3c",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "课程/金融大数据/实验/p4.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": 1787,
+        "y": 504,
+        "width": 600,
+        "height": 992,
+        "maximize": true,
+        "zoom": 0
+      }
+    ]
+  },
   "active": "a76db53055341cce",
   "lastOpenFiles": [
+    "课程/金融大数据/作业/p6.md",
+    "课程/金融大数据/实验/p4.md",
+    "课程/金融大数据/实验/p3.md",
+    "课程/金融大数据/作业/p10.md",
+    "课程/金融大数据/作业/p9.md",
+    "课程/金融大数据/作业/p8.md",
+    "课程/金融大数据/作业/p7.md",
     "课程/金融大数据/课件/21 Cloud Computing.pdf",
+    "课程/金融大数据/课件/16 Spark简介.pdf",
+    "课程/金融大数据/课件/15 Hive简介.pdf",
+    "课程/金融大数据/课件/14 HBase基本原理与程序设计.pdf",
+    "课程/金融大数据/课件/17 Spark Basic Programming (I).pdf",
     "课程/金融大数据/笔记/云计算.md",
     "课程/金融大数据/期末复习.md",
     "课程/金融大数据/笔记/Hadoop.md",
     "课程/金融大数据/笔记/NoSQL.md",
     "课程/金融大数据/实验/p2.md",
     "课程/金融大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf",
-    "课程/金融大数据/实验/p4.md",
-    "课程/金融大数据/实验/p3.md",
-    "课程/金融大数据/作业/p10.md",
-    "课程/金融大数据/作业/p9.md",
-    "课程/金融大数据/作业/p8.md",
-    "课程/金融大数据/作业/p6.md",
-    "课程/金融大数据/作业/p7.md",
     "课程/金融大数据/作业/p5.md",
     "课程/金融大数据/笔记/Spark.md",
     "课程/金融大数据/笔记/Hive.md",
@@ -355,10 +467,6 @@
     "课程/金融大数据/课件/20 Spark Advanced Programming (II).pdf",
     "课程/金融大数据/课件/19 Spark Advanced Programming (I).pdf",
     "课程/金融大数据/课件/18 Spark Basic Programming (II).pdf",
-    "课程/金融大数据/课件/17 Spark Basic Programming (I).pdf",
-    "课程/金融大数据/课件/16 Spark简介.pdf",
-    "课程/金融大数据/课件/15 Hive简介.pdf",
-    "课程/金融大数据/课件/14 HBase基本原理与程序设计.pdf",
     "课程/金融大数据/课件/13 NoSQL数据库.pdf",
     "Excalidraw/Drawing 2024-01-02 20.44.47.excalidraw.md",
     "课程/金融大数据/作业/p4.md",
