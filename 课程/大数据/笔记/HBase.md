@@ -225,27 +225,27 @@
 ##### 表的管理
 
 - 查看有哪些表：`list`
-- 创建表：` create <table>, {NAME => <family>[, VERSIONS => <VERSIONS>]}`
+- **创建表**：` create <table>, {NAME => <family>[, VERSIONS => <VERSIONS>]}`
   - 如 `create 'myTable', {NAME => 'myFamily', VERSIONS => 3}`
   - 创建时指定列族 `create 'student', 'stuInfo'`
   - `VERSIONS => <VERSIONS>`：这是一个可选配置，用来指定列族中保留的数据版本数量。
 
-- 删除表：`disable <table>`
+- **删除表**：`disable <table>`
 - 查看表结构：`describe <table>`
-- 修改表结构：`alter 't1', {NAME => 'f1'}, {NAME => 'f2', METHOD => 'delete'}`
-  - `{NAME => 'f1'}`：第一个修改操作。它没有指定`METHOD`属性，所以默认是**添加**或者修改名为`f1`的列族。如果列族`f1`已经存在，它将保持不变，除非指定了额外的属性来修改它。
-  - `{NAME => 'f2', METHOD => 'delete'}`：第二个修改操作，它指定了删除名为`f2`的列族。这里`METHOD => 'delete'`明确指出了操作类型是删除。
+- **修改表结构**：`alter 't1', {NAME => 'f1'}, {NAME => 'f2', METHOD => 'delete'}`
+  - `{NAME => 'f1'}`：第一个修改操作。它没有指定 `METHOD` 属性，所以**默认**是**添加**或者修改名为 `f1` 的**列族**。如果列族 `f1` 已经存在，它将保持不变，除非指定了额外的属性来修改它。
+  - 对列族的操作属于对表结构的操作，对列的操作才属于对数据的操作
 
 - disable与enable
   - disable和enable都是HBase中比较常见的操作，很多对table的修改**都需要表在disable的状态下才能进行**
 
 ##### 数据增删查改：
 
-- 添加数据：`put <table>,<rowkey>,<family:column>,<value>,<timestamp>`
-- 查询某行记录（获取行）：`get <table>,<rowkey>[,<family:column>,<value>,<timestamp>]`
+- **添加数据**：`put <table>,<rowkey>,<family:column>,<value>,<timestamp>`
+- **查询某行记录**（获取行）：`get <table>,<rowkey>[,<family:column>,<timestamp>]`
   - 可以指定列族和列名来查询特定的列，或者省略来获取整行的数据。
 
-- 扫描表(获取列)：`scan <table>, {COLUMNS => [ <family:column>,.... ], LIMIT => num}`
+- **扫描表**(获取列)：`scan <table>, {COLUMNS => [ <family:column>,.... ], LIMIT => num}`
   - `COLUMNS`: 指定要扫描的列或列族。
   - `LIMIT`: 指定要返回的记录数量限制。
 
@@ -253,8 +253,8 @@
   - `INTERVAL`: 每处理`intervalNum`**行数据**后，会向客户端报告进度。
   - `CACHE`: 用于指定在单个RPC请求中预取的行数，以提高扫描操作的性能。
 
-- 删除行中的某个列值：`delete <table>, <rowkey>, <family:column> , <timestamp>`
-- 删除行：`deleteall '<table>', '<rowkey>'`
+- **删除行中的某个列值**：`delete <table>, <rowkey>, <family:column> , <timestamp>`
+- **删除行**：`deleteall '<table>', '<rowkey>'`
   - 这将删除指定行键的所有列数据
 - 删除表中的所有数据：`truncate <table>`
 
@@ -280,12 +280,11 @@
     - 只想清空数据`truncate 'Student'`
 - 插入数据put
     - `put 'Student', '0001', 'Stulnfo:Name', 'Tom Green', 1`
-    - ‘Student’为表名；‘0001‘为行键的名称，为字符串类型； ’Stulnfo:Name‘为列族和列的名称，中间用冒号隔开，‘Tom Green’为单元格的值，所有数据都是字符串的形式；’1’为时间戳，如果不设置时间戳，则系统会自动插入当前时间为时间戳。
     - 如果 put 语句中的单元格是已经存在的，即行键、列族及列名都已经存在，且不考虑时间戳的情况下，执行 put 语句，则可对数据进行**更新操作**。
 - 删除数据delete
     - `delete 'Student', '0002', 'Grades'`
     - delete命令不能**跨列族操作**，如需删除表中所有列族在某一行上的数据，即删除上表中一个逻辑行，则需要使用 deleteall 命令` deleteall 'Student', ‘0001'`
-    - delete 操作并不会马上删除数据，只会将对应的数据打上删除标记,只有在合并数据时，数据才会被删除。
+    - delete 操作并不会马上删除数据，只会将对应的数据**打上删除标记,**只有在合并数据时，数据才会被删除。
 - 获取数据和查询全表数据get
     - get 命令必须设置表名和行键名，同时可以选择指明列族名称、时间戳范围、数据版本等参数。`get 'Student', '0001'`
 - 查询全表数据scan
@@ -296,41 +295,36 @@
 
 - 所有的过滤器都在**服务端**生效，即谓词下推。这样可以保证过滤掉的数据不会被传送到客户端，从而减轻网络传输和客户端处理的压力。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124084051034.png" alt="image-20231124084051034" style="zoom:33%;" />
-- get和scan操作都可以使用过滤器来设置输出的范围
-- 使用show_filters命令可以查看当前HBase支持的过滤器类型
+- get 和 scan 操作都可以使用过滤器来设置输出的范围
+- 如 `scan 'course', {COLUMNS => ['couInfo:C_No', 'couInfo:C_Name'], FILTER => "SingleColumnValueFilter('couInfo', 'C_Name', =, 'binary:BigData')"}`
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124084202730.png" alt="image-20231124084202730" style="zoom: 50%;" />
   - 使用`比较器:zhi`如`substring:xx`
 
-- 行键过滤器RowFilter
+- **行键过滤器RowFilter**
   - 配合比较器和运算符，实现行键字符串的比较和过滤
   - 选出0001开头行键`scan 'Student',{Filter=>"RowFilter(=,'substring:0001')"}`
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124085513220.png" alt="image-20231124085513220" style="zoom:50%;" />
 
-- 列族与列过滤器 FamilyFIiter
+- **列族与列过滤器 FamilyFIiter**
   - 对列族名称进行过滤
   - `scan 'Student', FILTER=>" FamilyFilter(= , 'substring:Grades')"`
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124090214269.png" alt="image-20231124090214269" style="zoom:50%;" />
 
-- 值过滤器ValueFilter
+- **值过滤器ValueFilter**
   - 针对单元格进行扫描的过滤器
-  - 利用 get 和 scan 方法对单元格进行过滤，但是使用 get 方法时，需要**指定行键**。SingleColumnValueFilter 和 SingleColumnValueExcludeFilter 过滤器扫描的结果是相反的， 都需要在过滤条件中指定列族和列的名称。
+  - 利用 get 和 scan 方法对单元格进行过滤，但是使用 get 方法时，需要**指定行键**。**SingleColumnValueFilter** 和 SingleColumnValueExcludeFilter 过滤器扫描的结果是相反的， 都需要在过滤条件中指定列族和列的名称。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124090609148.png" alt="image-20231124090609148" style="zoom:50%;" />
 
 - 其他过滤器
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231124090619359.png" alt="image-20231124090619359" style="zoom:50%;" />
-
 
 ### HBase编程*
 
 - Put和Get是操作**指定行**的数据的，所以需要提供行键来进行操作。Scan是操作**一定范围**内的数据，通过指定开始行键和结束行键来获取范围，如果没有指定开始行键和结束行键，则默认获取所有行数据。
 
 - HBaseConfiguration
-
   - HBase配置信息
-
   - 默认的构造方式会尝试从hbase-default.xml和hbase-site.xml中读取配置。
-
-
 ```java
 Configuration HBASE_CONFIG = new Configuration();
 HBASE_CONFIG.set(“hbase.zookeeper.quorum”, “zkServer”);
@@ -339,7 +333,6 @@ HBaseConfiguration cfg= new BaseConfiguration(HBASE_CONFIG);
 ```
 
 - HTableDescriptor
-
   - **含义**：`HTableDescriptor`是一个类，它表示**HBase表**的架构。
   - 作用：
     - 描述了**表的结构**，包括表的名字和它包含的列族。
@@ -347,7 +340,6 @@ HBaseConfiguration cfg= new BaseConfiguration(HBASE_CONFIG);
     - 包含了表级别的设置。
 
 - HColumnDescriptor
-
   - **含义**：`HColumnDescriptor`是一个类，代表**列族**的架构。
   - 作用：
     - 描述了**列族的特性**，例如版本号、压缩设置、TTL（Time To Live）等。
@@ -355,10 +347,7 @@ HBaseConfiguration cfg= new BaseConfiguration(HBASE_CONFIG);
     - 每个列族的配置可以独立于其他列族设置，这提供了针对不同类型数据的优化机会。
 
 - 创建表
-
   - 创建表是通过Admin对象来操作的。Admin负责表的META信息处理。
-
-
 ```java
 Connection conn= ConnectionFactory.createConnection(config);
 Admin admin= conn.getAdmin();
