@@ -591,35 +591,30 @@ val spark = SparkSession.builder.appName("Spark").master("local").getOrCreate()
 ##### DataFrame
 
 - `DataFrame` 代表一个**表格形式的数据结构**，其中包含了行和列。每列有一个名称和类型。
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219090843769.png" alt="image-20231219090843769" style="zoom:50%;" />
-  
 - 与 RDD 类似，`DataFrame` 的操作也是懒执行的。即操作不会立即执行，只有在行动操作（如 `collect`、`show`）被调用时才会触发真正的计算
 
-- **读取数据创建 DataFrame**： 使用 `SparkSession` 读取数据。Spark 支持多种数据源（如 JSON、CSV、Parquet、Hive 表等）。
+- **读取数据创建 DataFrame**： 
 ```scala
 val df = spark.read.json("path/to/jsonfile.json")
 ```
 
-- **显示 DataFrame**： 为了查看 DataFrame 的内容，可以使用 `show()` 方法。
+- 显示 DataFrame： 为了查看 DataFrame 的内容，可以使用 `show()` 方法。
 ```scala
 df.show()
 ```
 
-- **打印 Schema**： 要查看 DataFrame 的结构（即 Schema），可以使用 `printSchema()` 方法。
+- 打印 Schema： 要查看 DataFrame 的结构（即 Schema），可以使用 `printSchema()` 方法。
 ```scala
 df.printSchema()
 ```
 
 - **选择列和过滤行**： 使用 `select()` 选择特定的列，使用 `filter()` 或 `where()` 过滤行。
 ```scala
-scalaCopy codedf.select("columnName").show()
 df.filter($"columnName" > value).show()
 //选择的同时附加对列的操作
 df.select(df("name"), df("age") + 1).show()
 //重命名
 df.select(df("name").as("username"), df("age")).show()
-//进行运算
-val res = dfG.select(dfG("CNT_CHILDREN"), (dfG("count")/sum).as("count"))
 ```
 
 - **新建列**：`withColumn`
@@ -637,57 +632,27 @@ val dfWithoutColumn = df.drop("column_to_drop")
 df.groupBy("columnName").agg(count("columnName")).show()
 ```
 
-- **SQL 查询**： 注册 DataFrame 为临时视图，然后使用 SQL 语句查询。
+- SQL 查询： 注册 DataFrame 为临时视图，然后使用 SQL 语句查询。
 ```scala
 codedf.createOrReplaceTempView("tableName")
 spark.sql("SELECT * FROM tableName WHERE columnName > value").show()
 ```
 
-- **将数据写入外部存储**： 使用 `write()` 方法将 DataFrame 数据写入到外部存储系统，如文件、数据库等。
+- 将数据写入外部存储： 使用 `write()` 方法将 DataFrame 数据写入到外部存储系统，如文件、数据库等。
 ```scala
 df.write.format("json").save("path/to/output")
 ```
+
 - `df.groupBy("age").count().show()`： 按 `"age"` 列的值进行分组，并计算每个年龄组中的记录数（即每个不同年龄值有多少条记录），然后展示结果。
 - `df.sort(df("age").desc, df("name").asc).show()`： 按 `"age"` 列降序和 `"name"` 列升序（多列排序）对 DataFrame 进行排序，并展示结果。
 
 ##### Dataset
 
 - 是`DataFrame`的一个扩展，`DataSet` 提供了静态类型安全。
-  - 对每行的数据添加了类型约束
-  - 每行数据是一个Object
+  - 对每行的数据添加了**类型约束**，每行数据是一个 Object
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219101526913.png" alt="image-20231219101526913" style="zoom:50%;" />
-- DataSet与DataFrame可以相互住转化， Dataset包含了DataFrame的功能（国王为推荐使用Dataset）
+- DataSet与DataFrame可以相互住转化， Dataset包含了DataFrame的功能（推荐使用Dataset）
 - RDD转换DataFrame后不可逆，但RDD转换Dataset是可逆的
-
-##### Spark SQL数据
-
-- DataFrame提供统一接口加载和保存数据源中的数据，包括：结构化数据、Parquet文件(默认)、JSON文件、Hive表，以及通过JDBC连接外部数据源。
-- 加载
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219103849812.png" alt="image-20231219103849812" style="zoom:50%;" />
-- 保存数据
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219103922540.png" alt="image-20231219103922540" style="zoom:50%;" />
-- 性能调优
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219104117157.png" alt="image-20231219104117157" style="zoom:50%;" />
-
-- Parquet
-  - **高效的列式存储**：Parquet 是一个列式存储格式，非常适合用于大数据处理。由于其列式的特性，Spark 可以高效地读取、写入 Parquet 文件，尤其是在只需要访问表中几列数据的场景中，它可以显著减少 IO 开销。
-  - **压缩与解压缩**：Parquet 文件支持高效的压缩和解压缩。它可以存储更为紧凑的数据，减少存储空间的使用
-  - **与 Spark SQL 的集成**：Spark SQL 可以直接读取和写入 Parquet 文件，同时自动保留数据的模式（schema）。这意味着可以方便地将 DataFrame 存储为 Parquet 文件，或从 Parquet 文件中创建 DataFrame。
-
-- JSON
-  - **Schema 推断**：Spark SQL 可以**自动推断 JSON 数据集的模式**，并将其加载为 **DataFrame**。这使得处理 JSON 数据变得非常简便。
-  - **读取 JSON**：可以通过 `SQLContext.read.json()` 方法从 JSON 文件创建 DataFrame，或者通过转换一个包含 JSON 对象的 `RDD[String]` 来创建 DataFrame。
-
-- Hive
-  - **Hive 集成**：要使 Spark SQL 连接到已部署的 Hive，需要将 Hive 的配置文件 `hive-site.xml` 复制到 Spark 的配置文件目录 `conf/` 中。
-  - **Hive 元数据仓库**：如果没有部署 Hive，Spark SQL 会在当前工作目录中创建自己的 Hive 元数据仓库 `metastore_db`。
-  - **数据仓库配置**：可以通过配置项 `spark.sql.warehouse.dir` 来设置默认的数据仓库地址。
-  - **数据格式支持**：Spark SQL 支持 Hive 支持的所有数据格式。
-
-- 连接数据库
-  - **JDBC/ODBC 服务器**：作为一个独立的 Spark 驱动程序运行，它可以在多用户之间共享。通过 JDBC 或 ODBC 连接，客户端可以在内存中缓存数据表并进行查询。这样，集群资源和缓存的数据可以在所有用户之间共享。
-  - **启动 Thrift Server**：可以通过 `sbin/start-thriftserver.sh` 脚本启动 Thrift Server，这允许 JDBC/ODBC 客户端连接到 Spark SQL。
-  - **连接 JDBC 服务器**：使用如 `bin/beeline -u jdbc:hive2://localhost:10000` 的命令连接到 Thrift Server。
 
 ### Spark MLBase（机器学习）
 
@@ -696,54 +661,16 @@ df.write.format("json").save("path/to/output")
   - MLI是进行特征抽取和高级ML编程抽象的算法实现的API
   - ML Optimizer优化器**会选择最合适的，已经实现好了**的机器学习算法和相关参数
 
-- 分类器训练示例
-```scala
-//构造一个10行10列的数组
-val data = Array.ofDim[Int](10,10)
-for (i <- 0 until 10){
-for ( j <- 0 until 10){
-//给数组赋值随机数
-data(i)(j) = scala.util.Random.nextInt(100)
-}
-//取第2～10列数据（训练集的样本特征空间）
-x = data[, 2 to 10]
-//取第1列数据（样本相应的分类标签）
-y = data[, 1]
-//调用分类算法进行分类（MLBase自动选择优化方案）
-model = do_classify(y,x)
-```
 
-- KMeans示例
-```scala
-mport org.apache.spark.mllib.clustering.{KMeans, KMeansModel}
-import org.apache.spark.mllib.linalg.Vectors
-val data = sc.textFile("data/mllib/kmeans_data.txt")
-//每行数据转化为一个稠密向量，并缓存避免每次操作重复计算
-val parsedData = data.map(s => Vectors.dense(s.split(' ').map(_.toDouble))).cache()
-//聚类数目，迭代次数
-val numClusters = 2
-val numIterations = 20
-//执行算法
-val clusters = KMeans.train(parsedData, numClusters, numIterations)
-//评估模型
-val WSSSE = clusters.computeCost(parsedData)
-println("Within Set Sum of Squared Errors = " + WSSSE)
+#### \*MLlib
 
-clusters.save(sc, "target/org/apache/spark/KMeansExample/KMeansModel")
-val sameModel = KMeansModel.load(sc, "target/org/apache/spark/KMeansExample/KMeansModel")
-```
-
-#### MLlib
-
-- MLlib：把数据以RDD的形式表示，然后在分布式数据集上调用各种算法。引入一些数据类型（比如点和向量），给出一系列可供调用的函数的集合。
+- MLlib：把数据以**RDD**的形式表示，然后在分布式数据集上调用各种算法。引入一些数据类型（比如点和向量），给出一系列可供调用的函数的集合。 
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219105108449.png" alt="image-20231219105108449" style="zoom:50%;" />
 
 ##### 数据类型
 
 - 本地向量
-  - 本地向量存储在单机上，由从0开始的Int型的索引和Double型的值组成，存储在单机上。
   - MLlib支持两种类型的本地向量：**密集向量和稀疏向量**。密集向量的值由Double型的数据表示，而稀疏向量由**两个并列的索引和值表示**。
-
 ```scala
 //导入MLlib
 import org.apache.spark.mllib.linalg.{Vector, Vectors}
@@ -757,7 +684,7 @@ val sv2: Vector = Vectors.sparse(3, Seq((0, 1.0), (2, 3.0)))
 - 读取并创建稀疏向量`val examples: RDD[LabeledPoint] = MLUtils.loadLibSVMFile(sc, “data/MLlib/sample_libsvm_data.txt”)`
 
 - 标记点
-  - 标记点是由一个本地向量（密集或稀疏）和一个标签（Int型或Double型）组成。在MLlib中，标记点主要被应用于回归和分类这样的监督学习算法中。标签通常采用Int型或Double型的数据存储格式
+  - 标记点是由一个**本地向量**（密集或稀疏）和**一个标签**（Int型或Double型）组成。在MLlib中，标记点主要被应用于回归和分类这样的监督学习算法中。标签通常采用Int型或Double型的数据存储格式
   - 算法可以**学习特征和标签之间**的关系，并**用于预测新样本的标签**。
 ````scala
 import org.apache.spark.mllib.linalg.Vectors
@@ -831,7 +758,7 @@ val result: RDD[(Double, Double)] = testData.map(x => {
 val acc: Double = result.filter(x=>x._1==x._2).count().toDouble /result.count()
 ```
 
-#### **ML**
+#### ML
 
 - Spark的ML库基于DataFrame提供高性能的API，帮助用户创建和优化实用的机器学习流水线**（Pipeline）**，包括特征转换独有的Pipelines API。相比较Mllib，变化主要体现在：
   - 从机器学习的library开始转向构建一个机器学习**工作流的系统**。ML把整个机器学习的过程抽象成Pipeline，一个Pipeline由多个Stage组成，每个Stage由Transformer或者Estimator组成。
@@ -852,8 +779,8 @@ val acc: Double = result.filter(x=>x._1==x._2).count().toDouble /result.count()
   - 一个流水线被指定为一系列**由Transformer或Estimator组成的阶段**（Stage）。这些阶段按照顺序运行，输入的DataFrame在运行的每个阶段进行转换
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219114515721.png" alt="image-20231219114515721" style="zoom: 50%;" />
 
+#重点 
 - **Spark ML的流水线含义**
-
   - Spark ML库中的流水线是一个由多个阶段组成的工作流程，用于构建和调优机器学习模型。在 Spark ML中，一个流水线代表了一个完整的数据处理和学习过程，它将数据转换、特征提取、模型训练等步骤串联起来，形成一个可以顺序执行的工作流，主要由Transformer和Estimator两种算法组成。
   - **Transformer**：可以将一个DataFrame转换为另一个DataFrame。
   - **Estimator**：可以拟合（训练）数据并产生一个Transformer的算法，用于构建训练模型。

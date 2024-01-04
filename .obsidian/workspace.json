@@ -4,36 +4,9 @@
     "type": "split",
     "children": [
       {
-        "id": "48250b3e7d4025a8",
-        "type": "tabs",
-        "dimension": 25.692963752665243,
-        "children": [
-          {
-            "id": "2985002217ac3eca",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/大数据/课件/19 Spark Advanced Programming (I).pdf"
-              }
-            }
-          },
-          {
-            "id": "b9eb570787165761",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/大数据/课件/20 Spark Advanced Programming (II).pdf"
-              }
-            }
-          }
-        ]
-      },
-      {
         "id": "ab9d111c4271ed1f",
         "type": "tabs",
-        "dimension": 31.236673773987206,
+        "dimension": 46.96162046908315,
         "children": [
           {
             "id": "649468bdb1fdb6a7",
@@ -52,7 +25,7 @@
       {
         "id": "2a1160213c0e25f6",
         "type": "tabs",
-        "dimension": 43.070362473347544,
+        "dimension": 53.03837953091685,
         "children": [
           {
             "id": "90f459fda4b22bfd",
@@ -142,7 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/大数据/作业/p10.md",
+                "file": "课程/大数据/笔记/Spark.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -159,7 +132,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/大数据/作业/p10.md",
+                "file": "课程/大数据/笔记/Spark.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -182,7 +155,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/大数据/作业/p10.md"
+                "file": "课程/大数据/笔记/Spark.md"
               }
             }
           },
@@ -265,22 +238,22 @@
           }
         ],
         "direction": "vertical",
-        "x": 1647,
-        "y": 289,
-        "width": 301,
-        "height": 497,
+        "x": 1496,
+        "y": 97,
+        "width": 300,
+        "height": 496,
         "maximize": true,
         "zoom": 0
       }
     ]
   },
-  "active": "f1b9daeaeeeb726d",
+  "active": "90f459fda4b22bfd",
   "lastOpenFiles": [
     "课程/大数据/期末复习.md",
     "课程/大数据/笔记/Spark.md",
     "课程/大数据/作业/p10.md",
-    "课程/大数据/课件/19 Spark Advanced Programming (I).pdf",
     "课程/大数据/课件/20 Spark Advanced Programming (II).pdf",
+    "课程/大数据/课件/19 Spark Advanced Programming (I).pdf",
     "课程/大数据/实验/p4.md",
     "课程/大数据/作业/p9.md",
     "课程/大数据/课件/17 Spark Basic Programming (I).pdf",
