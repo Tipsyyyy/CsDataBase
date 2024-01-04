@@ -373,7 +373,7 @@ object Main {
 - 文件格式
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219001708049.png" alt="image-20231219001708049" style="zoom:33%;" />
 
-  - **文本文件**：输入的每一行都会成为RDD的一个元素；也可以将多个完整的文本文件一次性读取为一个Pair RDD，键是文件名，值是文件内容。
+  - **文本文件**：输入的每一行都会成为RDD的一个元素；也可以将**多个**完整的文本文件一次性读取为一个**Pair RDD**，键**是文件名，值是文件内容**。
 ```scala
 val input = sc.textFile(“file:///home/spark/README.MD”)
 input.saveAsTextFile(outputFile)
@@ -393,11 +393,6 @@ reader.readNext();
 }
 ```
 
-- SequenceFile：由没有相对关系结构的键值对文件组成的常用Hadoop格式。有同步标记，Spark可以用它来定位到文件中的某个点，然后再与记录的边界对齐。由实现Hadoop的Writable接口的元素组成。
-
-- 文件系统
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219002408868.png" alt="image-20231219002408868" style="zoom:33%;" />
-
 - Spark SQL中的结构化数据源*
   - Hive：Spark SQL可以**读取Hive支持的任何表**
 ```scala
@@ -407,8 +402,8 @@ val rows = hiveCtx.sql(“SELECT name, age FROM users”)
 val firstRow = rows.first()
 println(firstRow.getString(0))
 ```
-JSON：Spark SQL可以自动推断出JSON数据的结构信息
 
+- JSON：Spark SQL 可以自动推断出 JSON 数据的结构信息
 ```scala
 import org.apache.spark.sql.hive.HiveContext
 val hiveCtx = new org.apache.spark.sql.hive.HiveContext(sc)
@@ -416,8 +411,8 @@ val tweets = hiveCtx.jsonFile(“tweets.json”)
 tweets.registerTempTable(“tweets”)
 val results = hiveCtx.sql(“SELECT user.name, text FROM tweets”)
 ```
-- Java**数据库连接**：org.apache.spark.rdd.JdbcRDD
 
+- Java**数据库连接**：org.apache.spark.rdd.JdbcRDD
 ```scala
 def createConnection() = {
     Class.forName(“com.mysql.jdbc.Driver”).newInstance();
@@ -448,7 +443,7 @@ val broadcastVar = sc.broadcast(Array(1, 2, 3))
  broadcastVar.value//变量值的获取
 ```
 
-- 这个广播变量被创建以后，那么在集群中的任何函数中，**都应该使用广播变量**broadcastVar的值，而不是使用v的值，这样就不会把v重复分发到这些节点上。此外，一旦广播变量创建后，**普通变量v的值就不能再发生修改**（有人不应该修改广播变量的值），从而确保所有节点**都获得这个广播变量的相同的值**。
+- 这个广播变量被创建以后，那么在集群中的任何函数中，**都应该使用广播变量**broadcastVar的值，而不是使用v的值，这样就不会把v重复分发到这些节点上。此外，一旦广播变量创建后，**普通变量v的值就不能再发生修改**，从而确保所有节点**都获得这个广播变量的相同的值**。
 
 - 累加器
   - 累加器是**仅仅被相关操作累加的变量**，通常可以被用来实现计数器（counter）和求和（sum）。Spark原生地支持数值型（numeric）的累加器，程序开发人员可以编写对新类型的支持。
@@ -474,18 +469,11 @@ counts.saveAsTextFile ("hdfs://...")
 #### K-Means
 
 - 算法流程
-
   - 从HDFS上读取数据转化为RDD，将RDD中的每个数据对象转化为向量形成新的RDD存入缓存，随机抽样K个向量作为全局初始聚类中心
   - 计算RDD中的每个向量p到聚类中心cluster centers的距离，将向量划分给最近的聚类中心，生成以<ClusterID, (p, 1)>为元素的新的RDD
   - 聚合新生成的RDD中Key相同的<ClusterID, (p, 1)>键值对，将相同ClusterID下的所有向量相加并求取向量个数n，生成新的RDD
   - 对生成的RDD中每一个元素<ClusterID, (pm, n)>，计算ClusterID聚类的新的聚类中心，生成以<ClusterID, pm/n>为元素的新的RDD
   - 判断是否达到最大迭代次数或者迭代是否收敛，不满足条件则重复步骤2到步骤5，满足则结束，输出最后的聚类中心
-
-- 优势
-
-  - Spark的大部分操作都是在**内存中完成**的，相比于MapReduce每次从分布式文件系统中获取数据要高效
-  - Spark的所有迭代操作都在**一个Job中**完成，相比于MapReduce没有重启多次Job带来的开销
-  - Spark任务执行结束直接退出，**不需要另外一个Job**来检测迭代终止条件
 
 ```scala
 //读取数据初始化聚类
@@ -564,7 +552,6 @@ Map[Int, Array[Double]] = Map(
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219103454507.png" alt="image-20231219103454507" style="zoom:50%;" />
 
 - `SparkContext` 是 Spark 的**早期编程接口**，主要用于 RDD 操作。而 `SparkSession` 是 Spark 2.0 之后引入的新接口，是 DataFrame 和 DataSet API 的主要入口点。
-
 ```scala
 val conf = new SparkConf().setAppName("Spark Pi").setMaster("local")
 val sc = new SparkContext(conf)
@@ -599,7 +586,9 @@ val spark = SparkSession.builder.appName("Spark").master("local").getOrCreate()
       - 通过 Encoder 进行序列化，比RDD更高效。
     - **DataSet** 结合了两者的优点，适用于需要类型安全和高效处理能力的场。
 
-#### DataFrame
+#### Spark SQL 编程
+
+##### DataFrame
 
 - `DataFrame` 代表一个**表格形式的数据结构**，其中包含了行和列。每列有一个名称和类型。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219090843769.png" alt="image-20231219090843769" style="zoom:50%;" />
@@ -607,29 +596,21 @@ val spark = SparkSession.builder.appName("Spark").master("local").getOrCreate()
 - 与 RDD 类似，`DataFrame` 的操作也是懒执行的。即操作不会立即执行，只有在行动操作（如 `collect`、`show`）被调用时才会触发真正的计算
 
 - **读取数据创建 DataFrame**： 使用 `SparkSession` 读取数据。Spark 支持多种数据源（如 JSON、CSV、Parquet、Hive 表等）。
-
-
 ```scala
 val df = spark.read.json("path/to/jsonfile.json")
 ```
 
 - **显示 DataFrame**： 为了查看 DataFrame 的内容，可以使用 `show()` 方法。
-
-
 ```scala
 df.show()
 ```
 
 - **打印 Schema**： 要查看 DataFrame 的结构（即 Schema），可以使用 `printSchema()` 方法。
-
-
 ```scala
 df.printSchema()
 ```
 
 - **选择列和过滤行**： 使用 `select()` 选择特定的列，使用 `filter()` 或 `where()` 过滤行。
-
-
 ```scala
 scalaCopy codedf.select("columnName").show()
 df.filter($"columnName" > value).show()
@@ -642,53 +623,43 @@ val res = dfG.select(dfG("CNT_CHILDREN"), (dfG("count")/sum).as("count"))
 ```
 
 - **新建列**：`withColumn`
-
 ```scala
 val newDf = df.withColumn("id_times_two", col("id") * 2)
 ```
 
 - **删除列**`drop`
-
 ```scala
 val dfWithoutColumn = df.drop("column_to_drop")
 ```
 
 - **聚合操作**： 使用诸如 `groupBy()` 和 `agg()` 等方法执行聚合操作。
-
-
 ```scala
 df.groupBy("columnName").agg(count("columnName")).show()
 ```
 
 - **SQL 查询**： 注册 DataFrame 为临时视图，然后使用 SQL 语句查询。
-
-
 ```scala
 codedf.createOrReplaceTempView("tableName")
 spark.sql("SELECT * FROM tableName WHERE columnName > value").show()
 ```
 
 - **将数据写入外部存储**： 使用 `write()` 方法将 DataFrame 数据写入到外部存储系统，如文件、数据库等。
-
-
 ```scala
 df.write.format("json").save("path/to/output")
 ```
-
 - `df.groupBy("age").count().show()`： 按 `"age"` 列的值进行分组，并计算每个年龄组中的记录数（即每个不同年龄值有多少条记录），然后展示结果。
 - `df.sort(df("age").desc, df("name").asc).show()`： 按 `"age"` 列降序和 `"name"` 列升序（多列排序）对 DataFrame 进行排序，并展示结果。
 
-#### Dataset
+##### Dataset
 
 - 是`DataFrame`的一个扩展，`DataSet` 提供了静态类型安全。
   - 对每行的数据添加了类型约束
   - 每行数据是一个Object
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219101526913.png" alt="image-20231219101526913" style="zoom:50%;" />
-
 - DataSet与DataFrame可以相互住转化， Dataset包含了DataFrame的功能（国王为推荐使用Dataset）
 - RDD转换DataFrame后不可逆，但RDD转换Dataset是可逆的
 
-#### Spark SQL数据
+##### Spark SQL数据
 
 - DataFrame提供统一接口加载和保存数据源中的数据，包括：结构化数据、Parquet文件(默认)、JSON文件、Hive表，以及通过JDBC连接外部数据源。
 - 加载
