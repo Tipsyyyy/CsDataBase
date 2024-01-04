@@ -240,7 +240,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数据结构/数据结构.md",
+                "file": "课程/数据结构/笔记/线性数据结构.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -257,7 +257,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数据结构/数据结构.md",
+                "file": "课程/数据结构/笔记/线性数据结构.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -280,7 +280,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/数据结构/数据结构.md"
+                "file": "课程/数据结构/笔记/线性数据结构.md"
               }
             }
           },
@@ -323,12 +323,12 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "39ab4b330ea2cd7d",
+  "active": "b13eb93528799c1c",
   "lastOpenFiles": [
-    "课程/数据结构/笔记/线性数据结构.md",
-    "课程/数据结构/笔记/文件系统.md",
-    "课程/数据结构/课件/数组、串、广义表.pdf",
     "课程/数据结构/数据结构.md",
+    "课程/数据结构/笔记/线性数据结构.md",
+    "课程/数据结构/课件/数组、串、广义表.pdf",
+    "课程/数据结构/笔记/文件系统.md",
     "课程/数据结构/课件/栈和队列.pdf",
     "课程/数据结构/课件/线性表.pdf",
     "课程/数据结构/课件/集合与字典.pdf",
