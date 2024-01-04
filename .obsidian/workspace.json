@@ -265,7 +265,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数据结构/课件/概述.pdf",
+                "file": "课程/数据结构/数据结构.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -282,7 +282,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数据结构/课件/概述.pdf",
+                "file": "课程/数据结构/数据结构.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -305,7 +305,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/数据结构/课件/概述.pdf"
+                "file": "课程/数据结构/数据结构.md"
               }
             }
           },
@@ -348,8 +348,11 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "96e173acdf249e6c",
+  "active": "39ab4b330ea2cd7d",
   "lastOpenFiles": [
+    "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md",
+    "课程/数据结构/数据结构.md",
+    "课程/数据结构/课件/概述.pdf",
     "课程/数据结构/pdf/南京大学《数据结构》试卷(含答案).pdf",
     "课程/数据结构/课件/栈和队列.pdf",
     "课程/数据结构/课件/线性表.pdf",
@@ -359,9 +362,6 @@
     "课程/数据结构/课件/数组、串、广义表.pdf",
     "课程/数据结构/课件/树.pdf",
     "课程/数据结构/课件/排序.pdf",
-    "课程/数据结构/课件/集合与字典.pdf",
-    "课程/数据结构/课件/概述.pdf",
-    "课程/数据结构/数据结构.md",
     "课程/数据结构/笔记/线性数据结构（ 线性表）.md",
     "课程/数据结构/笔记/文件系统.md",
     "课程/数据结构/笔记/排序.md",

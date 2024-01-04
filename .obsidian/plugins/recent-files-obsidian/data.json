@@ -1,6 +1,14 @@
 {
   "recentFiles": [
     {
+      "basename": "数据结构",
+      "path": "课程/数据结构/数据结构.md"
+    },
+    {
+      "basename": "数字逻辑与计算机组成",
+      "path": "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md"
+    },
+    {
       "basename": "概述",
       "path": "课程/数据结构/课件/概述.pdf"
     },
@@ -39,10 +47,6 @@
     {
       "basename": "集合与字典",
       "path": "课程/数据结构/课件/集合与字典.pdf"
-    },
-    {
-      "basename": "数据结构",
-      "path": "课程/数据结构/数据结构.md"
     },
     {
       "basename": "线性数据结构（ 线性表）",
@@ -195,10 +199,6 @@
     {
       "basename": "07 MapReduce Basic Programming (II)",
       "path": "课程/大数据/课件/07 MapReduce Basic Programming (II).pdf"
-    },
-    {
-      "basename": "06 MapReduce Basic Programming (I)",
-      "path": "课程/大数据/课件/06 MapReduce Basic Programming (I).pdf"
     }
   ],
   "omittedPaths": [],
