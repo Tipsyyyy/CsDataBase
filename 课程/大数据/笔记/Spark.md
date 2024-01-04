@@ -843,17 +843,12 @@ val acc: Double = new MulticlassClassificationEvaluator()
 #### DStream
 
 - 在许多实时计算或流处理场景中，数据是通过网络连续、实时地传输的。使用 DStream，我们可以**在全部数据到达之前开始进行计算**，实现所谓的 **"在线算法" 或 "流式处理"**。
-
 - DStream 的核心思想是将**实时计算**分解为一系列**小的、时间间隔内**的**批处理任务**。这些任务**独立而确定**，易于管理和调度。
-
 - 在每个时间间隔内，系统会接收输入数据并将其可靠地存储在集群中，形成一个**输入数据集**。这些输入数据集按时间间隔组织，允许系统处理流数据，就像在批处理模式下处理静态数据一样。
-
 - **当一个时间间隔结束时**，Spark 对应的数据集会并行地进行 Map、Reduce、groupBy 等操作，产生中间数据或新的输出数据集，这些数据被存储在 RDD 中。这种方式确保了数据处理的可扩展性和容错性。
-
 - 任务间的状态可以通过重新计算 RDD 来维持。**如果某个 RDD 在计算过程中丢失**，它可以通过其父 RDD 重新计算得到。这种设计使得 Spark Streaming 在处理流数据时既具有高效性也具有容错性。
 
 - 操作：生成一个新的DStream；把数据写入外部系统中
-
 - 输入源：
   - 每一个输入流DStream**和一个Receiver对象关联**，这个Receiver**从源中获取数据**，并将数据存入内存中进行处理。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221172320633.png" alt="image-20231221172320633" style="zoom: 50%;" />
@@ -943,6 +938,7 @@ val stateDstream = wordDstream.updateStateByKey[Int](updateFunc)
   - 可以让你**发布和订阅流式的记录**。这一方面与消息队列或者企业消息系统类似。
   - 可以储存流式的记录，并且有较好的容错性。
   - 可以在流式记录**产生时就进行处理**。
+
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221204830873.png" alt="image-20231221204830873" style="zoom:50%;" />
   - Kafka维护按类区分的消息，称为主题（topic）
   - **生产者**（producer）向Kafka的主题**发布消息**

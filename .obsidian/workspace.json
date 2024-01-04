@@ -6,7 +6,7 @@
       {
         "id": "ab9d111c4271ed1f",
         "type": "tabs",
-        "dimension": 46.96162046908315,
+        "dimension": 33.88385721896643,
         "children": [
           {
             "id": "649468bdb1fdb6a7",
@@ -25,7 +25,7 @@
       {
         "id": "2a1160213c0e25f6",
         "type": "tabs",
-        "dimension": 53.03837953091685,
+        "dimension": 35.42887586574321,
         "children": [
           {
             "id": "90f459fda4b22bfd",
@@ -38,21 +38,27 @@
                 "source": false
               }
             }
-          },
+          }
+        ]
+      },
+      {
+        "id": "8c1e2ba0f8059fb9",
+        "type": "tabs",
+        "dimension": 30.68726691529036,
+        "children": [
           {
-            "id": "75f6723dd7c7fd3c",
+            "id": "f1b9daeaeeeb726d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/大数据/实验/p4.md",
+                "file": "课程/大数据/作业/p10.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -128,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/大数据/实验/p4.md",
+                "file": "课程/大数据/作业/p10.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -145,7 +151,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/大数据/实验/p4.md",
+                "file": "课程/大数据/作业/p10.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -168,7 +174,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/大数据/实验/p4.md"
+                "file": "课程/大数据/作业/p10.md"
               }
             }
           },
@@ -211,49 +217,12 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "floating": {
-    "id": "9167a8e78d27abaf",
-    "type": "floating",
-    "children": [
-      {
-        "id": "bc28e4a44a8589bf",
-        "type": "window",
-        "children": [
-          {
-            "id": "21fa267ad61da27f",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "f1b9daeaeeeb726d",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "课程/大数据/作业/p10.md",
-                    "mode": "source",
-                    "source": false
-                  }
-                }
-              }
-            ]
-          }
-        ],
-        "direction": "vertical",
-        "x": 1496,
-        "y": 97,
-        "width": 300,
-        "height": 496,
-        "maximize": true,
-        "zoom": 0
-      }
-    ]
-  },
-  "active": "75f6723dd7c7fd3c",
+  "active": "f1b9daeaeeeb726d",
   "lastOpenFiles": [
-    "课程/大数据/笔记/Spark.md",
-    "课程/大数据/实验/p4.md",
-    "课程/大数据/作业/p10.md",
     "课程/大数据/期末复习.md",
+    "课程/大数据/笔记/Spark.md",
+    "课程/大数据/作业/p10.md",
+    "课程/大数据/实验/p4.md",
     "课程/大数据/课件/20 Spark Advanced Programming (II).pdf",
     "课程/大数据/课件/19 Spark Advanced Programming (I).pdf",
     "课程/大数据/作业/p9.md",
