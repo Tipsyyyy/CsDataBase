@@ -263,14 +263,51 @@ object Main {
 
 ```
 
-### 编程方法
+#### RDD 的基本概念
+
+- RDD 之间地依赖关系
+  - 窄依赖：窄依赖指的是每个父 DD 分区**最多被一个**子 RDD 分区使用的情况，因此计算可以在不同的节点上**局部进行**，而不需要跨节点的数据混洗（如 `map()` 或 `filter()` 操作）
+  - 宽依赖：宽依赖是指父 RDD 的**多个分区被多个子 RDD 分区使用的情况**。在宽依赖中，子 RDD 分区的计算依赖于父 RDD 中的**多个分区**。通常在需要进行数据**混洗**（Shuffle）的操作中会出现宽依赖，例如 `groupBy()` 或 `reduceByKey()` 操作。
+  - Spark 通过分析各个 RDD 的**依赖关系生成了 DAG**，具体划分方法是：在 DAG 中进行反向解析，**遇到宽依赖就断开**，遇到**窄依赖就把当前的 RDD 加入到当前的阶段中**；将窄依赖尽量划分在同一个阶段中，可以实现**流水线计算**。
+  - 把一个 DAG 图划分成多个“阶段”以后，每个阶段都代表了一组关联的、相互之间**没有 Shuffle** 依赖关系的任务组成的任务集合。
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218154202385.png" alt="image-20231218154202385" style="zoom:50%;" />
+
+- RDD 的运行
+  - Spark 采用**惰性机制**，Transformation 算子的代码不会被立即执行，只有当**遇到第一个 Action 算子**时，会生成一个 Job，并执行前面的一系列 Transformation 操作。一个 Job 包含 N 个 Transformation 和 1 个 Action。
+    - 每个 Job 会分解成一系列可并行处理的 Task，然后将 Task 分发到不同的 Executor 上运行。
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218154414684.png" alt="image-20231218154414684" style="zoom:50%;" />
+  - **Task** 是 Spark 执行的最小单元。每个 Task 对应于对 RDD 的一个分区（Partition）的操作。**Task 的执行是并行的**，但是在一个 Task 内部处理 Partition 的数据是串行的。
+  - **Stage** 是一系列**宽依赖边界之间的 Task 集合**，通常它们可以通过窄依赖串行执行。
+  - **ShuffleMapTask**：在 Stage 的计算结果**需要被后续 Stage 使用时**，这些 Stage 会执行 ShuffleMapTask。ShuffleMapTask 的输出**会被写入磁盘（或内存）**，以便其他 Stage 的 Task 可以进行 Shuffle 读取。
+
+- RDD 的容错实现
+  - Lineage（血统系统、依赖系统）：RDD 提供一种基于粗粒度变换的接口，这使得 RDD**可以通过记录 RDD 之间的变换**，而不需要存储实际的数据就可以完成数据的恢复，使得 Spark 具有高效的容错性。
+  - CheckPoint（检查点）：对于很长的 lineage 的 RDD 来说，通过 lineage 来恢复耗时较长。因此，在对包含宽依赖的长血统的 RDD 设置检查点操作非常有必要。
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218161610450.png" alt="image-20231218161610450" style="zoom:33%;" />
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218161618388.png" alt="image-20231218161618388" style="zoom:33%;" />
+
+- RDD 持久化
+  - **未序列化的 Java 对象**，存在内存中：性能表现最优。
+  - **序列化的数据**，存于内存中，将对象的状态信息转换为可存储形式。
+  - **磁盘存储**：适用于 RDD 太大难以在内存中存储的情形。
+
+
+- RDD 内部设计
+  - 每个 RDD 都包含：
+    - 一组 RDD 分区（partition），即数据集的原子组成部分
+    - 对父 RDD 的一组依赖，这些依赖描述了 RDD 的 Lineage
+    - 一个函数，即在父 RDD 上执行何种计算
+    - 元数据，描述分区模式和数据存放的位置
+  - 分区
+    - RDD 是弹性分布式数据集，通常 RDD 很大，会被分成很多个分区，分别保存在不同的节点上。RDD 分区的一个分区原则是使得**分区的个数尽量等于集群中的 CPU 核心**（core）数目。
+    - **partition 是 RDD 的最小单元**，RDD 是由分布在各个节点上的 partition 组成的。partition 的数量决定了 task 的数量，**每个 task 对应着一个 partition**。
+
+### RDD 编程
 
 #### 基本RDD操作
 
 - 创建
   - 从文件读取`val file=sc.textFile(“hdfs:///root/Log”)`
-    - 对文件进行一些处理`val filterRDD=file.filter(line=>line.contains(“ERROR”))`
-  - 生成数据`val rdd= sc.parallelize(1 to 100, 2)`生成一个1到100的数组，并行化成RDD
   - 从数组获取 `val max5RDD = sc.parallelize(max5) `
 
 - 转换：**懒惰操作**，先只定义一个新的RDD，等到使用时再具体计算内部的值
@@ -280,44 +317,7 @@ object Main {
   - `val result = filterRDD.count()`
 - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218152409698.png" alt="image-20231218152409698" style="zoom:33%;" />
 
-- RDD之间地依赖关系
-  - 窄依赖：窄依赖指的是每个父（上游）RDD 分区最多被一个子（下游）RDD 分区使用的情况。这意味着对于窄依赖，子 RDD 分区的计算**只依赖于父 RDD 中的一个分区**，因此计算可以在不同的节点上**局部进行**，而不需要跨节点的数据混洗（如`map()` 或 `filter()` 操作）
-  - 宽依赖：宽依赖是指父 RDD 的**多个分区被多个子 RDD 分区使用的情况**。在宽依赖中，子 RDD 分区的计算依赖于父 RDD 中的**多个分区**。通常在需要进行数据**混洗**的操作中会出现宽依赖，例如 `groupBy()` 或 `reduceByKey()` 操作。
-  - Spark通过分析各个RDD的**依赖关系生成了DAG**，具体划分方法是：在DAG中进行反向解析，**遇到宽依赖就断开**，遇到**窄依赖就把当前的RDD加入到当前的阶段中**；将窄依赖尽量划分在同一个阶段中，可以实现**流水线计算**。
-  - 把一个DAG图划分成多个“阶段”以后，每个阶段都代表了一组关联的、相互之间没有Shuffle依赖关系的任务组成的任务集合。每个任务集合会被提交给任务调度器（TaskScheduler）进行处理，由任务调度器将任务分发给Executor运行
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218154202385.png" alt="image-20231218154202385" style="zoom:50%;" />
-
-- RDD 的运行
-  - Spark 采用**惰性机制**，Transformation算子的代码不会被立即执行，只有当**遇到第一个Action算子**时，会生成一个Job，并执行前面的一系列Transformation操作。一个Job包含N个Transformation和 1 个Action。
-    - 每个Job会分解成一系列可并行处理的Task，然后将Task分发到不同的Executor上运行。
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218154414684.png" alt="image-20231218154414684" style="zoom:50%;" />
-  - **Task** 是 Spark 执行的最小单元。每个 Task 对应于对 RDD 的一个分区（Partition）的操作。Task 的执行是并行的，但是在一个 Task 内部处理 Partition 的数据是串行的。
-  - **Stage** 是一系列**宽依赖边界之间的 Task 集合**，通常它们可以通过窄依赖串行执行。
-  - **ShuffleMapTask**：在 Stage 的计算结果**需要被后续 Stage 使用时**，这些 Stage 会执行 ShuffleMapTask。ShuffleMapTask 的输出**会被写入磁盘（或内存）**，以便其他 Stage 的 Task 可以进行 Shuffle 读取。
-  - **ResultTask**：在执行流程中的**最后一个 Stage**，即结果 Stage，会执行 ResultTask。ResultTask 通常负责计算最终结果，这可能涉及返回数据给驱动程序或将数据写入外部存储系统。
-
-- RDD的容错实现
-  - Lineage（血统系统、依赖系统）：RDD提供一种基于粗粒度变换的接口，这使得RDD**可以通过记录RDD之间的变换**，而不需要存储实际的数据就可以完成数据的恢复，使得Spark具有高效的容错性。
-  - CheckPoint（检查点）：对于很长的lineage的RDD来说，通过lineage来恢复耗时较长。因此，在对包含宽依赖的长血统的RDD设置检查点操作非常有必要。
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218161610450.png" alt="image-20231218161610450" style="zoom:33%;" />
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218161618388.png" alt="image-20231218161618388" style="zoom:33%;" />
-
-- RDD持久化
-  - **未序列化的Java对象**，存在内存中：性能表现最优，可以直接访问在JAVA虚拟机内存里的RDD对象。
-  - **序列化的数据**，存于内存中：取消JVM中的RDD对象，**将对象的状态信息转换为可存储形式**，减小RDD的存储开销，但使用时需要反序列化恢复。在内存空间有限的情况下，这种方式可以让用户更有效的使用内存，但是这么做的代价是降低了性能。
-  - **磁盘存储**：适用于 RDD 太大难以在内存中存储的情形，但每次重新计算该 RDD 都会带来巨大的额外开销。
-
-
-- RDD内部设计
-  - 每个RDD都包含：
-    - 一组RDD分区（partition），即数据集的原子组成部分
-    - 对父RDD的一组依赖，这些依赖描述了RDD的Lineage
-    - 一个函数，即在父RDD上执行何种计算
-    - 元数据，描述分区模式和数据存放的位置
-  - 分区
-    - RDD是弹性分布式数据集，通常RDD很大，会被分成很多个分区，分别保存在不同的节点上。RDD分区的一个分区原则是使得**分区的个数尽量等于集群中的CPU核心**（core）数目。
-    - partition 是 RDD 的最小单元，RDD 是由分布在各个节点上的 partition 组成的。partition 的数量决定了 task 的数量，**每个 task 对应着一个 partition**。
-
+#重点 
 - Spark支持的一些常用transformation操作
   - rdd: {1,2,3,3}
     - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231218232455689.png" alt="image-20231218232455689" style="zoom:33%;" />
@@ -356,10 +356,10 @@ object Main {
     - `mergeValue`：将一个新的值**合并到现有的"combiner"中**。（如果之前遇到过，将该键的累加器对应的当前值与这个新的值进行合并）
     - `mergeCombiners`：当**两个"combiners"需要被合并**时，用于归并两个"combiners"的函数。（如果多个分区都有对应于同一个键的累加器，则需要将各个分区的结果进行合并）
 - groupByKey()
-  - RDD: [K, V] -> [K, Iterable[V]]
+  - RDD: \[K, V] ->\[K, Iterable\[V]]
 - cogroup()
   - 对多个共享同一个键的RDD进行分组
-  - RDD: [K, V] & [K, W]  -> [(K, (Iterable[V], Iterable[W]))]
+  - RDD: \[K, V] & \[K, W]  -> \[(K, (Iterable\[V], Iterable\[W]))]
 
 - 连接
   - 内连接(join)：只有两个pair RDD都存在的键才输出。
@@ -370,9 +370,7 @@ object Main {
 ##### 数据分区
 
 - 合理分布数据能减少网络通信，从而大大提高性能
-
 - Spark可以选择自己的RDD分区分布来降低通信，但只有当一个数据集重复多次使用键值操作才起作用。
-
   - Spark的分区操作作用于key/value型RDD上，它会让系统根据键值函数来分组元素。
 
 - **partitionBy()**：这个转换操作允许你**指定一个分区器**（如 `HashPartitioner` 或 `RangePartitioner`），用于确定**如何对数据进行重新分区**。特别是对于键值对 RDD 来说，这是非常有用的。
@@ -387,7 +385,6 @@ object Main {
   - 对于多个 RDD 的操作，如果其中一个父 RDD 有分区器，结果 RDD 通常会采用这个分区方式；如果多个父 RDD 都有分区器，结果 RDD 会采用第一个父 RDD 的分区器。
 
 - 分区器
-
   - **HashPartitioner**：这是 Spark 的默认分区器，适用于大多数情况。它使用对象的**哈希码**来决定数据应该存储在哪个分区。通常用于确保具有相同键的记录被发送到同一个分区，以便进行有效的聚合和连接操作。
   - **RangePartitioner**：在需要按照键的顺序排序数据时使用。它将键空间划分为不同的区间，每个区间对应一个分区。这种分区器在执行 `sortByKey` 操作时非常有用。
 

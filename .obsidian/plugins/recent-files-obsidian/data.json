@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "Spark",
+      "path": "课程/大数据/笔记/Spark.md"
+    },
+    {
       "basename": "期末复习",
       "path": "课程/大数据/期末复习.md"
     },
@@ -15,10 +19,6 @@
     {
       "basename": "p9",
       "path": "课程/大数据/作业/p9.md"
-    },
-    {
-      "basename": "Spark",
-      "path": "课程/大数据/笔记/Spark.md"
     },
     {
       "basename": "17 Spark Basic Programming (I)",
