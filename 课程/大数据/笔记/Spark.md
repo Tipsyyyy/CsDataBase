@@ -769,7 +769,7 @@ val acc: Double = result.filter(x=>x._1==x._2).count().toDouble /result.count()
   - **Pipeline**：指定连接多个 Transformers 和 Estimators 的 ML 工作流。 
   - **Parameter**：全部的 Transformers 和 Estimators 共享一个指定 Parameter 的通用 API。 
   - 工作流程：首先使用几个 `Transformer` 对原始数据**进行预处理**，然后使用一个 `Estimator` 来拟合一个模型，最后使用该模型（作为一个 `Transformer`）对新数据进行预测。 
-  - - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219114515721.png" alt="image-20231219114515721" style="zoom: 50%;" />
+  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219114515721.png" alt="image-20231219114515721" style="zoom: 50%;" />
   - 一个流水线被指定为一系列由 Transformer 或 Estimator 组成的阶段（Stage）。这些阶段按照顺序运行，输入的 DataFrame 在运行的每个阶段进行转换 
 
 - 对比
@@ -801,7 +801,7 @@ val df: DataFrame = sparkSession.read.format("csv")
 .option("sep", ",")//分隔符
 .load(path)
 //将4个特征整合为一个特征向量
-val assembler: VectorAssembler = new val assembler: VectorAssembler = new VectorAssembler()
+val assembler: VectorAssembler = new VectorAssembler()
 .setInputCols(Array("sepal_length", "sepal_width", "petal_length", "petal_width"))
 .setOutputCol("features")
 //将特征向量附加到新的features列
