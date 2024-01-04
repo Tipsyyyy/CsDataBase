@@ -705,7 +705,7 @@ val sm: Matrix = Matrices.sparse(3, 2, Array(0, 1, 3), Array(0, 2, 1), Array(9, 
 ```
 
 - 分布式矩阵
-  - 分布式矩阵由（Long类型行索引，Long类型列索引，Double类型值）组成，分布存储在一个或多个RDD中。因为要缓存矩阵的大小，所以分布式矩阵底层的RDD必须是确定的，选择正确的格式来存储巨大的分布式矩阵是非常重要的，否则会导致错误的出现。MLlib已实现了四种分布式矩阵：
+  - 分布式矩阵由（Long类型行索引，Long类型列索引，Double类型值）组成，分布存储在一个或多个RDD中。
   - 行矩阵 RowMatrix
   - 行索引矩阵 IndexedRowMatrix
   - 三元组矩阵 CoordinateMatrix
@@ -715,8 +715,8 @@ val sm: Matrix = Matrices.sparse(3, 2, Array(0, 1, 3), Array(0, 2, 1), Array(9, 
 
 - 如果要用MLlib来完成文本分类的任务，只需如下操作：
   - 首先用字符串RDD来表示你的消息
-  - 运行MLlib的一个特征提取算法来把文本数据转换为数值特征，该操作会返回一个向量RDD
-  - 对向量RDD调用分类算法（比如逻辑回归），这步会返回一个模型对象，可以使用该对象对新的数据点进行分
+  - 运行 MLlib 的一个**特征提取算法来**把文本数据转换为数值特征(向量)，该操作会返回一个向量 RDD
+  - 对向量RDD调用分类算法（比如逻辑回归），这步会返回一个**模型对象**，可以使用该对象对新的数据点进行分
   - 使用MLlib的评估函数在测试数据集上评估模型
 
 - Iris数据集（花的三个属性，实现分类）为例
@@ -743,8 +743,6 @@ val Array(trainData,testData): Array[RDD[LabeledPoint]] = rddLp.randomSplit(Arra
 - 训练模型及模型评估
   - 对于分类问题可以使用：朴素贝叶斯，决策树，随机森林，支持向量机，logistics
     回归等算法
-    - 支持向量机（SVM），logistics回归是二分类的算法，由于本数据集有多个类别，所以**可以利用多个二分类分类器来实现多分类目标。**
-
   - 决策树
 ```scala
 //训练决策树模型
@@ -760,34 +758,19 @@ val acc: Double = result.filter(x=>x._1==x._2).count().toDouble /result.count()
 
 #### ML
 
-- Spark的ML库基于DataFrame提供高性能的API，帮助用户创建和优化实用的机器学习流水线**（Pipeline）**，包括特征转换独有的Pipelines API。相比较Mllib，变化主要体现在：
-  - 从机器学习的library开始转向构建一个机器学习**工作流的系统**。ML把整个机器学习的过程抽象成Pipeline，一个Pipeline由多个Stage组成，每个Stage由Transformer或者Estimator组成。
-  - ML框架下所有的数据源都基于DataFrame，所有模型都基于Spark的数据类型表示，ML的API操作也从RDD向DataFrame全面转变。
-
-- 组成
-  - Transformer：实现**一个DataFrame转换成另一个DataFrame的算法**。实现transform()方法。
-  - Estimator：适配一个DataFrame，**产生另一个Transformer的算法**。实现fit()方法。
-    - 一个 `Estimator` 是一个算法，用于**从数据中“学习”或“拟合”出一个模型**。换言之，`Estimator` 是一个可以根据输入数据生成模型的算法。例如，在 Spark 中，一个**机器学习算法**（如逻辑回归）被实现为一个 `Estimator`。
-    - `fit` 方法是 `Estimator` 的核心。当调用一个 `Estimator` 的 `fit` 方法时，它会**尝试从提供的数据中“学习”或“训练”。**学习的**结果是一个 `Transformer`，**它封装了从数据中学到的模型。
-  - Pipeline：**指定连接**多个 Transformers 和 Estimators 的 ML 工作流。
-  - Parameter：全部的Transformers和Estimators共享一个指定Parameter的通用API。
-
-- 工作流程：首先使用几个 `Transformer` 对原始数据**进行预处理**，然后使用一个 `Estimator` 来**拟合一个模型**，最后使用该模型（现在作为一个 `Transformer`）对新数据**进行预测**。
-
-- pipeline
-  - Pipeline 表示了一个完整的数据处理和机器学习工作流。在 Spark MLlib 中，一个 Pipeline 由**多个阶段**组成，这些阶段依次运行。
-  - 一个流水线被指定为一系列**由Transformer或Estimator组成的阶段**（Stage）。这些阶段按照顺序运行，输入的DataFrame在运行的每个阶段进行转换
-  - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219114515721.png" alt="image-20231219114515721" style="zoom: 50%;" />
+- Spark 的 ML 库基于**DataFrame**提供高性能的 API，帮助用户创建和优化实用的机器学习**流水线**，包括特征转换独有的 Pipelines API，ML 把整个机器学习的过程抽象成 Pipeline，一个 Pipeline 由多个 Stage 组成，每个 Stage 由 Transformer 或者 Estimator 组成。 
 
 #重点 
 - **Spark ML的流水线含义**
-  - Spark ML库中的流水线是一个由多个阶段组成的工作流程，用于构建和调优机器学习模型。在 Spark ML中，一个流水线代表了一个完整的数据处理和学习过程，它将数据转换、特征提取、模型训练等步骤串联起来，形成一个可以顺序执行的工作流，主要由Transformer和Estimator两种算法组成。
-  - **Transformer**：可以将一个DataFrame转换为另一个DataFrame。
-  - **Estimator**：可以拟合（训练）数据并产生一个Transformer的算法，用于构建训练模型。
-  - **Pipeline**：指定连接多个Transformers和Estimators的ML工作流。
-  - **Parameter**：全部的Transformers和Estimators共享一个指定Parameter的通用API。
-  - 工作流程：首先使用几个 `Transformer` 对原始数据**进行预处理**，然后使用一个 `Estimator` 来拟合一个模型，最后使用该模型（作为一个 `Transformer`）对新数据进行预测。
-  - 一个流水线被指定为一系列由Transformer或Estimator组成的阶段（Stage）。这些阶段按照顺序运行，输入的DataFrame在运行的每个阶段进行转换
+  - Spark ML 库中的流水线是一个由多个阶段组成的工作流程，用于构建和调优机器学习模型。在 Spark ML 中，一个流水线代表了一个完整的数据处理和学习过程，它将数据转换、特征提取、模型训练等步骤串联起来，形成一个可以顺序执行的工作流，主要由 Transformer 和 Estimator 两种算法组成。 
+  - **Transformer**：可以将一个 DataFrame 转换为另一个 DataFrame。实现 transform ()方法。 
+  - **Estimator**：可以拟合（训练）数据并产生一个 Transformer 的算法，用于构建训练模型。一个**机器学习算法**（如逻辑回归）被实现为一个 `Estimator`。 
+    - `fit` 方法是 `Estimator` 的核心。当调用一个 `Estimator` 的 `fit` 方法时，它会尝试从提供的数据中“学习”或“训练”。学习的结果是一个 `Transformer`，**它封装了从数据中学到的模型。 
+  - **Pipeline**：指定连接多个 Transformers 和 Estimators 的 ML 工作流。 
+  - **Parameter**：全部的 Transformers 和 Estimators 共享一个指定 Parameter 的通用 API。 
+  - 工作流程：首先使用几个 `Transformer` 对原始数据**进行预处理**，然后使用一个 `Estimator` 来拟合一个模型，最后使用该模型（作为一个 `Transformer`）对新数据进行预测。 
+  - - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219114515721.png" alt="image-20231219114515721" style="zoom: 50%;" />
+  - 一个流水线被指定为一系列由 Transformer 或 Estimator 组成的阶段（Stage）。这些阶段按照顺序运行，输入的 DataFrame 在运行的每个阶段进行转换 
 
 - 对比
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231219114247309.png" alt="image-20231219114247309" style="zoom:33%;" />
@@ -850,12 +833,12 @@ val acc: Double = new MulticlassClassificationEvaluator()
 
 ### Spark Streaming
 
-- Spark Streaming将流式计算分解成一系列**短小的批处理作业**
-  - 能线性扩展至超过数百个节点；
+- Spark Streaming 将流式计算分解成一系列**短小的批处理作业** 
+  - 能线性扩展至超过数百个节点； 
   - 实现亚秒级延迟处理；
-  - 可与Spark批处理和交互式处理无缝集成；
-  - 提供了一个简单的API实现复杂的算法；
-  - 更多的网络流方式支持，包括Kafka、Flume、Kinesis、Twitter、ZeroMQ
+  - 可与 Spark 批处理和交互式处理无缝集成； 
+  - 提供了一个简单的 API 实现复杂的算法； 
+  - 更多的网络流方式支持，包括 Kafka、Flume、Kinesis、Twitter、ZeroMQ 
 
 #### DStream
 
