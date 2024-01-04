@@ -4,6 +4,130 @@
     "type": "split",
     "children": [
       {
+        "id": "ad2bd0defe62b715",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "aa43c757153f5f2c",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数据结构/课件/概述.pdf"
+              }
+            }
+          },
+          {
+            "id": "25cef6d9b6f46724",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数据结构/课件/集合与字典.pdf"
+              }
+            }
+          },
+          {
+            "id": "d498190ff33cbcb8",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数据结构/课件/排序.pdf"
+              }
+            }
+          },
+          {
+            "id": "95af9fe3b20bdb35",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数据结构/课件/树.pdf"
+              }
+            }
+          },
+          {
+            "id": "4cf06e4e942cd7d0",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数据结构/课件/数组、串、广义表.pdf"
+              }
+            }
+          },
+          {
+            "id": "05d93db8c708c5d4",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数据结构/课件/搜索结构.pdf"
+              }
+            }
+          },
+          {
+            "id": "951a5c253d0fbc1a",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数据结构/课件/图.pdf"
+              }
+            }
+          },
+          {
+            "id": "e9367f9cdfb4976b",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数据结构/课件/文件.pdf"
+              }
+            }
+          },
+          {
+            "id": "1318e102bfc41b1d",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数据结构/课件/线性表.pdf"
+              }
+            }
+          },
+          {
+            "id": "cde1ec939798eaee",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "课程/数据结构/课件/栈和队列.pdf"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "3eddd488f304e6a2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "39ab4b330ea2cd7d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/数据结构/数据结构.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      },
+      {
         "id": "4d62fa843cedb852",
         "type": "tabs",
         "children": [
@@ -13,7 +137,55 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/数据结构/数据结构.md",
+                "file": "课程/数据结构/笔记/线性数据结构（ 线性表）.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "09e0bf495de31e2a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/数据结构/笔记/搜索结构.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "cea572ad07bc0e6a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/数据结构/笔记/图.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "69b2180daa8444c9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/数据结构/笔记/排序.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "3df87da8a31deb1f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/数据结构/笔记/文件系统.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +265,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数据结构/数据结构.md",
+                "file": "课程/数据结构/课件/概述.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +282,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数据结构/数据结构.md",
+                "file": "课程/数据结构/课件/概述.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +305,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/数据结构/数据结构.md"
+                "file": "课程/数据结构/课件/概述.pdf"
               }
             }
           },
@@ -176,44 +348,44 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "b13eb93528799c1c",
+  "active": "aa43c757153f5f2c",
   "lastOpenFiles": [
+    "课程/数据结构/课件/栈和队列.pdf",
+    "课程/数据结构/课件/线性表.pdf",
+    "课程/数据结构/课件/文件.pdf",
+    "课程/数据结构/课件/图.pdf",
+    "课程/数据结构/课件/搜索结构.pdf",
+    "课程/数据结构/课件/数组、串、广义表.pdf",
+    "课程/数据结构/课件/树.pdf",
+    "课程/数据结构/课件/排序.pdf",
+    "课程/数据结构/课件/集合与字典.pdf",
+    "课程/数据结构/课件/概述.pdf",
+    "课程/数据结构/数据结构.md",
+    "课程/数据结构/笔记/线性数据结构（ 线性表）.md",
+    "课程/数据结构/笔记/文件系统.md",
+    "课程/数据结构/笔记/排序.md",
+    "课程/数据结构/笔记/图.md",
+    "课程/数据结构/笔记/搜索结构.md",
+    "课程/数据结构/笔记",
     "课程/公司金融学/期末复习.md",
     "课程/公司金融学/复习题2023.md",
     "课程/大数据/作业/p10.md",
     "课程/大数据/笔记/Spark.md",
     "课程/大数据/期末复习.md",
     "课程/大数据/实验/p4.md",
-    "课程/大数据/课件/20 Spark Advanced Programming (II).pdf",
-    "课程/大数据/课件/19 Spark Advanced Programming (I).pdf",
     "课程/大数据/作业/p9.md",
-    "课程/大数据/课件/17 Spark Basic Programming (I).pdf",
-    "课程/大数据/课件/16 Spark简介.pdf",
-    "课程/大数据/课件/18 Spark Basic Programming (II).pdf",
     "课程/大数据/作业/p8.md",
     "课程/大数据/笔记/Hive.md",
-    "课程/大数据/课件/15 Hive简介.pdf",
     "课程/大数据/笔记/HBase.md",
     "课程/大数据/实验/p3.md",
-    "课程/大数据/课件/14 HBase基本原理与程序设计.pdf",
     "课程/大数据/作业/p7.md",
     "课程/大数据/笔记/NoSQL.md",
     "课程/大数据/作业/p6.md",
-    "课程/大数据/课件/13 NoSQL数据库.pdf",
     "课程/大数据/笔记/云计算.md",
-    "课程/大数据/课件/21 Cloud Computing.pdf",
     "课程/大数据/笔记/Hadoop.md",
     "课程/大数据/实验/p2.md",
-    "课程/大数据/课件/12 MapReduce数据挖掘基础算法 (III).pdf",
     "课程/大数据/作业/p5.md",
     "Excalidraw/Drawing 2024-01-02 20.44.47.excalidraw.md",
-    "课程/大数据/作业/p4.md",
-    "课程/大数据/作业/p3.md",
-    "课程/大数据/作业/p2.md",
-    "课程/大数据/笔记/概述.md",
-    "课程/大数据/作业/p1.md",
-    "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
-    "未命名.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",

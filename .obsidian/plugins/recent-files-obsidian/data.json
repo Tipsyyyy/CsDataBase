@@ -1,8 +1,68 @@
 {
   "recentFiles": [
     {
+      "basename": "概述",
+      "path": "课程/数据结构/课件/概述.pdf"
+    },
+    {
+      "basename": "栈和队列",
+      "path": "课程/数据结构/课件/栈和队列.pdf"
+    },
+    {
+      "basename": "线性表",
+      "path": "课程/数据结构/课件/线性表.pdf"
+    },
+    {
+      "basename": "文件",
+      "path": "课程/数据结构/课件/文件.pdf"
+    },
+    {
+      "basename": "图",
+      "path": "课程/数据结构/课件/图.pdf"
+    },
+    {
+      "basename": "搜索结构",
+      "path": "课程/数据结构/课件/搜索结构.pdf"
+    },
+    {
+      "basename": "数组、串、广义表",
+      "path": "课程/数据结构/课件/数组、串、广义表.pdf"
+    },
+    {
+      "basename": "树",
+      "path": "课程/数据结构/课件/树.pdf"
+    },
+    {
+      "basename": "排序",
+      "path": "课程/数据结构/课件/排序.pdf"
+    },
+    {
+      "basename": "集合与字典",
+      "path": "课程/数据结构/课件/集合与字典.pdf"
+    },
+    {
       "basename": "数据结构",
       "path": "课程/数据结构/数据结构.md"
+    },
+    {
+      "basename": "线性数据结构（ 线性表）",
+      "path": "课程/数据结构/笔记/线性数据结构（ 线性表）.md"
+    },
+    {
+      "basename": "文件系统",
+      "path": "课程/数据结构/笔记/文件系统.md"
+    },
+    {
+      "basename": "排序",
+      "path": "课程/数据结构/笔记/排序.md"
+    },
+    {
+      "basename": "图",
+      "path": "课程/数据结构/笔记/图.md"
+    },
+    {
+      "basename": "搜索结构",
+      "path": "课程/数据结构/笔记/搜索结构.md"
     },
     {
       "basename": "期末复习",
@@ -139,66 +199,6 @@
     {
       "basename": "06 MapReduce Basic Programming (I)",
       "path": "课程/大数据/课件/06 MapReduce Basic Programming (I).pdf"
-    },
-    {
-      "basename": "Drawing 2024-01-02 20.44.47.excalidraw",
-      "path": "Excalidraw/Drawing 2024-01-02 20.44.47.excalidraw.md"
-    },
-    {
-      "basename": "p4",
-      "path": "课程/大数据/作业/p4.md"
-    },
-    {
-      "basename": "05 Hadoop基本架构",
-      "path": "课程/大数据/课件/05 Hadoop基本架构.pdf"
-    },
-    {
-      "basename": "p3",
-      "path": "课程/大数据/作业/p3.md"
-    },
-    {
-      "basename": "04 Google MapReduce基本架构",
-      "path": "课程/大数据/课件/04 Google MapReduce基本架构.pdf"
-    },
-    {
-      "basename": "03 MapReduce简介",
-      "path": "课程/大数据/课件/03 MapReduce简介.pdf"
-    },
-    {
-      "basename": "p2",
-      "path": "课程/大数据/作业/p2.md"
-    },
-    {
-      "basename": "02 Parallel Computing",
-      "path": "课程/大数据/课件/02 Parallel Computing.pdf"
-    },
-    {
-      "basename": "概述",
-      "path": "课程/大数据/笔记/概述.md"
-    },
-    {
-      "basename": "p1",
-      "path": "课程/大数据/作业/p1.md"
-    },
-    {
-      "basename": "01 Big Data",
-      "path": "课程/大数据/课件/01 Big Data.pdf"
-    },
-    {
-      "basename": "22 Review",
-      "path": "课程/大数据/课件/22 Review.pdf"
-    },
-    {
-      "basename": "U8 中央处理器",
-      "path": "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md"
-    },
-    {
-      "basename": "编程思想",
-      "path": "软件工程/编程思想.md"
-    },
-    {
-      "basename": "java",
-      "path": "临时/java.md"
     }
   ],
   "omittedPaths": [],

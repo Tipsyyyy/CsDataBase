@@ -35,7 +35,7 @@ missing:~$ /bin/echo $PATH
 - `history` 输出输入的命令的历史记录
 - `tree` 显示文件目录工具 `
 
-### [[文件系统]]
+### [[杂项/linux与shell/linux/文件系统]]
 
 ### [[权限管理]]
 
