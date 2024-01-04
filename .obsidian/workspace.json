@@ -6,17 +6,8 @@
       {
         "id": "ad2bd0defe62b715",
         "type": "tabs",
+        "dimension": 36.32,
         "children": [
-          {
-            "id": "aa43c757153f5f2c",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/数据结构/课件/概述.pdf"
-              }
-            }
-          },
           {
             "id": "25cef6d9b6f46724",
             "type": "leaf",
@@ -107,11 +98,13 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 7
       },
       {
         "id": "3eddd488f304e6a2",
         "type": "tabs",
+        "dimension": 37.12,
         "children": [
           {
             "id": "39ab4b330ea2cd7d",
@@ -130,6 +123,7 @@
       {
         "id": "4d62fa843cedb852",
         "type": "tabs",
+        "dimension": 26.56,
         "children": [
           {
             "id": "b13eb93528799c1c",
@@ -137,7 +131,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/数据结构/笔记/线性数据结构（ 线性表）.md",
+                "file": "课程/数据结构/笔记/线性数据结构.md",
                 "mode": "source",
                 "source": false
               }
@@ -249,7 +243,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "d615b65a4ccf8a6a",
@@ -350,19 +345,19 @@
   },
   "active": "39ab4b330ea2cd7d",
   "lastOpenFiles": [
-    "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md",
+    "课程/数据结构/笔记/线性数据结构.md",
     "课程/数据结构/数据结构.md",
+    "课程/数据结构/课件/线性表.pdf",
+    "课程/数据结构/课件/集合与字典.pdf",
     "课程/数据结构/课件/概述.pdf",
+    "课程/数字逻辑与计算机组成/数字逻辑与计算机组成.md",
     "课程/数据结构/pdf/南京大学《数据结构》试卷(含答案).pdf",
     "课程/数据结构/课件/栈和队列.pdf",
-    "课程/数据结构/课件/线性表.pdf",
     "课程/数据结构/课件/文件.pdf",
     "课程/数据结构/课件/图.pdf",
     "课程/数据结构/课件/搜索结构.pdf",
     "课程/数据结构/课件/数组、串、广义表.pdf",
     "课程/数据结构/课件/树.pdf",
-    "课程/数据结构/课件/排序.pdf",
-    "课程/数据结构/笔记/线性数据结构（ 线性表）.md",
     "课程/数据结构/笔记/文件系统.md",
     "课程/数据结构/笔记/排序.md",
     "课程/数据结构/笔记/图.md",
@@ -385,7 +380,6 @@
     "课程/大数据/笔记/Hadoop.md",
     "课程/大数据/实验/p2.md",
     "课程/大数据/作业/p5.md",
-    "Excalidraw/Drawing 2024-01-02 20.44.47.excalidraw.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
