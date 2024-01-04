@@ -1009,7 +1009,7 @@ val stateDstream = wordDstream.updateStateByKey[Int](updateFunc)
 - 弹性分布式属性图
   - 弹性分布式属性图，一**种点和边都带属性的有向多重图**。它扩展了Spark RDD的抽象，有**Table和Graph两种视图**，而只需要一份物理存储。两种视图都有自己独有的操作符（适应不同的操作），从而获得了灵活操作和执行效率。
   - 对Graph视图的所有操作，**最终都会转换成**其关联的Table视图的**RDD操作**来完成。这样对一个图的计算，最终在逻辑上，等价于一系列RDD的转换过程。因此，Graph最终具备了RDD的3个关键特性：Immutable、Distributed和Fault-Tolerant，其中最关键的是Immutable（不变性）。**逻辑上**，所有图的转换和操作都**产生了一个新图**；**物理上**，GraphX会有一定程度的不变顶点和边的**复用优化**，对用户透明。
-  - 两种视图**底层共用的物理数据**，由RDD[VertexPartition]和RDD[EdgePartition]这两个RDD组成。点和边实际都不是以表Collection[tuple]的形式存储的，而VertexPartition/EdgePartition在内部存储一个带索引结构的分片数据块，以加速不同视图下的遍历速度。不变的索引结构在RDD转换过程中是共用的，降低了计算和存储开销。
+  - 两种视图**底层共用的物理数据**，由 RDD\[VertexPartition]和 RDD\[EdgePartition]这两个 RDD 组成。点和边实际都不是以表 Collection\[tuple]的形式存储的，而 VertexPartition/EdgePartition 在内部存储一个带索引结构的分片数据块，以加速不同视图下的遍历速度。不变的索引结构在 RDD 转换过程中是共用的，降低了计算和存储开销。
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221212724076.png" style="zoom:50%;" />
   - 是一种有向多重图，它可能有多个平行边共享相同的源顶点和目标顶点。（可以有属性不同的重边）
   - <img src="https://thdlrt.oss-cn-beijing.aliyuncs.com/image-20231221212757237.png" alt="image-20231221212757237" style="zoom:50%;" />

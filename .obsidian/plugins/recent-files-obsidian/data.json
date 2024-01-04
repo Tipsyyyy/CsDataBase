@@ -1,16 +1,28 @@
 {
   "recentFiles": [
     {
+      "basename": "数据结构",
+      "path": "课程/数据结构/数据结构.md"
+    },
+    {
+      "basename": "期末复习",
+      "path": "课程/公司金融学/期末复习.md"
+    },
+    {
+      "basename": "复习题2023",
+      "path": "课程/公司金融学/复习题2023.md"
+    },
+    {
       "basename": "p10",
       "path": "课程/大数据/作业/p10.md"
     },
     {
-      "basename": "期末复习",
-      "path": "课程/大数据/期末复习.md"
-    },
-    {
       "basename": "Spark",
       "path": "课程/大数据/笔记/Spark.md"
+    },
+    {
+      "basename": "期末复习",
+      "path": "课程/大数据/期末复习.md"
     },
     {
       "basename": "p4",
@@ -187,18 +199,6 @@
     {
       "basename": "java",
       "path": "临时/java.md"
-    },
-    {
-      "basename": "temp",
-      "path": "临时/temp.md"
-    },
-    {
-      "basename": "多路合并",
-      "path": "课程/数据结构/pdf/多路合并.pdf"
-    },
-    {
-      "basename": "Drawing 2024-01-01 22.42.06.excalidraw",
-      "path": "Excalidraw/Drawing 2024-01-01 22.42.06.excalidraw.md"
     }
   ],
   "omittedPaths": [],

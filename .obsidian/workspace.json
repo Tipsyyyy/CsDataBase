@@ -4,55 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "ab9d111c4271ed1f",
+        "id": "4d62fa843cedb852",
         "type": "tabs",
-        "dimension": 33.88385721896643,
         "children": [
           {
-            "id": "649468bdb1fdb6a7",
+            "id": "b13eb93528799c1c",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "课程/大数据/期末复习.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          }
-        ]
-      },
-      {
-        "id": "2a1160213c0e25f6",
-        "type": "tabs",
-        "dimension": 35.42887586574321,
-        "children": [
-          {
-            "id": "90f459fda4b22bfd",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "课程/大数据/笔记/Spark.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          }
-        ]
-      },
-      {
-        "id": "8c1e2ba0f8059fb9",
-        "type": "tabs",
-        "dimension": 30.68726691529036,
-        "children": [
-          {
-            "id": "f1b9daeaeeeb726d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "课程/大数据/作业/p10.md",
+                "file": "课程/数据结构/数据结构.md",
                 "mode": "source",
                 "source": false
               }
@@ -112,13 +73,11 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "d615b65a4ccf8a6a",
@@ -134,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/大数据/作业/p10.md",
+                "file": "课程/数据结构/数据结构.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -151,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/大数据/作业/p10.md",
+                "file": "课程/数据结构/数据结构.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -174,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/大数据/作业/p10.md"
+                "file": "课程/数据结构/数据结构.md"
               }
             }
           },
@@ -217,11 +176,13 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "f1b9daeaeeeb726d",
+  "active": "b13eb93528799c1c",
   "lastOpenFiles": [
-    "课程/大数据/期末复习.md",
-    "课程/大数据/笔记/Spark.md",
+    "课程/公司金融学/期末复习.md",
+    "课程/公司金融学/复习题2023.md",
     "课程/大数据/作业/p10.md",
+    "课程/大数据/笔记/Spark.md",
+    "课程/大数据/期末复习.md",
     "课程/大数据/实验/p4.md",
     "课程/大数据/课件/20 Spark Advanced Programming (II).pdf",
     "课程/大数据/课件/19 Spark Advanced Programming (I).pdf",
@@ -253,7 +214,6 @@
     "课程/大数据/作业/p1.md",
     "课程/数字逻辑与计算机组成/笔记/U8 中央处理器.md",
     "未命名.md",
-    "软件工程/编程思想.md",
     "Pasted image 20231227111944.png",
     "未命名.canvas",
     "export/金融大数据p4/plugin/chalkboard/img/whiteboard.png",
