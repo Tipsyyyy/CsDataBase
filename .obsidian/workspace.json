@@ -39,16 +39,6 @@
             }
           },
           {
-            "id": "4cf06e4e942cd7d0",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "课程/数据结构/课件/数组、串、广义表.pdf"
-              }
-            }
-          },
-          {
             "id": "05d93db8c708c5d4",
             "type": "leaf",
             "state": {
@@ -79,7 +69,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       },
       {
         "id": "3eddd488f304e6a2",
@@ -130,18 +120,6 @@
             }
           },
           {
-            "id": "cea572ad07bc0e6a",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "课程/数据结构/笔记/图.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "69b2180daa8444c9",
             "type": "leaf",
             "state": {
@@ -160,6 +138,18 @@
               "type": "markdown",
               "state": {
                 "file": "课程/数据结构/笔记/文件系统.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "cea572ad07bc0e6a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "课程/数据结构/笔记/图.md",
                 "mode": "source",
                 "source": false
               }
@@ -240,7 +230,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "课程/数据结构/笔记/线性数据结构.md",
+                "file": "课程/数据结构/数据结构.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -257,7 +247,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "课程/数据结构/笔记/线性数据结构.md",
+                "file": "课程/数据结构/数据结构.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -280,7 +270,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "课程/数据结构/笔记/线性数据结构.md"
+                "file": "课程/数据结构/数据结构.md"
               }
             }
           },
@@ -323,10 +313,10 @@
       "obsidian-advanced-slides:Show Slide Preview": false
     }
   },
-  "active": "b13eb93528799c1c",
+  "active": "39ab4b330ea2cd7d",
   "lastOpenFiles": [
-    "课程/数据结构/数据结构.md",
     "课程/数据结构/笔记/线性数据结构.md",
+    "课程/数据结构/数据结构.md",
     "课程/数据结构/课件/数组、串、广义表.pdf",
     "课程/数据结构/课件/树.pdf",
     "课程/数据结构/笔记/文件系统.md",
